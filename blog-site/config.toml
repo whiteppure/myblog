@@ -1,4 +1,4 @@
-baseURL = "https://whiteppure.github.io/myspace/"
+baseURL = "https://whiteppure.github.io/myblog/"
 languageCode = "en"
 defaultContentLanguage = "en"
 title = "whitepure's_blog"                         # site title  # 网站标题
