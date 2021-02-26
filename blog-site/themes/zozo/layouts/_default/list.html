@@ -4,7 +4,7 @@
     <div class="main animate__animated animate__fadeInDown">
         {{ partial "nav.html" . }}
         {{ partial "header.html" . }}
-        <div class="content">
+        <div class="content" id="content">
             <div class="list_with_title">
                 {{ range .Data.Pages.GroupByDate "2006" }}
                 <div class="listing_title">{{ .Key }}</div>
