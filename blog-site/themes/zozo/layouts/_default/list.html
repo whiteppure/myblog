@@ -1,10 +1,10 @@
 {{ partial "head.html" . }}
 
 <body>
-    <div class="main animate__animated animate__fadeInDown">
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         {{ partial "nav.html" . }}
         {{ partial "header.html" . }}
-        <div class="content" id="content">
+        <div class="content">
             <div class="list_with_title">
                 {{ range .Data.Pages.GroupByDate "2006" }}
                 <div class="listing_title">{{ .Key }}</div>

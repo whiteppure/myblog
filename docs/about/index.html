@@ -8,7 +8,7 @@
 	
 	
 	
-	<title>关于 ｜ whitepure&#39;s blog</title>
+	<title>关于 ｜ My Blog</title>
 	
     
     
@@ -35,7 +35,7 @@
 </head>
 
 <body>
-    <div class="main animate__animated animate__fadeInDown">
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
         <ul>
@@ -67,19 +67,13 @@
         <div class="site_title">
             <h1>
                 <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
-                    <span>whitepure&#39;s blog</span>
+                    <span>My Blog</span>
                 </a>
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title"></p>
+            <p class="sub_title">简单也是一种美</p>
             <div class="my_socials">
-                
-                
-                <a href="%20" title="facebook" target="_blank">
-                    <i class="ri-facebook-fill"></i>
-                </a>
-                
                 
                 
                 <a href="https://github.com/whiteppure/" title="github" target="_blank">
@@ -87,29 +81,11 @@
                 </a>
                 
                 
-                
-                <a href="%20" title="instagram" target="_blank">
-                    <i class="ri-instagram-fill"></i>
-                </a>
-                
-                
-                
-                <a href="%20" title="twitter" target="_blank">
-                    <i class="ri-twitter-fill"></i>
-                </a>
-                
-                
-                
-                <a href="%20" title="weibo" target="_blank">
-                    <i class="ri-weibo-fill"></i>
-                </a>
-                
-                
                 <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
                     <i class="ri-rss-fill"></i>
                 </a>
                 <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
-                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="12" height="12"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
                 </button>
             </div>
         </div>
@@ -120,13 +96,16 @@
                 <div class="post animate__animated animate__fadeInDown">
                     <div class="post_title post_detail_title">
                         <h2><a href='/myblog/about/'>关于</a></h2>
-                        <span class="date">2018.12.29</span>
+                        <span class="date">2021.02.20</span>
                     </div>
-                    <div class="post_content markdown"><p>Hugo 官方主页: <a href="https://gohugo.io/">https://gohugo.io/</a></p>
-<p>Hugo的安装方式有两种，一种是直接下载编译好的Hugo二进制文件。
-如果只是使用Hugo推荐用这种方式。
-另一种方式是获取Hugo的源码，自己编译。由于各种不可预料的网络问题，第二种方式不是那么轻易能成功，虽然最后我还是折腾出来了。</p>
-<p>Hugo二进制下载地址: <a href="https://github.com/gohugoio/hugo/releases">https://github.com/gohugoio/hugo/releases</a></p>
+                    <div class="post_content markdown"><p>该博客创建于2021-02-21，主要使用 <a href="https://gohugo.io/">Hugo</a> 进行搭建，使用的主题为 <a href="https://github.com/varkai/hugo-theme-zozo">zooz</a>。</p>
+<p>我的相关博客：</p>
+<ul>
+<li><a href="http://www.ljzblog.xyz">http://www.ljzblog.xyz</a></li>
+<li><a href="https://blog.csdn.net/white_pure">https://blog.csdn.net/white_pure</a></li>
+<li><a href="https://whiteppure.github.io/myblog">https://whiteppure.github.io/myblog</a></li>
+</ul>
+<p>我会进行同步更新，整理更多有趣和有价值的内容。</p>
 </div>
                     <div class="post_footer">
                         
@@ -201,11 +180,11 @@
 
 <script type="text/javascript">
     var downPdf = document.getElementById("export_pdf");
-    downPdf.onclick = function () {
-        html2canvas( document.getElementsByClassName("content")[0],{
-            
-            dpi: 172,
-            onrendered: function (canvas) {
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
                 var contentWidth = canvas.width;
                 var contentHeight = canvas.height;
 
@@ -216,31 +195,37 @@
                 
                 var position = 0;
                 
+                
+                
+
                 var imgWidth = 595.28;
-                var imgHeight = 592.28 / contentWidth * contentHeight;
+                var imgHeight = 585.28/contentWidth * contentHeight;
 
                 var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
                 var pdf = new jsPDF('', 'pt', 'a4');
 
                 
                 
+
+                
+                
                 if (leftHeight < pageHeight) {
-                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
                 } else {
-                    while (leftHeight > 0) {
+                    while(leftHeight > 0) {
                         pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
                         leftHeight -= pageHeight;
                         position -= 841.89;
                         
-                        if (leftHeight > 0) {
+                        if(leftHeight > 0) {
                             pdf.addPage();
                         }
                     }
                 }
-                pdf.save('myblog.pdf');
-            },
-            
-            background: "#fff"
+
+                pdf.save('whitepure_blog.pdf');
+            }
         })
     }
 </script>

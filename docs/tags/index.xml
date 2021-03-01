@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on whitepure&#39;s blog</title>
+    <title>Tags on My Blog</title>
     <link>https://whiteppure.github.io/myblog/tags/</link>
-    <description>Recent content in Tags on whitepure&#39;s blog</description>
+    <description>Recent content in Tags on My Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 30 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Java</title>
-      <link>https://whiteppure.github.io/myblog/tags/java/</link>
-      <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://whiteppure.github.io/myblog/tags/java/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>中文</title>
       <link>https://whiteppure.github.io/myblog/tags/%E4%B8%AD%E6%96%87/</link>
-      <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://whiteppure.github.io/myblog/tags/%E4%B8%AD%E6%96%87/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>简历</title>
+      <link>https://whiteppure.github.io/myblog/tags/%E7%AE%80%E5%8E%86/</link>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/tags/%E7%AE%80%E5%8E%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://whiteppure.github.io/myblog/tags/java/</link>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/tags/%E9%9D%A2%E5%90%91%E8%8F%9C%E9%B8%9F%E7%BC%96%E7%A8%8B/</link>
-      <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://whiteppure.github.io/myblog/tags/%E9%9D%A2%E5%90%91%E8%8F%9C%E9%B8%9F%E7%BC%96%E7%A8%8B/</guid>
       <description></description>
