@@ -13,6 +13,11 @@
   </url>
   
   <url>
+    <loc>https://whiteppure.github.io/myblog/</loc>
+    <lastmod>2021-02-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://whiteppure.github.io/myblog/tags/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/</loc>
     <lastmod>2021-02-24T00:00:00+00:00</lastmod>
   </url>
@@ -23,17 +28,12 @@
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_zh/</loc>
     <lastmod>2021-02-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_en/</loc>
-    <lastmod>2021-02-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_zh/</loc>
     <lastmod>2021-02-24T00:00:00+00:00</lastmod>
   </url>
   
@@ -53,12 +53,12 @@
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/tags/%E9%9D%A2%E5%90%91%E8%8F%9C%E9%B8%9F%E7%BC%96%E7%A8%8B/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/</loc>
     <lastmod>2021-02-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/</loc>
+    <loc>https://whiteppure.github.io/myblog/tags/%E9%9D%A2%E5%90%91%E8%8F%9C%E9%B8%9F%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2021-02-15T00:00:00+00:00</lastmod>
   </url>
   
@@ -75,6 +75,116 @@
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/rookie/rookie-preview/</loc>
     <lastmod>2021-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/jvm/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/mq/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/mq-and-jms-introduction/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/cache-problems/</loc>
+    <lastmod>2020-06-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/%E7%BC%93%E5%AD%98/</loc>
+    <lastmod>2020-06-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2020-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/thread-state-and-created/</loc>
+    <lastmod>2020-04-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/</loc>
+    <lastmod>2020-04-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/blocking-queue-introduction/</loc>
+    <lastmod>2020-04-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/docker/</loc>
+    <lastmod>2020-04-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/docker-introduction/</loc>
+    <lastmod>2020-04-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/java-lock/</loc>
+    <lastmod>2020-04-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/java-thread-collection/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/%E9%9B%86%E5%90%88/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/cas-principle/</loc>
+    <lastmod>2020-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/redis/</loc>
+    <lastmod>2020-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/springboot/</loc>
+    <lastmod>2020-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/application/springboot-redis/</loc>
+    <lastmod>2020-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/elasticsearch/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/application/springboot-elasticsearch/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>

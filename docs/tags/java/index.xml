@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Java on 博客</title>
+    <title>Java on whitepure</title>
     <link>https://whiteppure.github.io/myblog/tags/java/</link>
-    <description>Recent content in Java on 博客</description>
+    <description>Recent content in Java on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Mon, 15 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>面向菜鸟编程｜面向对象篇</title>
+      <title>面向对象篇｜面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/</link>
       <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -17,7 +17,7 @@
     </item>
     
     <item>
-      <title>面向菜鸟编程｜运算篇</title>
+      <title>运算篇｜面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-operation/</link>
       <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -26,7 +26,7 @@
     </item>
     
     <item>
-      <title>面向菜鸟编程｜数据类型篇</title>
+      <title>数据类型篇｜面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-datatype/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -35,11 +35,65 @@
     </item>
     
     <item>
-      <title>面向菜鸟编程｜写在前面</title>
+      <title>写在前面｜面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-preview/</link>
       <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://whiteppure.github.io/myblog/posts/rookie/rookie-preview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jvm内存划分和垃圾回收</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</link>
+      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MQ使用场景及JMS模型介绍</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/mq-and-jms-introduction/</link>
+      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/mq-and-jms-introduction/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>线程状态及创建方式</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/thread-state-and-created/</link>
+      <pubDate>Mon, 20 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/thread-state-and-created/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker介绍</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/docker-introduction/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/docker-introduction/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java中常用到的锁</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/java-lock/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/java-lock/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java中集合的线程不安全问题</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/java-thread-collection/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/java-thread-collection/</guid>
       <description></description>
     </item>
     

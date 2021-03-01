@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>中文 on 博客</title>
+    <title>中文 on whitepure</title>
     <link>https://whiteppure.github.io/myblog/tags/%E4%B8%AD%E6%96%87/</link>
-    <description>Recent content in 中文 on 博客</description>
+    <description>Recent content in 中文 on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/%E4%B8%AD%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>我的简历｜zh</title>
+      <title>我的中文简历</title>
       <link>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_zh/</link>
       <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -17,7 +17,7 @@
     </item>
     
     <item>
-      <title>面向菜鸟编程｜面向对象篇</title>
+      <title>面向对象篇｜面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/</link>
       <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -26,7 +26,7 @@
     </item>
     
     <item>
-      <title>面向菜鸟编程｜运算篇</title>
+      <title>运算篇｜面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-operation/</link>
       <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -35,7 +35,7 @@
     </item>
     
     <item>
-      <title>面向菜鸟编程｜数据类型篇</title>
+      <title>数据类型篇｜面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-datatype/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -44,7 +44,7 @@
     </item>
     
     <item>
-      <title>面向菜鸟编程｜写在前面</title>
+      <title>写在前面｜面向菜鸟编程</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-preview/</link>
       <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
       

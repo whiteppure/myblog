@@ -1,12 +1,11 @@
 /* toc style */
 .toc {
-    height: 100%;
+    height: 80%;
     position: fixed;
-    top: 60%;
+    top: 50%;
     left: 3%;
-    /*right: 13%;*/
     width: 15%;
-    transform: translateY(-52%);
+    transform: translateY(-50%);
     /*background-color: #f6f6f6;*/
     /*border: solid 1px #c9c9c9;*/
     /*border-radius: 5px;*/
