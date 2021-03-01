@@ -4,15 +4,15 @@ defaultContentLanguage = "zh"
 title = "whitepure"                         # site title  # 网站标题
 theme = "zozo"
 hasCJKLanguage = true                  # has chinese/japanese/korean ?  # 自动检测是否包含 中文\日文\韩文
-summaryLength = 0
-paginate = 10                      # shows the number of articles  # 首页显示文章数量
+summaryLength = 0                       # 文章摘要的长度
+paginate = 6                      # shows the number of articles  # 首页显示文章数量
 enableEmoji = false
 googleAnalytics = ""                   # your google analytics id
 disqusShortname = ""                   # your discuss shortname
 
-pygmentsUseClasses = true
-pygmentCodeFences = true
-pygmentscodefencesguesssyntax = true
+pygmentsUseClasses = false
+pygmentCodeFences = false
+pygmentscodefencesguesssyntax = false
 
 [author]                               # essential                     # 必需
   name = "whitepure"
@@ -20,31 +20,61 @@ pygmentscodefencesguesssyntax = true
 [blackfriday]
   smartypants = false
 
-# config your menu  # 配置菜单
-[[menu.main]]
+# 多语言配置
+# 英文
+[languages.en]
+  weight = 0
+  languageName = "English"
+[[languages.en.menu.main]]
+  url = "/"
+  name = "Home"
+  weight = 10
+[[languages.en.menu.main]]
+  name = "archive"
+  weight = 20
+  identifier = "archive"
+  url = "/posts/"
+[[languages.en.menu.main]]
+  name = "tags"
+  weight = 30
+  identifier = "tags"
+  url = "/tags/"
+[[languages.en.menu.main]]
+  name = "about"
+  weight = 40
+  identifier = "about"
+  url = "/about/"
+
+# 中文
+[languages.zh]
+  weight = 0
+  languageName = "中文"
+[[languages.zh.menu.main]]
   name = "首页"
   weight = 10
   identifier = "home"
   url = "/"
-[[menu.main]]
+[[languages.zh.menu.main]]
   name = "归档"
   weight = 20
   identifier = "archive"
   url = "/posts/"
-[[menu.main]]
+[[languages.zh.menu.main]]
   name = "标签"
   weight = 30
   identifier = "tags"
   url = "/tags/"
-[[menu.main]]
+[[languages.zh.menu.main]]
   name = "关于"
   weight = 40
   identifier = "about"
   url = "/about/"
 
+
+
 [params]
   toc = true                                                      # 是否开启文章目录
-  subTitle = "简单也是一种美"                                       # site's subTitle  # 网站二级标题
+  subTitle = "简单是一种隐藏的极致"                                       # site's subTitle  # 网站二级标题
   footerSlogan = "whitepure@2021"                                   # site's footer slogan  # 网站页脚标语
   keywords = ["whitepure博客","whiteppure","whitepure"]                                  # site's keywords  # 网站关键字
   description = "whitepure's blog of github"                        # site's description  # 网站描述

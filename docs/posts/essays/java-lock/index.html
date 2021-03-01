@@ -263,24 +263,15 @@
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
-        <ul>
-            
-            <li>
-                <a href="/myblog/">首页</a>
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
             </li>
-            
-            <li>
-                <a href="/myblog/posts/">归档</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/tags/">标签</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/about/">关于</a>
-            </li>
-            
         </ul>
     </div>
     <div class="menu_icon">
@@ -297,7 +288,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单也是一种美</p>
+            <p class="sub_title">简单是一种隐藏的极致</p>
             <div class="my_socials">
                 
                 
@@ -337,23 +328,23 @@
 </ul>
 <p>并发包<code>ReentrantLock</code>的创建可以指定构造函数的boolean类型来得到公平锁或者非公平锁 默认是非公平锁,<code>synchronized</code>也是非公平锁.
 源码如下:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">   <span class="cm">/**
-</span><span class="cm">     * Creates an instance of {@code ReentrantLock}.
-</span><span class="cm">     * This is equivalent to using {@code ReentrantLock(false)}.
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="nf">ReentrantLock</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">sync</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NonfairSync</span><span class="o">();</span>
-    <span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">   <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Creates an instance of {@code ReentrantLock}.
+</span><span style="color:#75715e">     * This is equivalent to using {@code ReentrantLock(false)}.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ReentrantLock</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        sync <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> NonfairSync<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * Creates an instance of {@code ReentrantLock} with the
-</span><span class="cm">     * given fairness policy.
-</span><span class="cm">     *
-</span><span class="cm">     * @param fair {@code true} if this lock should use a fair ordering policy
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="nf">ReentrantLock</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">fair</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">sync</span> <span class="o">=</span> <span class="n">fair</span> <span class="o">?</span> <span class="k">new</span> <span class="n">FairSync</span><span class="o">()</span> <span class="o">:</span> <span class="k">new</span> <span class="n">NonfairSync</span><span class="o">();</span>
-    <span class="o">}</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Creates an instance of {@code ReentrantLock} with the
+</span><span style="color:#75715e">     * given fairness policy.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param fair {@code true} if this lock should use a fair ordering policy
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ReentrantLock</span><span style="color:#f92672">(</span><span style="color:#66d9ef">boolean</span> fair<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        sync <span style="color:#f92672">=</span> fair <span style="color:#f92672">?</span> <span style="color:#66d9ef">new</span> FairSync<span style="color:#f92672">()</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> NonfairSync<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 </code></pre></div><h3 id="可重入锁递归锁">可重入锁(递归锁)</h3>
 <p>指的是同一个线程外层函数获得锁之后，内层仍然能获取到该锁，在同一个线程在外层方法获取锁的时候，在进入内层方法或会自动获取该锁.</p>
 <ul>
@@ -370,93 +361,93 @@
 </li>
 </ul>
 <p><strong>1.synchronized</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SynchronziedDemo</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SynchronziedDemo</span> <span style="color:#f92672">{</span>
 
-   <span class="kd">private</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">print</span><span class="o">()</span> <span class="o">{</span>
-       <span class="n">doAdd</span><span class="o">();</span>
-   <span class="o">}</span>
-   <span class="kd">private</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">doAdd</span><span class="o">()</span> <span class="o">{</span>
-       <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;doAdd...&#34;</span><span class="o">);</span>
-   <span class="o">}</span>
+   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+       doAdd<span style="color:#f92672">();</span>
+   <span style="color:#f92672">}</span>
+   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doAdd</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+       System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;doAdd...&#34;</span><span style="color:#f92672">);</span>
+   <span style="color:#f92672">}</span>
 
-   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-       <span class="n">SynchronziedDemo</span> <span class="n">synchronziedDemo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SynchronziedDemo</span><span class="o">();</span>
-       <span class="n">synchronziedDemo</span><span class="o">.</span><span class="na">print</span><span class="o">();</span> <span class="c1">// doAdd...
-</span><span class="c1"></span>   <span class="o">}</span>
-<span class="o">}</span>
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       SynchronziedDemo synchronziedDemo <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SynchronziedDemo<span style="color:#f92672">();</span>
+       synchronziedDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">();</span> <span style="color:#75715e">// doAdd...
+</span><span style="color:#75715e"></span>   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p><strong>2.ReentrantLock</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReentrantLockDemo</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="n">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ReentrantLockDemo</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Lock lock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock<span style="color:#f92672">();</span>
 
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">print</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
-        <span class="n">doAdd</span><span class="o">();</span>
-        <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        lock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+        doAdd<span style="color:#f92672">();</span>
+        lock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">doAdd</span><span class="o">()</span> <span class="o">{</span>
-	<span class="c1">// doAdd 方法中加两次锁和解两次锁也可以,不会报错
-</span><span class="c1"></span>	<span class="c1">// 如果少了一个unlock()也不会报错,会形成死锁
-</span><span class="c1"></span>        <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
-        <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;doAdd...&#34;</span><span class="o">);</span>
-        <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
-        <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doAdd</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+	<span style="color:#75715e">// doAdd 方法中加两次锁和解两次锁也可以,不会报错
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 如果少了一个unlock()也不会报错,会形成死锁
+</span><span style="color:#75715e"></span>        lock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+        lock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;doAdd...&#34;</span><span style="color:#f92672">);</span>
+        lock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+        lock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">ReentrantLockDemo</span> <span class="n">reentrantLockDemo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLockDemo</span><span class="o">();</span>
-        <span class="n">reentrantLockDemo</span><span class="o">.</span><span class="na">print</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ReentrantLockDemo reentrantLockDemo <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLockDemo<span style="color:#f92672">();</span>
+        reentrantLockDemo<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
 </code></pre></div><h3 id="自旋锁">自旋锁</h3>
 <p>自旋锁（spin lock）是一种非阻塞锁，也就是说，如果某线程需要获取锁，但该锁已经被其他线程占用时，该线程不会被挂起，而是在不断的消耗CPU的时间，不停的试图获取锁.这样的好处是减少线程上线文切换的消耗，缺点就是循环会消耗 CPU.原理是<a href="http://www.ljzblog.xyz/archives/cas%E5%8E%9F%E7%90%86">CAS</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpinLock</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="n">AtomicReference</span><span class="o">&lt;</span><span class="n">Thread</span><span class="o">&gt;</span> <span class="n">atomicReference</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AtomicReference</span><span class="o">&lt;&gt;();</span>
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">lock</span> <span class="o">()</span> <span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; coming...&#34;</span><span class="o">);</span>
-        <span class="k">while</span> <span class="o">(!</span><span class="n">atomicReference</span><span class="o">.</span><span class="na">compareAndSet</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">()))</span> <span class="o">{</span>
-            <span class="c1">// loop
-</span><span class="c1"></span>        <span class="o">}</span>
-    <span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SpinLock</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> AtomicReference<span style="color:#f92672">&lt;</span>Thread<span style="color:#f92672">&gt;</span> atomicReference <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AtomicReference<span style="color:#f92672">&lt;&gt;();</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">lock</span> <span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; coming...&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>atomicReference<span style="color:#f92672">.</span><span style="color:#a6e22e">compareAndSet</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">()))</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// loop
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">unlock</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">Thread</span> <span class="n">thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">();</span>
-        <span class="n">atomicReference</span><span class="o">.</span><span class="na">compareAndSet</span><span class="o">(</span><span class="n">thread</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">thread</span> <span class="o">+</span> <span class="s">&#34; unlock...&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">unlock</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        Thread thread <span style="color:#f92672">=</span> Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+        atomicReference<span style="color:#f92672">.</span><span style="color:#a6e22e">compareAndSet</span><span style="color:#f92672">(</span>thread<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>thread <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; unlock...&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
-        <span class="n">SpinLock</span> <span class="n">spinLock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpinLock</span><span class="o">();</span>
-        <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-            <span class="n">spinLock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
-            <span class="k">try</span> <span class="o">{</span>
-                <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">3000</span><span class="o">);</span>
-            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-            <span class="o">}</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;hahaha&#34;</span><span class="o">);</span>
-            <span class="n">spinLock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
+        SpinLock spinLock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SpinLock<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+            spinLock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>3000<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hahaha&#34;</span><span style="color:#f92672">);</span>
+            spinLock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
 
-        <span class="o">}).</span><span class="na">start</span><span class="o">();</span>
+        <span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
 
-        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+        Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
 
-        <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-            <span class="n">spinLock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;hehehe&#34;</span><span class="o">);</span>
-            <span class="n">spinLock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
-        <span class="o">}).</span><span class="na">start</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+            spinLock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hehehe&#34;</span><span style="color:#f92672">);</span>
+            spinLock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Thread</span><span class="o">[</span><span class="n">Thread</span><span class="o">-</span><span class="n">0</span><span class="o">,</span><span class="n">5</span><span class="o">,</span><span class="n">main</span><span class="o">]</span> <span class="n">coming</span><span class="o">...</span>
-<span class="n">Thread</span><span class="o">[</span><span class="n">Thread</span><span class="o">-</span><span class="n">1</span><span class="o">,</span><span class="n">5</span><span class="o">,</span><span class="n">main</span><span class="o">]</span> <span class="n">coming</span><span class="o">...</span>
-<span class="n">hahaha</span>
-<span class="n">Thread</span><span class="o">[</span><span class="n">Thread</span><span class="o">-</span><span class="n">0</span><span class="o">,</span><span class="n">5</span><span class="o">,</span><span class="n">main</span><span class="o">]</span> <span class="n">unlock</span><span class="o">...</span>
-<span class="n">hehehe</span>
-<span class="n">Thread</span><span class="o">[</span><span class="n">Thread</span><span class="o">-</span><span class="n">1</span><span class="o">,</span><span class="n">5</span><span class="o">,</span><span class="n">main</span><span class="o">]</span> <span class="n">unlock</span><span class="o">...</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>0<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> coming<span style="color:#f92672">...</span>
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>1<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> coming<span style="color:#f92672">...</span>
+hahaha
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>0<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> unlock<span style="color:#f92672">...</span>
+hehehe
+Thread<span style="color:#f92672">[</span>Thread<span style="color:#f92672">-</span>1<span style="color:#f92672">,</span>5<span style="color:#f92672">,</span>main<span style="color:#f92672">]</span> unlock<span style="color:#f92672">...</span>
 </code></pre></div><h3 id="独占锁写锁">独占锁(写锁)</h3>
 <p>是指该锁一次只能被一个线程独占,所持有.对于<code>synchronized</code>和<code>ReentrantLock</code>而言都是独占锁</p>
 <h3 id="共享锁读锁">共享锁(读锁)</h3>
@@ -464,108 +455,108 @@
 <ul>
 <li>读写锁案例</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">MyCache</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyCache</span> <span style="color:#f92672">{</span>
 
-    <span class="kd">private</span> <span class="kd">volatile</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">volatile</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
 
-    <span class="kd">private</span> <span class="n">ReentrantReadWriteLock</span> <span class="n">rwLock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantReadWriteLock</span><span class="o">();</span>
+    <span style="color:#66d9ef">private</span> ReentrantReadWriteLock rwLock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantReadWriteLock<span style="color:#f92672">();</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">rwLock</span><span class="o">.</span><span class="na">writeLock</span><span class="o">().</span><span class="na">lock</span><span class="o">();</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;开始 写入 ...&#34;</span> <span class="o">+</span> <span class="n">key</span><span class="o">);</span>
-            <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;写入完成 ...&#34;</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-            <span class="n">rwLock</span><span class="o">.</span><span class="na">writeLock</span><span class="o">().</span><span class="na">unlock</span><span class="o">();</span>
-        <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">,</span> Object value<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        rwLock<span style="color:#f92672">.</span><span style="color:#a6e22e">writeLock</span><span style="color:#f92672">().</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;开始 写入 ...&#34;</span> <span style="color:#f92672">+</span> key<span style="color:#f92672">);</span>
+            map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>key<span style="color:#f92672">,</span> value<span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;写入完成 ...&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+            rwLock<span style="color:#f92672">.</span><span style="color:#a6e22e">writeLock</span><span style="color:#f92672">().</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-    <span class="o">}</span>
+    <span style="color:#f92672">}</span>
 
-    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">Object</span> <span class="n">obj</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-        <span class="n">rwLock</span><span class="o">.</span><span class="na">writeLock</span><span class="o">().</span><span class="na">lock</span><span class="o">();</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;开始读取 ...&#34;</span> <span class="o">+</span> <span class="n">key</span><span class="o">);</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;读取完成 ...&#34;</span> <span class="o">+</span> <span class="n">obj</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-            <span class="n">rwLock</span><span class="o">.</span><span class="na">writeLock</span><span class="o">().</span><span class="na">unlock</span><span class="o">();</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="n">obj</span><span class="o">;</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>String key<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Object obj <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        rwLock<span style="color:#f92672">.</span><span style="color:#a6e22e">writeLock</span><span style="color:#f92672">().</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;开始读取 ...&#34;</span> <span style="color:#f92672">+</span> key<span style="color:#f92672">);</span>
+            obj <span style="color:#f92672">=</span> map<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>key<span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;读取完成 ...&#34;</span> <span style="color:#f92672">+</span> obj<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+            rwLock<span style="color:#f92672">.</span><span style="color:#a6e22e">writeLock</span><span style="color:#f92672">().</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> obj<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
+<span style="color:#f92672">}</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">MyCache</span> <span class="n">myCache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyCache</span><span class="o">();</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="kt">int</span> <span class="n">finalI</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
-            <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-                <span class="n">myCache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">finalI</span> <span class="o">+</span> <span class="s">&#34;&#34;</span><span class="o">,</span> <span class="n">finalI</span> <span class="o">+</span> <span class="s">&#34;&#34;</span><span class="o">);</span>
-            <span class="o">},</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">i</span><span class="o">)).</span><span class="na">start</span><span class="o">();</span>
-        <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        MyCache myCache <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MyCache<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 10<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">int</span> finalI <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+                myCache<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>finalI <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">,</span> finalI <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#f92672">},</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>i<span style="color:#f92672">)).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;---------------&#34;</span><span class="o">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;---------------&#34;</span><span style="color:#f92672">);</span>
 
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="kt">int</span> <span class="n">finalI</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
-            <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-                <span class="n">myCache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">finalI</span> <span class="o">+</span> <span class="s">&#34;&#34;</span><span class="o">);</span>
-            <span class="o">},</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">i</span><span class="o">)).</span><span class="na">start</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 10<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">int</span> finalI <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+                myCache<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>finalI <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#f92672">},</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>i<span style="color:#f92672">)).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
 </code></pre></div><ul>
 <li>输出结果</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">0</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">1</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">2</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">3</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">4</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">6</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">5</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">7</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">0</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">0</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">3</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">3</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">4</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">4</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">5</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">5</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">7</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">7</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">9</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">null</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">8</span>
-<span class="n">写入完成</span> <span class="o">...</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">1</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">1</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">2</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">2</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">6</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">6</span>
-<span class="n">开始读取</span> <span class="o">...</span><span class="na">8</span>
-<span class="n">读取完成</span> <span class="o">...</span><span class="na">8</span>
-<span class="n">开始</span> <span class="n">写入</span> <span class="o">...</span><span class="na">9</span>
-<span class="n">写入完成</span> <span class="o">...</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">0</span>
+写入完成 <span style="color:#f92672">...</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">1</span>
+写入完成 <span style="color:#f92672">...</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">2</span>
+写入完成 <span style="color:#f92672">...</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">3</span>
+写入完成 <span style="color:#f92672">...</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">4</span>
+写入完成 <span style="color:#f92672">...</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">6</span>
+写入完成 <span style="color:#f92672">...</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">5</span>
+写入完成 <span style="color:#f92672">...</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">7</span>
+写入完成 <span style="color:#f92672">...</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">0</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">0</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">3</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">3</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">4</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">4</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">5</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">5</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">7</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">7</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">9</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">null</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">8</span>
+写入完成 <span style="color:#f92672">...</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">1</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">1</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">2</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">2</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">6</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">6</span>
+开始读取 <span style="color:#f92672">...</span><span style="color:#a6e22e">8</span>
+读取完成 <span style="color:#f92672">...</span><span style="color:#a6e22e">8</span>
+开始 写入 <span style="color:#f92672">...</span><span style="color:#a6e22e">9</span>
+写入完成 <span style="color:#f92672">...</span>
 </code></pre></div><p><code>ReentrantReadWriteLock </code>能保证读写、写读和写写的过程是互斥的时候是独享的，读读的时候是共享的</p>
 </div>
                     <div class="post_footer">

@@ -1,11 +1,12 @@
 <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
         <ul>
-            {{ range.Site.Menus.main }}
-            <li>
-                <a href="{{ .URL | safeURL }}">{{ .Name }}</a>
+            {{- $currentPage := . -}}
+            {{ range .Site.Menus.main -}}
+            <li class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}">
+                <a href="{{ .URL | absLangURL }}">{{ .Name }}</a>
             </li>
-            {{ end }}
+            {{- end }}
         </ul>
     </div>
     <div class="menu_icon">

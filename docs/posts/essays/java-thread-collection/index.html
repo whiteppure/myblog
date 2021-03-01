@@ -247,24 +247,15 @@
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
-        <ul>
-            
-            <li>
-                <a href="/myblog/">首页</a>
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
             </li>
-            
-            <li>
-                <a href="/myblog/posts/">归档</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/tags/">标签</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/about/">关于</a>
-            </li>
-            
         </ul>
     </div>
     <div class="menu_icon">
@@ -281,7 +272,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单也是一种美</p>
+            <p class="sub_title">简单是一种隐藏的极致</p>
             <div class="my_socials">
                 
                 
@@ -311,24 +302,24 @@
 <ul>
 <li><strong>ArrayList线程不安全示例:</strong></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">arrayList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-		<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-			<span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
-				<span class="n">arrayList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">().</span><span class="na">toString</span><span class="o">());</span>
-				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">arrayList</span><span class="o">);</span>
-			<span class="o">},</span><span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">i</span><span class="o">)).</span><span class="na">start</span><span class="o">();</span>
-		<span class="o">}</span>
-	<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> arrayList <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+		<span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span> 3<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+			<span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
+				arrayList<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>UUID<span style="color:#f92672">.</span><span style="color:#a6e22e">randomUUID</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+				System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>arrayList<span style="color:#f92672">);</span>
+			<span style="color:#f92672">},</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>i<span style="color:#f92672">)).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+		<span style="color:#f92672">}</span>
+	<span style="color:#f92672">}</span>
 </code></pre></div><ul>
 <li><strong>运行结果:</strong></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// ConcurrentModificationException 同步修改异常
-</span><span class="c1"></span><span class="n">Exception</span> <span class="n">in</span> <span class="n">thread</span> <span class="s">&#34;8&#34;</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">ConcurrentModificationException</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// ConcurrentModificationException 同步修改异常
+</span><span style="color:#75715e"></span>Exception in thread <span style="color:#e6db74">&#34;8&#34;</span> java<span style="color:#f92672">.</span><span style="color:#a6e22e">util</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ConcurrentModificationException</span>
 
-<span class="o">[</span><span class="kc">null</span><span class="o">,</span> <span class="n">2041b613</span><span class="o">-</span><span class="n">8068</span><span class="o">-</span><span class="n">4ddd</span><span class="o">-</span><span class="n">9d01</span><span class="o">-</span><span class="n">305f5680d377</span><span class="o">]</span>
-<span class="o">[</span><span class="kc">null</span><span class="o">,</span> <span class="n">2041b613</span><span class="o">-</span><span class="n">8068</span><span class="o">-</span><span class="n">4ddd</span><span class="o">-</span><span class="n">9d01</span><span class="o">-</span><span class="n">305f5680d377</span><span class="o">,</span> <span class="n">b3e0296d</span><span class="o">-</span><span class="n">e263</span><span class="o">-</span><span class="n">4632</span><span class="o">-</span><span class="n">a023</span><span class="o">-</span><span class="n">4267cdec5e25</span><span class="o">]</span>
-<span class="o">[</span><span class="kc">null</span><span class="o">,</span> <span class="n">2041b613</span><span class="o">-</span><span class="n">8068</span><span class="o">-</span><span class="n">4ddd</span><span class="o">-</span><span class="n">9d01</span><span class="o">-</span><span class="n">305f5680d377</span><span class="o">]</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> 2041b613<span style="color:#f92672">-</span>8068<span style="color:#f92672">-</span>4ddd<span style="color:#f92672">-</span>9d01<span style="color:#f92672">-</span>305f5680d377<span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> 2041b613<span style="color:#f92672">-</span>8068<span style="color:#f92672">-</span>4ddd<span style="color:#f92672">-</span>9d01<span style="color:#f92672">-</span>305f5680d377<span style="color:#f92672">,</span> b3e0296d<span style="color:#f92672">-</span>e263<span style="color:#f92672">-</span>4632<span style="color:#f92672">-</span>a023<span style="color:#f92672">-</span>4267cdec5e25<span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> 2041b613<span style="color:#f92672">-</span>8068<span style="color:#f92672">-</span>4ddd<span style="color:#f92672">-</span>9d01<span style="color:#f92672">-</span>305f5680d377<span style="color:#f92672">]</span>
 </code></pre></div><ul>
 <li>
 <p><strong>原因分析:</strong>
@@ -346,40 +337,40 @@
 <h4 id="copyonwritearraylist原理">CopyOnWriteArrayList原理</h4>
 <p><code>CopyWriteArrayList</code>字面意思就是在写的时候复制,思想就是读写分离的思想</p>
 <p>以下是<code>CopyOnWriteArrayList</code>的<code>add()</code>方法源码</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/** The array, accessed only via getArray/setArray. */</span>
-    <span class="kd">private</span> <span class="kd">transient</span> <span class="kd">volatile</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">array</span><span class="o">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/** The array, accessed only via getArray/setArray. */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">transient</span> <span style="color:#66d9ef">volatile</span> Object<span style="color:#f92672">[]</span> array<span style="color:#f92672">;</span>
 
-<span class="cm">/** The lock protecting all mutators */</span>
-    <span class="kd">final</span> <span class="kd">transient</span> <span class="n">ReentrantLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
+<span style="color:#75715e">/** The lock protecting all mutators */</span>
+    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">transient</span> ReentrantLock lock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock<span style="color:#f92672">();</span>
 
-  <span class="cm">/**
-</span><span class="cm">     * Gets the array.  Non-private so as to also be accessible
-</span><span class="cm">     * from CopyOnWriteArraySet class.
-</span><span class="cm">     */</span>
-    <span class="kd">final</span> <span class="n">Object</span><span class="o">[]</span> <span class="nf">getArray</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">array</span><span class="o">;</span>
-    <span class="o">}</span>
+  <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Gets the array.  Non-private so as to also be accessible
+</span><span style="color:#75715e">     * from CopyOnWriteArraySet class.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">final</span> Object<span style="color:#f92672">[]</span> <span style="color:#a6e22e">getArray</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> array<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-<span class="cm">/**
-</span><span class="cm">     * Appends the specified element to the end of this list.
-</span><span class="cm">     *
-</span><span class="cm">     * @param e element to be appended to this list
-</span><span class="cm">     * @return {@code true} (as specified by {@link Collection#add})
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">add</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">final</span> <span class="n">ReentrantLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">lock</span><span class="o">;</span>
-        <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="n">Object</span><span class="o">[]</span> <span class="n">elements</span> <span class="o">=</span> <span class="n">getArray</span><span class="o">();</span>
-            <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">elements</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-            <span class="n">Object</span><span class="o">[]</span> <span class="n">newElements</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">elements</span><span class="o">,</span> <span class="n">len</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
-            <span class="n">newElements</span><span class="o">[</span><span class="n">len</span><span class="o">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
-            <span class="n">setArray</span><span class="o">(</span><span class="n">newElements</span><span class="o">);</span>
-            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-            <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+<span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Appends the specified element to the end of this list.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param e element to be appended to this list
+</span><span style="color:#75715e">     * @return {@code true} (as specified by {@link Collection#add})
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>E e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">final</span> ReentrantLock lock <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">;</span>
+        lock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            Object<span style="color:#f92672">[]</span> elements <span style="color:#f92672">=</span> getArray<span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> elements<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>
+            Object<span style="color:#f92672">[]</span> newElements <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>elements<span style="color:#f92672">,</span> len <span style="color:#f92672">+</span> 1<span style="color:#f92672">);</span>
+            newElements<span style="color:#f92672">[</span>len<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> e<span style="color:#f92672">;</span>
+            setArray<span style="color:#f92672">(</span>newElements<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+            lock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
 </code></pre></div><p>因为在源码里面加了<code>ReentrantLock</code>所以保证了某个线程在写的时候不会被打断,可以看到源码开始先是复制了一份数组(因为同一时刻只有一个线程写,其余的线程会读),在复制的数组上边进行写操作,写好以后在返回<code>true</code>.这样写的就把读写进行了分离.写好以后因为<code>array</code>加了<code>volatile</code>关键字,所以该数组是对于其他的线程是可见的,就会读取到最新的值.</p>
 <h3 id="hashset">HashSet</h3>
@@ -393,14 +384,14 @@
 <li>使用<code>new CopyOnWriteArraySet&lt;&gt;()</code>来保证集合线程安全</li>
 </ol>
 <h4 id="copyonwritearrayset原理">CopyOnWriteArraySet原理</h4>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">   <span class="kd">private</span> <span class="kd">final</span> <span class="n">CopyOnWriteArrayList</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">al</span><span class="o">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> CopyOnWriteArrayList<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> al<span style="color:#f92672">;</span>
 
-    <span class="cm">/**
-</span><span class="cm">     * Creates an empty set.
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="nf">CopyOnWriteArraySet</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">al</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CopyOnWriteArrayList</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;();</span>
-    <span class="o">}</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Creates an empty set.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CopyOnWriteArraySet</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        al <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CopyOnWriteArrayList<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;();</span>
+    <span style="color:#f92672">}</span>
 </code></pre></div><p>底层是<code>CopyOnWriteArrayList</code></p>
 <h3 id="hashmap">HashMap</h3>
 <p><code>HashMap</code>也是线程不安全的集合类</p>

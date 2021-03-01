@@ -123,24 +123,15 @@
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
-        <ul>
-            
-            <li>
-                <a href="/myblog/">首页</a>
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
             </li>
-            
-            <li>
-                <a href="/myblog/posts/">归档</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/tags/">标签</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/about/">关于</a>
-            </li>
-            
         </ul>
     </div>
     <div class="menu_icon">
@@ -157,7 +148,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单也是一种美</p>
+            <p class="sub_title">简单是一种隐藏的极致</p>
             <div class="my_socials">
                 
                 
@@ -226,74 +217,74 @@ Yield()方法是停止当前线程，让同等优先权的线程运行。如果�
 <ul>
 <li><strong>继承Thread类</strong></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestThread</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-         <span class="n">Thread</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ExtendThread</span><span class="o">(</span><span class="s">&#34;t1&#34;</span><span class="o">,</span><span class="n">1000</span><span class="o">);</span> <span class="c1">//使用上转对象创建线程，并构造线程名字和线程休眠时间
-</span><span class="c1"></span>         <span class="n">Thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ExtendThread</span><span class="o">(</span><span class="s">&#34;t2&#34;</span><span class="o">,</span><span class="n">2000</span><span class="o">);</span> 
-         <span class="n">Thread</span> <span class="n">t3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ExtendThread</span><span class="o">(</span><span class="s">&#34;t3&#34;</span><span class="o">,</span><span class="n">3000</span><span class="o">);</span> 
-         <span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span> <span class="c1">//启动线程并调用run方法
-</span><span class="c1"></span>         <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-         <span class="n">t3</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-<span class="kd">class</span> <span class="nc">ExtendThread</span> <span class="kd">extends</span> <span class="n">Thread</span><span class="o">{</span> <span class="c1">//继承Thread的类
-</span><span class="c1"></span>    <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-    <span class="kt">int</span> <span class="n">time</span><span class="o">;</span>
-    <span class="kd">public</span> <span class="nf">ExtendThread</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">time</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//构造线程名字和休眠时间
-</span><span class="c1"></span>        <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">=</span><span class="n">name</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">time</span><span class="o">=</span><span class="n">time</span><span class="o">;</span>
-    <span class="o">}</span>   
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(){</span> <span class="c1">//重写Thread类的run方法
-</span><span class="c1"></span>        <span class="k">try</span><span class="o">{</span>
-            <span class="n">sleep</span><span class="o">(</span><span class="n">time</span><span class="o">);</span> <span class="c1">//所有线程加入休眠
-</span><span class="c1"></span>        <span class="o">}</span>
-        <span class="k">catch</span><span class="o">(</span><span class="n">InterruptedExceptione</span><span class="o">){</span>
-            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;线程中断异常&#34;</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;名称为：&#34;</span><span class="o">+</span><span class="n">name</span><span class="o">+</span><span class="s">&#34;,线程休眠：&#34;</span><span class="o">+</span><span class="n">time</span><span class="o">+</span><span class="s">&#34;毫秒&#34;</span><span class="o">);</span> 
-    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestThread</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+         Thread t1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ExtendThread<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;t1&#34;</span><span style="color:#f92672">,</span>1000<span style="color:#f92672">);</span> <span style="color:#75715e">//使用上转对象创建线程，并构造线程名字和线程休眠时间
+</span><span style="color:#75715e"></span>         Thread t2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ExtendThread<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;t2&#34;</span><span style="color:#f92672">,</span>2000<span style="color:#f92672">);</span> 
+         Thread t3 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ExtendThread<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;t3&#34;</span><span style="color:#f92672">,</span>3000<span style="color:#f92672">);</span> 
+         t1<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span> <span style="color:#75715e">//启动线程并调用run方法
+</span><span style="color:#75715e"></span>         t2<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+         t3<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExtendThread</span> <span style="color:#66d9ef">extends</span> Thread<span style="color:#f92672">{</span> <span style="color:#75715e">//继承Thread的类
+</span><span style="color:#75715e"></span>    String name<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> time<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ExtendThread</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//构造线程名字和休眠时间
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">=</span>name<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">time</span><span style="color:#f92672">=</span>time<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>   
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span> <span style="color:#75715e">//重写Thread类的run方法
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            sleep<span style="color:#f92672">(</span>time<span style="color:#f92672">);</span> <span style="color:#75715e">//所有线程加入休眠
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>InterruptedExceptione<span style="color:#f92672">){</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;线程中断异常&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;名称为：&#34;</span><span style="color:#f92672">+</span>name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,线程休眠：&#34;</span><span style="color:#f92672">+</span>time<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;毫秒&#34;</span><span style="color:#f92672">);</span> 
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
 
 </code></pre></div><ul>
 <li><strong>实现Runable接口</strong>
 <strong>特点:更符合面向对象特点,耦合度降低</strong></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RunnableThread</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-        <span class="n">Runnable</span> <span class="n">r1</span><span class="o">=</span><span class="k">new</span> <span class="n">ImplRunnable</span><span class="o">(</span><span class="s">&#34;r1&#34;</span><span class="o">,</span><span class="n">1000</span><span class="o">);</span> <span class="c1">//Runnable接口必须依托Thread类才能创建线程
-</span><span class="c1"></span>        <span class="n">Thread</span> <span class="n">t1</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">r1</span><span class="o">);</span> <span class="c1">//Runnable并不能调用start()方法，因为不是线程，所以要用Thread类加入线程
-</span><span class="c1"></span>        <span class="n">Runnable</span> <span class="n">r2</span><span class="o">=</span><span class="k">new</span> <span class="n">ImplRunnable</span><span class="o">(</span><span class="s">&#34;r2&#34;</span><span class="o">,</span><span class="n">2000</span><span class="o">);</span>
-        <span class="n">Thread</span> <span class="n">t2</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">r2</span><span class="o">);</span>
-        <span class="n">Runnable</span> <span class="n">r3</span><span class="o">=</span><span class="k">new</span> <span class="n">ImplRunnable</span><span class="o">(</span><span class="s">&#34;r3&#34;</span><span class="o">,</span><span class="n">3000</span><span class="o">);</span>
-        <span class="n">Thread</span> <span class="n">t3</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">r3</span><span class="o">);</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RunnableThread</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+        Runnable r1<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ImplRunnable<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;r1&#34;</span><span style="color:#f92672">,</span>1000<span style="color:#f92672">);</span> <span style="color:#75715e">//Runnable接口必须依托Thread类才能创建线程
+</span><span style="color:#75715e"></span>        Thread t1<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>r1<span style="color:#f92672">);</span> <span style="color:#75715e">//Runnable并不能调用start()方法，因为不是线程，所以要用Thread类加入线程
+</span><span style="color:#75715e"></span>        Runnable r2<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ImplRunnable<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;r2&#34;</span><span style="color:#f92672">,</span>2000<span style="color:#f92672">);</span>
+        Thread t2<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>r2<span style="color:#f92672">);</span>
+        Runnable r3<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ImplRunnable<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;r3&#34;</span><span style="color:#f92672">,</span>3000<span style="color:#f92672">);</span>
+        Thread t3<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>r3<span style="color:#f92672">);</span>
          
-        <span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span> <span class="c1">//启动线程并调用run方法
-</span><span class="c1"></span>        <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-        <span class="n">t3</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-<span class="kd">class</span> <span class="nc">ImplRunnable</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span> <span class="c1">//继承Runnable接口的类
-</span><span class="c1"></span>    <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-    <span class="kt">int</span> <span class="n">time</span><span class="o">;</span>   
-    <span class="kd">public</span> <span class="nf">ImplRunnable</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">time</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//构造线程名字和休眠时间
-</span><span class="c1"></span>        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">;</span>
-    <span class="o">}</span>
+        t1<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span> <span style="color:#75715e">//启动线程并调用run方法
+</span><span style="color:#75715e"></span>        t2<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        t3<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ImplRunnable</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span> <span style="color:#75715e">//继承Runnable接口的类
+</span><span style="color:#75715e"></span>    String name<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> time<span style="color:#f92672">;</span>   
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ImplRunnable</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//构造线程名字和休眠时间
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">time</span> <span style="color:#f92672">=</span> time<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
  
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span> <span class="c1">//实现Runnable的run方法
-</span><span class="c1"></span>        <span class="k">try</span><span class="o">{</span>
-            <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">time</span><span class="o">);</span> <span class="c1">//所有线程加入休眠
-</span><span class="c1"></span>        <span class="o">}</span>
-        <span class="k">catch</span><span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">){</span>
-            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;线程中断异常&#34;</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;名称为：&#34;</span><span class="o">+</span><span class="n">name</span><span class="o">+</span><span class="s">&#34;,线程休眠：&#34;</span><span class="o">+</span><span class="n">time</span><span class="o">+</span><span class="s">&#34;毫秒&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//实现Runnable的run方法
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>time<span style="color:#f92672">);</span> <span style="color:#75715e">//所有线程加入休眠
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">){</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;线程中断异常&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;名称为：&#34;</span><span style="color:#f92672">+</span>name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,线程休眠：&#34;</span><span style="color:#f92672">+</span>time<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;毫秒&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
 </code></pre></div><ul>
 <li><strong>实现Callable接口</strong>
@@ -301,68 +292,68 @@ Yield()方法是停止当前线程，让同等优先权的线程运行。如果�
 <strong>优点:</strong> 能够利用Callable接口有返回值的特点,避免线程堵塞.
 当一个线程需要耗费很长时间来完成时,我们可以不去等待(线程不去堵塞),将一个线程分支成几个线控制线程的执行,最后获取该线程的返回值即可.</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Demo06</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span><span class="o">,</span> <span class="n">ExecutionException</span> <span class="o">{</span>
-		<span class="n">ExecutorService</span> <span class="n">threads</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
-		<span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">task1</span> <span class="o">=</span> <span class="n">threads</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="k">new</span> <span class="n">CallableTest</span><span class="o">());</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">task1</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
-		<span class="n">threads</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="k">new</span> <span class="n">CallableTest</span><span class="o">());</span>
-		<span class="n">threads</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="k">new</span> <span class="n">CallableTest</span><span class="o">());</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Demo06</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException<span style="color:#f92672">,</span> ExecutionException <span style="color:#f92672">{</span>
+		ExecutorService threads <span style="color:#f92672">=</span> Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newFixedThreadPool</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
+		Future<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> task1 <span style="color:#f92672">=</span> threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CallableTest<span style="color:#f92672">());</span>
+		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>task1<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">());</span>
+		threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CallableTest<span style="color:#f92672">());</span>
+		threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CallableTest<span style="color:#f92672">());</span>
 		
-		<span class="n">threads</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
-	<span class="o">}</span>
-<span class="o">}</span>
+		threads<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdown</span><span style="color:#f92672">();</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-<span class="kd">class</span> <span class="nc">CallableTest</span> <span class="kd">implements</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;{</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CallableTest</span> <span style="color:#66d9ef">implements</span> Callable<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;{</span>
 
-	<span class="kt">int</span> <span class="n">sum</span><span class="o">=</span><span class="n">0</span><span class="o">;</span>
-	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="n">Integer</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">&#34;执行了........&#34;</span><span class="o">);</span>
-		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span><span class="n">1000</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-			<span class="n">sum</span><span class="o">+=</span><span class="n">i</span><span class="o">;</span>
-		<span class="o">}</span>
-		<span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
-	<span class="o">}</span>
+	<span style="color:#66d9ef">int</span> sum<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+	<span style="color:#a6e22e">@Override</span>
+	<span style="color:#66d9ef">public</span> Integer <span style="color:#a6e22e">call</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;执行了........&#34;</span><span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span>1000<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+			sum<span style="color:#f92672">+=</span>i<span style="color:#f92672">;</span>
+		<span style="color:#f92672">}</span>
+		<span style="color:#66d9ef">return</span> sum<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
 	
-<span class="o">}</span>
+<span style="color:#f92672">}</span>
 
 
 </code></pre></div><ul>
 <li><strong>线程池创建</strong>
 <strong>优点:可以不用反复的创建和销毁线程,节省时间.缺点:没有线程任务执行时,浪费大量内存资源</strong></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Demo05</span> <span class="o">{</span>
-		<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-			<span class="c1">//创建线程池工厂
-</span><span class="c1"></span>			<span class="n">ExecutorService</span> <span class="n">threads</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
-			<span class="n">Mythread</span> <span class="n">mythread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Mythread</span><span class="o">();</span>
-			<span class="n">threads</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">mythread</span><span class="o">);</span>
-			<span class="n">threads</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">mythread</span><span class="o">);</span>
-			<span class="n">threads</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">mythread</span><span class="o">);</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Demo05</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			<span style="color:#75715e">//创建线程池工厂
+</span><span style="color:#75715e"></span>			ExecutorService threads <span style="color:#f92672">=</span> Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newFixedThreadPool</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
+			Mythread mythread <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Mythread<span style="color:#f92672">();</span>
+			threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>mythread<span style="color:#f92672">);</span>
+			threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>mythread<span style="color:#f92672">);</span>
+			threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>mythread<span style="color:#f92672">);</span>
 			
-			<span class="c1">//销毁线程池
-</span><span class="c1"></span>			<span class="n">threads</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
-		<span class="o">}</span>
-<span class="o">}</span>
+			<span style="color:#75715e">//销毁线程池
+</span><span style="color:#75715e"></span>			threads<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdown</span><span style="color:#f92672">();</span>
+		<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-<span class="kd">class</span> <span class="nc">Mythread</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Mythread</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span>
 
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;线程池的线程........&#34;</span><span class="o">+</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
-		<span class="k">try</span> <span class="o">{</span>
-			<span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">1000</span><span class="o">);</span>
-			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;执行第&#34;</span><span class="o">+</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">&#34;线程&#34;</span><span class="o">);</span>
-			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;123456&#34;</span><span class="o">);</span>
-		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-		<span class="o">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;线程池的线程........&#34;</span><span style="color:#f92672">+</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+		<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+			Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>1000<span style="color:#f92672">);</span>
+			System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;执行第&#34;</span><span style="color:#f92672">+</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;线程&#34;</span><span style="color:#f92672">);</span>
+			System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;123456&#34;</span><span style="color:#f92672">);</span>
+		<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+		<span style="color:#f92672">}</span>
 		
-	<span class="o">}</span>
+	<span style="color:#f92672">}</span>
 	
-<span class="o">}</span> 
+<span style="color:#f92672">}</span> 
 
 
 

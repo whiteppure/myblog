@@ -239,24 +239,15 @@
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
-        <ul>
-            
-            <li>
-                <a href="/myblog/">首页</a>
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
             </li>
-            
-            <li>
-                <a href="/myblog/posts/">归档</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/tags/">标签</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/about/">关于</a>
-            </li>
-            
         </ul>
     </div>
     <div class="menu_icon">
@@ -273,7 +264,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单也是一种美</p>
+            <p class="sub_title">简单是一种隐藏的极致</p>
             <div class="my_socials">
                 
                 
@@ -309,31 +300,31 @@ Docker 将应用程序与该程序的依赖，打包在一个文件里面。运�
 组建微服务架构。通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。</p>
 <h3 id="安装">安装</h3>
 <p>1.安装依赖,docker依赖于系统的一些必要的工具</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">yum install -y yum-utils device-mapper-persistent-data lvm2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install -y yum-utils device-mapper-persistent-data lvm2
 </code></pre></div><p>2.添加软件源, 阿里云镜像(在阿里云镜像站上面可以找到docker-ce的软件源，使用国内的源速度比较快)</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 </code></pre></div><p><a href="https://blog.csdn.net/zhuzz1030/article/details/80097553">3.安装docker-ce(社区版,免费)</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">yum clean allyum makecache fastyum -y install docker-ce
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum clean allyum makecache fastyum -y install docker-ce
 </code></pre></div><p>4.启动服务</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"> <span class="c1">#service 命令的用法</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> <span style="color:#75715e">#service 命令的用法</span>
 $ sudo service docker start
 
-<span class="c1">#systemctl 命令的用法</span>
+<span style="color:#75715e">#systemctl 命令的用法</span>
 $ sudo systemctl start docker
 
 </code></pre></div><p>5.查看安装版本</p>
-<div class="highlight"><pre class="chroma"><code class="language-docker" data-lang="docker">docker version<span class="err">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker">docker version<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><p>6.测试,检查 docker 是否正确安装并运行 hello-world 镜像</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">docker run hello-world
-</code></pre></div><p>7.Docker 需要用户具有 sudo 权限，为了避免每次命令都输入sudo，可以把用户加入 Docker 用户组</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo usermod -aG docker $USER
-</code></pre></div><h3 id="docker架构">docker架构</h3>
+<pre><code class="language-linux" data-lang="linux">docker run hello-world
+</code></pre><p>7.Docker 需要用户具有 sudo 权限，为了避免每次命令都输入sudo，可以把用户加入 Docker 用户组</p>
+<pre><code class="language-linux" data-lang="linux">sudo usermod -aG docker $USER
+</code></pre><h3 id="docker架构">docker架构</h3>
 <p><img src="/myblog/post/images/essays/docker%E6%9E%B6%E6%9E%84.png" alt="docker架构">
 docker架构分为三部分客户端,宿主机,注册中心</p>
 <p>例如：输入 <code>docker run mysql:5.6</code>命令,docker程序会从docker_host去找对应的镜像,如果,又mysql不存在则会去从register下载,下载完成后docker会自动给该镜像分配一个contains,mysql就会运行起来</p>
 <h4 id="docker基本操作">docker基本操作</h4>
 <p>例如安装运行<code>nginx</code>为例</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">// docker run 包括下载镜像<span class="o">(</span>pull<span class="o">)</span>,创建容器<span class="o">(</span>create<span class="o">)</span>,运行容器<span class="o">(</span>start<span class="o">)</span> 可用dock -h查看帮助
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">// docker run 包括下载镜像<span style="color:#f92672">(</span>pull<span style="color:#f92672">)</span>,创建容器<span style="color:#f92672">(</span>create<span style="color:#f92672">)</span>,运行容器<span style="color:#f92672">(</span>start<span style="color:#f92672">)</span> 可用dock -h查看帮助
 // --rm 表明这是一个临时的容器,关闭的话会自动删除
 // --name 容器名称
 // -p 外部服务器端口映射docker容器端口
@@ -343,10 +334,10 @@ docker run --rm --name myNginx -p 80:80 nginx:版本
 docker logs myNginx
 
 // 进入容器
-docker <span class="nb">exec</span> -it myNginx bash
+docker exec -it myNginx bash
 
 
-<span class="c1">## docker常用命令</span>
+<span style="color:#75715e">## docker常用命令</span>
 
 // 查看当前运行的镜像
 docker ps

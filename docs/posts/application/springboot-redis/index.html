@@ -207,24 +207,15 @@
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
-        <ul>
-            
-            <li>
-                <a href="/myblog/">首页</a>
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
             </li>
-            
-            <li>
-                <a href="/myblog/posts/">归档</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/tags/">标签</a>
-            </li>
-            
-            <li>
-                <a href="/myblog/about/">关于</a>
-            </li>
-            
         </ul>
     </div>
     <div class="menu_icon">
@@ -241,7 +232,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单也是一种美</p>
+            <p class="sub_title">简单是一种隐藏的极致</p>
             <div class="my_socials">
                 
                 
@@ -276,86 +267,86 @@ List 一个链表，链表上的每个节点都包含了一个字符串 从链�
 <strong>Zset</strong> 字符串成员(member)与浮点数分值(score)之间的有序映射，元素的排列顺序由分值的大小决定 添加、获取、删除单个元素；根据分值范围(range)或者成员来获取元素
 <strong>注意: Java bean 要序列化</strong></p>
 <h3 id="1导入依赖">1.导入依赖</h3>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//gradle
-</span><span class="c1"></span><span class="n">compile</span> <span class="n">group</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">name</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">starter</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">redis</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">version</span><span class="o">:</span> <span class="err">&#39;</span><span class="n">2</span><span class="o">.</span><span class="na">1</span><span class="o">.</span><span class="na">3</span><span class="o">.</span><span class="na">RELEASE</span><span class="err">&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//gradle
+</span><span style="color:#75715e"></span>compile group<span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>org<span style="color:#f92672">.</span><span style="color:#a6e22e">springframework</span><span style="color:#f92672">.</span><span style="color:#a6e22e">boot</span><span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">,</span> name<span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>spring<span style="color:#f92672">-</span>boot<span style="color:#f92672">-</span>starter<span style="color:#f92672">-</span>data<span style="color:#f92672">-</span>redis<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">,</span> version<span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>2<span style="color:#f92672">.</span><span style="color:#a6e22e">1</span><span style="color:#f92672">.</span><span style="color:#a6e22e">3</span><span style="color:#f92672">.</span><span style="color:#a6e22e">RELEASE</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
 
-<span class="c1">//pom
-</span><span class="c1"></span><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">starter</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">redis</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="n">2</span><span class="o">.</span><span class="na">1</span><span class="o">.</span><span class="na">3</span><span class="o">.</span><span class="na">RELEASE</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+<span style="color:#75715e">//pom
+</span><span style="color:#75715e"></span><span style="color:#f92672">&lt;</span>dependency<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>groupId<span style="color:#f92672">&gt;</span>org<span style="color:#f92672">.</span><span style="color:#a6e22e">springframework</span><span style="color:#f92672">.</span><span style="color:#a6e22e">boot</span><span style="color:#f92672">&lt;/</span>groupId<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>artifactId<span style="color:#f92672">&gt;</span>spring<span style="color:#f92672">-</span>boot<span style="color:#f92672">-</span>starter<span style="color:#f92672">-</span>data<span style="color:#f92672">-</span>redis<span style="color:#f92672">&lt;/</span>artifactId<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>version<span style="color:#f92672">&gt;</span>2<span style="color:#f92672">.</span><span style="color:#a6e22e">1</span><span style="color:#f92672">.</span><span style="color:#a6e22e">3</span><span style="color:#f92672">.</span><span style="color:#a6e22e">RELEASE</span><span style="color:#f92672">&lt;/</span>version<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;/</span>dependency<span style="color:#f92672">&gt;</span>
 </code></pre></div><h3 id="2配置redis">2.配置redis</h3>
 <p>redis.config</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RedisConfig</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Configuration</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisConfig</span> <span style="color:#f92672">{</span>
 
-    <span class="c1">//用于解决注解操作redis 序列话的问题
-</span><span class="c1"></span>    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;myCacheManager&#34;</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="n">CacheManager</span> <span class="nf">cacheManager</span><span class="o">(</span><span class="n">RedisConnectionFactory</span> <span class="n">redisConnectionFactory</span><span class="o">)</span> <span class="o">{</span>
+    <span style="color:#75715e">//用于解决注解操作redis 序列话的问题
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;myCacheManager&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> CacheManager <span style="color:#a6e22e">cacheManager</span><span style="color:#f92672">(</span>RedisConnectionFactory redisConnectionFactory<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 
-        <span class="n">RedisCacheWriter</span> <span class="n">redisCacheWriter</span> <span class="o">=</span> <span class="n">RedisCacheWriter</span><span class="o">.</span><span class="na">nonLockingRedisCacheWriter</span><span class="o">(</span><span class="n">redisConnectionFactory</span><span class="o">);</span>
-        <span class="n">RedisSerializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">jsonSerializer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericJackson2JsonRedisSerializer</span><span class="o">();</span>
-        <span class="n">RedisSerializationContext</span><span class="o">.</span><span class="na">SerializationPair</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">pair</span> <span class="o">=</span> <span class="n">RedisSerializationContext</span><span class="o">.</span><span class="na">SerializationPair</span>
-                <span class="o">.</span><span class="na">fromSerializer</span><span class="o">(</span><span class="n">jsonSerializer</span><span class="o">);</span>
-        <span class="n">RedisCacheConfiguration</span> <span class="n">defaultCacheConfig</span><span class="o">=</span> <span class="n">RedisCacheConfiguration</span><span class="o">.</span><span class="na">defaultCacheConfig</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">serializeValuesWith</span><span class="o">(</span><span class="n">pair</span><span class="o">);</span>
-        <span class="n">defaultCacheConfig</span><span class="o">.</span><span class="na">entryTtl</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">ofMinutes</span><span class="o">(</span><span class="n">30</span><span class="o">));</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">RedisCacheManager</span><span class="o">(</span><span class="n">redisCacheWriter</span><span class="o">,</span> <span class="n">defaultCacheConfig</span><span class="o">);</span>
-    <span class="o">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="cm">/**
-</span><span class="cm"> * 解决用redisTemplate操作的序列化的问题
-</span><span class="cm"> *
-</span><span class="cm"> * @param factory RedisConnectionFactory
-</span><span class="cm"> * @return redisTemplate
-</span><span class="cm"> */</span>
-    <span class="nd">@Bean</span>
-    <span class="nd">@ConditionalOnMissingBean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;redisTemplate&#34;</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="n">RedisTemplate</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;</span> <span class="nf">redisTemplate</span><span class="o">(</span><span class="n">RedisConnectionFactory</span> <span class="n">factory</span><span class="o">){</span>
-        <span class="c1">// 配置redisTemplate
-</span><span class="c1"></span>        <span class="n">RedisTemplate</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">redisTemplate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RedisTemplate</span><span class="o">&lt;&gt;();</span>
-        <span class="n">redisTemplate</span><span class="o">.</span><span class="na">setConnectionFactory</span><span class="o">(</span><span class="n">factory</span><span class="o">);</span>
-        <span class="c1">// key序列化
-</span><span class="c1"></span>        <span class="n">redisTemplate</span><span class="o">.</span><span class="na">setKeySerializer</span><span class="o">(</span><span class="n">STRING_SERIALIZER</span><span class="o">);</span>
-        <span class="c1">// value序列化
-</span><span class="c1"></span>        <span class="n">redisTemplate</span><span class="o">.</span><span class="na">setValueSerializer</span><span class="o">(</span><span class="n">JACKSON__SERIALIZER</span><span class="o">);</span>
-        <span class="c1">// Hash key序列化
-</span><span class="c1"></span>        <span class="n">redisTemplate</span><span class="o">.</span><span class="na">setHashKeySerializer</span><span class="o">(</span><span class="n">STRING_SERIALIZER</span><span class="o">);</span>
-        <span class="c1">// Hash value序列化
-</span><span class="c1"></span>        <span class="n">redisTemplate</span><span class="o">.</span><span class="na">setHashValueSerializer</span><span class="o">(</span><span class="n">JACKSON__SERIALIZER</span><span class="o">);</span>
-        <span class="n">redisTemplate</span><span class="o">.</span><span class="na">afterPropertiesSet</span><span class="o">();</span>
-        <span class="k">return</span> <span class="n">redisTemplate</span><span class="o">;</span>
-    <span class="o">}</span>
+        RedisCacheWriter redisCacheWriter <span style="color:#f92672">=</span> RedisCacheWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">nonLockingRedisCacheWriter</span><span style="color:#f92672">(</span>redisConnectionFactory<span style="color:#f92672">);</span>
+        RedisSerializer<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> jsonSerializer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GenericJackson2JsonRedisSerializer<span style="color:#f92672">();</span>
+        RedisSerializationContext<span style="color:#f92672">.</span><span style="color:#a6e22e">SerializationPair</span><span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> pair <span style="color:#f92672">=</span> RedisSerializationContext<span style="color:#f92672">.</span><span style="color:#a6e22e">SerializationPair</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">fromSerializer</span><span style="color:#f92672">(</span>jsonSerializer<span style="color:#f92672">);</span>
+        RedisCacheConfiguration defaultCacheConfig<span style="color:#f92672">=</span> RedisCacheConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">defaultCacheConfig</span><span style="color:#f92672">()</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">serializeValuesWith</span><span style="color:#f92672">(</span>pair<span style="color:#f92672">);</span>
+        defaultCacheConfig<span style="color:#f92672">.</span><span style="color:#a6e22e">entryTtl</span><span style="color:#f92672">(</span>Duration<span style="color:#f92672">.</span><span style="color:#a6e22e">ofMinutes</span><span style="color:#f92672">(</span>30<span style="color:#f92672">));</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> RedisCacheManager<span style="color:#f92672">(</span>redisCacheWriter<span style="color:#f92672">,</span> defaultCacheConfig<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#75715e">/**
+</span><span style="color:#75715e"> * 解决用redisTemplate操作的序列化的问题
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * @param factory RedisConnectionFactory
+</span><span style="color:#75715e"> * @return redisTemplate
+</span><span style="color:#75715e"> */</span>
+    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#a6e22e">@ConditionalOnMissingBean</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redisTemplate&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> RedisTemplate<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span>Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">redisTemplate</span><span style="color:#f92672">(</span>RedisConnectionFactory factory<span style="color:#f92672">){</span>
+        <span style="color:#75715e">// 配置redisTemplate
+</span><span style="color:#75715e"></span>        RedisTemplate<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> redisTemplate <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RedisTemplate<span style="color:#f92672">&lt;&gt;();</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">setConnectionFactory</span><span style="color:#f92672">(</span>factory<span style="color:#f92672">);</span>
+        <span style="color:#75715e">// key序列化
+</span><span style="color:#75715e"></span>        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">setKeySerializer</span><span style="color:#f92672">(</span>STRING_SERIALIZER<span style="color:#f92672">);</span>
+        <span style="color:#75715e">// value序列化
+</span><span style="color:#75715e"></span>        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">setValueSerializer</span><span style="color:#f92672">(</span>JACKSON__SERIALIZER<span style="color:#f92672">);</span>
+        <span style="color:#75715e">// Hash key序列化
+</span><span style="color:#75715e"></span>        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">setHashKeySerializer</span><span style="color:#f92672">(</span>STRING_SERIALIZER<span style="color:#f92672">);</span>
+        <span style="color:#75715e">// Hash value序列化
+</span><span style="color:#75715e"></span>        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">setHashValueSerializer</span><span style="color:#f92672">(</span>JACKSON__SERIALIZER<span style="color:#f92672">);</span>
+        redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">afterPropertiesSet</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">return</span> redisTemplate<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>启动类配置</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@EnableCaching</span>  <span class="c1">//允许注解操作缓存
-</span><span class="c1"></span><span class="nd">@SpringBootApplication</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RedisExampleApplication</span> <span class="o">{</span>
-   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">RedisExampleApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
-   <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@EnableCaching</span>  <span style="color:#75715e">//允许注解操作缓存
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@SpringBootApplication</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisExampleApplication</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>RedisExampleApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>application.yml 配置</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c">#redis 缓存配置</span><span class="w">
-</span><span class="w"></span><span class="nt">redis</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">database</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
-</span><span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span>@<span class="l">ip</span><span class="w">
-</span><span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">6379</span><span class="w">
-</span><span class="w">  </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="m">8000</span><span class="w">
-</span><span class="w">  </span><span class="c">#如果没有可不写</span><span class="w">
-</span><span class="w">  </span><span class="nt">password</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="nt">jedis</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="nt">pool</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="c">#连接池最大连接数量</span><span class="w">
-</span><span class="w">      </span><span class="nt">max-active</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
-</span><span class="w">      </span><span class="c">#连接池最大堵塞时间</span><span class="w">
-</span><span class="w">      </span><span class="nt">max-wait</span><span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w">
-</span><span class="w">      </span><span class="c">#连接池最小空闲连接</span><span class="w">
-</span><span class="w">      </span><span class="nt">min-idle</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
-</span><span class="w">      </span><span class="c">#连接池最大空闲连接</span><span class="w">
-</span><span class="w">      </span><span class="nt">max-idle</span><span class="p">:</span><span class="w"> </span><span class="m">8</span><span class="w">
-</span></code></pre></div><h3 id="3缓存注解介绍">3.缓存注解介绍</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e">#redis 缓存配置</span>
+<span style="color:#f92672">redis</span>:
+  <span style="color:#f92672">database</span>: <span style="color:#ae81ff">0</span>
+  <span style="color:#f92672">host</span>: @<span style="color:#ae81ff">ip</span>
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">6379</span>
+  <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">8000</span>
+  <span style="color:#75715e">#如果没有可不写</span>
+  <span style="color:#f92672">password</span>:
+  <span style="color:#f92672">jedis</span>:
+    <span style="color:#f92672">pool</span>:
+      <span style="color:#75715e">#连接池最大连接数量</span>
+      <span style="color:#f92672">max-active</span>: <span style="color:#ae81ff">10</span>
+      <span style="color:#75715e">#连接池最大堵塞时间</span>
+      <span style="color:#f92672">max-wait</span>: -<span style="color:#ae81ff">1</span>
+      <span style="color:#75715e">#连接池最小空闲连接</span>
+      <span style="color:#f92672">min-idle</span>: <span style="color:#ae81ff">0</span>
+      <span style="color:#75715e">#连接池最大空闲连接</span>
+      <span style="color:#f92672">max-idle</span>: <span style="color:#ae81ff">8</span>
+</code></pre></div><h3 id="3缓存注解介绍">3.缓存注解介绍</h3>
 <p><code>@Cacheable</code>作用将方法的运行结果进行缓存,以后要相同的数据,直接从缓存中获取.
 cacheNames 和 key 都必须填，如果不填 key ，默认的 key 是当前的方法名，更新缓存时会因为方法名不同而更新失败.</p>
 <ul>
@@ -367,72 +358,72 @@ cacheNames 和 key 都必须填，如果不填 key ，默认的 key 是当前的
 <li>unless:  否定缓存. 当unless条件为true时,返回值就不会被缓存,可获取到结果判断</li>
 <li>sync:  是否异步, 不支持unless</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Cacheable</span><span class="o">(</span><span class="n">cacheNames</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Cacheable</span><span style="color:#f92672">(</span>cacheNames <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">,</span> key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">)</span>
 </code></pre></div><p>既调用方法有更新缓存修改了数据库某个数据.同时更新缓存,先调用目标方法将目标方法缓存起来,更新时要注意,要和查询时的key相同,否则缓存不会更新,属性和 @Cacheable 相同</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@CachePut</span><span class="o">(</span><span class="n">cacheNames</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@CachePut</span><span style="color:#f92672">(</span>cacheNames <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">,</span> key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">)</span>
 </code></pre></div><p>删除缓存
 allEntries:是否删除所有字段的缓存
 beforeInvocation:是否在方法之前执行</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@CacheEvict</span><span class="o">(</span><span class="n">cacheNames</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@CacheEvict</span><span style="color:#f92672">(</span>cacheNames <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">,</span> key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">)</span>
 </code></pre></div><p><code>@CacheConfig </code>可指定公共key的生成策略</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 公共的cacheNames (value) 可以统一写在类上面 遮掩就不用每缓存一个就起名字了
-</span><span class="c1">// 公共的CacheManager
-</span><span class="c1"></span><span class="nd">@CacheConfig</span><span class="o">(</span><span class="n">cacheNames</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RedisExampleController</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 公共的cacheNames (value) 可以统一写在类上面 遮掩就不用每缓存一个就起名字了
+</span><span style="color:#75715e">// 公共的CacheManager
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@CacheConfig</span><span style="color:#f92672">(</span>cacheNames <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RedisExampleController</span> <span style="color:#f92672">{</span>
   
-    <span class="nd">@Caching</span><span class="o">(</span><span class="n">cacheable</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@Cacheable</span><span class="o">},</span> <span class="n">put</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@CachePut</span><span class="o">})</span>
-    <span class="kd">public</span> <span class="n">Response</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="nf">test</span><span class="o">(){</span>
-          <span class="c1">//to do
-</span><span class="c1"></span>    <span class="o">}</span>
-<span class="o">}</span>
+    <span style="color:#a6e22e">@Caching</span><span style="color:#f92672">(</span>cacheable <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@Cacheable</span><span style="color:#f92672">},</span> put <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@CachePut</span><span style="color:#f92672">})</span>
+    <span style="color:#66d9ef">public</span> Response<span style="color:#f92672">&lt;</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">test</span><span style="color:#f92672">(){</span>
+          <span style="color:#75715e">//to do
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>Key 也可以动态设置为方法的参数(支持EL)</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Cacheable</span><span class="o">(</span><span class="n">cacheNames</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s">&#34;#openid&#34;</span><span class="o">)</span>
-<span class="kd">public</span> <span class="n">Response</span> <span class="nf">detail</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&#34;openid&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">openid</span><span class="o">){</span>
-      <span class="c1">//to do sthing
-</span><span class="c1"></span><span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Cacheable</span><span style="color:#f92672">(</span>cacheNames <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">,</span> key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#openid&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> Response <span style="color:#a6e22e">detail</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@RequestParam</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;openid&#34;</span><span style="color:#f92672">)</span> String openid<span style="color:#f92672">){</span>
+      <span style="color:#75715e">//to do sthing
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 </code></pre></div><p>复合注解</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 查询数据时 先去更新数据 在放到缓存中
-</span><span class="c1"></span><span class="nd">@Caching</span><span class="o">(</span><span class="n">cacheable</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@Cacheable</span><span class="o">},</span> <span class="n">put</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@CachePut</span><span class="o">})</span>
-<span class="nd">@Caching</span><span class="o">(</span><span class="n">cacheable</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@Cacheable</span><span class="o">},</span> <span class="n">put</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@CachePut</span><span class="o">},</span> <span class="n">evict</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@CacheEvict</span><span class="o">})</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 查询数据时 先去更新数据 在放到缓存中
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Caching</span><span style="color:#f92672">(</span>cacheable <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@Cacheable</span><span style="color:#f92672">},</span> put <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@CachePut</span><span style="color:#f92672">})</span>
+<span style="color:#a6e22e">@Caching</span><span style="color:#f92672">(</span>cacheable <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@Cacheable</span><span style="color:#f92672">},</span> put <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@CachePut</span><span style="color:#f92672">},</span> evict <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@CacheEvict</span><span style="color:#f92672">})</span>
 </code></pre></div><h3 id="4测试">4.测试</h3>
 <p>注解版:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//自定义名称
-</span><span class="c1"></span><span class="nd">@CacheConfig</span><span class="o">(</span><span class="n">cacheNames</span> <span class="o">=</span> <span class="s">&#34;xxx&#34;</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductInfoController</span> <span class="o">{</span>   
-    <span class="c1">//简单用法 
-</span><span class="c1"></span>    <span class="nd">@Caching</span><span class="o">(</span><span class="n">cacheable</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@Cacheable</span><span class="o">},</span> <span class="n">put</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@CachePut</span><span class="o">})</span>
-    <span class="kd">public</span> <span class="n">Response</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="nf">getById</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">//to do sthing
-</span><span class="c1"></span>    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//自定义名称
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@CacheConfig</span><span style="color:#f92672">(</span>cacheNames <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProductInfoController</span> <span style="color:#f92672">{</span>   
+    <span style="color:#75715e">//简单用法 
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Caching</span><span style="color:#f92672">(</span>cacheable <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@Cacheable</span><span style="color:#f92672">},</span> put <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#a6e22e">@CachePut</span><span style="color:#f92672">})</span>
+    <span style="color:#66d9ef">public</span> Response<span style="color:#f92672">&lt;</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">getById</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@RequestParam</span> Integer id<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//to do sthing
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>Redistemplate版:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Autowired</span>
-<span class="kd">private</span> <span class="n">RedisTemplate</span> <span class="n">redisTemplate</span><span class="o">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Autowired</span>
+<span style="color:#66d9ef">private</span> RedisTemplate redisTemplate<span style="color:#f92672">;</span>
 
- <span class="nd">@Test</span> 
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">demo</span><span class="o">(){</span>
+ <span style="color:#a6e22e">@Test</span> 
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">demo</span><span style="color:#f92672">(){</span>
 
-    <span class="c1">//常见redis类型数据操作 set zset 未列出
-</span><span class="c1"></span>        
-    <span class="c1">//string 类型数据
-</span><span class="c1"></span>    <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForValue</span><span class="o">().</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;test&#34;</span><span class="o">,</span><span class="s">&#34;123&#34;</span><span class="o">);</span>
-    <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForValue</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;test&#34;</span><span class="o">)</span> <span class="c1">// 输出结果为123
-</span><span class="c1"></span>    
-   <span class="c1">//list 数据类型
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForList</span><span class="o">().</span><span class="na">rightPushAll</span><span class="o">(</span><span class="s">&#34;list&#34;</span><span class="o">,</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&#34;1&#34;</span><span class="o">,</span><span class="s">&#34;2&#34;</span><span class="o">,</span><span class="s">&#34;3&#34;</span><span class="o">});</span><span class="c1">//从右边插入元素
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForList</span><span class="o">().</span><span class="na">range</span><span class="o">(</span><span class="s">&#34;list&#34;</span><span class="o">,</span><span class="n">0</span><span class="o">,-</span><span class="n">1</span><span class="o">);</span><span class="c1">//获取所有元素
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForList</span><span class="o">().</span><span class="na">index</span><span class="o">(</span><span class="s">&#34;listRight&#34;</span><span class="o">,</span><span class="n">1</span><span class="o">);</span><span class="c1">//获取下标为2的元素
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForList</span><span class="o">().</span><span class="na">rightPush</span><span class="o">(</span><span class="s">&#34;listRiht&#34;</span><span class="o">,</span><span class="s">&#34;1&#34;</span><span class="o">);</span><span class="c1">//从右边插入 也可从左边插
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForList</span><span class="o">().</span><span class="na">leftPop</span><span class="o">(</span><span class="s">&#34;list&#34;</span><span class="o">);</span><span class="c1">//从左边弹出元素 元素弹出将不存在
-</span><span class="c1"></span>
-   <span class="c1">//hash
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForHash</span><span class="o">().</span><span class="na">hasKey</span><span class="o">(</span><span class="s">&#34;redisHash&#34;</span><span class="o">,</span><span class="s">&#34;111&#34;</span><span class="o">);</span><span class="c1">//判断该hash key 是否存在
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForHash</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;redisHash&#34;</span><span class="o">,</span><span class="s">&#34;name&#34;</span><span class="o">,</span><span class="s">&#34;111&#34;</span><span class="o">);</span><span class="c1">//存放 hash 数据
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForHash</span><span class="o">().</span><span class="na">keys</span><span class="o">(</span><span class="s">&#34;redisHash&#34;</span><span class="o">);</span><span class="c1">//获取该key对应的hash值
-</span><span class="c1"></span>   <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForHash</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;redisHash&#34;</span><span class="o">,</span><span class="s">&#34;age&#34;</span><span class="o">);</span><span class="c1">//给定key 获取 hash 值
-</span><span class="c1"></span> 
+    <span style="color:#75715e">//常见redis类型数据操作 set zset 未列出
+</span><span style="color:#75715e"></span>        
+    <span style="color:#75715e">//string 类型数据
+</span><span style="color:#75715e"></span>    redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;123&#34;</span><span style="color:#f92672">);</span>
+    redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForValue</span><span style="color:#f92672">().</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// 输出结果为123
+</span><span style="color:#75715e"></span>    
+   <span style="color:#75715e">//list 数据类型
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rightPushAll</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;list&#34;</span><span style="color:#f92672">,</span><span style="color:#66d9ef">new</span> String<span style="color:#f92672">[]{</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">});</span><span style="color:#75715e">//从右边插入元素
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">range</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;list&#34;</span><span style="color:#f92672">,</span>0<span style="color:#f92672">,-</span>1<span style="color:#f92672">);</span><span style="color:#75715e">//获取所有元素
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">index</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;listRight&#34;</span><span style="color:#f92672">,</span>1<span style="color:#f92672">);</span><span style="color:#75715e">//获取下标为2的元素
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rightPush</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;listRiht&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//从右边插入 也可从左边插
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForList</span><span style="color:#f92672">().</span><span style="color:#a6e22e">leftPop</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;list&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//从左边弹出元素 元素弹出将不存在
+</span><span style="color:#75715e"></span>
+   <span style="color:#75715e">//hash
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">hasKey</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;redisHash&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;111&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//判断该hash key 是否存在
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;redisHash&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;111&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//存放 hash 数据
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">keys</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;redisHash&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//获取该key对应的hash值
+</span><span style="color:#75715e"></span>   redisTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">opsForHash</span><span style="color:#f92672">().</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;redisHash&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;age&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//给定key 获取 hash 值
+</span><span style="color:#75715e"></span> 
  
-<span class="o">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div></div>
                     <div class="post_footer">
                         
