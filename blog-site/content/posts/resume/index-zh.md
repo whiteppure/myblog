@@ -1,9 +1,9 @@
 ---
-title: "我的简历"
+title: "我的简历｜zh"
 date: 2021-02-24
 draft: false
-tags: ["中文", "简历"]
-slug: "whitepure-resume"
+tags: ["中文", "个人简历"]
+slug: "whitepure-resume_zh"
 ---
 ## 自我介绍
 

@@ -1,6 +1,10 @@
 {{ partial "head.html" . }}
 
 <body>
+    <!--    文章目录        -->
+    {{ if .Site.Params.toc | default false }}
+    {{ partial "toc" . }}
+    {{ end }}
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         {{ partial "nav.html" . }}
         {{ partial "header.html" . }}

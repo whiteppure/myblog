@@ -1,7 +1,7 @@
 baseURL = "https://whiteppure.github.io/myblog/"
-languageCode = "en"
-defaultContentLanguage = "en"
-title = "My Blog"                         # site title  # 网站标题
+languageCode = "zh"
+defaultContentLanguage = "zh"
+title = "博客"                         # site title  # 网站标题
 theme = "zozo"
 hasCJKLanguage = true                  # has chinese/japanese/korean ?  # 自动检测是否包含 中文\日文\韩文
 summaryLength = 0
@@ -43,6 +43,7 @@ pygmentscodefencesguesssyntax = true
   url = "/about/"
 
 [params]
+  toc = true                                                      # 是否开启文章目录
   subTitle = "简单也是一种美"                                       # site's subTitle  # 网站二级标题
   footerSlogan = "whitepure@2021"                                   # site's footer slogan  # 网站页脚标语
   keywords = ["whitepure博客","whiteppure","whitepure"]                                  # site's keywords  # 网站关键字
@@ -65,10 +66,10 @@ pygmentscodefencesguesssyntax = true
 # Your socail's url
 [social]
   github = "https://github.com/whiteppure/"
-  #twitter = " "
-  #facebook = " "
-  #weibo = " "
-  #instagram = " "
+#  twitter = " "
+#  facebook = " "
+#  weibo = " "
+#  instagram = " "
 
 [markup]
 [markup.goldmark]
