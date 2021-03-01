@@ -1,5 +1,5 @@
 ---
-title: "面向菜鸟编程｜写在前面"
+title: "写在前面｜面向菜鸟编程"
 date: 2021-01-11
 draft: false
 tags: ["中文", "Java", "面向菜鸟编程"]
@@ -28,8 +28,6 @@ slug: "rookie-preview"
 如果有意见或者建议,请在评论留言或者私信发送到我的邮箱 whiteppure@gmail.com
 整理不易，多多包涵。
 
-希望这篇文章能够帮助到您.
-
 持续整理知识点参考列表
 - [x] 数据类型篇
 - [x] 运算篇
@@ -44,30 +42,32 @@ slug: "rookie-preview"
 
 Java小白 知识点的搬运工.随着以后对Java的学习,持续整理更新 中  .....🖊
 
+希望这篇文章能够帮助到您.
+
 ## 相关链接
 
 ### 网站
 - 哔哩哔哩: https://bilibili.com
-- w3cschool菜鸟教程：https://www.runoob.com/java/java-tutorial.html
-- JavaSchool: http://www.51gjie.com/
-- php中文网：https://www.php.cn/
+- w3cschool菜鸟教程: https://www.runoob.com/java/java-tutorial.html
+- JavaSchool: http://www.51gjie.com
+- php中文网: https://www.php.cn
 - Java工程师成神之路：
-    - http://hollischuang.gitee.io/tobetopjavaer/#/
-    - http://hollischuang.github.io/tobetopjavaer/#/
-- CyC2018：http://www.cyc2018.xyz/
+    - http://hollischuang.gitee.io/tobetopjavaer
+    - http://hollischuang.github.io/tobetopjavaer
+- CyC2018: http://www.cyc2018.xyz
 - JavaSE官方文档：
     - https://docs.oracle.com/en/java/javase/index.html
-    - https://docs.oracle.com/javase/specs/
-- IBM developer：https://developer.ibm.com/zh/
+    - https://docs.oracle.com/javase/specs
+- IBM developer: https://developer.ibm.com/zh
 
 ### 博客
-- 链接: http://www.ruanyifeng.com/blog/
-- 链接: https://www.hollischuang.com/
-- 链接：https://blog.csdn.net/LoveLion/article/details/17517213
-- 链接：https://blog.csdn.net/cui_yonghua/article/details/90512943
-- 链接：https://design-patterns.readthedocs.io/zh_CN/latest/index.html
+- 链接: http://www.ruanyifeng.com/blog
+- 链接: https://www.hollischuang.com
+- 链接: https://blog.csdn.net/LoveLion/article/details/17517213
+- 链接: https://blog.csdn.net/cui_yonghua/article/details/90512943
+- 链接: https://design-patterns.readthedocs.io/zh_CN/latest/index.html
 
 ### 工具
 jad反编译工具: 
 - http://www.kpdus.com/jad.html#download
-- https://varaneckas.com/jad/
+- https://varaneckas.com/jad
