@@ -18,50 +18,56 @@ Docker 将应用程序与该程序的依赖，打包在一个文件里面。运�
 
 ### 安装
 1.安装依赖,docker依赖于系统的一些必要的工具
-
-```shell script
+```
 yum install -y yum-utils device-mapper-persistent-data lvm2
 ```
+
 2.添加软件源, 阿里云镜像(在阿里云镜像站上面可以找到docker-ce的软件源，使用国内的源速度比较快)
-```shell script
+```
 yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 ```
+
 [3.安装docker-ce(社区版,免费)](https://blog.csdn.net/zhuzz1030/article/details/80097553)
-```shell script
+```
 yum clean allyum makecache fastyum -y install docker-ce
 ```
+
 4.启动服务
-````shell script
+```
  #service 命令的用法
 $ sudo service docker start
 
 #systemctl 命令的用法
 $ sudo systemctl start docker
+```
 
-````
-5.查看安装版本
-````docker
+5.查看安装版
+```
 docker version
-````
+```
+
 6.测试,检查 docker 是否正确安装并运行 hello-world 镜像
-````linux
+```
 docker run hello-world
-````
+```
+
 7.Docker 需要用户具有 sudo 权限，为了避免每次命令都输入sudo，可以把用户加入 Docker 用户组
-````linux
+```
 sudo usermod -aG docker $USER
-````
+```
 
 ### docker架构
-![docker架构](/myblog/post/images/essays/docker架构.png)
 docker架构分为三部分客户端,宿主机,注册中心
 
-例如：输入 `docker run mysql:5.6`命令,docker程序会从docker_host去找对应的镜像,如果,又mysql不存在则会去从register下载,下载完成后docker会自动给该镜像分配一个contains,mysql就会运行起来
+![docker架构](/myblog/posts/images/essays/docker架构.png)
 
-#### docker基本操作
-例如安装运行`nginx`为例
+例如：输入 `docker run mysql:5.6`命令,docker程序会从docker_host去找对应的镜像,
+如果mysql不存在则会去从register下载,下载完成后docker会自动给该镜像分配一个contains,mysql就会运行起来
 
-```shell
+### docker基本操作
+以安装运行`nginx`为例
+
+```
 // docker run 包括下载镜像(pull),创建容器(create),运行容器(start) 可用dock -h查看帮助
 // --rm 表明这是一个临时的容器,关闭的话会自动删除
 // --name 容器名称
@@ -73,10 +79,10 @@ docker logs myNginx
 
 // 进入容器
 docker exec -it myNginx bash
+```
 
-
-## docker常用命令
-
+#### docker常用命令
+```
 // 查看当前运行的镜像
 docker ps
 //查看所有镜像

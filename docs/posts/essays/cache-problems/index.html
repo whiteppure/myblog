@@ -65,8 +65,6 @@
             
         <ul class="nav">
             
-        <ul class="nav">
-            
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#%e7%bc%93%e5%ad%98%e5%87%bb%e7%a9%bf">
@@ -79,7 +77,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -88,9 +85,6 @@
         
         
         
-        
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -107,7 +101,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -116,9 +109,6 @@
         
         
         
-        
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -131,8 +121,6 @@
             </li>
             
             
-        </ul>
-        
         </ul>
         
         </ul>
@@ -176,7 +164,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单是一种隐藏的极致</p>
+            <p class="sub_title">精益求精</p>
             <div class="my_socials">
                 
                 
@@ -202,21 +190,21 @@
                         <h2><a href='/myblog/posts/essays/cache-problems/'>使用缓存注意的问题</a></h2>
                         <span class="date">2020.06.04</span>
                     </div>
-                    <div class="post_content markdown"><h3 id="缓存击穿">缓存击穿</h3>
+                    <div class="post_content markdown"><h2 id="缓存击穿">缓存击穿</h2>
 <p>key对应的数据存在，但在redis中过期，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存。
 大并发集中对这一个点进行访问，当这个key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库，就像在一个屏障上凿开了一个洞。</p>
 <p>解决</p>
 <ul>
 <li>直接将key设为永不过期</li>
 </ul>
-<h3 id="缓存穿透">缓存穿透</h3>
+<h2 id="缓存穿透">缓存穿透</h2>
 <p>可简单理解为,避开缓存,疯狂请求数据库里没有的数据.从而造成服务器宕机</p>
 <p>解决</p>
 <ul>
 <li>布隆过滤器</li>
 <li>缓存空值,保护数据源</li>
 </ul>
-<h3 id="缓存雪崩">缓存雪崩</h3>
+<h2 id="缓存雪崩">缓存雪崩</h2>
 <p>简单理解为,在某一个时间段,缓存key大面积失效,集中过期.或者服务器宕机</p>
 <p>解决</p>
 <ul>

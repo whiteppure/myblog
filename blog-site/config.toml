@@ -74,7 +74,7 @@ pygmentscodefencesguesssyntax = false
 
 [params]
   toc = true                                                      # 是否开启文章目录
-  subTitle = "简单是一种隐藏的极致"                                       # site's subTitle  # 网站二级标题
+  subTitle = "精益求精"                                       # site's subTitle  # 网站二级标题
   footerSlogan = "whitepure@2021"                                   # site's footer slogan  # 网站页脚标语
   keywords = ["whitepure博客","whiteppure","whitepure"]                                  # site's keywords  # 网站关键字
   description = "whitepure's blog of github"                        # site's description  # 网站描述

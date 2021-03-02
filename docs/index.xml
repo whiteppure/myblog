@@ -71,6 +71,15 @@
     </item>
     
     <item>
+      <title>Springboot整合kafka</title>
+      <link>https://whiteppure.github.io/myblog/posts/application/springboot-kafka/</link>
+      <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/application/springboot-kafka/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Jvm内存划分和垃圾回收</title>
       <link>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</link>
       <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
@@ -152,7 +161,7 @@
     </item>
     
     <item>
-      <title>Springboot整合Redis</title>
+      <title>Springboot整合redis</title>
       <link>https://whiteppure.github.io/myblog/posts/application/springboot-redis/</link>
       <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
       

@@ -65,8 +65,6 @@
             
         <ul class="nav">
             
-        <ul class="nav">
-            
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#%e4%bb%80%e4%b9%88%e6%98%af%e9%98%bb%e5%a1%9e%e9%98%9f%e5%88%97">
@@ -79,7 +77,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -88,43 +85,6 @@
         
         
         
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#%e9%98%bb%e5%a1%9e%e9%98%9f%e5%88%97%e4%bc%98%e7%82%b9">
-                    阻塞队列优点
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -141,9 +101,6 @@
         
         </ul>
         
-        </ul>
-        
-        </ul>
         
         
         
@@ -152,9 +109,6 @@
         
         
         
-        
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -171,7 +125,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -180,11 +133,6 @@
         
         
         
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -201,9 +149,6 @@
         
         </ul>
         
-        </ul>
-        
-        </ul>
         
         
         
@@ -212,11 +157,6 @@
         
         
         
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -229,10 +169,6 @@
             </li>
             
             
-        </ul>
-        
-        </ul>
-        
         </ul>
         
         </ul>
@@ -276,7 +212,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单是一种隐藏的极致</p>
+            <p class="sub_title">精益求精</p>
             <div class="my_socials">
                 
                 
@@ -302,105 +238,107 @@
                         <h2><a href='/myblog/posts/essays/blocking-queue-introduction/'>阻塞队列介绍</a></h2>
                         <span class="date">2020.04.12</span>
                     </div>
-                    <div class="post_content markdown"><h3 id="什么是阻塞队列">什么是阻塞队列</h3>
+                    <div class="post_content markdown"><h2 id="什么是阻塞队列">什么是阻塞队列</h2>
 <p>阻塞队列，顾名思义，首先它是一个队列，而一个阻塞队列在数据结构中所起的作用大致如图所示：
 <img src="/myblog/posts/images/essays/%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%BB%93%E6%9E%84.jpeg" alt="阻塞队列"></p>
 <p>当阻塞队列是空时，从队列中获取元素的操作将会被阻塞。
 当阻塞队列是满时，往队列里添加元素的操作将会被阻塞。</p>
-<p><code>blockQueue </code>作为线程容器、阻塞队列，多用于生产者、消费者的关系模式中，保障并发编程线程同步，线程池中被用于当作存储任务的队列，还可以保证线程执行的有序性.<strong>fifo先进先出</strong></p>
-<h4 id="阻塞队列优点">阻塞队列优点</h4>
+<p><code>blockQueue</code>作为线程容器、阻塞队列，多用于生产者、消费者的关系模式中，保障并发编程线程同步，线程池中被用于当作存储任务的队列，还可以保证线程执行的有序性.<strong>fifo先进先出</strong></p>
 <p>在多线程领域:所谓阻塞,在某些情况下会挂起线程(即线程阻塞),一旦条件满足,被挂起的线程优惠被自动唤醒</p>
-<h4 id="为什么需要使用blockingqueue">为什么需要使用<code>BlockingQueue</code></h4>
+<h2 id="为什么需要使用blockingqueue">为什么需要使用<code>BlockingQueue</code></h2>
 <p>好处是我们不需要关心什么时候需要阻塞线程,什么时候需要唤醒线程,因为<code>BlockingQueue</code>都一手给你包办好了
 在<code>concurrent</code>包 发布以前,在多线程环境下,我们每个程序员都必须自己去控制这些细节,尤其还要兼顾效率和线程安全,而这会给我们的程序带来不小的复杂度.</p>
-<h3 id="阻塞队列种类">阻塞队列种类</h3>
+<h2 id="阻塞队列种类">阻塞队列种类</h2>
 <ul>
-<li><strong><code>ArrayBlockingQueue</code></strong>: 由数组结构组成的有界阻塞队列.</li>
-<li><strong><code>LinkedBlockingDeque</code></strong>: 由链表结构组成的有界(但大小默认值<code>Integer&gt;MAX_VALUE</code>大约21亿)阻塞队列.</li>
+<li><code>ArrayBlockingQueue</code>: 由数组结构组成的有界阻塞队列.</li>
+<li><code>LinkedBlockingDeque</code>: 由链表结构组成的有界(但大小默认值<code>Integer&gt;MAX_VALUE</code>大约21亿)阻塞队列.</li>
 <li><code>PriorityBlockingQueue</code>:支持优先级排序的无界阻塞队列.</li>
 <li><code>DelayQueue</code>: 使用优先级队列实现的延迟无界阻塞队列.</li>
-<li><strong><code>SynchronousQueue</code></strong>:不存储元素的阻塞队列,也即是单个元素的队列.</li>
+<li><code>SynchronousQueue</code>:不存储元素的阻塞队列,也即是单个元素的队列.</li>
 <li><code>LinkedTransferQueue</code>:由链表结构组成的无界阻塞队列.</li>
 <li><code>LinkedBlockingDeque</code>:由了解结构组成的双向阻塞队列.</li>
 </ul>
-<h4 id="arraylistblockingqueue">ArrayListBlockingQueue</h4>
+<h2 id="arraylistblockingqueue">ArrayListBlockingQueue</h2>
 <ul>
 <li><code>add() </code>:相对列里边添加元素,返回值了类型<code>boolean</code>,当超出队列大小时会抛出异常<code>java.lang.IllegalStateException: Queue full</code></li>
 <li><code>remove</code>:清除元素,默认清除队列最上边的元素,可指定元素进行清除,如果清除一个不存在的元素会报异常<code>java.util.NoSuchElementException</code></li>
 <li><code>element</code>:查看队首元素,检查队列为不为空</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">arrayBlockDemo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#75715e">// 与ArrayList类似,但需要设置队列大小
-</span><span style="color:#75715e"></span>        ArrayBlockingQueue<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayBlockingQueue<span style="color:#f92672">&lt;&gt;(</span>3<span style="color:#f92672">);</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;c&#34;</span><span style="color:#f92672">));</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;b&#34;</span><span style="color:#f92672">));</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">));</span>
-        <span style="color:#75715e">// 当add第四个元素到队列时会抛异常
-</span><span style="color:#75715e"></span>        queue<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;f&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#75715e">//查看队首元素,检查队列为不为空
-</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">element</span><span style="color:#f92672">());</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">());</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">());</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">());</span>
-        <span style="color:#75715e">// 如果多清除一个不存在的元素会报异常
-</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">remove</span><span style="color:#f92672">());</span>
-    <span style="color:#f92672">}</span>
+<pre><code>public static void arrayBlockDemo() {
+        // 与ArrayList类似,但需要设置队列大小
+        ArrayBlockingQueue&lt;String&gt; queue = new ArrayBlockingQueue&lt;&gt;(3);
+        System.out.println(queue.add(&quot;c&quot;));
+        System.out.println(queue.add(&quot;b&quot;));
+        System.out.println(queue.add(&quot;a&quot;));
+        // 当add第四个元素到队列时会抛异常
+        queue.add(&quot;f&quot;);
+        //查看队首元素,检查队列为不为空
+        System.out.println(queue.element());
+        System.out.println(queue.remove());
+        System.out.println(queue.remove());
+        System.out.println(queue.remove());
+        // 如果多清除一个不存在的元素会报异常
+        System.out.println(queue.remove());
+    }
 
-</code></pre></div><ul>
+</code></pre><ul>
 <li><code>offer</code>:与<code>add()</code>类似,但如果添加失败,不会报异常.会返回<code>false</code></li>
 <li><code>poll</code>:与<code>remove</code>类似,如果没有元素可取,不会报异常,会返回<code>null</code></li>
 <li><code>peek</code>:与<code>element</code>类似</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">arrayBlockDemo2</span><span style="color:#f92672">(){</span>
-        ArrayBlockingQueue<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayBlockingQueue<span style="color:#f92672">&lt;&gt;(</span>3<span style="color:#f92672">);</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">));</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">));</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">));</span>
-        <span style="color:#75715e">// 不会抛异常
-</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;4&#34;</span><span style="color:#f92672">));</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">());</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span><span style="color:#f92672">());</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span><span style="color:#f92672">());</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span><span style="color:#f92672">());</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span><span style="color:#f92672">());</span>
-    <span style="color:#f92672">}</span>
-</code></pre></div><ul>
+<pre><code>public static void arrayBlockDemo2(){
+        ArrayBlockingQueue&lt;String&gt; queue = new ArrayBlockingQueue&lt;&gt;(3);
+        System.out.println(queue.offer(&quot;1&quot;));
+        System.out.println(queue.offer(&quot;2&quot;));
+        System.out.println(queue.offer(&quot;3&quot;));
+        // 不会抛异常
+        System.out.println(queue.offer(&quot;4&quot;));
+        System.out.println(queue.peek());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+    }
+</code></pre><ul>
 <li><code>put</code>:当阻塞队列满时,生产者继续往队列里面put元素,队列会一直阻塞直到put数据or响应中断退出</li>
 <li><code>take</code>:获取并移除此队列头元素，若没有元素则一直阻塞.当阻塞队列空时,消费者试图从队列take元素,队列会一直阻塞消费者线程直到队列可用.当阻塞队列满时,队列会阻塞生产者线程一定时间,超过后限时后生产者线程就会退出</li>
 </ul>
-<h4 id="synchronousqueue">SynchronousQueue</h4>
-<p><code>SynchronousQueue</code>，实际上它不是一个真正的队列，因为它不会为队列中元素维护存储空间。与其他队列不同的是，它维护一组线程，这些线程在等待着把元素加入或移出队列.<code>SynchronousQueue</code>支持支持生产者和消费者等待的公平性策略。默认情况下，不能保证生产消费的顺序。如果是公平锁的话可以保证当前第一个队首的线程是等待时间最长的线程，这时可以视<code>SynchronousQueue</code>为一个FIFO队列</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SynchronousQueueDemo</span> <span style="color:#f92672">{</span>
+<h2 id="synchronousqueue">SynchronousQueue</h2>
+<p><code>SynchronousQueue</code>，实际上它不是一个真正的队列，因为它不会为队列中元素维护存储空间。
+与其他队列不同的是，它维护一组线程，这些线程在等待着把元素加入或移出队列.
+<code>SynchronousQueue</code>支持支持生产者和消费者等待的公平性策略。默认情况下，不能保证生产消费的顺序。
+如果是公平锁的话可以保证当前第一个队首的线程是等待时间最长的线程，这时可以视<code>SynchronousQueue</code>为一个FIFO队列</p>
+<pre><code>public class SynchronousQueueDemo {
 
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        SynchronousQueue<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> synchronousQueue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SynchronousQueue<span style="color:#f92672">&lt;&gt;();</span>
-        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-                synchronousQueue<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
-                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>3000<span style="color:#f92672">);</span>
-                synchronousQueue<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
-                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>3000<span style="color:#f92672">);</span>
-                synchronousQueue<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>3<span style="color:#f92672">);</span>
-            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    public static void main(String[] args) {
+        SynchronousQueue&lt;Integer&gt; synchronousQueue = new SynchronousQueue&lt;&gt;();
+        new Thread(() -&gt; {
+            try {
+                synchronousQueue.put(1);
+                Thread.sleep(3000);
+                synchronousQueue.put(2);
+                Thread.sleep(3000);
+                synchronousQueue.put(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
 
-        <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-                Integer val <span style="color:#f92672">=</span> synchronousQueue<span style="color:#f92672">.</span><span style="color:#a6e22e">take</span><span style="color:#f92672">();</span>
-                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>val<span style="color:#f92672">);</span>
-                Integer val2 <span style="color:#f92672">=</span> synchronousQueue<span style="color:#f92672">.</span><span style="color:#a6e22e">take</span><span style="color:#f92672">();</span>
-                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>val2<span style="color:#f92672">);</span>
-                Integer val3 <span style="color:#f92672">=</span> synchronousQueue<span style="color:#f92672">.</span><span style="color:#a6e22e">take</span><span style="color:#f92672">();</span>
-                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>val3<span style="color:#f92672">);</span>
-            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p><strong><code>SynchronousQueue</code>使用场景</strong></p>
+        new Thread(() -&gt; {
+            try {
+                Integer val = synchronousQueue.take();
+                System.out.println(val);
+                Integer val2 = synchronousQueue.take();
+                System.out.println(val2);
+                Integer val3 = synchronousQueue.take();
+                System.out.println(val3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+}
+</code></pre><p><strong>使用场景</strong></p>
 <ul>
 <li>生产者消费者模式</li>
 <li>线程池</li>

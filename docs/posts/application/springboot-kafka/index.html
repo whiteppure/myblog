@@ -8,7 +8,7 @@
 	
 	
 	
-	<title>Docker介绍 ｜ whitepure</title>
+	<title>Springboot整合kafka ｜ whitepure</title>
 	
     
     
@@ -65,12 +65,60 @@
             
         <ul class="nav">
             
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#windows%e5%b9%b3%e5%8f%b0kafka%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba">
+                    Windows平台kafka环境搭建
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
         <ul class="nav">
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e6%98%af%e4%bb%80%e4%b9%88">
-                    docker是什么
+                <a class="nav-link text-left" href="#macos%e5%b9%b3%e5%8f%b0kafka%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba">
+                    MacOS平台kafka环境搭建
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%ae%89%e8%a3%85kafka">
+                    安装kafka
                 </a>
             </li>
             
@@ -97,8 +145,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e7%94%a8%e9%80%94">
-                    docker用途
+                <a class="nav-link text-left" href="#%e5%90%af%e5%8a%a8kafka">
+                    启动kafka
                 </a>
             </li>
             
@@ -125,8 +173,60 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%ae%89%e8%a3%85">
-                    安装
+                <a class="nav-link text-left" href="#kafka%e6%b6%88%e6%81%af%e6%b5%8b%e8%af%95">
+                    kafka消息测试
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#springboot%e6%95%b4%e5%90%88kafka">
+                    springboot整合kafka
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%bc%95%e5%85%a5pom%e4%be%9d%e8%b5%96">
+                    引入pom依赖
                 </a>
             </li>
             
@@ -153,8 +253,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e6%9e%b6%e6%9e%84">
-                    docker架构
+                <a class="nav-link text-left" href="#%e9%85%8d%e7%bd%aeapplicationyml">
+                    配置application.yml
                 </a>
             </li>
             
@@ -181,8 +281,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c">
-                    docker基本操作
+                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%bakafka%e9%85%8d%e7%bd%ae%e7%b1%bb">
+                    创建kafka配置类
                 </a>
             </li>
             
@@ -207,12 +307,10 @@
             
         <ul class="nav">
             
-        <ul class="nav">
-            
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4">
-                    docker常用命令
+                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e6%b6%88%e6%81%af%e5%a4%84%e7%90%86%e5%99%a8">
+                    创建消息处理器
                 </a>
             </li>
             
@@ -223,8 +321,6 @@
         
         </ul>
         
-        </ul>
-        
         
         
         
@@ -241,8 +337,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99">
-                    参考资料
+                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e6%b5%8b%e8%af%95%e7%b1%bb">
+                    创建测试类
                 </a>
             </li>
             
@@ -315,77 +411,177 @@
             <div class="post_page">
                 <div class="post animate__animated animate__fadeInDown">
                     <div class="post_title post_detail_title">
-                        <h2><a href='/myblog/posts/essays/docker-introduction/'>Docker介绍</a></h2>
-                        <span class="date">2020.04.07</span>
+                        <h2><a href='/myblog/posts/application/springboot-kafka/'>Springboot整合kafka</a></h2>
+                        <span class="date">2020.08.20</span>
                     </div>
-                    <div class="post_content markdown"><h3 id="docker是什么">docker是什么</h3>
-<p>Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。它是目前最流行的 Linux 容器解决方案。
-Docker 将应用程序与该程序的依赖，打包在一个文件里面。运行这个文件，就会生成一个虚拟容器。程序在这个虚拟容器里运行，就好像在真实的物理机上运行一样。有了 Docker，就不用担心环境问题。
-总体来说，Docker 的接口相当简单，用户可以方便地创建和使用容器，把自己的应用放入容器。容器还可以进行版本管理、复制、分享、修改，就像管理普通的代码一样.</p>
-<h3 id="docker用途">docker用途</h3>
-<p>提供一次性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建的环境。
-提供弹性的云服务。因为 Docker 容器可以随开随关，很适合动态扩容和缩容。
-组建微服务架构。通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。</p>
-<h3 id="安装">安装</h3>
-<p>1.安装依赖,docker依赖于系统的一些必要的工具</p>
-<pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2
-</code></pre><p>2.添加软件源, 阿里云镜像(在阿里云镜像站上面可以找到docker-ce的软件源，使用国内的源速度比较快)</p>
-<pre><code>yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-</code></pre><p><a href="https://blog.csdn.net/zhuzz1030/article/details/80097553">3.安装docker-ce(社区版,免费)</a></p>
-<pre><code>yum clean allyum makecache fastyum -y install docker-ce
-</code></pre><p>4.启动服务</p>
-<pre><code> #service 命令的用法
-$ sudo service docker start
-
-#systemctl 命令的用法
-$ sudo systemctl start docker
-</code></pre><p>5.查看安装版</p>
-<pre><code>docker version
-</code></pre><p>6.测试,检查 docker 是否正确安装并运行 hello-world 镜像</p>
-<pre><code>docker run hello-world
-</code></pre><p>7.Docker 需要用户具有 sudo 权限，为了避免每次命令都输入sudo，可以把用户加入 Docker 用户组</p>
-<pre><code>sudo usermod -aG docker $USER
-</code></pre><h3 id="docker架构">docker架构</h3>
-<p>docker架构分为三部分客户端,宿主机,注册中心</p>
-<p><img src="/myblog/posts/images/essays/docker%E6%9E%B6%E6%9E%84.png" alt="docker架构"></p>
-<p>例如：输入 <code>docker run mysql:5.6</code>命令,docker程序会从docker_host去找对应的镜像,
-如果mysql不存在则会去从register下载,下载完成后docker会自动给该镜像分配一个contains,mysql就会运行起来</p>
-<h3 id="docker基本操作">docker基本操作</h3>
-<p>以安装运行<code>nginx</code>为例</p>
-<pre><code>// docker run 包括下载镜像(pull),创建容器(create),运行容器(start) 可用dock -h查看帮助
-// --rm 表明这是一个临时的容器,关闭的话会自动删除
-// --name 容器名称
-// -p 外部服务器端口映射docker容器端口
-docker run --rm --name myNginx -p 80:80 nginx:版本
-
-// 查看容器日志
-docker logs myNginx
-
-// 进入容器
-docker exec -it myNginx bash
-</code></pre><h4 id="docker常用命令">docker常用命令</h4>
-<pre><code>// 查看当前运行的镜像
-docker ps
-//查看所有镜像
-docker ps -a
-//停止容器
-docker stop 容器名称
-// 删除镜像
-docker rmi 镜像名称
-//下载镜像 若不指定版本为最新版本
-docker pull 镜像:版本
-//查看当前本地仓库的镜像
-docker images
-//查看远程仓库镜像
-docker search 镜像名
-</code></pre><h3 id="参考资料">参考资料</h3>
-<p><strong>入门参考:</strong> <a href="https://baijiahao.baidu.com/s?id=1626633654476933953&amp;wfr=spider&amp;for=pc">https://baijiahao.baidu.com/s?id=1626633654476933953&amp;wfr=spider&amp;for=pc</a>
-<strong>安装docker菜鸟教程:</strong> <a href="https://www.runoob.com/docker/centos-docker.install.html">https://www.runoob.com/docker/centos-docker.install.html</a>
-<strong>docker官网:</strong> <a href="https://www.docker.com/">https://www.docker.com/</a>
-<strong>docker文档:</strong> <a href="https://docs.docker.com/install/linux/docker-ce/centos/">https://docs.docker.com/install/linux/docker-ce/centos/</a>
-<strong>阮一峰dockerのblog:</strong> <a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html">http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html</a>
-<strong>参考blog</strong>: <a href="https://cyc2018.github.io/CS-Notes/#/notes/Docker">https://cyc2018.github.io/CS-Notes/#/notes/Docker</a></p>
+                    <div class="post_content markdown"><h2 id="windows平台kafka环境搭建">Windows平台kafka环境搭建</h2>
+<ul>
+<li><a href="https://kafka.apachecn.org">https://kafka.apachecn.org</a></li>
+<li><a href="https://blog.csdn.net/u010054969/article/details/70241478">https://blog.csdn.net/u010054969/article/details/70241478</a></li>
+</ul>
+<h2 id="macos平台kafka环境搭建">MacOS平台kafka环境搭建</h2>
+<h3 id="安装kafka">安装kafka</h3>
+<p>kafka依赖Java和zookeeper，安装前请先安装Java和zookeeper。</p>
+<p>安装zookeeper</p>
+<pre><code>brew install zookeeper
+</code></pre><p>安装kafka</p>
+<pre><code>brew install kafka
+</code></pre><h3 id="启动kafka">启动kafka</h3>
+<p>假定你是按照上边的方法安装的kafka,接下来启动kafka</p>
+<p>因为kafka依赖zk，所以首先要启动zookeeper</p>
+<ul>
+<li>cd到该路径：<code>cd /usr/local/Cellar/zookeeper/xxx/bin</code> xxx是zookeeper的版本</li>
+<li>执行启动命令 <code>zkServer start</code>，停止命令为 <code>zkServer stop</code></li>
+</ul>
+<p><strong>启动之前必须修改kafka的配置文件，否则后面的启动会失败</strong></p>
+<ul>
+<li>执行该命令 <code>vim /usr/local/etc/kafka/server.properties</code></li>
+<li>增加<code>listeners=PLAINTEXT://localhost:9092</code> 其中有一行，默认被注释掉了，打开修改即可</li>
+</ul>
+<p>最后启动kafka</p>
+<ul>
+<li>cd到该路径：<code>cd /usr/local/Cellar/kafka/xxx/bin</code> xxx是kafka的版本</li>
+<li>执行该命令启动kafka <code>kafka-server-start /usr/local/etc/kafka/server.properties &amp;</code></li>
+</ul>
+<p>到此为止kafka启动完成</p>
+<h3 id="kafka消息测试">kafka消息测试</h3>
+<ul>
+<li>创建test主题 <code>kafka-topics --create --zookeeper localhost:2181</code><br><code> --replication-factor 1 --partitions 1 --topic test</code></li>
+<li>查看主题是否创建成功 <code>kafka-topics --list --zookeeper localhost:2181</code> 该命令会列出所有的主题</li>
+<li>在kafka/bin目录，topic为test的主题 <code>kafka-console-producer --topic test --broker-list localhost:9092</code></li>
+<li>打开新的终端，在kafka/bin目录，topic为test的主题 <code>kafka-console-consumer --bootstrap-server localhost:9092 -topic test </code></li>
+</ul>
+<p>在生产者终端输入信息，在消费者终端就能看的见</p>
+<div style="width: 50%;display: inline-block">
+    <img src="/myblog/posts/images/application/kafka生产者.jpg" alt="生产者">
 </div>
+<div style="width: 45%;display: inline-block">
+    <img src="/myblog/posts/images/application/kafka消费者.jpg" alt="消费者">
+</div>
+<h2 id="springboot整合kafka">springboot整合kafka</h2>
+<h3 id="引入pom依赖">引入pom依赖</h3>
+<pre><code>    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</code></pre><h3 id="配置applicationyml">配置application.yml</h3>
+<pre><code>server:
+  port: 8080
+  servlet:
+    context-path: /demo
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: spring-boot-demo
+      # 手动提交
+      enable-auto-commit: false
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        session.timeout.ms: 60000
+    listener:
+      log-container-config: false
+      concurrency: 5
+      # 手动提交
+      ack-mode: manual_immediate
+</code></pre><h3 id="创建kafka配置类">创建kafka配置类</h3>
+<pre><code>public interface KafkaConsts {
+    /**
+     * 默认分区大小
+     */
+    Integer DEFAULT_PARTITION_NUM = 3;
+
+    /**
+     * Topic 名称
+     */
+    String TOPIC_TEST = &quot;test&quot;;
+}
+</code></pre><pre><code>@Configuration
+@EnableConfigurationProperties({KafkaProperties.class})
+@EnableKafka
+@AllArgsConstructor
+public class KafkaConfig {
+    private final KafkaProperties kafkaProperties;
+
+    @Bean
+    public KafkaTemplate&lt;String, String&gt; kafkaTemplate() {
+        return new KafkaTemplate&lt;&gt;(producerFactory());
+    }
+
+    @Bean
+    public ProducerFactory&lt;String, String&gt; producerFactory() {
+        return new DefaultKafkaProducerFactory&lt;&gt;(kafkaProperties.buildProducerProperties());
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory&lt;String, String&gt; kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory&lt;String, String&gt; factory = new ConcurrentKafkaListenerContainerFactory&lt;&gt;();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setConcurrency(KafkaConsts.DEFAULT_PARTITION_NUM);
+        factory.setBatchListener(true);
+        factory.getContainerProperties().setPollTimeout(3000);
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory&lt;String, String&gt; consumerFactory() {
+        return new DefaultKafkaConsumerFactory&lt;&gt;(kafkaProperties.buildConsumerProperties());
+    }
+
+    @Bean(&quot;ackContainerFactory&quot;)
+    public ConcurrentKafkaListenerContainerFactory&lt;String, String&gt; ackContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory&lt;String, String&gt; factory = new ConcurrentKafkaListenerContainerFactory&lt;&gt;();
+        factory.setConsumerFactory(consumerFactory());
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
+        factory.setConcurrency(KafkaConsts.DEFAULT_PARTITION_NUM);
+        return factory;
+    }
+
+}
+</code></pre><h3 id="创建消息处理器">创建消息处理器</h3>
+<pre><code>@Component
+@Slf4j
+public class MessageHandler {
+
+    @KafkaListener(topics = KafkaConsts.TOPIC_TEST, containerFactory = &quot;ackContainerFactory&quot;)
+    public void handleMessage(ConsumerRecord record, Acknowledgment acknowledgment) {
+        try {
+            String message = (String) record.value();
+            log.info(&quot;收到消息: {}&quot;, message);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            // 手动提交 offset
+            acknowledgment.acknowledge();
+        }
+    }
+}
+</code></pre><h3 id="创建测试类">创建测试类</h3>
+<p>测试之前请确保kafka已启动</p>
+<pre><code>@RunWith(SpringRunner.class)
+@SpringBootTest
+public class SpringBootDemoMqKafkaApplicationTests {
+    @Autowired
+    private KafkaTemplate&lt;String, String&gt; kafkaTemplate;
+
+    /**
+     * 测试发送消息
+     */
+    @Test
+    public void testSend() {
+        kafkaTemplate.send(KafkaConsts.TOPIC_TEST, &quot;hello,kafka...&quot;);
+    }
+
+}
+</code></pre></div>
                     <div class="post_footer">
                         
                         <div class="meta">
@@ -393,11 +589,9 @@ docker search 镜像名
                                 <span class="field tags">
                                     <i class="ri-stack-line"></i>
                                     
-                                    <a href="https://whiteppure.github.io/myblog/tags/%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">使用介绍</a>
+                                    <a href="https://whiteppure.github.io/myblog/tags/springboot/">springboot</a>
                                     
-                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                                    
-                                    <a href="https://whiteppure.github.io/myblog/tags/docker/">docker</a>
+                                    <a href="https://whiteppure.github.io/myblog/tags/mq/">MQ</a>
                                     
                                 </span>
                             </div>

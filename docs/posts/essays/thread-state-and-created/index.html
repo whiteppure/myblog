@@ -65,12 +65,88 @@
             
         <ul class="nav">
             
-        <ul class="nav">
-            
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#%e7%ba%bf%e7%a8%8b%e7%8a%b6%e6%80%81%e5%8f%8a%e8%bd%ac%e6%8d%a2">
                     线程状态及转换
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%85%b3%e4%ba%8e%e7%ba%bf%e7%a8%8b%e7%9a%84%e5%b8%b8%e7%94%a8%e6%96%b9%e6%b3%95%e7%9a%84%e6%8f%8f%e8%bf%b0">
+                    关于线程的常用方法的描述
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%ba%bf%e7%a8%8b%e5%88%9b%e5%bb%ba%e6%96%b9%e5%bc%8f">
+                    线程创建方式
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%bb%a7%e6%89%bfthread%e7%b1%bb">
+                    继承Thread类
                 </a>
             </li>
             
@@ -97,8 +173,64 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e7%ba%bf%e7%a8%8b%e5%88%9b%e5%bb%ba%e6%96%b9%e5%bc%8f">
-                    线程创建方式
+                <a class="nav-link text-left" href="#%e5%ae%9e%e7%8e%b0runable%e6%8e%a5%e5%8f%a3">
+                    实现Runable接口
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%ae%9e%e7%8e%b0callable%e6%8e%a5%e5%8f%a3">
+                    实现Callable接口
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%ba%bf%e7%a8%8b%e6%b1%a0%e5%88%9b%e5%bb%ba">
+                    线程池创建
                 </a>
             </li>
             
@@ -148,7 +280,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单是一种隐藏的极致</p>
+            <p class="sub_title">精益求精</p>
             <div class="my_socials">
                 
                 
@@ -174,191 +306,181 @@
                         <h2><a href='/myblog/posts/essays/thread-state-and-created/'>线程状态及创建方式</a></h2>
                         <span class="date">2020.04.20</span>
                     </div>
-                    <div class="post_content markdown"><h3 id="线程状态及转换">线程状态及转换</h3>
+                    <div class="post_content markdown"><h2 id="线程状态及转换">线程状态及转换</h2>
 <p><img src="/myblog/posts/images/essays/%E7%BA%BF%E7%A8%8B%E8%BD%AC%E6%8D%A2%E5%9B%BE.jpg" alt="线程状态转换"></p>
 <ul>
 <li>
-<p><strong>新建状态(New)</strong>
+<p>新建状态(New)<br>
 创建后尚未启动。</p>
 </li>
 <li>
-<p><strong>可运行状态(Runnable)</strong>
+<p>可运行状态(Runnable)<br>
 可能正在运行，也可能正在等待 CPU 时间片。包含了操作系统线程状态中的 Running 和 Ready。</p>
 </li>
 <li>
-<p><strong>阻塞状态(Blocked)</strong>
+<p>阻塞状态(Blocked)<br>
 等待获取一个排它锁，如果其线程释放了锁就会结束此状态。</p>
 </li>
 <li>
-<p><strong>无限期等待(Wating)</strong>
+<p>无限期等待(Wating)<br>
 等待其它线程显式地唤醒，否则不会被分配 CPU 时间片。</p>
 </li>
 <li>
-<p><strong>限期等待(Timed Wating)</strong>
+<p>限期等待(Timed Wating)<br>
 无需等待其它线程显式地唤醒，在一定时间之后会被系统自动唤醒。
 调用 Thread.sleep() 方法使线程进入限期等待状态时，常常用“使一个线程睡眠”进行描述。
 调用 Object.wait() 方法使线程进入限期等待或者无限期等待时，常常用“挂起一个线程”进行描述。
 睡眠和挂起是用来描述行为，而阻塞和等待用来描述状态。
-阻塞和等待的区别在于，阻塞是被动的，它是在等待获取一个排它锁。而等待是主动的，通过调用 Thread.sleep() 和 Object.wait() 等方法进入。</p>
+阻塞和等待的区别在于，阻塞是被动的，它是在等待获取一个排它锁。
+而等待是主动的，通过调用 Thread.sleep() 和 Object.wait() 等方法进入。</p>
 </li>
 <li>
-<p><strong>死亡(Terminated)</strong>
-可以是线程结束任务之后自己结束，或者产生了异常而结束。
-关于线程的常用方法的描述:
-sleep方法属于Thread类,wait方法属于Object类
-sleep()和wait()都会抛出InterruptedException异常,这个异常属于checkedException不可避免
-sleep方法不会释放锁,会使线程堵塞,wait方法释放锁,让线程进入等待状态,用notify(),notifyall()方法可以唤醒,或者等待时间到了
-wait必须在同步(synchronized)块里使用,sleep可以在任意地方使用
-join()方法使当前线程停下来等待，直至另一个调用join方法的线程终止,值得注意的是：线程的在被激活后不一定马上就运行.而是进入到可运行线程的队列中。
-Yield()方法是停止当前线程，让同等优先权的线程运行。如果没有同等优先权的线程，那么Yield()方法将不会起作用。</p>
+<p>死亡(Terminated)<br>
+可以是线程结束任务之后自己结束，或者产生了异常而结束。</p>
 </li>
 </ul>
-<h3 id="线程创建方式">线程创建方式</h3>
+<h3 id="关于线程的常用方法的描述">关于线程的常用方法的描述</h3>
 <ul>
-<li><strong>继承Thread类</strong></li>
+<li>sleep方法属于Thread类,wait方法属于Object类</li>
+<li>sleep()和wait()都会抛出InterruptedException异常,这个异常属于checkedException不可避免</li>
+<li>sleep方法不会释放锁,会使线程堵塞,wait方法释放锁,让线程进入等待状态,用notify(),notifyall()方法可以唤醒,或者等待时间到了</li>
+<li>wait必须在同步(synchronized)块里使用,sleep可以在任意地方使用</li>
+<li>join()方法使当前线程停下来等待，直至另一个调用join方法的线程终止,值得注意的是：线程的在被激活后不一定马上就运行.而是进入到可运行线程的队列中。</li>
+<li>Yield()方法是停止当前线程，让同等优先权的线程运行。如果没有同等优先权的线程，那么Yield()方法将不会起作用。</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestThread</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
-         Thread t1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ExtendThread<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;t1&#34;</span><span style="color:#f92672">,</span>1000<span style="color:#f92672">);</span> <span style="color:#75715e">//使用上转对象创建线程，并构造线程名字和线程休眠时间
-</span><span style="color:#75715e"></span>         Thread t2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ExtendThread<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;t2&#34;</span><span style="color:#f92672">,</span>2000<span style="color:#f92672">);</span> 
-         Thread t3 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ExtendThread<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;t3&#34;</span><span style="color:#f92672">,</span>3000<span style="color:#f92672">);</span> 
-         t1<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span> <span style="color:#75715e">//启动线程并调用run方法
-</span><span style="color:#75715e"></span>         t2<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
-         t3<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExtendThread</span> <span style="color:#66d9ef">extends</span> Thread<span style="color:#f92672">{</span> <span style="color:#75715e">//继承Thread的类
-</span><span style="color:#75715e"></span>    String name<span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">int</span> time<span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ExtendThread</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//构造线程名字和休眠时间
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">=</span>name<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">time</span><span style="color:#f92672">=</span>time<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>   
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span> <span style="color:#75715e">//重写Thread类的run方法
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
-            sleep<span style="color:#f92672">(</span>time<span style="color:#f92672">);</span> <span style="color:#75715e">//所有线程加入休眠
-</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>InterruptedExceptione<span style="color:#f92672">){</span>
-            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;线程中断异常&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;名称为：&#34;</span><span style="color:#f92672">+</span>name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,线程休眠：&#34;</span><span style="color:#f92672">+</span>time<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;毫秒&#34;</span><span style="color:#f92672">);</span> 
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
+<h2 id="线程创建方式">线程创建方式</h2>
+<h3 id="继承thread类">继承Thread类</h3>
+<pre><code>public class TestThread {
+    public static void main(String[] args){
+         Thread t1 = new ExtendThread(&quot;t1&quot;,1000); //使用上转对象创建线程，并构造线程名字和线程休眠时间
+         Thread t2 = new ExtendThread(&quot;t2&quot;,2000); 
+         Thread t3 = new ExtendThread(&quot;t3&quot;,3000); 
+         t1.start(); //启动线程并调用run方法
+         t2.start();
+         t3.start();
+    }
+}
+class ExtendThread extends Thread{ //继承Thread的类
+    String name;
+    int time;
+    public ExtendThread(String name, int time) { //构造线程名字和休眠时间
+        this.name=name;
+        this.time=time;
+    }   
+    public void run(){ //重写Thread类的run方法
+        try{
+            sleep(time); //所有线程加入休眠
+        }
+        catch(InterruptedExceptione){
+            e.printStackTrace();
+            System.out.println(&quot;线程中断异常&quot;);
+        }
+        System.out.println(&quot;名称为：&quot;+name+&quot;,线程休眠：&quot;+time+&quot;毫秒&quot;); 
+    }
+}
 
 
-</code></pre></div><ul>
-<li><strong>实现Runable接口</strong>
-<strong>特点:更符合面向对象特点,耦合度降低</strong></li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RunnableThread</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
-        Runnable r1<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ImplRunnable<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;r1&#34;</span><span style="color:#f92672">,</span>1000<span style="color:#f92672">);</span> <span style="color:#75715e">//Runnable接口必须依托Thread类才能创建线程
-</span><span style="color:#75715e"></span>        Thread t1<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>r1<span style="color:#f92672">);</span> <span style="color:#75715e">//Runnable并不能调用start()方法，因为不是线程，所以要用Thread类加入线程
-</span><span style="color:#75715e"></span>        Runnable r2<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ImplRunnable<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;r2&#34;</span><span style="color:#f92672">,</span>2000<span style="color:#f92672">);</span>
-        Thread t2<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>r2<span style="color:#f92672">);</span>
-        Runnable r3<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ImplRunnable<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;r3&#34;</span><span style="color:#f92672">,</span>3000<span style="color:#f92672">);</span>
-        Thread t3<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>r3<span style="color:#f92672">);</span>
+</code></pre><h3 id="实现runable接口">实现Runable接口</h3>
+<p>更符合面向对象特点,耦合度降低</p>
+<pre><code>public class RunnableThread {
+    public static void main(String[] args){
+        Runnable r1=new ImplRunnable(&quot;r1&quot;,1000); //Runnable接口必须依托Thread类才能创建线程
+        Thread t1=new Thread(r1); //Runnable并不能调用start()方法，因为不是线程，所以要用Thread类加入线程
+        Runnable r2=new ImplRunnable(&quot;r2&quot;,2000);
+        Thread t2=new Thread(r2);
+        Runnable r3=new ImplRunnable(&quot;r3&quot;,3000);
+        Thread t3=new Thread(r3);
          
-        t1<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span> <span style="color:#75715e">//启动线程并调用run方法
-</span><span style="color:#75715e"></span>        t2<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
-        t3<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ImplRunnable</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span> <span style="color:#75715e">//继承Runnable接口的类
-</span><span style="color:#75715e"></span>    String name<span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">int</span> time<span style="color:#f92672">;</span>   
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ImplRunnable</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> time<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//构造线程名字和休眠时间
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">time</span> <span style="color:#f92672">=</span> time<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
+        t1.start(); //启动线程并调用run方法
+        t2.start();
+        t3.start();
+    }
+}
+class ImplRunnable implements Runnable{ //继承Runnable接口的类
+    String name;
+    int time;   
+    public ImplRunnable(String name, int time) { //构造线程名字和休眠时间
+        this.name = name;
+        this.time = time;
+    }
  
-    <span style="color:#a6e22e">@Override</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//实现Runnable的run方法
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
-            Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>time<span style="color:#f92672">);</span> <span style="color:#75715e">//所有线程加入休眠
-</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">){</span>
-            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;线程中断异常&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;名称为：&#34;</span><span style="color:#f92672">+</span>name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,线程休眠：&#34;</span><span style="color:#f92672">+</span>time<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;毫秒&#34;</span><span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
+    @Override
+    public void run() { //实现Runnable的run方法
+        try{
+            Thread.sleep(time); //所有线程加入休眠
+        }
+        catch(InterruptedException e){
+            e.printStackTrace();
+            System.out.println(&quot;线程中断异常&quot;);
+        }
+        System.out.println(&quot;名称为：&quot;+name+&quot;,线程休眠：&quot;+time+&quot;毫秒&quot;);
+    }
+}
 
-</code></pre></div><ul>
-<li><strong>实现Callable接口</strong>
-<strong>特点:</strong> 返回结果并且可能抛出异常的任务
-<strong>优点:</strong> 能够利用Callable接口有返回值的特点,避免线程堵塞.
-当一个线程需要耗费很长时间来完成时,我们可以不去等待(线程不去堵塞),将一个线程分支成几个线控制线程的执行,最后获取该线程的返回值即可.</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Demo06</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException<span style="color:#f92672">,</span> ExecutionException <span style="color:#f92672">{</span>
-		ExecutorService threads <span style="color:#f92672">=</span> Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newFixedThreadPool</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
-		Future<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> task1 <span style="color:#f92672">=</span> threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CallableTest<span style="color:#f92672">());</span>
-		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>task1<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">());</span>
-		threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CallableTest<span style="color:#f92672">());</span>
-		threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> CallableTest<span style="color:#f92672">());</span>
+</code></pre><h3 id="实现callable接口">实现Callable接口</h3>
+<p>能够利用Callable接口有返回值的特点,避免线程堵塞.返回结果并且可能抛出异常的任务
+当一个线程需要耗费很长时间来完成时,我们可以不去等待(线程不去堵塞),将一个线程分支成几个线控制线程的执行,最后获取该线程的返回值即可.</p>
+<pre><code>
+public class Demo06 {
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+		ExecutorService threads = Executors.newFixedThreadPool(2);
+		Future&lt;Integer&gt; task1 = threads.submit(new CallableTest());
+		System.out.println(task1.get());
+		threads.submit(new CallableTest());
+		threads.submit(new CallableTest());
 		
-		threads<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdown</span><span style="color:#f92672">();</span>
-	<span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
+		threads.shutdown();
+	}
+}
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CallableTest</span> <span style="color:#66d9ef">implements</span> Callable<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;{</span>
+class CallableTest implements Callable&lt;Integer&gt;{
 
-	<span style="color:#66d9ef">int</span> sum<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
-	<span style="color:#a6e22e">@Override</span>
-	<span style="color:#66d9ef">public</span> Integer <span style="color:#a6e22e">call</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
-		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;执行了........&#34;</span><span style="color:#f92672">);</span>
-		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span>1000<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
-			sum<span style="color:#f92672">+=</span>i<span style="color:#f92672">;</span>
-		<span style="color:#f92672">}</span>
-		<span style="color:#66d9ef">return</span> sum<span style="color:#f92672">;</span>
-	<span style="color:#f92672">}</span>
+	int sum=0;
+	@Override
+	public Integer call() throws Exception {
+		System.out.println(Thread.currentThread().getName()+&quot;执行了........&quot;);
+		for (int i = 0; i &lt;1000; i++) {
+			sum+=i;
+		}
+		return sum;
+	}
 	
-<span style="color:#f92672">}</span>
+}
 
 
-</code></pre></div><ul>
-<li><strong>线程池创建</strong>
-<strong>优点:可以不用反复的创建和销毁线程,节省时间.缺点:没有线程任务执行时,浪费大量内存资源</strong></li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Demo05</span> <span style="color:#f92672">{</span>
-		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-			<span style="color:#75715e">//创建线程池工厂
-</span><span style="color:#75715e"></span>			ExecutorService threads <span style="color:#f92672">=</span> Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newFixedThreadPool</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>
-			Mythread mythread <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Mythread<span style="color:#f92672">();</span>
-			threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>mythread<span style="color:#f92672">);</span>
-			threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>mythread<span style="color:#f92672">);</span>
-			threads<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span>mythread<span style="color:#f92672">);</span>
+</code></pre><h3 id="线程池创建">线程池创建</h3>
+<p>可以不用反复的创建和销毁线程,节省时间.缺点:没有线程任务执行时,浪费大量内存资源</p>
+<pre><code>
+public class Demo05 {
+		public static void main(String[] args) {
+			//创建线程池工厂
+			ExecutorService threads = Executors.newFixedThreadPool(2);
+			Mythread mythread = new Mythread();
+			threads.submit(mythread);
+			threads.submit(mythread);
+			threads.submit(mythread);
 			
-			<span style="color:#75715e">//销毁线程池
-</span><span style="color:#75715e"></span>			threads<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdown</span><span style="color:#f92672">();</span>
-		<span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
+			//销毁线程池
+			threads.shutdown();
+		}
+}
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Mythread</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span>
+class Mythread implements Runnable{
 
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;线程池的线程........&#34;</span><span style="color:#f92672">+</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
-		<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-			Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>1000<span style="color:#f92672">);</span>
-			System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;执行第&#34;</span><span style="color:#f92672">+</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;线程&#34;</span><span style="color:#f92672">);</span>
-			System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;123456&#34;</span><span style="color:#f92672">);</span>
-		<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-			e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-		<span style="color:#f92672">}</span>
+	public void run() {
+		System.out.println(&quot;线程池的线程........&quot;+Thread.currentThread().getName());
+		try {
+			Thread.sleep(1000);
+			System.out.println(&quot;执行第&quot;+Thread.currentThread().getName()+&quot;线程&quot;);
+			System.out.println(&quot;123456&quot;);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
-	<span style="color:#f92672">}</span>
+	}
 	
-<span style="color:#f92672">}</span> 
-
-
-
-
-</code></pre></div></div>
+} 
+</code></pre></div>
                     <div class="post_footer">
                         
                         <div class="meta">

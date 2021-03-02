@@ -65,8 +65,6 @@
             
         <ul class="nav">
             
-        <ul class="nav">
-            
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#arraylist">
@@ -79,7 +77,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -88,9 +85,6 @@
         
         
         
-        
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -111,7 +105,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -120,9 +113,6 @@
         
         
         
-        
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -139,7 +129,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -148,9 +137,6 @@
         
         
         
-        
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -171,7 +157,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -180,9 +165,6 @@
         
         
         
-        
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -199,7 +181,6 @@
         
         </ul>
         
-        </ul>
         
         
         
@@ -208,9 +189,6 @@
         
         
         
-        
-        <ul class="nav">
-            
         <ul class="nav">
             
         <ul class="nav">
@@ -227,6 +205,32 @@
             
         </ul>
         
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#jdk18%e7%89%88%e6%9c%ac%e7%9a%84currenthashmap%e7%9a%84%e5%ae%9e%e7%8e%b0%e5%8e%9f%e7%90%86">
+                    JDK1.8版本的CurrentHashMap的实现原理
+                </a>
+            </li>
+            
+            
         </ul>
         
         </ul>
@@ -272,7 +276,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">简单是一种隐藏的极致</p>
+            <p class="sub_title">精益求精</p>
             <div class="my_socials">
                 
                 
@@ -298,111 +302,100 @@
                         <h2><a href='/myblog/posts/essays/java-thread-collection/'>Java中集合的线程不安全问题</a></h2>
                         <span class="date">2020.04.05</span>
                     </div>
-                    <div class="post_content markdown"><h3 id="arraylist">ArrayList</h3>
-<ul>
-<li><strong>ArrayList线程不安全示例:</strong></li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-		ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> arrayList <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
-		<span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span> 3<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
-			<span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">{</span>
-				arrayList<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>UUID<span style="color:#f92672">.</span><span style="color:#a6e22e">randomUUID</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
-				System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>arrayList<span style="color:#f92672">);</span>
-			<span style="color:#f92672">},</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>i<span style="color:#f92672">)).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
-		<span style="color:#f92672">}</span>
-	<span style="color:#f92672">}</span>
-</code></pre></div><ul>
-<li><strong>运行结果:</strong></li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// ConcurrentModificationException 同步修改异常
-</span><span style="color:#75715e"></span>Exception in thread <span style="color:#e6db74">&#34;8&#34;</span> java<span style="color:#f92672">.</span><span style="color:#a6e22e">util</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ConcurrentModificationException</span>
+                    <div class="post_content markdown"><h2 id="arraylist">ArrayList</h2>
+<p>ArrayList线程不安全示例:</p>
+<pre><code>	public static void main(String[] args) {
+		ArrayList&lt;String&gt; arrayList = new ArrayList&lt;&gt;();
+		for(int i=0; i&lt; 3; i++) {
+			new Thread(() -&gt; {
+				arrayList.add(UUID.randomUUID().toString());
+				System.out.println(arrayList);
+			},String.valueOf(i)).start();
+		}
+	}
+</code></pre><pre><code>// ConcurrentModificationException 同步修改异常
+Exception in thread &quot;8&quot; java.util.ConcurrentModificationException
 
-<span style="color:#f92672">[</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> 2041b613<span style="color:#f92672">-</span>8068<span style="color:#f92672">-</span>4ddd<span style="color:#f92672">-</span>9d01<span style="color:#f92672">-</span>305f5680d377<span style="color:#f92672">]</span>
-<span style="color:#f92672">[</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> 2041b613<span style="color:#f92672">-</span>8068<span style="color:#f92672">-</span>4ddd<span style="color:#f92672">-</span>9d01<span style="color:#f92672">-</span>305f5680d377<span style="color:#f92672">,</span> b3e0296d<span style="color:#f92672">-</span>e263<span style="color:#f92672">-</span>4632<span style="color:#f92672">-</span>a023<span style="color:#f92672">-</span>4267cdec5e25<span style="color:#f92672">]</span>
-<span style="color:#f92672">[</span><span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> 2041b613<span style="color:#f92672">-</span>8068<span style="color:#f92672">-</span>4ddd<span style="color:#f92672">-</span>9d01<span style="color:#f92672">-</span>305f5680d377<span style="color:#f92672">]</span>
-</code></pre></div><ul>
-<li>
-<p><strong>原因分析:</strong>
+[null, 2041b613-8068-4ddd-9d01-305f5680d377]
+[null, 2041b613-8068-4ddd-9d01-305f5680d377, b3e0296d-e263-4632-a023-4267cdec5e25]
+[null, 2041b613-8068-4ddd-9d01-305f5680d377]
+</code></pre><p><strong>原因分析:</strong>
 当某个线程正在执行 <code>add()</code>方法时,被某个线程打断,添加到一半被打断,没有被添加完</p>
-</li>
-<li>
 <p><strong>解决方案:</strong></p>
-</li>
-</ul>
-<ol>
+<ul>
 <li>使用<code>Vector</code>来代替<code>ArrayList</code>,<code>Vector</code>是线程安全的<code>ArrayList</code>,但是由于,并发量太小,被淘汰</li>
 <li>使用<code>Collections.synchronizedArrayList(new ArrayList&lt;&gt;())</code>来创建<code>ArrayList</code>.使用<code>Collections</code>工具类来创建<code>ArrayList</code>的思路是,在<code>ArrayList</code>的外边套了一个外壳,来使<code>ArrayList</code>线程安全</li>
 <li><strong>使用<code>new CopyOnWriteArrayList()</code>来保证ArrayList线程安全</strong></li>
-</ol>
-<h4 id="copyonwritearraylist原理">CopyOnWriteArrayList原理</h4>
+</ul>
+<h3 id="copyonwritearraylist原理">CopyOnWriteArrayList原理</h3>
 <p><code>CopyWriteArrayList</code>字面意思就是在写的时候复制,思想就是读写分离的思想</p>
 <p>以下是<code>CopyOnWriteArrayList</code>的<code>add()</code>方法源码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/** The array, accessed only via getArray/setArray. */</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">transient</span> <span style="color:#66d9ef">volatile</span> Object<span style="color:#f92672">[]</span> array<span style="color:#f92672">;</span>
+<pre><code>/** The array, accessed only via getArray/setArray. */
+    private transient volatile Object[] array;
 
-<span style="color:#75715e">/** The lock protecting all mutators */</span>
-    <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">transient</span> ReentrantLock lock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock<span style="color:#f92672">();</span>
+/** The lock protecting all mutators */
+    final transient ReentrantLock lock = new ReentrantLock();
 
-  <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * Gets the array.  Non-private so as to also be accessible
-</span><span style="color:#75715e">     * from CopyOnWriteArraySet class.
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">final</span> Object<span style="color:#f92672">[]</span> <span style="color:#a6e22e">getArray</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> array<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
+  /**
+     * Gets the array.  Non-private so as to also be accessible
+     * from CopyOnWriteArraySet class.
+     */
+    final Object[] getArray() {
+        return array;
+    }
 
-<span style="color:#75715e">/**
-</span><span style="color:#75715e">     * Appends the specified element to the end of this list.
-</span><span style="color:#75715e">     *
-</span><span style="color:#75715e">     * @param e element to be appended to this list
-</span><span style="color:#75715e">     * @return {@code true} (as specified by {@link Collection#add})
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>E e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">final</span> ReentrantLock lock <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">;</span>
-        lock<span style="color:#f92672">.</span><span style="color:#a6e22e">lock</span><span style="color:#f92672">();</span>
-        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-            Object<span style="color:#f92672">[]</span> elements <span style="color:#f92672">=</span> getArray<span style="color:#f92672">();</span>
-            <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> elements<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>
-            Object<span style="color:#f92672">[]</span> newElements <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>elements<span style="color:#f92672">,</span> len <span style="color:#f92672">+</span> 1<span style="color:#f92672">);</span>
-            newElements<span style="color:#f92672">[</span>len<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> e<span style="color:#f92672">;</span>
-            setArray<span style="color:#f92672">(</span>newElements<span style="color:#f92672">);</span>
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-        <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
-            lock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span><span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
+/**
+     * Appends the specified element to the end of this list.
+     *
+     * @param e element to be appended to this list
+     * @return {@code true} (as specified by {@link Collection#add})
+     */
+    public boolean add(E e) {
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            Object[] elements = getArray();
+            int len = elements.length;
+            Object[] newElements = Arrays.copyOf(elements, len + 1);
+            newElements[len] = e;
+            setArray(newElements);
+            return true;
+        } finally {
+            lock.unlock();
+        }
+    }
 
-</code></pre></div><p>因为在源码里面加了<code>ReentrantLock</code>所以保证了某个线程在写的时候不会被打断,可以看到源码开始先是复制了一份数组(因为同一时刻只有一个线程写,其余的线程会读),在复制的数组上边进行写操作,写好以后在返回<code>true</code>.这样写的就把读写进行了分离.写好以后因为<code>array</code>加了<code>volatile</code>关键字,所以该数组是对于其他的线程是可见的,就会读取到最新的值.</p>
-<h3 id="hashset">HashSet</h3>
+</code></pre><p>因为在源码里面加了<code>ReentrantLock</code>所以保证了某个线程在写的时候不会被打断,
+可以看到源码开始先是复制了一份数组(因为同一时刻只有一个线程写,其余的线程会读),在复制的数组上边进行写操作,写好以后在返回<code>true</code>.
+这样写的就把读写进行了分离.写好以后因为<code>array</code>加了<code>volatile</code>关键字,所以该数组是对于其他的线程是可见的,就会读取到最新的值.</p>
+<h2 id="hashset">HashSet</h2>
 <p><code>HashSet</code>和<code>ArrayList</code>类似,也是线程不安全的集合类,具体证明<code>HashSet</code>线程不安全的代码,请参考<code>ArrayList</code>线程不安全的示例.
 因为与ArrayList类似,都属于一类问题,也会报<code>ConcurrentModificationException </code>异常.</p>
+<p><strong>解决方案</strong></p>
 <ul>
-<li><strong>解决方案</strong></li>
-</ul>
-<ol>
 <li><code>Collections.synchronizedSet(new HashSet&lt;&gt;())</code>使用集合工具类解决</li>
 <li>使用<code>new CopyOnWriteArraySet&lt;&gt;()</code>来保证集合线程安全</li>
-</ol>
-<h4 id="copyonwritearrayset原理">CopyOnWriteArraySet原理</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> CopyOnWriteArrayList<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> al<span style="color:#f92672">;</span>
-
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     * Creates an empty set.
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CopyOnWriteArraySet</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        al <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CopyOnWriteArrayList<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;();</span>
-    <span style="color:#f92672">}</span>
-</code></pre></div><p>底层是<code>CopyOnWriteArrayList</code></p>
-<h3 id="hashmap">HashMap</h3>
-<p><code>HashMap</code>也是线程不安全的集合类</p>
-<ul>
-<li>解决方案
-1.<code>Collections.synchronizedMap(new HashMap&lt;&gt;())</code>使用集合工具类
-2.<code>new ConcurrentHashMap&lt;&gt;()</code>来保证线程安全</li>
 </ul>
-<h4 id="concurrenthashmap原理">ConcurrentHashMap原理</h4>
-<p><strong>参考:</strong><a href="https://baijiahao.baidu.com/s?id=1617089947709260129&amp;wfr=spider&amp;for=pc">CurrentHashMap原理</a>
-在<strong>JDK1.7中ConcurrentHashMap</strong>采用了数组+Segment+分段锁的方式实现。</p>
+<h3 id="copyonwritearrayset原理">CopyOnWriteArraySet原理</h3>
+<pre><code>   private final CopyOnWriteArrayList&lt;E&gt; al;
+
+    /**
+     * Creates an empty set.
+     */
+    public CopyOnWriteArraySet() {
+        al = new CopyOnWriteArrayList&lt;E&gt;();
+    }
+</code></pre><p>底层是<code>CopyOnWriteArrayList</code></p>
+<h2 id="hashmap">HashMap</h2>
+<p><code>HashMap</code>也是线程不安全的集合类</p>
+<p><strong>解决方案</strong></p>
+<ul>
+<li><code>Collections.synchronizedMap(new HashMap&lt;&gt;())</code>使用集合工具类</li>
+<li><code>new ConcurrentHashMap&lt;&gt;()</code>来保证线程安全</li>
+</ul>
+<h3 id="concurrenthashmap原理">ConcurrentHashMap原理</h3>
+<p><strong>参考:</strong><a href="https://baijiahao.baidu.com/s?id=1617089947709260129&amp;wfr=spider&amp;for=pc">CurrentHashMap原理</a></p>
+<p>在<strong>JDK1.7中ConcurrentHashMap</strong>采用了数组+Segment+分段锁的方式实现。</p>
 <ul>
 <li>
 <p>Segment(分段锁)
@@ -425,8 +418,8 @@ ConcurrentHashMap使用分段锁技术，将数据分成一段一段的存储，
 </ul>
 </li>
 </ul>
-<p><strong>JDK1.8版本的CurrentHashMap的实现原理</strong></p>
-<p>JDK8中<code>ConcurrentHashMap</code>参考了JDK8 HashMap的实现，采用了数组+链表+红黑树的实现方式来设计，内部大量采用CAS操作.如果不懂CAS请移步<a href="http://www.ljzblog.xyz/archives/cas%E5%8E%9F%E7%90%86">CAS原理</a>
+<h3 id="jdk18版本的currenthashmap的实现原理">JDK1.8版本的CurrentHashMap的实现原理</h3>
+<p>JDK8中<code>ConcurrentHashMap</code>参考了JDK8 HashMap的实现，采用了数组+链表+红黑树的实现方式来设计，内部大量采用CAS操作.如果不了解CAS请移步<a href="../cas-principle">CAS原理</a>
 JDK8中彻底放弃了Segment转而采用的是Node，其设计思想也不再是JDK1.7中的分段锁思想。</p>
 <p>Node：保存key，value及key的hash值的数据结构。其中value和next都用volatile修饰，保证并发的可见性。
 Java8 ConcurrentHashMap结构基本上和Java8的HashMap一样，不过保证线程安全性。</p>

@@ -6,10 +6,10 @@ tags: ["线程", "Java", "集合"]
 slug: "java-thread-collection"
 ---
 
-### ArrayList
+## ArrayList
 
-- **ArrayList线程不安全示例:**
-```java
+ArrayList线程不安全示例:
+```
 	public static void main(String[] args) {
 		ArrayList<String> arrayList = new ArrayList<>();
 		for(int i=0; i< 3; i++) {
@@ -20,8 +20,8 @@ slug: "java-thread-collection"
 		}
 	}
 ```
-- **运行结果:**
-```java
+
+```
 // ConcurrentModificationException 同步修改异常
 Exception in thread "8" java.util.ConcurrentModificationException
 
@@ -29,19 +29,19 @@ Exception in thread "8" java.util.ConcurrentModificationException
 [null, 2041b613-8068-4ddd-9d01-305f5680d377, b3e0296d-e263-4632-a023-4267cdec5e25]
 [null, 2041b613-8068-4ddd-9d01-305f5680d377]
 ```
-- **原因分析:**
+**原因分析:**
 当某个线程正在执行 `add()`方法时,被某个线程打断,添加到一半被打断,没有被添加完
 
-- **解决方案:**
-1. 使用`Vector`来代替`ArrayList`,`Vector`是线程安全的`ArrayList`,但是由于,并发量太小,被淘汰
-2. 使用`Collections.synchronizedArrayList(new ArrayList<>())`来创建`ArrayList`.使用`Collections`工具类来创建`ArrayList`的思路是,在`ArrayList`的外边套了一个外壳,来使`ArrayList`线程安全
-3. **使用`new CopyOnWriteArrayList()`来保证ArrayList线程安全**
+**解决方案:**
+- 使用`Vector`来代替`ArrayList`,`Vector`是线程安全的`ArrayList`,但是由于,并发量太小,被淘汰
+- 使用`Collections.synchronizedArrayList(new ArrayList<>())`来创建`ArrayList`.使用`Collections`工具类来创建`ArrayList`的思路是,在`ArrayList`的外边套了一个外壳,来使`ArrayList`线程安全
+- **使用`new CopyOnWriteArrayList()`来保证ArrayList线程安全**
 
-#### CopyOnWriteArrayList原理
+### CopyOnWriteArrayList原理
 `CopyWriteArrayList`字面意思就是在写的时候复制,思想就是读写分离的思想
 
 以下是`CopyOnWriteArrayList`的`add()`方法源码
-```java
+```
 /** The array, accessed only via getArray/setArray. */
     private transient volatile Object[] array;
 
@@ -78,17 +78,20 @@ Exception in thread "8" java.util.ConcurrentModificationException
     }
 
 ```
-因为在源码里面加了`ReentrantLock`所以保证了某个线程在写的时候不会被打断,可以看到源码开始先是复制了一份数组(因为同一时刻只有一个线程写,其余的线程会读),在复制的数组上边进行写操作,写好以后在返回`true`.这样写的就把读写进行了分离.写好以后因为`array`加了`volatile`关键字,所以该数组是对于其他的线程是可见的,就会读取到最新的值.
+因为在源码里面加了`ReentrantLock`所以保证了某个线程在写的时候不会被打断,
+可以看到源码开始先是复制了一份数组(因为同一时刻只有一个线程写,其余的线程会读),在复制的数组上边进行写操作,写好以后在返回`true`.
+这样写的就把读写进行了分离.写好以后因为`array`加了`volatile`关键字,所以该数组是对于其他的线程是可见的,就会读取到最新的值.
 
-### HashSet
+## HashSet
 `HashSet`和`ArrayList`类似,也是线程不安全的集合类,具体证明`HashSet`线程不安全的代码,请参考`ArrayList`线程不安全的示例.
 因为与ArrayList类似,都属于一类问题,也会报`ConcurrentModificationException `异常.
-- **解决方案**
-1. `Collections.synchronizedSet(new HashSet<>())`使用集合工具类解决
-2. 使用`new CopyOnWriteArraySet<>()`来保证集合线程安全
 
-#### CopyOnWriteArraySet原理
-```java
+**解决方案**
+- `Collections.synchronizedSet(new HashSet<>())`使用集合工具类解决
+- 使用`new CopyOnWriteArraySet<>()`来保证集合线程安全
+
+### CopyOnWriteArraySet原理
+```
    private final CopyOnWriteArrayList<E> al;
 
     /**
@@ -100,14 +103,16 @@ Exception in thread "8" java.util.ConcurrentModificationException
 ```
 底层是`CopyOnWriteArrayList`
 
-### HashMap
+## HashMap
 `HashMap`也是线程不安全的集合类
-- 解决方案
-1.`Collections.synchronizedMap(new HashMap<>())`使用集合工具类
-2.`new ConcurrentHashMap<>()`来保证线程安全
 
-#### ConcurrentHashMap原理
+**解决方案**
+- `Collections.synchronizedMap(new HashMap<>())`使用集合工具类
+- `new ConcurrentHashMap<>()`来保证线程安全
+
+### ConcurrentHashMap原理
 **参考:**[CurrentHashMap原理](https://baijiahao.baidu.com/s?id=1617089947709260129&wfr=spider&for=pc)
+
 在**JDK1.7中ConcurrentHashMap**采用了数组+Segment+分段锁的方式实现。
 
 - Segment(分段锁)
@@ -126,9 +131,9 @@ ConcurrentHashMap使用分段锁技术，将数据分成一段一段的存储，
     - 坏处: 这一种结构的带来的副作用是Hash的过程要比普通的HashMap要长
     - 好处: 写操作的时候可以只对元素所在的Segment进行加锁即可，不会影响到其他的Segment，这样，在最理想的情况下，ConcurrentHashMap可以最高同时支持Segment数量大小的写操作（刚好这些写操作都非常平均地分布在所有的Segment上).所以，通过这一种结构，ConcurrentHashMap的并发能力可以大大的提高。
 
-**JDK1.8版本的CurrentHashMap的实现原理**
+### JDK1.8版本的CurrentHashMap的实现原理
 
-JDK8中`ConcurrentHashMap`参考了JDK8 HashMap的实现，采用了数组+链表+红黑树的实现方式来设计，内部大量采用CAS操作.如果不懂CAS请移步[CAS原理](http://www.ljzblog.xyz/archives/cas%E5%8E%9F%E7%90%86)
+JDK8中`ConcurrentHashMap`参考了JDK8 HashMap的实现，采用了数组+链表+红黑树的实现方式来设计，内部大量采用CAS操作.如果不了解CAS请移步[CAS原理](./../cas-principle)
 JDK8中彻底放弃了Segment转而采用的是Node，其设计思想也不再是JDK1.7中的分段锁思想。
 
 Node：保存key，value及key的hash值的数据结构。其中value和next都用volatile修饰，保证并发的可见性。
