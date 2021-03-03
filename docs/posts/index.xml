@@ -6,7 +6,16 @@
     <description>Recent content in Posts on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>道德经</title>
+      <link>https://whiteppure.github.io/myblog/posts/books/laotze/books-taoteching/</link>
+      <pubDate>Wed, 03 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/books/laotze/books-taoteching/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>我的中文简历</title>
       <link>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_zh/</link>
@@ -58,6 +67,15 @@
       <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://whiteppure.github.io/myblog/posts/rookie/rookie-preview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Springboot整合docker</title>
+      <link>https://whiteppure.github.io/myblog/posts/application/springboot-docker/</link>
+      <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/application/springboot-docker/</guid>
       <description></description>
     </item>
     

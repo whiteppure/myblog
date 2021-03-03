@@ -6,17 +6,20 @@ tags: ["使用介绍", "Java", "docker"]
 slug: "docker-introduction"
 ---
 
-### docker是什么
-Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。它是目前最流行的 Linux 容器解决方案。
+## docker是什么
+Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。它是目前流行的 Linux 容器解决方案。
 Docker 将应用程序与该程序的依赖，打包在一个文件里面。运行这个文件，就会生成一个虚拟容器。程序在这个虚拟容器里运行，就好像在真实的物理机上运行一样。有了 Docker，就不用担心环境问题。
-总体来说，Docker 的接口相当简单，用户可以方便地创建和使用容器，把自己的应用放入容器。容器还可以进行版本管理、复制、分享、修改，就像管理普通的代码一样.
+总体来说，Docker 的接口相当简单，用户可以方便地创建和使用容器，把自己的应用放入容器。
+容器还可以进行版本管理、复制、分享、修改，就像管理普通的代码一样。
 
-### docker用途
+## docker用途
 提供一次性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建的环境。
 提供弹性的云服务。因为 Docker 容器可以随开随关，很适合动态扩容和缩容。
 组建微服务架构。通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。
 
-### 安装
+## 安装
+以linux上安装为例
+
 1.安装依赖,docker依赖于系统的一些必要的工具
 ```
 yum install -y yum-utils device-mapper-persistent-data lvm2
@@ -56,7 +59,7 @@ docker run hello-world
 sudo usermod -aG docker $USER
 ```
 
-### docker架构
+## docker架构
 docker架构分为三部分客户端,宿主机,注册中心
 
 ![docker架构](/myblog/posts/images/essays/docker架构.png)
@@ -64,7 +67,7 @@ docker架构分为三部分客户端,宿主机,注册中心
 例如：输入 `docker run mysql:5.6`命令,docker程序会从docker_host去找对应的镜像,
 如果mysql不存在则会去从register下载,下载完成后docker会自动给该镜像分配一个contains,mysql就会运行起来
 
-### docker基本操作
+## docker基本操作
 以安装运行`nginx`为例
 
 ```
@@ -81,7 +84,7 @@ docker logs myNginx
 docker exec -it myNginx bash
 ```
 
-#### docker常用命令
+### docker常用命令
 ```
 // 查看当前运行的镜像
 docker ps
@@ -100,10 +103,11 @@ docker search 镜像名
 ```
 
 
-### 参考资料
-**入门参考:** https://baijiahao.baidu.com/s?id=1626633654476933953&wfr=spider&for=pc
-**安装docker菜鸟教程:** https://www.runoob.com/docker/centos-docker.install.html
-**docker官网:** https://www.docker.com/
-**docker文档:** https://docs.docker.com/install/linux/docker-ce/centos/
-**阮一峰dockerのblog:** http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html
-**参考blog**: https://cyc2018.github.io/CS-Notes/#/notes/Docker
+## 相关链接
+- 入门参考:https://baijiahao.baidu.com/s?id=1626633654476933953&wfr=spider&for=pc
+- 安装docker菜鸟教程: https://www.runoob.com/docker/centos-docker.install.html
+- docker官网: https://www.docker.com
+- docker文档: https://docs.docker.com/install/linux/docker-ce/centos
+- 阮一峰博客: http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html
+- 参考博客: https://cyc2018.github.io/CS-Notes/#/notes/Docker
+- docker中文: https://www.docker.org.cn/page/resources.html

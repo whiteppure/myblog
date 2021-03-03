@@ -5,6 +5,15 @@ draft: false
 tags: ["springboot", "MQ"]
 slug: "springboot-kafka"
 ---
+## kafka介绍
+- kafka官网: [http://kafka.apache.org](http://kafka.apache.org)
+- kafka中文官网: [https://kafka.apachecn.org](https://kafka.apachecn.org)
+
+Kafka是一种分布式的，基于发布/订阅的消息系统。主要特点如下：
+- 以时间复杂度为O(1)的方式提供消息持久化能力，并保证即使对TB级以上数据也能保证常数时间的访问性能
+- 高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输
+- 支持Kafka Server间的消息分区，及分布式消息消费，同时保证每个partition内的消息顺序传输
+- 同时支持离线数据处理和实时数据处理
 
 
 ## Windows平台kafka环境搭建
@@ -46,7 +55,7 @@ brew install kafka
 
 到此为止kafka启动完成
 
-### kafka消息测试
+### Kafka消息测试
 
 - 创建test主题 `kafka-topics --create --zookeeper localhost:2181`<br>` --replication-factor 1 --partitions 1 --topic test`
 - 查看主题是否创建成功 ``kafka-topics --list --zookeeper localhost:2181`` 该命令会列出所有的主题
@@ -61,7 +70,7 @@ brew install kafka
     <img src="/myblog/posts/images/application/kafka消费者.jpg" alt="消费者">
 </div>
 
-## springboot整合kafka
+## Springboot整合kafka
 
 ### 引入pom依赖
 ```

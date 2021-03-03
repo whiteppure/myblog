@@ -6,7 +6,16 @@
     <description>Recent content in docker on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot整合docker</title>
+      <link>https://whiteppure.github.io/myblog/posts/application/springboot-docker/</link>
+      <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/application/springboot-docker/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Docker介绍</title>
       <link>https://whiteppure.github.io/myblog/posts/essays/docker-introduction/</link>

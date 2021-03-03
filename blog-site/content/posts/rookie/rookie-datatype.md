@@ -100,7 +100,7 @@ boolean 只有两个值：`true、false`，可以使用 1 bit 来存储，但是
 
 转换从低级到高级。
 
-```java
+
 byte,short,char,int,long,float,double
 ```
 
@@ -114,14 +114,14 @@ byte,short,char,int,long,float,double
 
 - 浮点数到整数的转换是通过舍弃小数得到，而不是四舍五入
 
-  ```java
+  
   (int)23.7 == 23;        
   (int)-45.89f == -45
   ```
 
 - 转换过程中可能导致溢出或损失精度,在运算时要避免该问题.例如：
 
-  ```java
+  
   // 因为 byte 类型是 8 位，最大值为127，所以当 int 强制转换为 byte 类型时，值 128 时候就会导致溢出
   int i =128;   
   byte b = (byte)i;
@@ -131,7 +131,7 @@ byte,short,char,int,long,float,double
 
 自动类型转换必须满足**转换前的数据类型的位数要低于转换后的数据类型**. 即可以 `long l = 100;`而不可以`int l = 100L;`
 
-```java
+
 public class Test{
         public static void main(String[] args){
             char c1='a';//定义一个char类型
@@ -155,33 +155,33 @@ public class Test{
 
 `1.1 `字面量属于 `double` 类型，不能直接将 `1.1 `直接赋值给 `float `变量，因为这是向下转型。
 
-```java
+
 float f = 1.1;
 ```
 
 `1.1f` 字面量才是 float 类型。
 
-```java
+
 float f = 1.1f;
 ```
 
 因为字面量 1 是 int 类型，它比 short 类型精度要高，因此不能隐式地将 int 类型下转型为 short 类型。
 
-```java
+
 short s1 = 1;
 s1 = s1 + 1;
 ```
 
 但是使用 += 或者 ++ 运算符可以执行隐式类型转换。
 
-```java
+
 s1 += 1;
 s1++;
 ```
 
 上面的语句相当于将 ``s1 + 1`` 的计算结果进行了向下转型：
 
-```java
+
 //强制类型转换
 s1 = (short) (s1 + 1);
 ```
@@ -190,7 +190,7 @@ s1 = (short) (s1 + 1);
 
 **由大到小需要强制转换,由小到大不需要强转.  顺序:`byte , short , char , int ,long,float,double`**
 
-```java
+
 byte b=1; int a = b;//由小到大
 int c = 1;
 byte d = (byte) c;//由大到小
@@ -238,7 +238,7 @@ Object-->Character
 
 以`Integer int` 为例
 
-```java
+
 Integer x = 2;     // 装箱 调用了 Integer.valueOf(2)
 int y = x;         // 拆箱 调用了 X.intValue()
 ```
@@ -248,12 +248,12 @@ int y = x;         // 拆箱 调用了 X.intValue()
 自动装箱: 就是将基本数据类型自动转换成对应的包装类.
 
 自动拆箱：就是将包装类自动转换成对应的基本数据类型.
-```java
+
     Integer i = 10;  //自动装箱
     int b = i;     //自动拆箱
 ```
 反编译得
-```java
+
     public static  void main(String[]args){
         Integer integer=Integer.valueOf(1);
         int i=integer.intValue();
@@ -283,7 +283,7 @@ int y = x;         // 拆箱 调用了 X.intValue()
 - ``new Integer(123)`` 每次都会新建一个对象；
 - ``Integer.valueOf(123)`` 会使用缓存池中的对象，多次调用会取得同一个对象的引用
 
-```java
+
 Integer x = new Integer(123);
 Integer y = new Integer(123);
 System.out.println(x == y);    // false
@@ -294,7 +294,7 @@ System.out.println(z == k);   // true
 
 ``valueOf()`` 方法的实现比较简单，就是先判断值是否在缓存池中，如果在的话就直接返回缓存池的内容
 
-```java
+
 public static Integer valueOf(int i) {
     if (i >= IntegerCache.low && i <= IntegerCache.high)
         return IntegerCache.cache[i + (-IntegerCache.low)];
@@ -304,7 +304,7 @@ public static Integer valueOf(int i) {
 
 **在 Java 8 中，Integer 缓存池的大小默认为 -128~127**
 
-```java
+
 static final int low = -128;
 static final int high;
 static final Integer cache[];
@@ -338,7 +338,7 @@ static {
 
 **编译器会在自动装箱过程调用 ``valueOf()`` 方法，因此多个值相同且值在缓存池范围内的 Integer 实例使用自动装箱来创建，那么就会引用相同的对象。**
 
-```java
+
 Integer m = 123;
 Integer n = 123;
 System.out.println(m == n); // true
@@ -346,7 +346,7 @@ System.out.println(m == n); // true
 
 `Integer,int `在 `-127~128`之前是不会创建新的对象的,即
 
-```java
+
  Integer a = new Integer(12);
  int b = 12;
  System.out.println(a==b);//true
@@ -397,7 +397,7 @@ System.out.println(m == n); // true
 ## 常量
 
 案例: Java中常量,变量和字面量
-```java
+
 int a = 10; //a为变量，10为字面量
 final int b = 10;  //b为常量，10为字面量
 static str = "Hello World";  //str为变量,HelloWorld为字面量
@@ -425,11 +425,11 @@ Java常量
 格式：`final 数据类型 常量名称[=值]`
 
 **常量在程序运行时是不能被修改的(final作用).所以在定义常量时就需要对该常量进行初始化.为了与变量区别，常量取名一般都用大写字符**
-```java
+
 final double PI = 3.1415927;
 ```
 `final` 关键字表示最终的，它可以修改很多元素，修饰变量就变成了常量.之后会详细说明`final`关键字
-```java
+
 public class HelloWorld {
     // 静态常量
     public static final double PI = 3.14;
@@ -460,7 +460,7 @@ public class HelloWorld {
 
 
 将下面代码通过`javac`命令编译
-```java
+
 public class HelloWorld {
     public static void main(String[] args) {
         String s = "123";
@@ -469,7 +469,7 @@ public class HelloWorld {
 ```
 生成`.class`文件.`vi`命令查看
 
-```class
+
 Êþº¾^@^@^@4^@^Q
 ^@^D^@^M^H^@^N^G^@^O^G^@^P^A^@^F<init>^A^@^C()V^A^@^DCode^A^@^OLineNumberTable^A^@^Dmain^A^@^V([Ljava/lang/String;)V^A^@
 SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/example/security/util/HelloWorld^A^@^Pjava/lang/Object^@!^@^C^@^D^@^@^@^@^@^B^@^A^@^E^@^F^@^A^@^G^@^@^@^]^@^A^@^A^@^@^@^E*·^@^A±^@^@^@^A^@^H^@^@^@^F^@^A^@^@^@^C^@        ^@      ^@
@@ -478,7 +478,7 @@ SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/ex
 ```
 > 如何使用16进制打开class文件：使用 vim xxx.class ，然后在交互模式下，输入:%!xxd 即可。
 
-```class 
+ 
 00000000: cafe babe 0000 0034 0011 0a00 0400 0d08  .......4........
 00000010: 000e 0700 0f07 0010 0100 063c 696e 6974  ...........<init
 00000020: 3e01 0003 2829 5601 0004 436f 6465 0100  >...()V...Code..
@@ -496,7 +496,7 @@ SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/ex
 ```
 > HelloWorld.class文件中的前八个字母是cafe babe，这就是Class文件的魔数（Java中的”魔数”）
 
-```class
+
 cafe babe   0000      0034        0011      0a00 0400 0d08
    魔数    此版本号   主版本号    常量池计数器      常量池计数区
 ```
@@ -578,7 +578,7 @@ JDK1.7之前方法区位于堆内存中的永久代.由于一些原因在JDK1.8�
 
 下面示例中，s1 和 s2 采用`` new String()`` 的方式新建了两个不同字符串，而 s3 和 s4 是通过 ``s1.intern()`` 方法取得一个字符串引用。``intern()`` 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。
 
-```java
+
 String s1 = new String("aaa");
 String s2 = new String("aaa");
 System.out.println(s1 == s2);           // false
@@ -589,7 +589,7 @@ System.out.println(s3 == s4);           // true
 
 如果是采用"bbb"这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中。
 
-```java
+
 String s5 = "bbb";
 String s6 = "bbb";
 System.out.println(s5 == s6);  // true
@@ -609,7 +609,7 @@ String常量池常考的一个问题就是`new String("abc")`会创建几个对�
 - "abc" 属于字符串字面量，因此编译时期会在 String 常量池 中创建一个字符串对象，指向这个 "abc" 字符串字面量;
 - 而使用 new 的方式会在堆中创建一个字符串对象。
 
-```java
+
 // 创建一个测试类，其 main 方法中使用这种方式来创建字符串对象。
 public class MainTest {
     public static void main(String[] args) {
@@ -620,7 +620,7 @@ public class MainTest {
 
 使用 ``javap -verbose`` 进行反编译，得到以下内容：
 
-```java
+
 // ...
 Constant pool:
 // ...
@@ -648,7 +648,7 @@ Constant pool:
 
 以下是 String 构造函数的源码，可以看到，在将一个字符串对象作为另一个字符串对象的构造函数参数时，并不会完全复制 value 数组内容，而是都会指向同一个 value 数组。
 
-```java
+
 public String(String original) {
     this.value = original.value;
     this.hash = original.hash;
@@ -671,7 +671,7 @@ String被声明为`final`,因此它不可被继承.(当然Integer等包装类也
 
 **在 Java 8 中，String 内部使用 char 数组存储数据。**
 
-```java
+
 public final class String
     implements java.io.Serializable, Comparable<String>, CharSequence {
     /** The value is used for character storage. */
@@ -681,7 +681,7 @@ public final class String
 
 **在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 coder 来标识使用了哪种编码。**
 
-```java
+
 public final class String
     implements java.io.Serializable, Comparable<String>, CharSequence {
     /** The value is used for character storage. */
@@ -724,7 +724,7 @@ String不可变性天生具备线程安全,可以在多个线程中安全地使�
 
 #### 创建字符串
 
-```java
+
 // String 直接创建
 String str1 = "123";
 // String 对象创建
@@ -733,7 +733,7 @@ String str2 = new String("123");
 String str3 = str1;
 ```
 格式化创建字符串
-```java
+
 String str = String.format("浮点型变量: " +
                    "%f, 整型变量: " +
                    " %d, 字符串变量: " +
@@ -746,7 +746,7 @@ System.out.println(str);
 **因为String类是不可变的.所以所谓字符串拼接，都是重新生成了一个新的字符串.**
 
 以下是字符串的几种拼接的方式
-```java
+
 // 原字符串
 String str1 = "123";
 
@@ -790,7 +790,7 @@ String str9 = StringUtils.join(new String[]{str, "456", "789"});
 ##### "+"连接字符串
 拼接字符串最简单的方式就是直接使用符号+来拼接. + 是Java提供的一个语法糖.
 > 语法糖：语法糖（Syntactic sugar），也译为糖衣语法，是由英国计算机科学家彼得·兰丁发明的一个术语，指计算机语言中添加的某种语法，这种语法对语言的功能没有影响，但是更方便程序员使用。语法糖让程序更加简洁，有更高的可读性。
-```java
+
     public static void main(String[] args) {
         String str = "12" + "3";
     }
@@ -798,7 +798,7 @@ String str9 = StringUtils.join(new String[]{str, "456", "789"});
 两个都为编译期常量,编译器会进行常量折叠变为`String str = "123";`
 
 
-```java
+
     public static void main(String[] args) {
         String str1 = "123";
         String str2 = "456";
@@ -807,7 +807,7 @@ String str9 = StringUtils.join(new String[]{str, "456", "789"});
     }
 ```
 打开文件所在位置,用`javap -verbose`命令进行反编译.
-```byte
+```
 // ...
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
@@ -839,7 +839,7 @@ String str9 = StringUtils.join(new String[]{str, "456", "789"});
 ##### concat方法
 
 源码
-```java
+
     public String concat(String str) {
         // 获取字符串长度 
         int otherLen = str.length();
@@ -860,7 +860,7 @@ String str9 = StringUtils.join(new String[]{str, "456", "789"});
 ```
 ##### StringBuffer和StringBuilder
 在`Stringbuilder`和`StringBuffer`共同的父类中
-```java
+
 abstract class AbstractStringBuilder implements Appendable, CharSequence {
     /**
      * The value is used for character storage.
@@ -880,7 +880,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 **append方法**
 
 `StringBuilder.append`方法
-```java
+
     @Override
     public StringBuilder append(String str) {
         super.append(str);
@@ -888,7 +888,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     }
 ```
 `StringBuffer.append`方法
-```java
+
     @Override
     public synchronized StringBuffer append(String str) {
         toStringCache = null;
@@ -899,7 +899,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 由此可以看出`StringBuilder`和`StringBuffer`原理是相似的,最大的区别就是`StringBuffer`是线程安全的.原因是用了`synchronized`修饰.
 
 `append`方法原理的在父类中.需要注意的是,如果`append`方法`append(null)`会直接拼接字符串"null"
-```java
+
     public AbstractStringBuilder append(String str) {
         // 判空
         if (str == null)
@@ -957,7 +957,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 对字符串进行截取.返回一个新的字符串,它是此字符串的一个子字符串.
 
 源码
-```java
+
     public String substring(int beginIndex) {
         // 判空
         if (beginIndex < 0) {
@@ -988,7 +988,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     }
 ```
 使用
-```java
+
     public static void main(String[] args) {
         String str = "123456";
         String substring = str.substring(2);
@@ -1005,7 +1005,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 替换字符串.返回一个新的字符串,它是通过用 `newChar` 替换此字符串中出现的所有 `oldChar` 得到的.
 
 源码
-```java
+
  public String replace(char oldChar, char newChar) {
         // 校验: 需要进行替换新旧字符不能相同
         if (oldChar != newChar) {
@@ -1041,7 +1041,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     }
 ```
 使用
-```java
+
     public static void main(String[] args) {
         String str = "123456";
         // 223456
@@ -1053,13 +1053,13 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 使用给定的 `replacement` 替换此字符串所有匹配给定的正则表达式的子字符串.
 
 源码
-```java
+
     public String replaceAll(String regex, String replacement) {
         return Pattern.compile(regex).matcher(this).replaceAll(replacement);
     }
     
 ```
-```java
+
     // complile 解析正则表达式 获得 Pattern对象
     public static Pattern compile(String regex) {
         return new Pattern(regex, 0);
@@ -1100,7 +1100,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     }
 ```
 重点看一下`replaceAll`中调用的`appendReplacement`方法
-```java
+
     public Matcher appendReplacement(StringBuffer sb, String replacement) {
             
             // ...
@@ -1165,7 +1165,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 `replaceAll`中第二个参数`replacement`中，\ 有转义的作用, $ 用于获取分组匹配的当前子字符串 因为引入了 $ 符的分组功能,所以为了解决能输出 $ 字符，故引入 \ 转义功能.
 
 使用
-```java
+
     public static void main(String[] args) {
         String str = "111111";
         // 222222
@@ -1177,13 +1177,13 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 该方法作用是将对象转成String类型.
 
 源码
-```java
+
     public static String valueOf(Object obj) {
         return (obj == null) ? "null" : obj.toString();
     }
 ```
 使用
-```java
+
     public static void main(String[] args) {
         Integer integer = 11111;
         String str = String.valueOf(integer);
@@ -1194,7 +1194,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 
 ### 长度限制
 翻阅String源码在String源码中发现有定义字符串长度的构造函数
-```java
+
     // count 就是 字符串定义长度 
     public String(char value[], int offset, int count) {
         if (offset < 0) {
@@ -1217,7 +1217,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
     }
 ```
 通过源码可以看到`int`的最大长度就是`String`的支持的最大长度.
-```java
+
     public static void main(String[] args) {
         // 2,147,483,648 = 2^31 - 1 
         System.out.println(Integer.MAX_VALUE);
@@ -1227,7 +1227,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 
 
 在`String`编译声明期间,用`javac`编译 长度为`2^31 -1`的字符串.
-```java
+
     public static void main(String[] args) {
         // 长度: 2^31 -1
         String str = "1111 ... ";
@@ -1239,7 +1239,7 @@ java: 常量字符串过长
 ```
 
 在`Gen`类中相关报错信息源码
-```java
+
 private void checkStringConstant(DiagnosticPosition var1, Object var2) {
     if (this.nerrs == 0 && var2 != null && var2 instanceof String && ((String)var2).length() >= 65535) {
         this.log.error(var1, "limit.string", new Object[0]);
@@ -1254,7 +1254,7 @@ private void checkStringConstant(DiagnosticPosition var1, Object var2) {
 `CONSTANT_String_info` 用于表示 `java.lang.String` 类型的常量对象结构体
 
 `CONSTANT_String_info`格式如下:
-```java 
+ 
 CONSTANT_String_info {
     u1 tag;
     u2 string_index;
@@ -1268,7 +1268,7 @@ CONSTANT_String_info {
 `string_index` 项的值必须是对常量池的有效索引，常量池在该索引处的项必须是 `CONSTANT_Utf8_info` 结构，表示一组 `Unicode` 码点序列，这组 Unicode 码点序列最终会被初始化为一个 下 `Unicode` 对象
 
 `CONSTANT_Utf8_info`是一个`CONSTANT_Utf8`类型的常量池数据项，它存储的是一个常量字符串。常量池中的所有字面量几乎都是通过`CONSTANT_Utf8_info`描述的。`CONSTANT_Utf8_info`的定义如下：
-```java
+
 ONSTANT_Utf8_info {
     u1 tag;
     u2 length;
@@ -1316,7 +1316,7 @@ Java内部采用`Unicode`编码规范，也就是支持多语言的，具体采�
 #### 相关方法
 
 `String`类有两种比较常用的操作编码方式
-```java
+
     // 注意处理异常
     public static void main(String[] args) throws UnsupportedEncodingException {
         // 本地使用的是 utf-8 的编码
@@ -1335,7 +1335,7 @@ Java内部采用`Unicode`编码规范，也就是支持多语言的，具体采�
 ==**源码分析之后会补上 ...**==
 
 源码
-```java
+
     public byte[] getBytes(String charsetName)
             throws UnsupportedEncodingException {
         if (charsetName == null) throw new NullPointerException();
@@ -1343,7 +1343,7 @@ Java内部采用`Unicode`编码规范，也就是支持多语言的，具体采�
     }
 ```
 `StringCoding.encode`方法
-```java
+
 // len: 当前字符串长度
 static byte[] encode(String charsetName, char[] ca, int off, int len)
         throws UnsupportedEncodingException
@@ -1378,13 +1378,13 @@ static byte[] encode(String charsetName, char[] ca, int off, int len)
 ==**源码分析之后会补上 ...**==
 
 源码
-```java
+
     public String(byte bytes[], String charsetName)
             throws UnsupportedEncodingException {
         this(bytes, 0, bytes.length, charsetName);
     }
 ```
-```java
+
     public String(byte bytes[], int offset, int length, String charsetName)
             throws UnsupportedEncodingException {
         if (charsetName == null)
@@ -1393,7 +1393,7 @@ static byte[] encode(String charsetName, char[] ca, int off, int len)
         this.value = StringCoding.decode(charsetName, bytes, offset, length);
     }
 ```
-```java
+
     static char[] decode(String charsetName, byte[] ba, int off, int len)
         throws UnsupportedEncodingException
     {

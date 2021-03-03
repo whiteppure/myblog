@@ -31,7 +31,7 @@ slug: "rookie-operation"
 
 ###### 取余
 基本用法
-```java
+
     public static void main(String[] args) {
         System.out.println(0%5); // 0
         System.out.println(1%5); // 1
@@ -58,7 +58,7 @@ slug: "rookie-operation"
 
 ###### 自增和自减
 基本用法
-```java
+
     public static void main(String[] args) {
         int i = 1;
         System.out.println(i++); // 1
@@ -66,7 +66,7 @@ slug: "rookie-operation"
     }
 ```
 **需要特别留意的是`++`和`--`运算符可以前置、后置，都是合法的语句，如`a++`和`++a`都是合法的，上面这两种写法其最终的结果都是是变量a的值加1了，但是它们之间也是有区别的，其区别是：表达是`++a`会先将a的值自增1，然后在使用变量a。而表达式a++是先使用了a的值，然后再让a的值自增1。也就是说在一些表达式，使用`a++`和使用`++a`得到的结果时不一样的。**
-```java
+
     public static void main(String[] args) {
         int i = 1;
         System.out.println(i++);// 1
@@ -74,7 +74,7 @@ slug: "rookie-operation"
     }
 ```
 自增(`++`)和自减(`--`)两个运算符只能作用于变量,而不能作用于表达式.
-```java
+
     public static void main(String[] args) {
         int j = 0, i = 1;
         // 编译报错
@@ -124,7 +124,7 @@ slug: "rookie-operation"
 
 ###### 短路运算符
 `&&`运算符,运算顺序是从左到右计算,运算规则是如果两个操作数都是真,则返回`true`,否则返回`false`.但是当判定到第一个操作数为`false`时,其结果必定为`false`,这时候就不再会判定第二个操作数了.
-```java
+
     public static void main(String[] args) {
         int i = 1, j = 2;
         boolean flag = (i++ == 2) && (++j == 3);
@@ -154,7 +154,7 @@ slug: "rookie-operation"
 >>> | 无符号右移 | 左操作数的值按右操作数指定的位数右移,移动得到的空位以零填充.
 
 基本用法
-```java
+
     public static void main(String[] args) {
         int i = 1, j = 2;
         System.out.println(i&j);//0
@@ -249,7 +249,7 @@ slug: "rookie-operation"
 该运算符的主要是决定哪个值应该赋值给变量.
 
 在某些情况下,可以发现三目运算符和`if...else`作用是相同的.
-```java
+
     public static void main(String[] args) {
         int var1 = 1;
         int var2 = 0;
@@ -269,7 +269,7 @@ slug: "rookie-operation"
 用`javap -verbose`命令,分别把`if...else`和三目运算符相关代码进行反编译
 
 三目运算符
-```java
+
     public static void main(String[] args) {
         int var1 = 1;
         int var2 = 0;
@@ -318,7 +318,7 @@ slug: "rookie-operation"
 // ...
 ```
 `if...else`
-```java
+
     public static void main(String[] args) {
         int var1 = 1;
         int var2 = 0;
@@ -381,7 +381,7 @@ slug: "rookie-operation"
 
 基本用法
 
-```java
+
     public static void main(String[] args) {
         String str1 = "123";
         String str = (str1 instanceof Object) ? "123" : "456";
@@ -431,7 +431,7 @@ Java 语言中运算符的优先级共分为 14 级,其中 1 级最高,14 级最
 变量的赋值与计算都离不开表达式,表达式的运算依赖于变量、常量和运算符.
 
 在Java中表达式通常是以分号结尾的一段代码.
-```java
+
 float f1 = 1.1f;
 float f2 = 1.2f;
 float f3 = f1 + f2;
@@ -449,7 +449,7 @@ float f3 = f1 + f2;
 正则表达式是由普通字符（如英文字母）以及[特殊字符（也称为元字符）](https://www.runoob.com/regexp/regexp-metachar.html)组成的文字模式.
 
 例如：
-```java
+
 String str = "abc^123/?[1,2]";
 ```
 
@@ -460,7 +460,7 @@ String str = "abc^123/?[1,2]";
 标准Ed. 8》](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html),[《菜鸟教程》Java正则表达式](https://www.runoob.com/java/java-regular-expressions.html) ,[《JavaSchool》Java正则表达式](http://www.51gjie.com/java/761.html) 这些文档里面有详细的教程,所以这里不作过多介绍了.
 
 使用正则表达式示例
-```java
+
     public static void main(String[] args) {
         // 表示匹配以字母a为开头的单词
         String regx = "\\ba\\w*\\b";
@@ -516,7 +516,7 @@ String str = "abc^123/?[1,2]";
 
 ### if-else语句
 `if`语句是最基本的控制语句,它只有在`If(exception)`为`true`的时候才会执行特定的代码.
-```java
+
     public static void main(String[] args) {
         boolean var1 = true;
         if (var1){
@@ -525,7 +525,7 @@ String str = "abc^123/?[1,2]";
     }
 ```
 `if`语句后面可以跟`else`语句.当`If(exception)`为`false`时,`else`语句体将被执行.
-```java
+
     public static void main(String[] args) {
         boolean var1 = false;
         if (var1){
@@ -536,7 +536,7 @@ String str = "abc^123/?[1,2]";
     }
 ```
 `if`语句后面可以跟 `else if…else` 语句
-```java
+
 public class HelloWorld {
     public static void main(String[] args) {
         String var = "123";
@@ -560,7 +560,7 @@ public class HelloWorld {
 `switch case`语句判断一个变量与一系列值中某个值是否相等,每个值称为一个分支.
 
 `switch`语句可以包含一个`default`分支. `default` 在没有`case`语句的值和变量值相等的时候执行.`default` 分支不需要`break`语句。
-```java
+
     public static void main(String[] args) {
         String s = "123";
         switch (s) {
@@ -579,7 +579,7 @@ public class HelloWorld {
 
 **switch 不支持 long**，是因为 `switch` 的设计初衷是对那些只有少数的几个值进行等值判断，如果值过于复杂，那么还是用 `if` 比较合适。
 
-```java
+
 long x = 111;
  switch (x) { 
      case 111:
@@ -593,7 +593,7 @@ long x = 111;
 
 当变量的值与`case`语句的值相等时,那么`case`语句之后的语句开始执行，直到`break`语句出现才会跳出`switch`语句.如果没有`break`语句出现,程序会继续执行下一条`case`语句,直到出现`break`语句.
 
-```java
+
 public static void main(String[] args) {
         int i = 100;
         switch (i){
@@ -610,7 +610,7 @@ public static void main(String[] args) {
 for循环执行的次数是在执行前就确定的.
 
 for语句提供了一种紧凑的方法来遍历一系列值。程序员经常将其称为“for循环”，因为它反复循环直到满足特定条件。for语句的一般形式可以表示为:
-```java
+
     public static void main(String[] args) {
         for (int i = 0; i < 100; i++) {
             System.out.println(i);
@@ -619,7 +619,7 @@ for语句提供了一种紧凑的方法来遍历一系列值。程序员经常�
 ```
 for循环的三个表达式是可选的;可以这样创建一个无限循环:
 
-```java
+
 / /无限循环
 for(;;){
 
@@ -630,7 +630,7 @@ for(;;){
 `foreach`语句是java5的新特征之一，在遍历数组、集合方面,为开发人员提供了极大的方便.
 
 **`foreach`循环的效率大概是普通for循环效率的一半** ,但在项目开发中如果只是少量的循环,可以忽略`foreach`带来的影响.
-```java
+
     public static void main(String[] args) {
         String[] arr = {"1", "2", "3"};
         ArrayList<String> list = new ArrayList<>(Arrays.asList(arr));
@@ -645,7 +645,7 @@ for(;;){
 **分支语句`break`,`continue`和`return`**
 
 `continue`语句用来结束当前循环,并进入下一次循环,即仅仅这一次循环结束了,不是所有循环结束了,后边的循环依旧进行.
-```java
+
     public static void main(String[] args) {
         String[] arr = {"1", "2", "3"};
         for (String s : arr) {
@@ -658,7 +658,7 @@ for(;;){
     }
 ```
 `break`语句作用是跳出循环.`break`主要用在循环语句或者`switch`语句中
-```java
+
 public class HelloWorld {
     public static void main(String[] args) {
         String[] arr = {"1", "2", "3"};
@@ -674,7 +674,7 @@ public class HelloWorld {
 }
 ```
 如果存在多层循环,要注意`break`只能跳出一层循环.
-```java
+
     public static void main(String[] args) {
         String[] arr = {"1", "2", "3"};
         for (int i = 0; i < 10; i++) {
@@ -689,7 +689,7 @@ public class HelloWorld {
     }
 ```
 如果存在多层循环,可以用以下方式,当然也可以用`break`跳两次循环
-```java
+
     public static void main(String[] args) {
         String[] arr = {"1", "2", "3"};
         
@@ -706,7 +706,7 @@ public class HelloWorld {
     }
 ```
 `continue`也可以用这种方式
-```java
+
     public static void main(String[] args) {
         String[] arr = {"1", "2", "3"};
 
@@ -726,7 +726,7 @@ public class HelloWorld {
 
 
 上面`continue`的示例,用`return`也能达到一样的效果
-```java
+
     public static void main(String[] args) {
         String[] arr = {"1", "2", "3"};
 
@@ -744,7 +744,7 @@ public class HelloWorld {
 `return`语句有两种形式:一种返回值，另一种不返回值。要返回一个值，只需将值(或计算该值的表达式)放在`return`关键字之后. 
 
 像这样
-```java
+
 return ++count;
 ```
 
@@ -753,7 +753,7 @@ return ++count;
 
 `while`语句对表达式进行计算，表达式必须返回一个布尔值。如果表达式的计算结果为`true`,`while`语句将执行`while`块中的语句。`while`语句继续测试表达式并执行其块，直到表达式的计算结果为`false`.
 
-```java
+
     public static void main(String[] args) {
         int i = 0;
        while(++i >= 1){
@@ -762,7 +762,7 @@ return ++count;
     }
 ```
 死循环
-```java
+
     public static void main(String[] args) {
         while (true) {
         }
@@ -770,7 +770,7 @@ return ++count;
 ```
 
 `do…while`循环和`while`循环相似，不同的是`do…while`循环至少会执行一次.
-```java
+
     public static void main(String[] args) {
         int i = 0;
         do{
@@ -791,7 +791,7 @@ return ++count;
 > 实际参数：在调用有参函数时，主调函数和被调函数之间有数据传递关系。在主调函数中调用一个函数时，函数名后面括号中的参数称为“实际参数”。
 
 举个例子:
-```java
+
 public class HelloWorld {
     public static void main(String[] args) {
         // 实参 
@@ -834,7 +834,7 @@ B(func方法)-->对象2(func中的对象)
 对象2==>|修改|对象值
 ```
 
-```java
+
 class PassByValueExample {
     public static void main(String[] args) {
         Dog dog = new Dog("A");
@@ -857,7 +857,7 @@ Reference data type parameters, such as objects, are also passed into methods by
 
 > 例如，考虑任意类中的一个移动Circle对象的方法:
 
-```java
+
 public void moveCircle(Circle circle, int deltaX, int deltaY) {
     // code to move origin of circle to x+deltaX, y+deltaY
     circle.setX(circle.getX() + deltaX);
@@ -869,7 +869,7 @@ public void moveCircle(Circle circle, int deltaX, int deltaY) {
 ```
 > 使用以下参数调用该方法:
 
-```java
+
 moveCircle(myCircle, 23, 56)
 ```
 
@@ -882,7 +882,7 @@ moveCircle(myCircle, 23, 56)
 **Java对象的传递，是通过复制的方式把引用关系传递了，如果我们没有改引用关系，而是找到引用的地址，把里面的内容改了，是会对调用方有影响的，因为大家指向的是同一个共享对象。**
 
 以下代码中`Dog`类中的`dog`是一个指针，存储的是对象的地址.
-```java
+
 public class Dog {
 
     String name;
@@ -936,7 +936,7 @@ public class PassByValueExample {
 在Java中,使用浮点类型进行计算会造成精度丢失
 
 例如:
-```java
+
     public static void main(String[] args) {
         // 0.20000005
         System.out.println(1.2f - 1);
@@ -992,7 +992,7 @@ Java中提供了大数字(超过16位有效位)的操作类,即`java.math.BinInt
 
 `BigDecimal`类创建的是对象,不能使用传统的`+、-、*、/`等算术运算符直接对其进行数学运算,而必须调用其对应的方法.方法的参数也必须是`BigDecimal`类型的对象.
 
-```java
+
     public static void main(String[] args) {
         BigDecimal num1 = new BigDecimal("2");
         BigDecimal num2 = new BigDecimal("1");
@@ -1018,7 +1018,7 @@ Java中提供了大数字(超过16位有效位)的操作类,即`java.math.BinInt
 `BigDecimal`基本用法如上所示,重点记录一下除法.
 
 在使用除法的时候如果两个数字,除不尽.而又没有设置精确小数位和舍入模式,就会报错.
-```java
+
     public static void main(String[] args) {
         BigDecimal num1 = new BigDecimal("1");
         BigDecimal num2 = new BigDecimal("3");
@@ -1032,7 +1032,7 @@ Java中提供了大数字(超过16位有效位)的操作类,即`java.math.BinInt
 Exception in thread "main" java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result.
 ```
 为了防止报错,我们可以这样写
-```java
+
     public static void main(String[] args) {
         BigDecimal num1 = new BigDecimal("1");
         BigDecimal num2 = new BigDecimal("3");
@@ -1045,7 +1045,7 @@ Exception in thread "main" java.lang.ArithmeticException: Non-terminating decima
 ```
 
 `BigDecimal`类`divide`方法
-```java
+
 // divisor: 除数; scale: 精确小数位; roundingMode: 舍入模式
 public BigDecimal divide(BigDecimal divisor, int scale, int roundingMode)
 ```
@@ -1140,7 +1140,7 @@ public BigDecimal divide(BigDecimal divisor, int scale, int roundingMode)
 
 ###### valueOf
 `valueOf(double val)`底层也是调用`String`构造
-```java
+
     public static BigDecimal valueOf(double val) {
         // Reminder: a zero double returns '0.0', so we cannot fastpath
         // to use the constant ZERO.  This might be important enough to
@@ -1150,7 +1150,7 @@ public BigDecimal divide(BigDecimal divisor, int scale, int roundingMode)
     }
 ```
 `valueOf(long val)`
-```java
+
     public static BigDecimal valueOf(long val) {
         // 判断在不在 缓存常用的小BigDecimal值中
         if (val >= 0 && val < zeroThroughTen.length)
@@ -1167,7 +1167,7 @@ public BigDecimal divide(BigDecimal divisor, int scale, int roundingMode)
 重点记录一下**double类型构造器初始化赋值**
 
 在使用`BigDecimal`中参数为`double`类型的构造器时,发现存储结果并不准确.
-```java
+
     public static void main(String[] args) {
         // 打印结果: 0.200000000000000011102230246251565404236316680908203125
         System.out.println(new BigDecimal(0.2));
@@ -1194,7 +1194,7 @@ recommended that the {@linkplain #BigDecimal(String)
 
 而利用String对象作为参数传入的构造函数能精确的构造出一个`BigDecimal`对象.
 
-```java
+
     public static void main(String[] args) {
         // 0.2
         System.out.println(new BigDecimal("0.2"));
@@ -1203,7 +1203,7 @@ recommended that the {@linkplain #BigDecimal(String)
 所以要想获得精确的结果,要使用`BigDecimal`的字符串构造函数,不要使用`double`参数的构造函数.
 
 PS: 另外说一下`BigDecimal`转换其他类型.`BigDecimal`类提供了`intValue,byteValue,shortValue`...将`BigDecimal`对象转换成对应的值.
-```java
+
     public static void main(String[] args) {
         BigDecimal bigDecimal = new BigDecimal("1.2");
         System.out.println(bigDecimal.byteValue());
@@ -1218,7 +1218,7 @@ PS: 另外说一下`BigDecimal`转换其他类型.`BigDecimal`类提供了`intVa
 ##### 比较
 
 用`BigDecimal`的equals来进行比较
-```java
+
     public static void main(String[] args) {
         BigDecimal num1 = new BigDecimal("1.10");
         BigDecimal num2 = new BigDecimal("1.1");
@@ -1232,7 +1232,7 @@ PS: 另外说一下`BigDecimal`转换其他类型.`BigDecimal`类提供了`intVa
 我们可以看到,用`BigDecimal`的`equals`方法进行比较,我们可以看到`1.10`和`1.1`数值是相等的,而`equals`方法返回的却是`false`.
 
 为了查清原因,看一下`BigDecimal`中重写的`equals`的源码
-```java
+
     /**
      * Compares this {@code BigDecimal} with the specified
      * {@code Object} for equality.  Unlike {@link
@@ -1276,7 +1276,7 @@ PS: 另外说一下`BigDecimal`转换其他类型.`BigDecimal`类提供了`intVa
 大概意思: 对象只有在`value`和`scale`相等时才相等.因此,用本方法比较时,2.0不等于2.00.
 
 PS: `BigDecimal`对象中`scale`字段属性
-```java
+
     /**
      * The scale of this BigDecimal, as returned by {@link #scale}.
      *
@@ -1290,7 +1290,7 @@ PS: `BigDecimal`对象中`scale`字段属性
 
 
 `BigDecimal`可以通过`setScale`来提高精度,只要新设的值比原来的大.
-```java
+
     public static void main(String[] args) {
         BigDecimal num1 = new BigDecimal("1.12345");
         num1.setScale(8);
@@ -1300,13 +1300,13 @@ PS: `BigDecimal`对象中`scale`字段属性
 ```
 `setScale`方法返回一个`BigDecimal`对象,它的`scale`是指定的值，并且它的值在数字上大于等于这个`BigDecimal`对象的值。
 
-```java
+
 public BigDecimal setScale(int newScale);
 ```
 如果不是,则抛出`arithmex exception`.
 
 例如: 在上面的示例中,如果设置`setScale(4)`就会报错
-```java
+
     public static void main(String[] args) {
         BigDecimal num1 = new BigDecimal("1.12345");
         num1.setScale(4);
@@ -1320,7 +1320,7 @@ java.lang.ArithmeticException: Rounding necessary
 `BigDecimal`也可以通过`setScale`来降低精度.因为新设的值比原来的小,所以必须保证原来数值的该位小数点后面都是0,只有这样才可以设比原来小的精度。
 
 例如
-```java
+
     public static void main(String[] args) {
         BigDecimal num1 = new BigDecimal("1.1234500000");
         num1.setScale(5);
@@ -1333,7 +1333,7 @@ java.lang.ArithmeticException: Rounding necessary
 
 比较大小建议使用`BigDecimal`类中重写的`compareTo`方法进行比较
 
-```java
+
 public static void main(String[] args) {
         BigDecimal a = new BigDecimal("1.10");
         BigDecimal b = new BigDecimal("1.1");
@@ -1386,7 +1386,7 @@ public static void main(String[] args) {
 
 #### 常用方法
 
-```java
+
 public static void main(String[] args) {
         // 计算平方根
         System.out.printf("4的平方根: %s\n",Math.sqrt(4));
@@ -1442,7 +1442,7 @@ round方法: 1.5四舍五入: 2
 其中`sqrt`方法,`cbrt`方法,`pow`方法用`native`关键字修饰,是用其他语言实现的.这里不做过多分析.
 
 ##### max
-```java
+
         // 计算最大值
         System.out.printf("1和2中最大值: %s\n",Math.max(1,2));
 ```
@@ -1450,14 +1450,14 @@ round方法: 1.5四舍五入: 2
 > 返回两个`{@code int}`值中较大的一个。也就是说，结果是参数更接近`{@link Integer#MAX_VALUE}`的值。如果参数具有相同的值，则结果为相同的值。
 
 源码
-```java
+
     public static int max(int a, int b) {
         return (a >= b) ? a : b;
     }
 ```
 
 ##### min
-```java
+
         // 计算最小值
         System.out.printf("1和2中最小值: %s\n",Math.min(1,2));
 ```
@@ -1465,14 +1465,14 @@ round方法: 1.5四舍五入: 2
 > 返回两个`{@code int}`值中较小的一个。也就是说，参数的结果更接近`{@link Integer#MIN_VALUE}`的值。如果参数具有相同的值，则结果为相同的值。
 
 源码
-```java
+
     public static int min(int a, int b) {
         return (a <= b) ? a : b;
     }
 ```
 
 ##### abs
-```java
+
         // 求绝对值
         System.out.printf("-1的绝对值: %s\n",Math.abs(-1));
 ```
@@ -1480,7 +1480,7 @@ round方法: 1.5四舍五入: 2
 > 返回`{@code int}`值的绝对值。如果实参不是负数，则返回实参。如果参数为负数，则返回参数的否定值。
 
 源码
-```java
+
     public static int abs(int a) {
         return (a < 0) ? -a : a;
     }
@@ -1488,12 +1488,12 @@ round方法: 1.5四舍五入: 2
 
 ##### ceil和floor
 `ceil`方法的功能是向上取整。`ceil`译为“天花板”，顾名思义就是对操作数取顶，`Math.ceil(a)`就是取大于a的最小整数。需要注意的是它的返回值不是`int`类型，而是`double`类型.
-```java
+
         // 向上取整
         System.out.printf("1.2向上取整: %s\n",Math.ceil(1.2));
 ```
 `floor`方法的功能是向下取整。`floor`译为“地板”，顾名思义是对操作数取底。`Math.floor(a)`，就会取小于a的最大整数。它的返回值类型与`ceil`一致，也是`double`类型。
-```java
+
         // 向下取整
         System.out.printf("1.2向下取整: %s\n",Math.floor(1.2));
 ```
@@ -1508,7 +1508,7 @@ round方法: 1.5四舍五入: 2
 注意`{@code Math.ceil(x)}`的值正好是`{@code -Math.floor(-x)}`的值。
 
 源码
-```java
+
     public static double ceil(double a) {
         // default impl. delegates to StrictMath
         return StrictMath.ceil(a);
@@ -1588,7 +1588,7 @@ round方法: 1.5四舍五入: 2
 
 ##### random
 返回一个大于0的`double`类型数据，该值大于等于0.0且小于1.0，返回的是一个伪随机选择数，在该范围内（几乎）均匀分布.
-```java
+
         // [0,1)区间的随机数
         System.out.printf("[0,1)区间的随机数: %s\n",Math.random());
 ```
@@ -1602,7 +1602,7 @@ API中`nextDouble`方法中描述
 `{@code nextDouble}`的一般约定是，从`{@code 0.0d}`(包括)到`{@code 1.0d}`(排除)范围内(近似地)统一选择一个`{@code double}`值，伪随机生成并返回。
 
 源码
-```java
+
     public static double random() {
         return RandomNumberGeneratorHolder.randomNumberGenerator.nextDouble();
     }
@@ -1620,7 +1620,7 @@ API中`nextDouble`方法中描述
 通过源码可以看到,`Math.random`底层是调用了`Random`类中`nextDouble`方法.
 
 也就是说以下打印语句**执行代码相同**
-```java
+
     // [0,1)区间的随机数
     System.out.printf("[0,1)区间的随机数: %s\n",Math.random());
     System.out.printf("[0,1)区间的随机数: %s\n",new Random().nextDouble());
@@ -1636,13 +1636,13 @@ API中`nextDouble`方法中描述
 该类提供了两种构造方法.
 
 无参构造底层调用的也是有参构造.将`System.nanoTime()`作为参数传递。即如果使用无参构造，默认的seed值为`System.nanoTime()`。
-```java
+
     public Random() {
         this(seedUniquifier() ^ System.nanoTime());
     }
 ```
 
-```java
+
     public Random(long seed) {
         if (getClass() == Random.class)
             this.seed = new AtomicLong(initialScramble(seed));
@@ -1657,7 +1657,7 @@ API中`nextDouble`方法中描述
 要注意的是用有参构造创建`Random`对象,如果随机种子相同,不管执行多少次,最后结果都是相同的.
 
 例如
-```java
+
     public static void main(String[] args) {
         Random random = new Random(1);
         // 第一次执行程序打印结果: 随机数: -1155869325
@@ -1668,7 +1668,7 @@ API中`nextDouble`方法中描述
 **随机数应用举例**
 
 生成100个不重复的随机数,1~100的范围
-```java
+
     public static void main(String[] args) {
         int[] nums=new int[100];
         boolean[] flag=new boolean[101];
@@ -1694,7 +1694,7 @@ API中`nextDouble`方法中描述
 如果参数值已经等于一个数学整数，则结果与参数相同。<br>
 如果参数是NaN或无穷大或正零或负零，则结果与参数相同
 
-```java
+
         // 返回与参数值最接近的 double值
         double rint = Math.rint(1.5);
         System.out.printf("rint方法: %s\n",rint);
@@ -1702,7 +1702,7 @@ API中`nextDouble`方法中描述
 若存在两个这样的数,则返回其中的偶数值
 
 例如
-```java
+
     public static void main(String[] args) {
         double rint = Math.rint(100.5);
         double rint2 = Math.rint(101.5);  
@@ -1716,7 +1716,7 @@ API中`nextDouble`方法中描述
 
 ##### round
 > round 表示"四舍五入"，算法为`Math.floor(x+0.5)` ，即将原来的数字加上 0.5 后再向下取整，所以 `Math.round(11.5)` 的结果为 12，`Math.round(-11.5)` 的结果为 -11。
-```java
+
         // 四舍五入 float时返回int值，double时返回long值
         long round = Math.round(1.5);
         int round1 = Math.round(1.5f);
@@ -1732,7 +1732,7 @@ API中`nextDouble`方法中描述
 > **PS: NAN
 NaN表示非数值，例如：0.0/0结果为NAN，负数的平方根结果也为NAN.**
 
-```java
+
    public static void main(String[] args) {
         // 四舍五入 float时返回int值，double时返回long值
         int round1 = Math.round(0);

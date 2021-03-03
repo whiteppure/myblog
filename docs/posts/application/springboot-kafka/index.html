@@ -67,6 +67,30 @@
             
             
             <li class="nav-item">
+                <a class="nav-link text-left" href="#kafka%e4%bb%8b%e7%bb%8d">
+                    kafka介绍
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
                 <a class="nav-link text-left" href="#windows%e5%b9%b3%e5%8f%b0kafka%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba">
                     Windows平台kafka环境搭建
                 </a>
@@ -174,7 +198,7 @@
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#kafka%e6%b6%88%e6%81%af%e6%b5%8b%e8%af%95">
-                    kafka消息测试
+                    Kafka消息测试
                 </a>
             </li>
             
@@ -200,7 +224,7 @@
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#springboot%e6%95%b4%e5%90%88kafka">
-                    springboot整合kafka
+                    Springboot整合kafka
                 </a>
             </li>
             
@@ -388,7 +412,7 @@
             </h1>
         </div>
         <div class="description">
-            <p class="sub_title">精益求精</p>
+            <p class="sub_title">大道至简</p>
             <div class="my_socials">
                 
                 
@@ -414,7 +438,19 @@
                         <h2><a href='/myblog/posts/application/springboot-kafka/'>Springboot整合kafka</a></h2>
                         <span class="date">2020.08.20</span>
                     </div>
-                    <div class="post_content markdown"><h2 id="windows平台kafka环境搭建">Windows平台kafka环境搭建</h2>
+                    <div class="post_content markdown"><h2 id="kafka介绍">kafka介绍</h2>
+<ul>
+<li>kafka官网: <a href="http://kafka.apache.org">http://kafka.apache.org</a></li>
+<li>kafka中文官网: <a href="https://kafka.apachecn.org">https://kafka.apachecn.org</a></li>
+</ul>
+<p>Kafka是一种分布式的，基于发布/订阅的消息系统。主要特点如下：</p>
+<ul>
+<li>以时间复杂度为O(1)的方式提供消息持久化能力，并保证即使对TB级以上数据也能保证常数时间的访问性能</li>
+<li>高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输</li>
+<li>支持Kafka Server间的消息分区，及分布式消息消费，同时保证每个partition内的消息顺序传输</li>
+<li>同时支持离线数据处理和实时数据处理</li>
+</ul>
+<h2 id="windows平台kafka环境搭建">Windows平台kafka环境搭建</h2>
 <ul>
 <li><a href="https://kafka.apachecn.org">https://kafka.apachecn.org</a></li>
 <li><a href="https://blog.csdn.net/u010054969/article/details/70241478">https://blog.csdn.net/u010054969/article/details/70241478</a></li>
@@ -444,7 +480,7 @@
 <li>执行该命令启动kafka <code>kafka-server-start /usr/local/etc/kafka/server.properties &amp;</code></li>
 </ul>
 <p>到此为止kafka启动完成</p>
-<h3 id="kafka消息测试">kafka消息测试</h3>
+<h3 id="kafka消息测试">Kafka消息测试</h3>
 <ul>
 <li>创建test主题 <code>kafka-topics --create --zookeeper localhost:2181</code><br><code> --replication-factor 1 --partitions 1 --topic test</code></li>
 <li>查看主题是否创建成功 <code>kafka-topics --list --zookeeper localhost:2181</code> 该命令会列出所有的主题</li>
@@ -458,7 +494,7 @@
 <div style="width: 45%;display: inline-block">
     <img src="/myblog/posts/images/application/kafka消费者.jpg" alt="消费者">
 </div>
-<h2 id="springboot整合kafka">springboot整合kafka</h2>
+<h2 id="springboot整合kafka">Springboot整合kafka</h2>
 <h3 id="引入pom依赖">引入pom依赖</h3>
 <pre><code>    &lt;dependency&gt;
         &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;
