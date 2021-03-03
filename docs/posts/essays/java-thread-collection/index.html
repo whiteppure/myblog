@@ -419,7 +419,7 @@ ConcurrentHashMap使用分段锁技术，将数据分成一段一段的存储，
 </li>
 </ul>
 <h3 id="jdk18版本的currenthashmap的实现原理">JDK1.8版本的CurrentHashMap的实现原理</h3>
-<p>JDK8中<code>ConcurrentHashMap</code>参考了JDK8 HashMap的实现，采用了数组+链表+红黑树的实现方式来设计，内部大量采用CAS操作.如果不了解CAS请移步<a href="../cas-principle">CAS原理</a>
+<p>JDK8中<code>ConcurrentHashMap</code>参考了JDK8 HashMap的实现，采用了数组+链表+红黑树的实现方式来设计，内部大量采用CAS操作.如果不了解CAS请移步<a href="./../cas-principle">CAS原理</a>
 JDK8中彻底放弃了Segment转而采用的是Node，其设计思想也不再是JDK1.7中的分段锁思想。</p>
 <p>Node：保存key，value及key的hash值的数据结构。其中value和next都用volatile修饰，保证并发的可见性。
 Java8 ConcurrentHashMap结构基本上和Java8的HashMap一样，不过保证线程安全性。</p>

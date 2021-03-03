@@ -44,6 +44,15 @@
     </item>
     
     <item>
+      <title>Java中的数组</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/java-array/</link>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/java-array/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Jvm内存划分和垃圾回收</title>
       <link>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</link>
       <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
@@ -94,6 +103,15 @@
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>https://whiteppure.github.io/myblog/posts/essays/java-thread-collection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java中集合</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/java-collection/</link>
+      <pubDate>Mon, 30 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/java-collection/</guid>
       <description></description>
     </item>
     

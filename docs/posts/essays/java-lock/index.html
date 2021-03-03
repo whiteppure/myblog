@@ -428,7 +428,7 @@
 }
 
 </code></pre><h2 id="自旋锁">自旋锁</h2>
-<p>自旋锁（spin lock）是一种非阻塞锁，也就是说，如果某线程需要获取锁，但该锁已经被其他线程占用时，该线程不会被挂起，而是在不断的消耗CPU的时间，不停的试图获取锁.这样的好处是减少线程上线文切换的消耗，缺点就是循环会消耗 CPU.原理是<a href="../cas-principle">CAS原理</a></p>
+<p>自旋锁（spin lock）是一种非阻塞锁，也就是说，如果某线程需要获取锁，但该锁已经被其他线程占用时，该线程不会被挂起，而是在不断的消耗CPU的时间，不停的试图获取锁.这样的好处是减少线程上线文切换的消耗，缺点就是循环会消耗 CPU.原理是<a href="./../cas-principle">CAS原理</a></p>
 <pre><code>public class SpinLock {
     private AtomicReference&lt;Thread&gt; atomicReference = new AtomicReference&lt;&gt;();
     private void lock () {
