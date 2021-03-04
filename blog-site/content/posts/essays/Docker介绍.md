@@ -3,7 +3,7 @@ title: "Docker介绍"
 date: 2020-04-07
 draft: false
 tags: ["使用介绍", "Java", "docker"]
-slug: "docker-introduction"
+slug: "docker-start"
 ---
 
 ## docker是什么
@@ -62,7 +62,7 @@ sudo usermod -aG docker $USER
 ## docker架构
 docker架构分为三部分客户端,宿主机,注册中心
 
-![docker架构](/myblog/posts/images/essays/docker架构.png)
+![docker架构](/myblog/posts/images/application/docker架构.png)
 
 例如：输入 `docker run mysql:5.6`命令,docker程序会从docker_host去找对应的镜像,
 如果mysql不存在则会去从register下载,下载完成后docker会自动给该镜像分配一个contains,mysql就会运行起来
@@ -111,3 +111,4 @@ docker search 镜像名
 - 阮一峰博客: http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html
 - 参考博客: https://cyc2018.github.io/CS-Notes/#/notes/Docker
 - docker中文: https://www.docker.org.cn/page/resources.html
+- docker教程: https://www.w3cschool.cn/docker/centos-docker-install.html

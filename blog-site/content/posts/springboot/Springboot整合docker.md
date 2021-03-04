@@ -26,10 +26,10 @@ slug: "springboot-docker"
 
 阿里云获取镜像地址: [https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)
 登陆后，左侧菜单选中镜像加速器就可以看到你的专属地址了;
-![获取阿里云docker地址](/myblog/posts/images/essays/获取阿里云docker地址.jpg)
+![获取阿里云docker地址](/myblog/posts/images/application/获取阿里云docker地址.jpg)
 
 配置docker镜像地址
-![docker配置](/myblog/posts/images/essays/docker配置.jpg)
+![docker配置](/myblog/posts/images/application/docker配置.jpg)
 ```
 {
   "debug": true,
@@ -40,7 +40,7 @@ slug: "springboot-docker"
 }
 ```
 在终端执行`docker info`命令
-![docker信息](/myblog/posts/images/essays/docker信息.jpg)
+![docker信息](/myblog/posts/images/application/docker信息.jpg)
 
 出现上图所示，docker镜像加速器配置成功
 
@@ -61,7 +61,7 @@ HelloController.class
 public class HelloController {
     @GetMapping
     public String hello() {
-        return "Hello,From Docker!";
+        return "Hello,From Docker";
     }
 }
 ```
@@ -75,7 +75,7 @@ server:
 ```
 ### Dockerfile
 首先创建一个名字叫`Dockerfile`的文件,路径任意
-![DockerFile](/myblog/posts/images/essays/dockerFile.jpg)
+![DockerFile](/myblog/posts/images/application/dockerFile.jpg)
 ```
 # 基础镜像
 FROM openjdk:8-jdk-alpine
@@ -141,7 +141,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-jar","/app.jar"]
     </build>
 ```
 使用 maven 打包
-![docker打包](/myblog/posts/images/essays/docker打包.jpg)
+![docker打包](/myblog/posts/images/application/docker打包.jpg)
 
 ### docker镜像测试
 前往 Dockerfile 目录，打开命令行执行;
@@ -164,7 +164,7 @@ docker run -d -p 9090:8080 demo-docker
 ```
 
 访问[http://localhost:9090/demo](http://localhost:9090)
-![hellodocker](/myblog/posts/images/essays/hellodocker.jpg)
+![hellodocker](/myblog/posts/images/application/hellodocker.jpg)
 
 如果要停止docker镜像，首先获取镜像id,然后在用stop命令停止运行镜像
 > docker ps -a: 显示所有的容器，包括未运行的
