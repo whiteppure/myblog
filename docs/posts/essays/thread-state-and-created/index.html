@@ -350,6 +350,7 @@
 </ul>
 <h2 id="线程创建方式">线程创建方式</h2>
 <h3 id="继承thread类">继承Thread类</h3>
+<p>在实际开发中用的很少，了解即可。</p>
 <pre><code>public class TestThread {
     public static void main(String[] args){
          Thread t1 = new ExtendThread(&quot;t1&quot;,1000); //使用上转对象创建线程，并构造线程名字和线程休眠时间
@@ -381,7 +382,7 @@ class ExtendThread extends Thread{ //继承Thread的类
 
 
 </code></pre><h3 id="实现runable接口">实现Runable接口</h3>
-<p>更符合面向对象特点,耦合度降低</p>
+<p>更符合面向对象特点,耦合度降低。</p>
 <pre><code>public class RunnableThread {
     public static void main(String[] args){
         Runnable r1=new ImplRunnable(&quot;r1&quot;,1000); //Runnable接口必须依托Thread类才能创建线程
@@ -418,36 +419,35 @@ class ImplRunnable implements Runnable{ //继承Runnable接口的类
 }
 
 </code></pre><h3 id="实现callable接口">实现Callable接口</h3>
-<p>能够利用Callable接口有返回值的特点,避免线程堵塞.返回结果并且可能抛出异常的任务
-当一个线程需要耗费很长时间来完成时,我们可以不去等待(线程不去堵塞),将一个线程分支成几个线控制线程的执行,最后获取该线程的返回值即可.</p>
-<pre><code>
-public class Demo06 {
-	public static void main(String[] args) throws InterruptedException, ExecutionException {
-		ExecutorService threads = Executors.newFixedThreadPool(2);
-		Future&lt;Integer&gt; task1 = threads.submit(new CallableTest());
-		System.out.println(task1.get());
-		threads.submit(new CallableTest());
-		threads.submit(new CallableTest());
-		
-		threads.shutdown();
-	}
+<p>能够利用Callable接口有返回值的特点,避免线程堵塞.返回结果并且可能抛出异常的任务。</p>
+<p>当一个线程需要耗费很长时间来完成时,我们可以不去等待(线程不去堵塞),将一个线程分支成几个线控制线程的执行,最后获取该线程的返回值即可.</p>
+<pre><code>public class CallableTest {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        // FutureTask 实现了 Runable 的子接口，并且构造方法又和 Callable 接口关联，此处用到了适配器模式
+        FutureTask&lt;Integer&gt; task = new FutureTask&lt;&gt;(new Test());
+        new Thread(task,&quot;test01&quot;).start();
+
+        while (!task.isDone()) {}
+        // 获取 callable 接口的返回值
+        Integer integer = task.get();
+        System.out.println(&quot;result:&quot; + 100 + integer);
+    }
 }
+class Test implements Callable&lt;Integer&gt; {
 
-class CallableTest implements Callable&lt;Integer&gt;{
 
-	int sum=0;
-	@Override
-	public Integer call() throws Exception {
-		System.out.println(Thread.currentThread().getName()+&quot;执行了........&quot;);
-		for (int i = 0; i &lt;1000; i++) {
-			sum+=i;
-		}
-		return sum;
-	}
-	
+    @Override
+    public Integer call() throws InterruptedException {
+        int sum=0;
+        System.out.println(Thread.currentThread().getName()+&quot;睡眠3秒........&quot;);
+        TimeUnit.MILLISECONDS.sleep(300);
+        for (int i = 0; i &lt;1000; i++) {
+            sum+=i;
+        }
+        return sum;
+    }
+
 }
-
-
 </code></pre><h3 id="线程池创建">线程池创建</h3>
 <p>可以不用反复的创建和销毁线程,节省时间.缺点:没有线程任务执行时,浪费大量内存资源</p>
 <pre><code>

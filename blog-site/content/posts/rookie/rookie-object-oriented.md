@@ -1,7 +1,7 @@
 ---
-title: "面向对象篇｜面向菜鸟编程"
+title: "面向对象总结"
 date: 2021-02-15
 draft: false
-tags: ["中文", "Java", "面向菜鸟编程"]
+tags: ["Java", "面向菜鸟编程"]
 slug: "rookie-object-oriented"
 ---

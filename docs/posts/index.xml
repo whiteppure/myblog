@@ -6,7 +6,25 @@
     <description>Recent content in Posts on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 03 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 05 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jvm介绍</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/jvm-start/</link>
+      <pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/jvm-start/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Nginx介绍</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/nginx-start/</link>
+      <pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/nginx-start/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>道德经</title>
       <link>https://whiteppure.github.io/myblog/posts/books/laotze/books-taoteching/</link>
@@ -35,7 +53,7 @@
     </item>
     
     <item>
-      <title>面向对象篇｜面向菜鸟编程</title>
+      <title>面向对象总结</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/</link>
       <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -44,7 +62,7 @@
     </item>
     
     <item>
-      <title>运算篇｜面向菜鸟编程</title>
+      <title>Java运算总结</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-operation/</link>
       <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -53,7 +71,7 @@
     </item>
     
     <item>
-      <title>数据类型篇｜面向菜鸟编程</title>
+      <title>Java数据类型总结</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-datatype/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -62,11 +80,11 @@
     </item>
     
     <item>
-      <title>写在前面｜面向菜鸟编程</title>
-      <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-preview/</link>
-      <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
+      <title>相关链接(持续更新)</title>
+      <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-link/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/rookie/rookie-preview/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/rookie/rookie-link/</guid>
       <description></description>
     </item>
     
@@ -81,19 +99,19 @@
     
     <item>
       <title>Springboot整合docker</title>
-      <link>https://whiteppure.github.io/myblog/posts/application/springboot-docker/</link>
+      <link>https://whiteppure.github.io/myblog/posts/springboot/springboot-docker/</link>
       <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/application/springboot-docker/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/springboot/springboot-docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Springboot整合kafka</title>
-      <link>https://whiteppure.github.io/myblog/posts/application/springboot-kafka/</link>
+      <link>https://whiteppure.github.io/myblog/posts/springboot/springboot-kafka/</link>
       <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/application/springboot-kafka/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/springboot/springboot-kafka/</guid>
       <description></description>
     </item>
     
@@ -144,10 +162,10 @@
     
     <item>
       <title>Docker介绍</title>
-      <link>https://whiteppure.github.io/myblog/posts/essays/docker-introduction/</link>
+      <link>https://whiteppure.github.io/myblog/posts/essays/docker-start/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/essays/docker-introduction/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/essays/docker-start/</guid>
       <description></description>
     </item>
     
@@ -189,19 +207,19 @@
     
     <item>
       <title>Springboot整合redis</title>
-      <link>https://whiteppure.github.io/myblog/posts/application/springboot-redis/</link>
+      <link>https://whiteppure.github.io/myblog/posts/springboot/springboot-redis/</link>
       <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/application/springboot-redis/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/springboot/springboot-redis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Springboot整合elasticsearch</title>
-      <link>https://whiteppure.github.io/myblog/posts/application/springboot-elasticsearch/</link>
+      <link>https://whiteppure.github.io/myblog/posts/springboot/springboot-elasticsearch/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/application/springboot-elasticsearch/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/springboot/springboot-elasticsearch/</guid>
       <description></description>
     </item>
     

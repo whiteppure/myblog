@@ -117,8 +117,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#point-to-point%e6%a8%a1%e5%9e%8b">
-                    Point-to-Point模型
+                <a class="nav-link text-left" href="#%e7%82%b9%e5%af%b9%e7%82%b9%e6%a8%a1%e5%bc%8f">
+                    点对点模式
                 </a>
             </li>
             
@@ -145,8 +145,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#pubsub%e6%a8%a1%e5%bc%8f">
-                    Pub/Sub模式
+                <a class="nav-link text-left" href="#%e5%8f%91%e5%b8%83%e8%ae%a2%e9%98%85%e6%a8%a1%e5%bc%8f">
+                    发布订阅模式
                 </a>
             </li>
             
@@ -240,26 +240,24 @@
 </li>
 </ul>
 <h2 id="jms消息模型">JMS消息模型</h2>
-<p>JMS即Java消息服务（Java Message Service）应用程序接口，是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。
-Java消息服务是一个与具体平台无关的API，绝大多数MOM提供商都对JMS提供支持（百度百科给出的概述）。
+<p>JMS 是基于 JVM 的消息代理规范，ActiveMQ、HornetMQ 是 JMS的实现。
+JMS即Java消息服务（Java Message Service）应用程序接口，是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。
+Java消息服务是一个与具体平台无关的API，绝大多数MOM提供商都对JMS提供支持。
 我们可以简单的理解：两个应用程序之间需要进行通信，我们使用一个JMS服务，进行中间的转发，通过JMS 的使用，我们可以解除两个程序之间的耦合。</p>
-<p>消息模型分为两种</p>
-<ul>
-<li><strong>p2p虽然可能有n个客户端在队列中侦听消息，但只有一个可以读取到消息，之后消息将不存在，其他人没法读取</strong></li>
-<li><strong><code>.publish/substrib</code> 可以理解为一对多的关系</strong></li>
-</ul>
-<h3 id="point-to-point模型">Point-to-Point模型</h3>
-<p>p2p: 消息队列(Queue)、发送者(Sender)、接收者(Receiver)。
-每个消息都被发送到一个特定的队 列，接收者从队列中获取消息。队列保留着消息，直到它们被消费或超时 。</p>
+<h3 id="点对点模式">点对点模式</h3>
+<p>消息发送者发送消息，消息代理将其放入消息队列中，消息接受者从队列中获取消息，消息读取后被移除消息队列。
+每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到它们被消费或超时。</p>
+<p>p2p虽然可能有n个客户端在队列中侦听消息，但只有一个可以读取到消息，之后消息将不存在，其他人没法读取。
+也就是说消息队列只有唯一一个发送者和 <em>接受者</em>，但是并不能说只有一个 <em>接收者</em>。</p>
 <p>特点：</p>
 <ul>
 <li>每个消息只有一个消费者 (Consumer)（即一旦被消费，消息就不再在消息队列中）</li>
 <li>发送者和接收者之间在时间上没有依赖性 ，也就是说当发送者发送了消息之后，不管接收者有没有正在运行，它不会影响到消息被发送到队列。</li>
 <li>接收者在成功接收消息之后需向队列应答成功</li>
 </ul>
-<p>如果你希望发送的每个消息都应该被成功处理 的话，那么你需要P2P模型。</p>
-<h3 id="pubsub模式">Pub/Sub模式</h3>
-<p>Pub/Sub： 主题（Topic）、发布者（Publisher）、订阅者（Subscriber）。客户端将消息发送到主题。多个发布者将消息发送到Topic，系统 将这些消息传递给多个订阅者。</p>
+<p>如果你希望发送的每个消息都应该被成功处理的话，那么你需要P2P模型。</p>
+<h3 id="发布订阅模式">发布订阅模式</h3>
+<p>发布者将消息发送到 Topic，多个订阅者订阅这个主题，那么就会在消息到达的同时接收消息</p>
 <p>特点：</p>
 <ul>
 <li>每个消息可以有多个消费者</li>

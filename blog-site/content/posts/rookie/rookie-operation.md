@@ -1,8 +1,8 @@
 ---
-title: "运算篇｜面向菜鸟编程"
+title: "Java运算总结"
 date: 2021-01-30
 draft: false
-tags: ["中文", "Java", "面向菜鸟编程"]
+tags: ["Java", "面向菜鸟编程"]
 slug: "rookie-operation"
 ---
 

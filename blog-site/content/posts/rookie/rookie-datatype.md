@@ -1,8 +1,8 @@
 ---
-title: "数据类型篇｜面向菜鸟编程"
+title: "Java数据类型总结"
 date: 2021-01-20
 draft: false
-tags: ["中文", "Java", "面向菜鸟编程"]
+tags: ["Java", "面向菜鸟编程"]
 slug: "rookie-datatype"
 ---
 
