@@ -22,7 +22,7 @@ slug: "rookie-link"
 - IBM developer: https://developer.ibm.com/zh
 
 ## 较优质博客文章
-- 2021年度全网最全Java学习路线(尚硅谷): https://www.bilibili.com/read/cv5216534?spm_id_from=333.788.b_636f6d6d656e74.5
+- 尚硅谷2021年全网最全学习Java路线: https://www.bilibili.com/read/cv5216534?spm_id_from=333.788.b_636f6d6d656e74.5
 - ruanyifeng 个人博客: http://www.ruanyifeng.com/blog
 - hollis 个人博客: https://www.hollischuang.com
 - xkcoding 个人博客: https://xkcoding.com

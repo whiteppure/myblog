@@ -127,3 +127,4 @@ As the core of the project, I was mainly responsible for the front-end developme
 
 ## Education experience
 - `2017.09 ~ 2020.07`Studied in *Hebei Software Vocational and Technical College*, majoring in Software Technology, and obtained the degree of *Junior College*
+- Currently an undergraduate student
