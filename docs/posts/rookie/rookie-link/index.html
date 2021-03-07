@@ -8,7 +8,7 @@
 	
 	
 	
-	<title>Docker介绍 ｜ whitepure</title>
+	<title>相关链接(持续更新) ｜ whitepure</title>
 	
     
     
@@ -67,8 +67,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e6%98%af%e4%bb%80%e4%b9%88">
-                    docker是什么
+                <a class="nav-link text-left" href="#%e8%be%83%e4%bc%98%e8%b4%a8%e8%b5%84%e6%ba%90%e7%bd%91%e7%ab%99">
+                    较优质资源网站
                 </a>
             </li>
             
@@ -91,8 +91,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e7%94%a8%e9%80%94">
-                    docker用途
+                <a class="nav-link text-left" href="#%e8%be%83%e4%bc%98%e8%b4%a8%e5%8d%9a%e5%ae%a2%e6%96%87%e7%ab%a0">
+                    较优质博客文章
                 </a>
             </li>
             
@@ -115,108 +115,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%ae%89%e8%a3%85">
-                    安装
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e6%9e%b6%e6%9e%84">
-                    docker架构
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c">
-                    docker基本操作
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#docker%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4">
-                    docker常用命令
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#%e7%9b%b8%e5%85%b3%e9%93%be%e6%8e%a5">
-                    相关链接
+                <a class="nav-link text-left" href="#%e5%b8%b8%e7%94%a8%e5%b7%a5%e5%85%b7">
+                    常用工具
                 </a>
             </li>
             
@@ -287,80 +187,46 @@
             <div class="post_page">
                 <div class="post animate__animated animate__fadeInDown">
                     <div class="post_title post_detail_title">
-                        <h2><a href='/myblog/posts/essays/docker-introduction/'>Docker介绍</a></h2>
-                        <span class="date">2020.04.07</span>
+                        <h2><a href='/myblog/posts/rookie/rookie-link/'>相关链接(持续更新)</a></h2>
+                        <span class="date">2021.01.01</span>
                     </div>
-                    <div class="post_content markdown"><h2 id="docker是什么">docker是什么</h2>
-<p>Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。它是目前流行的 Linux 容器解决方案。
-Docker 将应用程序与该程序的依赖，打包在一个文件里面。运行这个文件，就会生成一个虚拟容器。程序在这个虚拟容器里运行，就好像在真实的物理机上运行一样。有了 Docker，就不用担心环境问题。
-总体来说，Docker 的接口相当简单，用户可以方便地创建和使用容器，把自己的应用放入容器。
-容器还可以进行版本管理、复制、分享、修改，就像管理普通的代码一样。</p>
-<h2 id="docker用途">docker用途</h2>
-<p>提供一次性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建的环境。
-提供弹性的云服务。因为 Docker 容器可以随开随关，很适合动态扩容和缩容。
-组建微服务架构。通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。</p>
-<h2 id="安装">安装</h2>
-<p>以linux上安装为例</p>
-<p>1.安装依赖,docker依赖于系统的一些必要的工具</p>
-<pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2
-</code></pre><p>2.添加软件源, 阿里云镜像(在阿里云镜像站上面可以找到docker-ce的软件源，使用国内的源速度比较快)</p>
-<pre><code>yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-</code></pre><p><a href="https://blog.csdn.net/zhuzz1030/article/details/80097553">3.安装docker-ce(社区版,免费)</a></p>
-<pre><code>yum clean allyum makecache fastyum -y install docker-ce
-</code></pre><p>4.启动服务</p>
-<pre><code> #service 命令的用法
-$ sudo service docker start
-
-#systemctl 命令的用法
-$ sudo systemctl start docker
-</code></pre><p>5.查看安装版</p>
-<pre><code>docker version
-</code></pre><p>6.测试,检查 docker 是否正确安装并运行 hello-world 镜像</p>
-<pre><code>docker run hello-world
-</code></pre><p>7.Docker 需要用户具有 sudo 权限，为了避免每次命令都输入sudo，可以把用户加入 Docker 用户组</p>
-<pre><code>sudo usermod -aG docker $USER
-</code></pre><h2 id="docker架构">docker架构</h2>
-<p>docker架构分为三部分客户端,宿主机,注册中心</p>
-<p><img src="/myblog/posts/images/essays/docker%E6%9E%B6%E6%9E%84.png" alt="docker架构"></p>
-<p>例如：输入 <code>docker run mysql:5.6</code>命令,docker程序会从docker_host去找对应的镜像,
-如果mysql不存在则会去从register下载,下载完成后docker会自动给该镜像分配一个contains,mysql就会运行起来</p>
-<h2 id="docker基本操作">docker基本操作</h2>
-<p>以安装运行<code>nginx</code>为例</p>
-<pre><code>// docker run 包括下载镜像(pull),创建容器(create),运行容器(start) 可用dock -h查看帮助
-// --rm 表明这是一个临时的容器,关闭的话会自动删除
-// --name 容器名称
-// -p 外部服务器端口映射docker容器端口
-docker run --rm --name myNginx -p 80:80 nginx:版本
-
-// 查看容器日志
-docker logs myNginx
-
-// 进入容器
-docker exec -it myNginx bash
-</code></pre><h3 id="docker常用命令">docker常用命令</h3>
-<pre><code>// 查看当前运行的镜像
-docker ps
-//查看所有镜像
-docker ps -a
-//停止容器
-docker stop 容器名称
-// 删除镜像
-docker rmi 镜像名称
-//下载镜像 若不指定版本为最新版本
-docker pull 镜像:版本
-//查看当前本地仓库的镜像
-docker images
-//查看远程仓库镜像
-docker search 镜像名
-</code></pre><h2 id="相关链接">相关链接</h2>
+                    <div class="post_content markdown"><h2 id="较优质资源网站">较优质资源网站</h2>
 <ul>
-<li>入门参考:https://baijiahao.baidu.com/s?id=1626633654476933953&amp;wfr=spider&amp;for=pc</li>
-<li>安装docker菜鸟教程: <a href="https://www.runoob.com/docker/centos-docker.install.html">https://www.runoob.com/docker/centos-docker.install.html</a></li>
-<li>docker官网: <a href="https://www.docker.com">https://www.docker.com</a></li>
-<li>docker文档: <a href="https://docs.docker.com/install/linux/docker-ce/centos">https://docs.docker.com/install/linux/docker-ce/centos</a></li>
-<li>阮一峰博客: <a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html">http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html</a></li>
-<li>参考博客: <a href="https://cyc2018.github.io/CS-Notes/#/notes/Docker">https://cyc2018.github.io/CS-Notes/#/notes/Docker</a></li>
-<li>docker中文: <a href="https://www.docker.org.cn/page/resources.html">https://www.docker.org.cn/page/resources.html</a></li>
+<li>哔哩哔哩: <a href="https://bilibili.com">https://bilibili.com</a></li>
+<li>kuangstudy: <a href="https://www.kuangstudy.com">https://www.kuangstudy.com</a></li>
+<li>w3cschool菜鸟教程: <a href="https://www.runoob.com/java/java-tutorial.html">https://www.runoob.com/java/java-tutorial.html</a></li>
+<li>JavaSchool: <a href="http://www.51gjie.com">http://www.51gjie.com</a></li>
+<li>php中文网: <a href="https://www.php.cn">https://www.php.cn</a></li>
+<li>Java工程师成神之路：
+<ul>
+<li><a href="http://hollischuang.gitee.io/tobetopjavaer">http://hollischuang.gitee.io/tobetopjavaer</a></li>
+<li><a href="http://hollischuang.github.io/tobetopjavaer">http://hollischuang.github.io/tobetopjavaer</a></li>
+</ul>
+</li>
+<li>CyC2018: <a href="http://www.cyc2018.xyz">http://www.cyc2018.xyz</a></li>
+<li>JavaSE官方文档：
+<ul>
+<li><a href="https://docs.oracle.com/en/java/javase/index.html">https://docs.oracle.com/en/java/javase/index.html</a></li>
+<li><a href="https://docs.oracle.com/javase/specs">https://docs.oracle.com/javase/specs</a></li>
+</ul>
+</li>
+<li>IBM developer: <a href="https://developer.ibm.com/zh">https://developer.ibm.com/zh</a></li>
+</ul>
+<h2 id="较优质博客文章">较优质博客文章</h2>
+<ul>
+<li>尚硅谷2021年全网最全学习Java路线: <a href="https://www.bilibili.com/read/cv5216534?spm_id_from=333.788.b_636f6d6d656e74.5">https://www.bilibili.com/read/cv5216534?spm_id_from=333.788.b_636f6d6d656e74.5</a></li>
+<li>ruanyifeng 个人博客: <a href="http://www.ruanyifeng.com/blog">http://www.ruanyifeng.com/blog</a></li>
+<li>hollis 个人博客: <a href="https://www.hollischuang.com">https://www.hollischuang.com</a></li>
+<li>xkcoding 个人博客: <a href="https://xkcoding.com">https://xkcoding.com</a></li>
+<li>链接: <a href="https://blog.csdn.net/LoveLion/article/details/17517213">https://blog.csdn.net/LoveLion/article/details/17517213</a></li>
+<li>链接: <a href="https://blog.csdn.net/cui_yonghua/article/details/90512943">https://blog.csdn.net/cui_yonghua/article/details/90512943</a></li>
+<li>链接: <a href="https://design-patterns.readthedocs.io/zh_CN/latest/index.html">https://design-patterns.readthedocs.io/zh_CN/latest/index.html</a></li>
+</ul>
+<h2 id="常用工具">常用工具</h2>
+<p>jad反编译工具:</p>
+<ul>
+<li><a href="http://www.kpdus.com/jad.html#download">http://www.kpdus.com/jad.html#download</a></li>
+<li><a href="https://varaneckas.com/jad">https://varaneckas.com/jad</a></li>
 </ul>
 </div>
                     <div class="post_footer">
@@ -370,11 +236,9 @@ docker search 镜像名
                                 <span class="field tags">
                                     <i class="ri-stack-line"></i>
                                     
-                                    <a href="https://whiteppure.github.io/myblog/tags/%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">使用介绍</a>
-                                    
                                     <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
                                     
-                                    <a href="https://whiteppure.github.io/myblog/tags/docker/">docker</a>
+                                    <a href="https://whiteppure.github.io/myblog/tags/%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5/">相关链接</a>
                                     
                                 </span>
                             </div>

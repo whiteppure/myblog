@@ -8,7 +8,7 @@
 	
 	
 	
-	<title>写在前面｜面向菜鸟编程 ｜ whitepure</title>
+	<title>Java中集合 ｜ whitepure</title>
 	
     
     
@@ -67,32 +67,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e6%96%87%e7%ab%a0%e7%ae%80%e4%bb%8b">
-                    文章简介
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#%e7%9b%b8%e5%85%b3%e9%93%be%e6%8e%a5">
-                    相关链接
+                <a class="nav-link text-left" href="#collection">
+                    Collection
                 </a>
             </li>
             
@@ -117,8 +93,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e7%bd%91%e7%ab%99">
-                    网站
+                <a class="nav-link text-left" href="#set">
+                    Set
                 </a>
             </li>
             
@@ -145,8 +121,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%8d%9a%e5%ae%a2">
-                    博客
+                <a class="nav-link text-left" href="#list">
+                    List
                 </a>
             </li>
             
@@ -173,8 +149,116 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%b7%a5%e5%85%b7">
-                    工具
+                <a class="nav-link text-left" href="#queue">
+                    Queue
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#map">
+                    Map
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#hashmap">
+                    HashMap
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#18%e7%9a%84hashmap%e4%b8%8e17%e4%b9%8b%e5%89%8d%e7%9a%84%e5%8c%ba%e5%88%ab">
+                    1.8的hashMap与1.7之前的区别
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#concurrenthashmap">
+                    ConcurrentHashMap
                 </a>
             </li>
             
@@ -247,74 +331,78 @@
             <div class="post_page">
                 <div class="post animate__animated animate__fadeInDown">
                     <div class="post_title post_detail_title">
-                        <h2><a href='/myblog/posts/rookie/rookie-preview/'>写在前面｜面向菜鸟编程</a></h2>
-                        <span class="date">2021.01.11</span>
+                        <h2><a href='/myblog/posts/essays/java-collection/'>Java中集合</a></h2>
+                        <span class="date">2020.03.30</span>
                     </div>
-                    <div class="post_content markdown"><h2 id="文章简介">文章简介</h2>
-<p>本文适用于程序猿👨‍💻或者有兴趣从事Java相关工作的人群 .</p>
-<p>阅读前建议掌握 Java 基本语法，对面向对象, Java 有基本了解.</p>
-<p>如果您想要学习Java基础或者想要复习Java基础。相信整理完后的这篇文章是您的不二之选.</p>
-<p>文章中内容大多数并非原创,而是整理知识点.
-原因:</p>
+                    <div class="post_content markdown"><p>Java中的集合主要包括 <code>Collection</code> 和 <code>Map</code> 两种，
+<code>Collection</code> 存储着对象的集合，而 <code>Map</code> 存储着键值对（两个对象）的映射表。</p>
+<h2 id="collection">Collection</h2>
+<p><img src="/myblog/posts/images/essays/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6.jpg" alt="集合框架"></p>
+<h3 id="set">Set</h3>
+<ul>
+<li>TreeSet：基于红黑树实现，支持有序性操作，例如根据一个范围查找元素的操作。但是查找效率不如 HashSet，HashSet 查找的时间复杂度为 O(1)，TreeSet 则为 O(logN)。</li>
+<li>HashSet：基于哈希表实现，支持快速查找，但不支持有序性操作。并且失去了元素的插入顺序信息，也就是说使用 Iterator 遍历 HashSet 得到的结果是不确定的。HashSet的value作为hashmap的key，来保证不重复。</li>
+<li>LinkedHashSet：具有 HashSet 的查找效率，且内部使用双向链表维护元素的插入顺序。</li>
+</ul>
+<h3 id="list">List</h3>
+<ul>
+<li>ArrayList：基于动态数组实现，支持随机访问。</li>
+<li>Vector：和 ArrayList 类似，但它是线程安全的。</li>
+<li>LinkedList：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。不仅如此，LinkedList 还可以用作栈、队列和双向队列。</li>
+</ul>
+<h3 id="queue">Queue</h3>
+<ul>
+<li>LinkedList：可以用它来实现双向队列。</li>
+<li>PriorityQueue：基于堆结构实现，可以用它来实现优先队列。</li>
+</ul>
+<h2 id="map">Map</h2>
+<ul>
+<li>TreeMap：基于红黑树实现。</li>
+<li>HashMap：基于哈希表实现。</li>
+<li>HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程可以同时写入 HashTable 并且不会导致数据不一致。它是遗留类，不应该去使用它。现在可以使用 ConcurrentHashMap 来支持线程安全，并且 ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。</li>
+<li>LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。</li>
+</ul>
+<h3 id="hashmap">HashMap</h3>
+<ul>
+<li>
+<p>存贮: 通过key的hashcode方法找到在hashMap 存贮的位置,如果该位置有元素,则通过equals方法进行比较,equals返回值为true,则覆盖value,equals返回值为false则,在该数组元素的头部追加该元素,形成一个链表结构</p>
+</li>
+<li>
+<p>读取:通过key的hashcode方法获取元素存在该数组的位置,然后通过equals拿到该值</p>
+</li>
+<li>
+<p>结构: hashMap是一个散列数据结构,HashMap底层就是一个数组结构，数组中的每一项又是一个链表</p>
+</li>
+<li>
+<p>归纳: 总的来说hashMap底层将key-value(键值对)当成一个整体来处理,hashMap底层采用一个 Entry 数组保存所有的键值对,当存储一个entry对象时,会根据key的hash算法来决定存放在数组中的位置,在根据equals方法来确定在链表中的位置,读取一个entry对象,先根据hash算法确定在数组中的位置,再根据equals来获取该值,equals和equals在hashMap中就像一个坐标一样,来确定hashMap中的值</p>
+</li>
+</ul>
+<h3 id="18的hashmap与17之前的区别">1.8的hashMap与1.7之前的区别</h3>
+<ul>
+<li>结构 :  数组+链表+红黑树(链表长度&gt;8时使用)</li>
+<li>算法:   扩容后数据存储位置的计算方式也不一样</li>
+</ul>
+<p><strong>hash冲突</strong>
+发生hash冲突时,1.8链表采用尾插法,当大于8时,则转换为红黑树;
+因为JDK1.7是用单链表进行的纵向延伸，当采用头插法时会容易出现逆序且环形链表死循环问题。
+但是在JDK1.8之后是因为加入了红黑树使用尾插法，能够避免出现逆序且链表死循环的问题。</p>
+<p>总结:</p>
 <ol>
-<li>因为Java语言被使用这么多年.显然已经非常成熟.Java文章, Java相关的视频、相关资料、教程在网络上随处可见.</li>
-<li>因为本人学习Java时间也不多👨‍🎓, 个人的能力有限.故 借鉴了许多前辈写的Java文章,查阅Java相关资料.在这基础上进行 摘抄, 整理, 修注.文章中使用到的大部分知识点都放到了 <strong><a href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5">相关链接</a></strong> 里. 大家可自行查阅。</li>
+<li>新增红黑树数据结构,增强效率;</li>
+<li>采用尾插法+红黑树结构,解决逆序形成环形链表形成死循环的问题</li>
+<li>数据存储位置的计算方式不一样</li>
 </ol>
-<p>写这篇文章的目的,纯粹是为了方便复习Java.因为Java的知识点实在太多了,而且都是零零散散的。把知识点收集起来会看起来方便一点。</p>
-<p>因大多数知识点摘自网络,如果侵犯了您的权益.请及时联系,我会在第一时间进行删除.</p>
-<p>本人能力有限 整理的知识点肯定多少会有不足之处，请路过的各位开发者们多多指点。
-如果有意见或者建议,请在评论留言或者私信发送到我的邮箱 <a href="mailto:whiteppure@gmail.com">whiteppure@gmail.com</a>
-整理不易，多多包涵。</p>
-<p>持续整理知识点参考列表</p>
+<h3 id="concurrenthashmap">ConcurrentHashMap</h3>
+<p>线程安全的HashMap</p>
+<p>图示:</p>
+<p>在多线程中，每一个Segment对象守护了一个HashEntry数组，
+当对ConcurrentHashMap中的元素修改时，
+在获取到对应的Segment数组角标后，都会对此Segment对象加锁，
+之后再去操作后面的HashEntry元素，这样每一个Segment对象下，都形成了一个小小的HashMap，在保证数据安全性的同时，又提高了同步的效率。
+只要不是操作同一个Segment对象的话，就不会出现线程等待的问题</p>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> 数据类型篇</li>
-<li><input checked="" disabled="" type="checkbox"> 运算篇</li>
-<li><input disabled="" type="checkbox"> 面向对象篇</li>
-<li><input disabled="" type="checkbox"> Object类篇</li>
-<li><input disabled="" type="checkbox"> 关键字篇</li>
-<li><input disabled="" type="checkbox"> 反射篇</li>
-<li><input disabled="" type="checkbox"> 异常篇</li>
-<li><input disabled="" type="checkbox"> 泛型篇</li>
-<li><input disabled="" type="checkbox"> IO篇</li>
-<li><input disabled="" type="checkbox"> 注解篇</li>
-</ul>
-<p>Java小白 知识点的搬运工.随着以后对Java的学习,持续整理更新 中  &hellip;..🖊</p>
-<p>希望这篇文章能够帮助到您.</p>
-<h2 id="相关链接">相关链接</h2>
-<h3 id="网站">网站</h3>
-<ul>
-<li>哔哩哔哩: <a href="https://bilibili.com">https://bilibili.com</a></li>
-<li>w3cschool菜鸟教程: <a href="https://www.runoob.com/java/java-tutorial.html">https://www.runoob.com/java/java-tutorial.html</a></li>
-<li>JavaSchool: <a href="http://www.51gjie.com">http://www.51gjie.com</a></li>
-<li>php中文网: <a href="https://www.php.cn">https://www.php.cn</a></li>
-<li>Java工程师成神之路：
-<ul>
-<li><a href="http://hollischuang.gitee.io/tobetopjavaer">http://hollischuang.gitee.io/tobetopjavaer</a></li>
-<li><a href="http://hollischuang.github.io/tobetopjavaer">http://hollischuang.github.io/tobetopjavaer</a></li>
-</ul>
-</li>
-<li>CyC2018: <a href="http://www.cyc2018.xyz">http://www.cyc2018.xyz</a></li>
-<li>JavaSE官方文档：
-<ul>
-<li><a href="https://docs.oracle.com/en/java/javase/index.html">https://docs.oracle.com/en/java/javase/index.html</a></li>
-<li><a href="https://docs.oracle.com/javase/specs">https://docs.oracle.com/javase/specs</a></li>
-</ul>
-</li>
-<li>IBM developer: <a href="https://developer.ibm.com/zh">https://developer.ibm.com/zh</a></li>
-</ul>
-<h3 id="博客">博客</h3>
-<ul>
-<li>链接: <a href="http://www.ruanyifeng.com/blog">http://www.ruanyifeng.com/blog</a></li>
-<li>链接: <a href="https://www.hollischuang.com">https://www.hollischuang.com</a></li>
-<li>链接: <a href="https://blog.csdn.net/LoveLion/article/details/17517213">https://blog.csdn.net/LoveLion/article/details/17517213</a></li>
-<li>链接: <a href="https://blog.csdn.net/cui_yonghua/article/details/90512943">https://blog.csdn.net/cui_yonghua/article/details/90512943</a></li>
-<li>链接: <a href="https://design-patterns.readthedocs.io/zh_CN/latest/index.html">https://design-patterns.readthedocs.io/zh_CN/latest/index.html</a></li>
-</ul>
-<h3 id="工具">工具</h3>
-<p>jad反编译工具:</p>
-<ul>
-<li><a href="http://www.kpdus.com/jad.html#download">http://www.kpdus.com/jad.html#download</a></li>
-<li><a href="https://varaneckas.com/jad">https://varaneckas.com/jad</a></li>
+<li>原理: Segment数组+HashEntry数组+链表;
+其中Segment起到了加锁同步的作用，而HashEntry则起到了存储K.V键值对的作用。</li>
 </ul>
 </div>
                     <div class="post_footer">
@@ -324,11 +412,9 @@
                                 <span class="field tags">
                                     <i class="ri-stack-line"></i>
                                     
-                                    <a href="https://whiteppure.github.io/myblog/tags/%E4%B8%AD%E6%96%87/">中文</a>
-                                    
                                     <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
                                     
-                                    <a href="https://whiteppure.github.io/myblog/tags/%E9%9D%A2%E5%90%91%E8%8F%9C%E9%B8%9F%E7%BC%96%E7%A8%8B/">面向菜鸟编程</a>
+                                    <a href="https://whiteppure.github.io/myblog/tags/%E9%9B%86%E5%90%88/">集合</a>
                                     
                                 </span>
                             </div>
