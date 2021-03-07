@@ -5,11 +5,17 @@ hidden: true
 draft: false
 ---
 
-该博客使用 [Hugo](https://gohugo.io/) 进行搭建，使用的主题为 [zozo](https://github.com/varkai/hugo-theme-zozo)。
+> 《杂诗三首》其一 晋 傅玄
+志士惜日短，愁人知夜长。摄衣步前庭，仰观南雁翔。玄景随形运，流响归空房。清风何飘飖，微月出西方。繁星依青天，列宿自成行。
+蝉鸣高树间，野鸟号东厢。纤云时仿佛，渥露沾我裳。良时无停景，北斗忽低昂。常恐寒节至，凝气结为霜。落叶随风摧，一绝如流光。
 
-Hugo相关：
-- Hugo 中文帮助文档 [https://hugo.aiaide.com](https://hugo.aiaide.com)
-- Hugo 官方中文文档 [https://www.gohugo.org](https://www.gohugo.org)
-- Hugo 给文章添加目录 [https://www.ariesme.com/posts/2019/add_toc_for_hugo](https://www.ariesme.com/posts/2019/add_toc_for_hugo/)
+**释意**<br>
+有志气的人，可惜白昼短，忧愁的人知道夜间长。提起衣服步前的院子里，抬头看向南雁翔。玄影随形运，流响回到空荡荡的房。清风什么飘飖，微月出现在西方。繁星依照青天，星宿从成行。
+蝉的叫声高的树木之间，野鸟号称东厢房。纤云当时仿佛，杨渥的露水沾湿了我的衣裳。张良当时没有停止了侯景，北斗忽然低昂。常常担心寒节到了，段凝气结凝霜。落叶随风飘摧毁，一绝如流光。
 
-我会整理更多有趣和有价值的内容。
+<br><br>
+本博客使用 [Hugo](https://gohugo.io/) 进行搭建，使用的主题为 [zozo](https://github.com/varkai/hugo-theme-zozo)。<br>
+Hugo相关资料
+- Hugo  [中文帮助文档](https://hugo.aiaide.com)
+- Hugo  [官方中文文档](https://www.gohugo.org)
+- Hugo  [给文章添加目录](https://www.ariesme.com/posts/2019/add_toc_for_hugo/)
