@@ -102,7 +102,7 @@ Participated in the construction of *DC remote power supply pipe system* in scho
 The system is developed based on `springboot`, SSM and front and rear end separation. Mainly divided into parameter module, equipment module and so on.
 Mainly responsible for the development of Java backend device module and main module.
 
-#### Bank of Guizhou "crape myrtle project" - electronic seal verification system
+#### Bank of Guizhou "Ziwei Project" - electronic seal verification system
 - **Time**：2019.11～2020.11
 - **Position**：Java development engineer
 - **Introduction**:

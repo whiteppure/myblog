@@ -2,13 +2,11 @@
 title: "《尚硅谷宋红康老师详解JVM》相关资料链接"
 date: 2021-03-07
 draft: false
-tags: ["Java","Jvm","相关链接"]
+tags: ["相关链接"]
 slug: "shangguigu-jvm-link"
 ---
 
-原视频地址： https://www.bilibili.com/video/BV1PJ411n7xZ
-
-截止到 2021.3.7 日，评论数量为1401条 关于视频下所有人整理的: 笔记链接、参考资料。
+原视频地址： https://www.bilibili.com/video/BV1PJ411n7xZ，截止到 2021.3.7 日，评论数量为1401条 关于视频下所有人整理的: 笔记链接、参考资料。
 
 为了方便阅读、营造良好的环境: 请其他小伙伴持续接力补充 ...
 
