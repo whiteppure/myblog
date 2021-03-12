@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>Nginx介绍 ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#nginx%e4%bb%8b%e7%bb%8d">
+                    Nginx介绍
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%8eapahche%e5%8c%ba%e5%88%ab%e8%81%94%e7%b3%bb">
+                    与apahche区别联系
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%8f%8d%e5%90%91%e4%bb%a3%e7%90%86">
+                    反向代理
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1">
+                    负载均衡
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%8a%a8%e9%9d%99%e5%88%86%e7%a6%bb">
+                    动静分离
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#docker%e5%ae%89%e8%a3%85nginx">
+                    Docker安装nginx
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%8b%89%e5%8f%96%e9%95%9c%e5%83%8f">
+                    拉取镜像
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e9%85%8d%e7%bd%aenginx">
+                    配置nginx
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%b5%8b%e8%af%95nginx">
+                    测试nginx
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#nginx%e9%85%8d%e7%bd%ae%e8%af%a6%e8%a7%a3">
+                    Nginx配置详解
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/essays/nginx-start/'>Nginx介绍</a></h2>
+                        <span class="date">2021.03.04</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="nginx介绍">Nginx介绍</h2>
+<blockquote>
+<p>Nginx (&ldquo;engine x&rdquo;)是一个高性能的HTTP和反向代理服务器，特点是占有内存少，并发能
+力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好.
+Nginx专为性能优化而开发，性能是其最重要的考量，实现上非常注重效率，能经受高负载
+的考验，有报告表明能支持高达50000个并发连接数。</p>
+</blockquote>
+<h3 id="与apahche区别联系">与apahche区别联系</h3>
+<p>Nginx 启动特别容易, 并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动.
+你还能够不间断服务的情况下进行软件版本的升级。</p>
+<p>Nginx 静态处理性能比 Apache 高 3倍以上，Apache 对 PHP 支持比较简单，
+Nginx 需要配合其他后端来使用 ,Apache 的组件比 Nginx 多。</p>
+<p>nginx的优势是处理静态请求，cpu内存使用率低，apache适合处理动态请求，
+所以现在一般前端用nginx作为反向代理抗住压力，apache作为后端处理动态请求。</p>
+<p>apache是同步多进程模型，一个连接对应一个进程；nginx是异步的，多个连接（万级别）可以对应一个进程。
+所以在高连接并发的情况下，Nginx是Apache服务器不错的替代品。</p>
+<h3 id="反向代理">反向代理</h3>
+<p><img src="/myblog/posts/images/application/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86.jpg" alt="nginx反向代理"></p>
+<p><strong>正向代理</strong>：
+在客户端(浏览器)配置代理服务器，通过代理服务器进行互联网访问<br>
+例如：在国内想通过网络翻墙，直接访问外网，访问失败，
+这个时候就要通过代理服务器，我们访问代理服务器，让代理服务器访问外网，这样就能顺利翻墙。</p>
+<p><strong>反向代理</strong>：
+其实客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，
+由反向代理服务器去选择目标服务器获取数据后,在返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，
+暴露的是代理服务器地址，隐藏了真实服务器IP地址。</p>
+<h3 id="负载均衡">负载均衡</h3>
+<p>由于访问量的增加，单个服务器承受不了并发，我们增加服务器的数量，然后将请求分发到各个服务器上,
+将原先请求集中到单个服务器上的情况改为将请求分发到多个服务器上,将负载分发到不同的服
+务器，也就是我们所说的负载均衡。
+<img src="/myblog/posts/images/application/nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.png" alt="nginx负载均衡">uig./rh/e,</p>
+<h3 id="动静分离">动静分离</h3>
+<p>为了加快网站的解析速度，降低原来单个服务器的压力，可以把动态页面和静态页面由不同的服务器来解析。</p>
+<p><img src="/myblog/posts/images/application/nginx%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB.jpg" alt="nginx动静分离"></p>
+<h2 id="docker安装nginx">Docker安装nginx</h2>
+<p>如未安装docker移步<a href="/myblog/posts/springboot/springboot-docker">安装 docker</a></p>
+<h3 id="拉取镜像">拉取镜像</h3>
+<p>搜寻 nginx 镜像</p>
+<pre><code>docker search nginx
+</code></pre><p>拉取 nginx 镜像</p>
+<pre><code>docker pull nginx
+</code></pre><p>查看本地已经安装的镜像，是否有我们刚拉取的 nginx 镜像</p>
+<pre><code>docker images
+</code></pre><h3 id="配置nginx">配置nginx</h3>
+<p>在本地创建对应 docekr 上 nginx 的配置文件和目录，方便管理。</p>
+<p><code>~/Documents/config/nginx</code>是我本地存放 nginx 的配置路径。路径哪里方便放哪里。</p>
+<p>在上述路径下创建 <code>conf.d</code>、<code>www</code> 文件夹</p>
+<pre><code>mkdir conf.d www
+</code></pre><p>创建 nginx 临时容器，用于拷贝所需配置文件</p>
+<pre><code>docker run --name tmp-nginx-container -d nginx
+</code></pre><p>拷贝 nginx 配置文件</p>
+<pre><code>docker cp tmp-nginx-container:/etc/nginx/nginx.conf ~/Documents/config/nginx/nginx.conf
+</code></pre><p><img src="/myblog/posts/images/application/nginx%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84.jpg" alt="nginx存放路径"></p>
+<p>拷贝站点配置文件</p>
+<pre><code>docker cp tmp-nginx-container:/etc/nginx/conf.d/default.conf ~/Documents/config/nginx/conf.d/default.conf
+</code></pre><p>删除 nginx 临时容器</p>
+<pre><code>docker rm -f tmp-nginx-container
+</code></pre><p>创建 nginx 容器，并映射 nginx 配置文件、站点配置文件目录和网站根目录；-v 是挂载的意思,将宿主机的文件映射到容器中</p>
+<pre><code>docker run --name nginx -p 80:80 -v ~/Documents/config/nginx/nginx.conf:/etc/nginx/nginx.conf -v ~/Documents/config/nginx/conf.d:/etc/nginx/conf.d -v ~/Documents/config/nginx/www:/www -d nginx
+</code></pre><h3 id="测试nginx">测试nginx</h3>
+<p>拷贝 <code>default.conf</code> 为 <code>test.conf</code> ，并修改<code>test.conf</code> 中 <code>server_name</code>文件</p>
+<pre><code>server {
+    listen       80;
+    listen  [::]:80;
+    server_name  www.test.com;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /www/test;
+        index  index.html index.htm;
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    # ...
+}
+</code></pre><p>修改本地 <code>/etc/hosts</code> 文件；浏览器解析域名会先从 hosts 文件进行解析，如果没有的话，会从网络上进行解析。</p>
+<pre><code>127.0.0.1 www.test.com
+</code></pre><p><img src="/myblog/posts/images/application/nginx%E6%B5%8B%E8%AF%95%E4%BF%AE%E6%94%B9hosts%E6%96%87%E4%BB%B6.jpg" alt="nginx测试修改hosts文件"></p>
+<p>在本地 <code>~/Documents/config/nginx/www</code> 下新建 test 目录，并编写一个 <code>index.html</code> 测试文件
+<img src="/myblog/posts/images/application/nginx%E6%9C%AC%E5%9C%B0%E8%B7%AF%E5%BE%84.jpg" alt="nginx本地路径"></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ 
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+ 
+&lt;body&gt;
+    &lt;h1&gt;测试Nginx&lt;/h1&gt;
+&lt;/body&gt;
+ 
+&lt;/html&gt;
+</code></pre><p>重启 nginx</p>
+<pre><code>docker restart nginx
+</code></pre><p>浏览器访问<a href="http://www.test.com">http://www.test.com</a>
+<img src="/myblog/posts/images/application/%E6%B5%8B%E8%AF%95nginx%E6%88%90%E5%8A%9F.jpg" alt="测试nginx成功"></p>
+<h3 id="nginx配置详解">Nginx配置详解</h3>
+<pre><code>######Nginx配置文件nginx.conf中文详解#####
+
+#定义Nginx运行的用户和用户组
+user www www;
+
+#nginx进程数，建议设置为等于CPU总核心数。
+worker_processes 8;
+
+#全局错误日志定义类型，[ debug | info | notice | warn | error | crit ]
+error_log /usr/local/nginx/logs/error.log info;
+
+#进程pid文件
+pid /usr/local/nginx/logs/nginx.pid;
+
+#指定进程可以打开的最大描述符：数目
+#工作模式与连接数上限
+#这个指令是指当一个nginx进程打开的最多文件描述符数目，理论值应该是最多打开文件数（ulimit -n）与nginx进程数相除，但是nginx分配请求并不是那么均匀，所以最好与ulimit -n 的值保持一致。
+#现在在linux 2.6内核下开启文件打开数为65535，worker_rlimit_nofile就相应应该填写65535。
+#这是因为nginx调度时分配请求到进程并不是那么的均衡，所以假如填写10240，总并发量达到3-4万时就有进程可能超过10240了，这时会返回502错误。
+worker_rlimit_nofile 65535;
+
+
+events
+{
+    #参考事件模型，use [ kqueue | rtsig | epoll | /dev/poll | select | poll ]; epoll模型
+    #是Linux 2.6以上版本内核中的高性能网络I/O模型，linux建议epoll，如果跑在FreeBSD上面，就用kqueue模型。
+    #补充说明：
+    #与apache相类，nginx针对不同的操作系统，有不同的事件模型
+    #A）标准事件模型
+    #Select、poll属于标准事件模型，如果当前系统不存在更有效的方法，nginx会选择select或poll
+    #B）高效事件模型
+    #Kqueue：使用于FreeBSD 4.1+, OpenBSD 2.9+, NetBSD 2.0 和 MacOS X.使用双处理器的MacOS X系统使用kqueue可能会造成内核崩溃。
+    #Epoll：使用于Linux内核2.6版本及以后的系统。
+    #/dev/poll：使用于Solaris 7 11/99+，HP/UX 11.22+ (eventport)，IRIX 6.5.15+ 和 Tru64 UNIX 5.1A+。
+    #Eventport：使用于Solaris 10。 为了防止出现内核崩溃的问题， 有必要安装安全补丁。
+    use epoll;
+
+    #单个进程最大连接数（最大连接数=连接数*进程数）
+    #根据硬件调整，和前面工作进程配合起来用，尽量大，但是别把cpu跑到100%就行。每个进程允许的最多连接数，理论上每台nginx服务器的最大连接数为。
+    worker_connections 65535;
+
+    #keepalive超时时间。
+    keepalive_timeout 60;
+
+    #客户端请求头部的缓冲区大小。这个可以根据你的系统分页大小来设置，一般一个请求头的大小不会超过1k，不过由于一般系统分页都要大于1k，所以这里设置为分页大小。
+    #分页大小可以用命令getconf PAGESIZE 取得。
+    #[root@web001 ~]# getconf PAGESIZE
+    #4096
+    #但也有client_header_buffer_size超过4k的情况，但是client_header_buffer_size该值必须设置为“系统分页大小”的整倍数。
+    client_header_buffer_size 4k;
+
+    #这个将为打开文件指定缓存，默认是没有启用的，max指定缓存数量，建议和打开文件数一致，inactive是指经过多长时间文件没被请求后删除缓存。
+    open_file_cache max=65535 inactive=60s;
+
+    #这个是指多长时间检查一次缓存的有效信息。
+    #语法:open_file_cache_valid time 默认值:open_file_cache_valid 60 使用字段:http, server, location 这个指令指定了何时需要检查open_file_cache中缓存项目的有效信息.
+    open_file_cache_valid 80s;
+
+    #open_file_cache指令中的inactive参数时间内文件的最少使用次数，如果超过这个数字，文件描述符一直是在缓存中打开的，如上例，如果有一个文件在inactive时间内一次没被使用，它将被移除。
+    #语法:open_file_cache_min_uses number 默认值:open_file_cache_min_uses 1 使用字段:http, server, location  这个指令指定了在open_file_cache指令无效的参数中一定的时间范围内可以使用的最小文件数,如果使用更大的值,文件描述符在cache中总是打开状态.
+    open_file_cache_min_uses 1;
+
+    #语法:open_file_cache_errors on | off 默认值:open_file_cache_errors off 使用字段:http, server, location 这个指令指定是否在搜索一个文件是记录cache错误.
+    open_file_cache_errors on;
+}
+
+
+
+#设定http服务器，利用它的反向代理功能提供负载均衡支持
+http
+{
+    #文件扩展名与文件类型映射表
+    include mime.types;
+
+    #默认文件类型
+    default_type application/octet-stream;
+
+    #默认编码
+    #charset utf-8;
+
+    #服务器名字的hash表大小
+    #保存服务器名字的hash表是由指令server_names_hash_max_size 和server_names_hash_bucket_size所控制的。参数hash bucket size总是等于hash表的大小，并且是一路处理器缓存大小的倍数。在减少了在内存中的存取次数后，使在处理器中加速查找hash表键值成为可能。如果hash bucket size等于一路处理器缓存的大小，那么在查找键的时候，最坏的情况下在内存中查找的次数为2。第一次是确定存储单元的地址，第二次是在存储单元中查找键 值。因此，如果Nginx给出需要增大hash max size 或 hash bucket size的提示，那么首要的是增大前一个参数的大小.
+    server_names_hash_bucket_size 128;
+
+    #客户端请求头部的缓冲区大小。这个可以根据你的系统分页大小来设置，一般一个请求的头部大小不会超过1k，不过由于一般系统分页都要大于1k，所以这里设置为分页大小。分页大小可以用命令getconf PAGESIZE取得。
+    client_header_buffer_size 32k;
+
+    #客户请求头缓冲大小。nginx默认会用client_header_buffer_size这个buffer来读取header值，如果header过大，它会使用large_client_header_buffers来读取。
+    large_client_header_buffers 4 64k;
+
+    #设定通过nginx上传文件的大小
+    client_max_body_size 8m;
+
+    #开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，对于普通应用设为 on，如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载。注意：如果图片显示不正常把这个改成off。
+    #sendfile指令指定 nginx 是否调用sendfile 函数（zero copy 方式）来输出文件，对于普通应用，必须设为on。如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络IO处理速度，降低系统uptime。
+    sendfile on;
+
+    #开启目录列表访问，合适下载服务器，默认关闭。
+    autoindex on;
+
+    #此选项允许或禁止使用socke的TCP_CORK的选项，此选项仅在使用sendfile的时候使用
+    tcp_nopush on;
+
+    tcp_nodelay on;
+
+    #长连接超时时间，单位是秒
+    keepalive_timeout 120;
+
+    #FastCGI相关参数是为了改善网站的性能：减少资源占用，提高访问速度。下面参数看字面意思都能理解。
+    fastcgi_connect_timeout 300;
+    fastcgi_send_timeout 300;
+    fastcgi_read_timeout 300;
+    fastcgi_buffer_size 64k;
+    fastcgi_buffers 4 64k;
+    fastcgi_busy_buffers_size 128k;
+    fastcgi_temp_file_write_size 128k;
+
+    #gzip模块设置
+    gzip on; #开启gzip压缩输出
+    gzip_min_length 1k;    #最小压缩文件大小
+    gzip_buffers 4 16k;    #压缩缓冲区
+    gzip_http_version 1.0;    #压缩版本（默认1.1，前端如果是squid2.5请使用1.0）
+    gzip_comp_level 2;    #压缩等级
+    gzip_types text/plain application/x-javascript text/css application/xml;    #压缩类型，默认就已经包含textml，所以下面就不用再写了，写上去也不会有问题，但是会有一个warn。
+    gzip_vary on;
+
+    #开启限制IP连接数的时候需要使用
+    #limit_zone crawler $binary_remote_addr 10m;
+
+
+
+    #负载均衡配置
+    upstream piao.jd.com {
+
+        #upstream的负载均衡，weight是权重，可以根据机器配置定义权重。weigth参数表示权值，权值越高被分配到的几率越大。
+        server 192.168.80.121:80 weight=3;
+        server 192.168.80.122:80 weight=2;
+        server 192.168.80.123:80 weight=3;
+
+        #nginx的upstream目前支持4种方式的分配
+        #1、轮询（默认）
+        #每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。
+        #2、weight
+        #指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。
+        #例如：
+        #upstream bakend {
+        #    server 192.168.0.14 weight=10;
+        #    server 192.168.0.15 weight=10;
+        #}
+        #2、ip_hash
+        #每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。
+        #例如：
+        #upstream bakend {
+        #    ip_hash;
+        #    server 192.168.0.14:88;
+        #    server 192.168.0.15:80;
+        #}
+        #3、fair（第三方）
+        #按后端服务器的响应时间来分配请求，响应时间短的优先分配。
+        #upstream backend {
+        #    server server1;
+        #    server server2;
+        #    fair;
+        #}
+        #4、url_hash（第三方）
+        #按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。
+        #例：在upstream中加入hash语句，server语句中不能写入weight等其他的参数，hash_method是使用的hash算法
+        #upstream backend {
+        #    server squid1:3128;
+        #    server squid2:3128;
+        #    hash $request_uri;
+        #    hash_method crc32;
+        #}
+
+        #tips:
+        #upstream bakend{#定义负载均衡设备的Ip及设备状态}{
+        #    ip_hash;
+        #    server 127.0.0.1:9090 down;
+        #    server 127.0.0.1:8080 weight=2;
+        #    server 127.0.0.1:6060;
+        #    server 127.0.0.1:7070 backup;
+        #}
+        #在需要使用负载均衡的server中增加 proxy_pass http://bakend/;
+
+        #每个设备的状态设置为:
+        #1.down表示单前的server暂时不参与负载
+        #2.weight为weight越大，负载的权重就越大。
+        #3.max_fails：允许请求失败的次数默认为1.当超过最大次数时，返回proxy_next_upstream模块定义的错误
+        #4.fail_timeout:max_fails次失败后，暂停的时间。
+        #5.backup： 其它所有的非backup机器down或者忙的时候，请求backup机器。所以这台机器压力会最轻。
+
+        #nginx支持同时设置多组的负载均衡，用来给不用的server来使用。
+        #client_body_in_file_only设置为On 可以讲client post过来的数据记录到文件中用来做debug
+        #client_body_temp_path设置记录文件的目录 可以设置最多3层目录
+        #location对URL进行匹配.可以进行重定向或者进行新的代理 负载均衡
+    }
+
+
+
+    #虚拟主机的配置
+    server
+    {
+        #监听端口
+        listen 80;
+
+        #域名可以有多个，用空格隔开
+        server_name www.jd.com jd.com;
+        index index.html index.htm index.php;
+        root /data/www/jd;
+
+        #fastcgi解析php
+        location ~ .*.(php|php5)?$
+        {
+#此处有两种方式去和php-fpm交互,一种是9000端口,另一种是使用socket连接
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            include fastcgi.conf;
+        }
+
+        #图片缓存时间设置
+        location ~ .*.(gif|jpg|jpeg|png|bmp|swf)$
+        {
+            expires 10d;
+        }
+
+        #JS和CSS缓存时间设置
+        location ~ .*.(js|css)?$
+        {
+            expires 1h;
+        }
+
+        #日志格式设定
+        #$remote_addr与$http_x_forwarded_for用以记录客户端的ip地址；
+        #$remote_user：用来记录客户端用户名称；
+        #$time_local： 用来记录访问时间与时区；
+        #$request： 用来记录请求的url与http协议；
+        #$status： 用来记录请求状态；成功是200，
+        #$body_bytes_sent ：记录发送给客户端文件主体内容大小；
+        #$http_referer：用来记录从那个页面链接访问过来的；
+        #$http_user_agent：记录客户浏览器的相关信息；
+        #通常web服务器放在反向代理的后面，这样就不能获取到客户的IP地址了，通过$remote_add拿到的IP地址是反向代理服务器的iP地址。反向代理服务器在转发请求的http头信息中，可以增加x_forwarded_for信息，用以记录原有客户端的IP地址和原来客户端的请求的服务器地址。
+        log_format access '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
+        '$status $body_bytes_sent &quot;$http_referer&quot; '
+        '&quot;$http_user_agent&quot; $http_x_forwarded_for';
+
+        #定义本虚拟主机的访问日志
+        access_log  /usr/local/nginx/logs/host.access.log  main;
+        access_log  /usr/local/nginx/logs/host.access.404.log  log404;
+
+        #对 &quot;/&quot; 启用反向代理
+        location / {
+            proxy_pass http://127.0.0.1:88;
+            proxy_redirect off;
+            proxy_set_header X-Real-IP $remote_addr;
+
+            #后端的Web服务器可以通过X-Forwarded-For获取用户真实IP
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            #以下是一些反向代理的配置，可选。
+            proxy_set_header Host $host;
+
+            #允许客户端请求的最大单文件字节数
+            client_max_body_size 10m;
+
+            #缓冲区代理缓冲用户端请求的最大字节数，
+            #如果把它设置为比较大的数值，例如256k，那么，无论使用firefox还是IE浏览器，来提交任意小于256k的图片，都很正常。如果注释该指令，使用默认的client_body_buffer_size设置，也就是操作系统页面大小的两倍，8k或者16k，问题就出现了。
+            #无论使用firefox4.0还是IE8.0，提交一个比较大，200k左右的图片，都返回500 Internal Server Error错误
+            client_body_buffer_size 128k;
+
+            #表示使nginx阻止HTTP应答代码为400或者更高的应答。
+            proxy_intercept_errors on;
+
+            #后端服务器连接的超时时间_发起握手等候响应超时时间
+            #nginx跟后端服务器连接超时时间(代理连接超时)
+            proxy_connect_timeout 90;
+
+            #后端服务器数据回传时间(代理发送超时)
+            #后端服务器数据回传时间_就是在规定时间之内后端服务器必须传完所有的数据
+            proxy_send_timeout 90;
+
+            #连接成功后，后端服务器响应时间(代理接收超时)
+            #连接成功后_等候后端服务器响应时间_其实已经进入后端的排队之中等候处理（也可以说是后端服务器处理请求的时间）
+            proxy_read_timeout 90;
+
+            #设置代理服务器（nginx）保存用户头信息的缓冲区大小
+            #设置从被代理服务器读取的第一部分应答的缓冲区大小，通常情况下这部分应答中包含一个小的应答头，默认情况下这个值的大小为指令proxy_buffers中指定的一个缓冲区的大小，不过可以将其设置为更小
+            proxy_buffer_size 4k;
+
+            #proxy_buffers缓冲区，网页平均在32k以下的设置
+            #设置用于读取应答（来自被代理服务器）的缓冲区数目和大小，默认情况也为分页大小，根据操作系统的不同可能是4k或者8k
+            proxy_buffers 4 32k;
+
+            #高负荷下缓冲大小（proxy_buffers*2）
+            proxy_busy_buffers_size 64k;
+
+            #设置在写入proxy_temp_path时数据的大小，预防一个工作进程在传递文件时阻塞太长
+            #设定缓存文件夹大小，大于这个值，将从upstream服务器传
+            proxy_temp_file_write_size 64k;
+        }
+
+
+        #设定查看Nginx状态的地址
+        location /NginxStatus {
+            stub_status on;
+            access_log on;
+            auth_basic &quot;NginxStatus&quot;;
+            auth_basic_user_file confpasswd;
+            #htpasswd文件的内容可以用apache提供的htpasswd工具来产生。
+        }
+
+        #本地动静分离反向代理配置
+        #所有jsp的页面均交由tomcat或resin处理
+        location ~ .(jsp|jspx|do)?$ {
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_pass http://127.0.0.1:8080;
+        }
+
+        #所有静态文件由nginx直接读取不经过tomcat或resin
+        location ~ .*.(htm|html|gif|jpg|jpeg|png|bmp|swf|ioc|rar|zip|txt|flv|mid|doc|ppt|
+        pdf|xls|mp3|wma)$
+        {
+            expires 15d; 
+        }
+
+        location ~ .*.(js|css)?$
+        {
+            expires 1h;
+        }
+    }
+}
+######Nginx配置文件nginx.conf中文详解#####
+</code></pre><p>参考链接: <a href="https://blog.6ag.cn/2918.html">https://blog.6ag.cn/2918.html</a></p>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">使用介绍</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/nginx/">nginx</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>个人简历 on whitepure</title>
+    <link>https://whiteppure.github.io/myblog/tags/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/</link>
+    <description>Recent content in 个人简历 on whitepure</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的中文简历</title>
+      <link>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_zh/</link>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_zh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>我的英文简历</title>
+      <link>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_en/</link>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/resume/whitepure-resume_en/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

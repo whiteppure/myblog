@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>Java运算总结 ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%bf%90%e7%ae%97%e7%ac%a6%e4%b8%8e%e8%a1%a8%e8%be%be%e5%bc%8f">
+                    运算符与表达式
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%bf%90%e7%ae%97%e7%ac%a6">
+                    运算符
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%a7%8d%e7%b1%bb">
+                    种类
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%bf%90%e7%ae%97%e9%a1%ba%e5%ba%8f">
+                    运算顺序
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%a1%a8%e8%be%be%e5%bc%8f">
+                    表达式
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#java%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f">
+                    Java正则表达式
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%8e%a7%e5%88%b6%e6%b5%81%e8%af%ad%e5%8f%a5">
+                    控制流语句
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#if-else%e8%af%ad%e5%8f%a5">
+                    if-else语句
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#switch%e8%af%ad%e5%8f%a5">
+                    switch语句
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#for%e8%af%ad%e5%8f%a5">
+                    for语句
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#do-while%e5%92%8cwhile%e8%af%ad%e5%8f%a5">
+                    do-while和while语句
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%8f%82%e6%95%b0%e4%bc%a0%e9%80%92">
+                    参数传递
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%ae%9e%e5%8f%82%e4%b8%8e%e5%bd%a2%e5%8f%82">
+                    实参与形参
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%80%bc%e4%bc%a0%e9%80%92%e4%b8%8e%e5%bc%95%e7%94%a8%e4%bc%a0%e9%80%92">
+                    值传递与引用传递
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#java%e4%bc%a0%e9%80%92%e5%af%b9%e8%b1%a1%e5%8f%82%e6%95%b0">
+                    Java传递对象参数
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#java%e8%bf%90%e7%ae%97">
+                    Java运算
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%b2%be%e5%ba%a6%e4%b8%a2%e5%a4%b1">
+                    精度丢失
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#bigdecimal">
+                    BigDecimal
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bd%bf%e7%94%a8">
+                    使用
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bf%9d%e8%af%81%e7%b2%be%e5%ba%a6%e5%8e%9f%e5%9b%a0%e5%8f%8a%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9">
+                    保证精度原因及注意事项
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#math">
+                    Math
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%b8%b8%e7%94%a8%e6%96%b9%e6%b3%95">
+                    常用方法
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/rookie/rookie-operation/'>Java运算总结</a></h2>
+                        <span class="date">2021.01.30</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="运算符与表达式">运算符与表达式</h2>
+<h3 id="运算符">运算符</h3>
+<p>运算符指明对操作数的运算方式。组成表达式的Java操作符有很多种。运算符按照其要求的操作数数目来分，可以有<strong>单目运算符、双目运算符和三目运算符</strong>，它们分别对应于1个、2个、3个操作数。</p>
+<h4 id="种类">种类</h4>
+<p>运算符按其功能来分:<strong>有算术运算符、赋值运算符、关系运算符、逻辑运算符、位运算符和其他运算符</strong>.</p>
+<h5 id="算术运算符">算术运算符</h5>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>名称</th>
+<th>用法描述</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>加法</td>
+<td>相加运算符两侧的值</td>
+<td></td>
+</tr>
+<tr>
+<td>-</td>
+<td>减法</td>
+<td>左操作数减去右操作数</td>
+<td></td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘法</td>
+<td>相乘操作符两侧的值</td>
+<td></td>
+</tr>
+<tr>
+<td>/</td>
+<td>除法</td>
+<td>左操作数除以右操作数</td>
+<td>右操作数不能为0</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取余(模)</td>
+<td>(左操作数除以右操作数)的余数</td>
+<td></td>
+</tr>
+<tr>
+<td>++</td>
+<td>自增</td>
+<td>操作数的值增加1</td>
+<td></td>
+</tr>
+<tr>
+<td>&ndash;</td>
+<td>自减</td>
+<td>操作数的值减少1</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>基本的<code>+、-、*、/</code>就不写了.记录一下剩下的算数运算符</p>
+<h6 id="取余">取余</h6>
+<p>基本用法</p>
+<pre><code>    public static void main(String[] args) {
+        System.out.println(0%5); // 0
+        System.out.println(1%5); // 1
+        System.out.println(2%5); // 2
+        System.out.println(3%5); // 3
+        System.out.println(4%5); // 4
+        System.out.println(5%5); // 0
+        System.out.println(&quot;------------&quot;);
+        System.out.println(6%5); // 1
+        System.out.println(7%5); // 2
+        System.out.println(8%5); // 3
+        System.out.println(9%5); // 4
+        System.out.println(9%1); // 0
+    }
+</code></pre><p>如果被除数小于除数,那取模的结果就是被除数.如果被除数等于除数,结果是0,如果除数是1,结果是0.</p>
+<p><strong>取余应用</strong></p>
+<p>当使用随机数生成器产生的结果时,取余运算（%）可将结果限制在上限为操作数最大值减1的范围.</p>
+<p>例如:n是随机数,那么<code>n%10</code>就是<code>0~9</code>中的一个数.无论n是多大的数,<code>n%10</code>只能是<code>0~9</code>之间的一个数,其中10就是操作数.可以利用这一特性,可以在数据库分库,分表 等.</p>
+<h6 id="自增和自减">自增和自减</h6>
+<p>基本用法</p>
+<pre><code>    public static void main(String[] args) {
+        int i = 1;
+        System.out.println(i++); // 1
+        System.out.println(i--); // 2
+    }
+</code></pre><p><strong>需要特别留意的是<code>++</code>和<code>--</code>运算符可以前置、后置，都是合法的语句，如<code>a++</code>和<code>++a</code>都是合法的，上面这两种写法其最终的结果都是是变量a的值加1了，但是它们之间也是有区别的，其区别是：表达是<code>++a</code>会先将a的值自增1，然后在使用变量a。而表达式a++是先使用了a的值，然后再让a的值自增1。也就是说在一些表达式，使用<code>a++</code>和使用<code>++a</code>得到的结果时不一样的。</strong></p>
+<pre><code>    public static void main(String[] args) {
+        int i = 1;
+        System.out.println(i++);// 1
+        System.out.println(++i);// 3
+    }
+</code></pre><p>自增(<code>++</code>)和自减(<code>--</code>)两个运算符只能作用于变量,而不能作用于表达式.</p>
+<pre><code>    public static void main(String[] args) {
+        int j = 0, i = 1;
+        // 编译报错
+        System.out.println((j+i)++);
+    }
+</code></pre><h5 id="赋值运算符">赋值运算符</h5>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>名称</th>
+<th>用法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>=</td>
+<td>赋值</td>
+<td>将右操作数的值赋给左侧操作数</td>
+</tr>
+<tr>
+<td>+=</td>
+<td>加等于</td>
+<td>把左操作数和右操作数相加赋值给左操作数</td>
+</tr>
+<tr>
+<td>-=</td>
+<td>减等于</td>
+<td>把左操作数和右操作数相减赋值给左操作数</td>
+</tr>
+<tr>
+<td>*=</td>
+<td>乘等于</td>
+<td>把左操作数和右操作数相乘赋值给左操作数</td>
+</tr>
+<tr>
+<td>/=</td>
+<td>除等于</td>
+<td>把左操作数和右操作数相除赋值给左操作数</td>
+</tr>
+<tr>
+<td>%=</td>
+<td>模等于</td>
+<td>把左操作数和右操作数取模后赋值给左操作数</td>
+</tr>
+<tr>
+<td>&laquo;=</td>
+<td>左位移等于</td>
+<td>把左操作数和右操作数进行左移运算后赋值给左操作数</td>
+</tr>
+<tr>
+<td>&raquo;=</td>
+<td>右位移等于</td>
+<td>把左操作数和右操作数进行右移运算后赋值给左操作数</td>
+</tr>
+<tr>
+<td>&amp;=</td>
+<td>按位与等于</td>
+<td>把左操作数和右操作数进行按位与运算后赋值给左操作数</td>
+</tr>
+<tr>
+<td>|=</td>
+<td>按位或等于</td>
+<td>把左操作数和右操作数进行按位或运算后赋值给左操作数</td>
+</tr>
+<tr>
+<td>^=</td>
+<td>异或等于</td>
+<td>把左操作数和右操作数进行按位异或运算后赋值给左操作数</td>
+</tr>
+</tbody>
+</table>
+<h5 id="关系运算符">关系运算符</h5>
+<p>关系运算符也称为比较运算符.
+用于测试两个操作数之间的关系.使用关系运算符表达式的最终结果为<code>boolean</code>型，也就是其结果只有两个<code>true</code>和<code>false</code>.</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>名称</th>
+<th>用法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>==</td>
+<td>双等号</td>
+<td>检查两个操作数的值是否相等,如果相等则条件为真.</td>
+</tr>
+<tr>
+<td>!=</td>
+<td>不等号</td>
+<td>检查两个操作数的值是否相等,如果值不相等则条件为真.</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+<td>检查左操作数的值是否大于右操作数的值,如果是那么条件为真.</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+<td>检查左操作数的值是否小于右操作数的值,如果是那么条件为真.</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于等于</td>
+<td>检查左操作数的值是否大于或等于右操作数的值,如果是那么条件为真.</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于等于</td>
+<td>检查左操作数的值是否小于或等于右操作数的值,如果是那么条件为真.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="逻辑运算符">逻辑运算符</h5>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>名称</th>
+<th>用法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;&amp;</td>
+<td>逻辑与</td>
+<td>当且仅当两个操作数都为真,条件才为真.</td>
+</tr>
+<tr>
+<td>||</td>
+<td>逻辑或</td>
+<td>如果两个操作数任何一个为真,条件为真.</td>
+</tr>
+<tr>
+<td>!</td>
+<td>逻辑非</td>
+<td>用来反转操作数的逻辑状态.如果条件为true,通过逻辑非将得到false.</td>
+</tr>
+</tbody>
+</table>
+<h6 id="短路运算符">短路运算符</h6>
+<p><code>&amp;&amp;</code>运算符,运算顺序是从左到右计算,运算规则是如果两个操作数都是真,则返回<code>true</code>,否则返回<code>false</code>.但是当判定到第一个操作数为<code>false</code>时,其结果必定为<code>false</code>,这时候就不再会判定第二个操作数了.</p>
+<pre><code>    public static void main(String[] args) {
+        int i = 1, j = 2;
+        boolean flag = (i++ == 2) &amp;&amp; (++j == 3);
+        // flag的值: false,i的值:2,j的值:2
+        System.out.printf(&quot;flag的值: %s,i的值:%s,j的值:%s&quot;, flag, i, j);
+    }
+</code></pre><h5 id="位运算符">位运算符</h5>
+<p>位运算符在追求代码效率和编写底层应用时,使用的比较多;在企业Java开发一般用到的较少.</p>
+<p>因为位运算符是以<code>bit</code>运算单位的.所以想要要弄明白位运算符,就要先弄明白2进制的表示方法.</p>
+<p>位运算符只能对整数型(<code>int,long,short,byte</code>)和字符型数据(<code>char</code>)进行操作.</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>名称</th>
+<th>用法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;</td>
+<td>按位与</td>
+<td>如果相对应位都是1,则结果为1,否则为0</td>
+</tr>
+<tr>
+<td>|</td>
+<td>按位或</td>
+<td>如果相对应位都是 0,则结果为 0,否则为 1</td>
+</tr>
+<tr>
+<td>^</td>
+<td>按位异或</td>
+<td>如果相对应位值相同,则结果为0,否则为1</td>
+</tr>
+<tr>
+<td>~</td>
+<td>按位取反</td>
+<td>翻转操作数的每一位,即0变成1,1变成0.</td>
+</tr>
+<tr>
+<td>&laquo;</td>
+<td>左移</td>
+<td>左操作数按位左移右操作数指定的位数.</td>
+</tr>
+<tr>
+<td>&raquo;</td>
+<td>右移</td>
+<td>左操作数按位右移右操作数指定的位数.</td>
+</tr>
+<tr>
+<td>&raquo;&gt;</td>
+<td>无符号右移</td>
+<td>左操作数的值按右操作数指定的位数右移,移动得到的空位以零填充.</td>
+</tr>
+</tbody>
+</table>
+<p>基本用法</p>
+<pre><code>    public static void main(String[] args) {
+        int i = 1, j = 2;
+        System.out.println(i&amp;j);//0
+        System.out.println(i|j);//3
+        System.out.println(i^j);//3
+        System.out.println(~(j+i));//-4
+        System.out.println(i&lt;&lt;j);//4
+        System.out.println(i&gt;&gt;j);//0
+        System.out.println(i&gt;&gt;&gt;j);//0
+    }
+</code></pre><p>解析:</p>
+<p>以下示例用十进制的1和2进行运算.1用二进制表示为<code>0000 0001</code>,2用二进制表示为<code>0000 0010</code>
+<a href="https://www.google.com/search?sxsrf=ALeKk0010piT4DlhyvDp3DJUzmKw1n2QLA%3A1612180398529&amp;ei=rusXYLncH9X_wAP5n5GwDQ&amp;q=10%E8%BF%9B%E5%88%B62%E8%BF%9B%E5%88%B6%E4%BA%92%E7%9B%B8%E8%BD%AC%E6%8D%A2&amp;oq=10%E8%BF%9B%E5%88%B62%E8%BF%9B%E5%88%B6%E4%BA%92%E7%9B%B8%E8%BD%AC%E6%8D%A2&amp;gs_lcp=CgZwc3ktYWIQA1CuT1iuT2CEVmgBcAB4AIABvQGIAb0BkgEDMC4xmAEAoAECoAEBqgEHZ3dzLXdpesABAQ&amp;sclient=psy-ab&amp;ved=0ahUKEwi5697_z8juAhXVP3AKHflPBNYQ4dUDCA0&amp;uact=5">10进制2进制互相转换</a>怎么转就不讲了.不懂的小伙伴可自行查看链接.</p>
+<p>&amp;:如果相对应位都是1,则结果为1,否则为0</p>
+<pre><code>0000 0001
+0000 0010
+——————————
+0000 0000
+</code></pre><p>|:如果相对应位都是 0,则结果为 0,否则为 1</p>
+<pre><code>0000 0001
+0000 0010
+——————————
+0000 0011
+</code></pre><p>^:如果相对应位值相同,则结果为0,否则为1</p>
+<pre><code>0000 0001
+0000 0010
+——————————
+0000 0011
+</code></pre><p>~:翻转操作数的每一位,即0变成1,1变成0.</p>
+<blockquote>
+<p>十进制负数转换为二进制,就是将其相反数（正数）的补码的每一位变反（1变0，0变1）最后将变完了的数值加1,就完成了负数的补码运算.这样就变成了二进制.二进制转十进制负数相反.</p>
+</blockquote>
+<pre><code>0000 0011
+——————————
+1111 1100
+</code></pre><p><code>&lt;&lt;</code>:左操作数按位左移右操作数指定的位数.</p>
+<p>1左移两位</p>
+<pre><code>0000 0001
+——————————
+0000 0100
+</code></pre><p><code>&gt;&gt;</code>:左操作数按位右移右操作数指定的位数.</p>
+<p>正数右移高位补0，负数右移高位补1</p>
+<p>1右移两位</p>
+<pre><code>0000 0001
+——————————
+0000 0000
+</code></pre><p>负一右移两位</p>
+<pre><code>1111 1111
+——————————
+1111 1111
+</code></pre><p><code>&gt;&gt;&gt;</code>:左操作数的值按右操作数指定的位数右移,移动得到的空位以零填充.</p>
+<p>无符号右移,无论是正数还是负数,高位通通补0</p>
+<p>1无符号右移两位</p>
+<pre><code>0000 0001
+——————————
+0000 0000
+</code></pre><p>负一无符号右移两位</p>
+<pre><code>1111 1111
+——————————
+0011 1111
+</code></pre><h5 id="其他运算符">其他运算符</h5>
+<h6 id="三目运算符">三目运算符</h6>
+<p>该运算符有3个操作数,其功能是对表达式条件进行判断,根据判断结果是<code>true</code>或者<code>false</code>两种情况赋予赋予不同的返回值.
+该运算符的主要是决定哪个值应该赋值给变量.</p>
+<p>在某些情况下,可以发现三目运算符和<code>if...else</code>作用是相同的.</p>
+<pre><code>    public static void main(String[] args) {
+        int var1 = 1;
+        int var2 = 0;
+        var1 = var2 &gt; 1 ?  1: 2;
+        
+        // 等价于if...else以下代码
+        if (var2 &gt; 1) {
+            var1 = 1;
+        }else {
+            var1 = 2;
+        }
+    }
+</code></pre><p>三目运算符的原理到底是什么,与<code>if...else</code>到底哪有啥不同?要探究这个原因,需要看JVM是对三目运算符怎么处理的.</p>
+<p>用<code>javap -verbose</code>命令,分别把<code>if...else</code>和三目运算符相关代码进行反编译</p>
+<p>三目运算符</p>
+<pre><code>    public static void main(String[] args) {
+        int var1 = 1;
+        int var2 = 0;
+        // 如果var2大于1 则var1等于1 否则等于2
+        var1 = var2 &gt; 1 ?  1: 2;
+    }
+</code></pre><pre><code class="language-class" data-lang="class">  // ...
+{
+ // ...
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=3, args_size=1
+         0: iconst_1 // 向栈里添加int类型 1
+         1: istore_1 // 将int 1 存储到局部变量
+         2: iconst_0 // 向栈里添加int类型 0
+         3: istore_2 // 将int 2 存储到局部变量
+         4: iload_2  // 从局部变量加载int 2
+         5: iconst_1
+         6: if_icmple     13  // 将1,3步骤栈中的变量弹出 进行比较
+         9: iconst_1 // 比较成功 存储该值到栈中
+        10: goto          14 // 改变地址
+        13: iconst_2
+        14: istore_1
+        15: return
+      LineNumberTable:
+        line 6: 0
+        line 7: 2
+        line 8: 4
+        line 9: 15
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      16     0  args   [Ljava/lang/String;
+            2      14     1  var1   I
+            4      12     2  var2   I
+      StackMapTable: number_of_entries = 2
+        frame_type = 253 /* append */
+          offset_delta = 13
+          locals = [ int, int ]
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+}
+// ...
+</code></pre><p><code>if...else</code></p>
+<pre><code>    public static void main(String[] args) {
+        int var1 = 1;
+        int var2 = 0;
+        if (var2 &gt; 1){
+            var1 = 1;
+        } else {
+            var1 = 2;
+        }
+    }
+</code></pre><pre><code class="language-class" data-lang="class">  // ...
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=3, args_size=1
+         0: iconst_1
+         1: istore_1
+         2: iconst_0
+         3: istore_2
+         4: iload_2
+         5: iconst_1
+         6: if_icmple     14
+         9: iconst_1
+        10: istore_1
+        11: goto          16
+        14: iconst_2
+        15: istore_1
+        16: return
+      LineNumberTable:
+        line 6: 0
+        line 7: 2
+        line 8: 4
+        line 9: 9
+        line 11: 14
+        line 13: 16
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      17     0  args   [Ljava/lang/String;
+            2      15     1  var1   I
+            4      13     2  var2   I
+      StackMapTable: number_of_entries = 2
+        frame_type = 253 /* append */
+          offset_delta = 14
+          locals = [ int, int ]
+        frame_type = 1 /* same */
+}
+// ...
+
+</code></pre><p>通过查阅<a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html">《Java虚拟机指令集》</a>,可以看到JVM对上边的代码进行了什么处理.</p>
+<p><strong>通过比较两次反编译后的代码可以得出一个结论:三目运算符,省去了一步赋值操作</strong> 所以实际开发中三目运算符的运算效率略高于<code>if..else</code>.
+但是对于实际开发来说三目运算符的可读性相对不如<code>if...else</code>代码，所以在常见的编码中，三目运算符更倾向于简单的<code>if...else</code>语句的替代.</p>
+<h6 id="instanceof">instanceof</h6>
+<p><code>interfaceof</code>是一个双目运算符,该关键字的作用是判断左边的对象是不是右边类的实例,并返回一个<code>boolean</code>值</p>
+<p>基本用法</p>
+<pre><code>    public static void main(String[] args) {
+        String str1 = &quot;123&quot;;
+        String str = (str1 instanceof Object) ? &quot;123&quot; : &quot;456&quot;;
+    }
+</code></pre><h4 id="运算顺序">运算顺序</h4>
+<p>Java 语言中大部分运算符也是从左向右结合的,只有单目运算符、赋值运算符和三目运算符例外,是从右向左运算的.</p>
+<p>Java 语言中运算符的优先级共分为 14 级,其中 1 级最高,14 级最低.在同一个表达式中运算符优先级高的先执行.</p>
+<blockquote>
+<p>算术运算符&gt;比较运算符&gt;赋值运算符&gt;逻辑运算符&gt;三元运算符<br><br>
+可使用以下口诀记住：
+单目乘除为关系,逻辑三目后赋值.</p>
+</blockquote>
+<p><strong>运算符优先级表</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">优先级</th>
+<th>运算符</th>
+<th style="text-align:center">结合性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td>()、[]</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td>!、+、-、~、++、&ndash;</td>
+<td style="text-align:center">从右向左</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td>*、/、%</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td>+、-</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td>«、»、&raquo;&gt;</td>
+<td style="text-align:center">从左向</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td>&lt;、&lt;=、&gt;、&gt;=、instanceof</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td>==、!=</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td>&amp;</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td>|</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td>&amp;&amp;</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td>||</td>
+<td style="text-align:center">从左向右</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td>?:</td>
+<td style="text-align:center">从右向左</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td>=、+=、-=、*=、/=、&amp;=、|=、^=、~=、&laquo;=、&raquo;=、&raquo;&gt;=</td>
+<td style="text-align:center">从右向左</td>
+</tr>
+</tbody>
+</table>
+<p><strong>建议</strong></p>
+<ul>
+<li>不要把一个表达式写得过于复杂,如果一个表达式过于复杂，则会影响代码可读性,建议把它分成几步来完成.</li>
+<li>不要过多地依赖运算符的优先级来控制表达式的执行顺序,这样可读性太差,尽量使用小括号来控制表达式的执行顺序.</li>
+</ul>
+<h3 id="表达式">表达式</h3>
+<p>表达式是由运算符和运算对象组成的,单独的一个运算对象(常量/变量)也可以叫做表达式.</p>
+<p>变量的赋值与计算都离不开表达式,表达式的运算依赖于变量、常量和运算符.</p>
+<p>在Java中表达式通常是以分号结尾的一段代码.</p>
+<pre><code>float f1 = 1.1f;
+float f2 = 1.2f;
+float f3 = f1 + f2;
+</code></pre><h4 id="java正则表达式">Java正则表达式</h4>
+<blockquote>
+<p>正则表达式，又称规则表达式。（英语：Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式通常被用来检索、替换那些符合某个模式(规则)的文本。在众多语言中都可以支持正则表达式，如<code>Perl、PHP、Java、Python、Ruby</code>等.</p>
+</blockquote>
+<p>正则表达式并不仅限于某一种语言,但是在每种语言中有细微的差别.</p>
+<p>例如：</p>
+<blockquote>
+<p>在其他语言中，<code>\\</code> 表示：我想要在正则表达式中插入一个普通的（字面上的）反斜杠.<br>
+在 Java 中，<code>\\</code> 表示：我要插入一个正则表达式的反斜线，所以其后的字符具有特殊的意义。<br>
+所以，在其他的语言中,一个反斜杠<code>\</code>就足以具有转义的作用，而在 Java 中正则表达式中则需要有两个反斜杠才能被解析为其他语言中的转义作用。也可以简单的理解在 Java 的正则表达式中，两个 <code>\\</code> 代表其他语言中的一个 \，这也就是为什么表示一位数字的正则表达式是 <code>\\d</code>，而表示一个普通的反斜杠是 <code>\\\\</code>。</p>
+</blockquote>
+<p>正则表达式是由普通字符（如英文字母）以及<a href="https://www.runoob.com/regexp/regexp-metachar.html">特殊字符（也称为元字符）</a>组成的文字模式.</p>
+<p>例如：</p>
+<pre><code>String str = &quot;abc^123/?[1,2]&quot;;
+</code></pre><p>在Java语言中主要是使用正则表达式处理字符串.Java从jdk1.4开始提供了一个包<code>java.util.regex</code>来处理正则表达式.</p>
+<p>在Java开发中主要使用<code>java.util.regex</code>包中<code>Pattern</code>类,<code>Matcher</code>类来处理字符串.
+详情参照文档<a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">《Java™平台
+标准Ed. 8》</a>,<a href="https://www.runoob.com/java/java-regular-expressions.html">《菜鸟教程》Java正则表达式</a> ,<a href="http://www.51gjie.com/java/761.html">《JavaSchool》Java正则表达式</a> 这些文档里面有详细的教程,所以这里不作过多介绍了.</p>
+<p>使用正则表达式示例</p>
+<pre><code>    public static void main(String[] args) {
+        // 表示匹配以字母a为开头的单词
+        String regx = &quot;\\ba\\w*\\b&quot;;
+        // 将给定的正则表达式编译到具有给定标志的模式中
+        Pattern pattern = Pattern.compile(regx);
+        // 创建匹配给定输入与此模式的匹配器
+        Matcher matcher = pattern.matcher(&quot;abcdab cccabcd aaacd&quot;);
+        int index = 0;
+        // 循环 查找与上边正则匹配的字符序列
+        while (matcher.find()) {
+            // 返回 由以前匹配操作 所匹配的 输入子序列
+            String res = matcher.group();
+            System.out.println(index + &quot;:&quot; + res);
+            index++;
+        }
+    }
+</code></pre><pre><code>0:abcdab
+1:aaacd
+</code></pre><p><strong>总的来说正则表达式是对字符串操作的一种逻辑公式,用事先定义好的一些特定字符、及这些特定字符的组合,组成一个&quot;规则字符串&quot;,这个&quot;规则字符串&quot;用来表达对字符串的一种过滤逻辑.</strong></p>
+<p><strong>正则表达式的灵活性、逻辑性和功能性非常的强.可以迅速地用极简单的方式达到字符串的复杂控制.但是对于刚接触的人来说,比较晦涩难懂.</strong></p>
+<h5 id="常用正则">常用正则</h5>
+<table>
+<thead>
+<tr>
+<th>描述</th>
+<th>正则表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>是否为数字</td>
+<td><code>^[0-9]*$</code></td>
+</tr>
+<tr>
+<td>是否为n位数数字</td>
+<td><code>^\d{n}$</code></td>
+</tr>
+<tr>
+<td>是否为m-n位的数字</td>
+<td><code>^\d{m,n}$</code></td>
+</tr>
+<tr>
+<td>是否输入至少n位的数字</td>
+<td><code>^/d{n,}$&quot;</code></td>
+</tr>
+<tr>
+<td>是否为整数</td>
+<td><code>^-?/d+$</code></td>
+</tr>
+<tr>
+<td>是否为负整数</td>
+<td><code>^-[0-9]*[1-9][0-9]*$</code></td>
+</tr>
+<tr>
+<td>是否为正整数</td>
+<td><code>^[0-9]*[1-9][0-9]*$</code></td>
+</tr>
+<tr>
+<td>是否为汉字</td>
+<td><code>^[\u4e00-\u9fa5]{0,}$</code></td>
+</tr>
+<tr>
+<td>是否为邮箱</td>
+<td><code>^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</code></td>
+</tr>
+<tr>
+<td>是否为域名</td>
+<td><code>[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?</code></td>
+</tr>
+<tr>
+<td>是否为URL</td>
+<td><code>^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</code></td>
+</tr>
+<tr>
+<td>是否为手机号码</td>
+<td><code>^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$</code></td>
+</tr>
+<tr>
+<td>是否为固话号码</td>
+<td><code>^($$\d{3,4}-)|\d{3.4}-)?\d{7,8}$</code></td>
+</tr>
+<tr>
+<td>是否为身份证号码</td>
+<td><code>^([0-9]){7,18}(x|X)?$ 或^\d{15}|\d{18}$或 ^\d{8,18}|[0-9x]{8,18}|[0-9X]{8,18}?$</code></td>
+</tr>
+<tr>
+<td>是否以字母开头,长度在6~18之间,只能包含字母、数字和下划线</td>
+<td><code>^[a-zA-Z]\w{5,17}$</code></td>
+</tr>
+<tr>
+<td>是否必须包含大小写字母和数字的组合,不能使用特殊字符,长度在8-10之间</td>
+<td><code>^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$</code></td>
+</tr>
+<tr>
+<td>是否为腾讯QQ号码</td>
+<td><code>[1-9][0-9]{4,}</code> (QQ号从10000开始)</td>
+</tr>
+<tr>
+<td>是否为中国邮政编码</td>
+<td><code>[1-9]\d{5}(?!\d)</code></td>
+</tr>
+<tr>
+<td>是否为ip地址</td>
+<td><code>((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}\2</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="控制流语句">控制流语句</h2>
+<h3 id="if-else语句">if-else语句</h3>
+<p><code>if</code>语句是最基本的控制语句,它只有在<code>If(exception)</code>为<code>true</code>的时候才会执行特定的代码.</p>
+<pre><code>    public static void main(String[] args) {
+        boolean var1 = true;
+        if (var1){
+            System.out.println(&quot;hello world ...&quot;);
+        }
+    }
+</code></pre><p><code>if</code>语句后面可以跟<code>else</code>语句.当<code>If(exception)</code>为<code>false</code>时,<code>else</code>语句体将被执行.</p>
+<pre><code>    public static void main(String[] args) {
+        boolean var1 = false;
+        if (var1){
+            System.out.println(&quot;if ...&quot;);
+        }else{
+            System.out.println(&quot;else ...&quot;);
+        }
+    }
+</code></pre><p><code>if</code>语句后面可以跟 <code>else if…else</code> 语句</p>
+<pre><code>public class HelloWorld {
+    public static void main(String[] args) {
+        String var = &quot;123&quot;;
+        if (&quot;123&quot;.equals(var)){
+            System.out.println(&quot;123 ...&quot;);
+        }else if(&quot;234&quot;.equals(var)){
+            System.out.println(&quot;234 ...&quot;);
+        }else if (&quot;345&quot;.equals(var)){
+            System.out.println(&quot;345 ...&quot;);
+        }else{
+            System.out.println(&quot;...&quot;);
+        }
+    }
+
+}
+</code></pre><h3 id="switch语句">switch语句</h3>
+<p><code>switch</code>语句是在项目开发中是比较常用的.可以和<code>if...else</code>起到相同的作用,但是用<code>switch</code>代码可读性更高.</p>
+<p><code>switch case</code>语句判断一个变量与一系列值中某个值是否相等,每个值称为一个分支.</p>
+<p><code>switch</code>语句可以包含一个<code>default</code>分支. <code>default</code> 在没有<code>case</code>语句的值和变量值相等的时候执行.<code>default</code> 分支不需要<code>break</code>语句。</p>
+<pre><code>    public static void main(String[] args) {
+        String s = &quot;123&quot;;
+        switch (s) {
+            case &quot;123&quot;:
+                System.out.println(&quot;123&quot;);
+                break;
+            case &quot;456&quot;:
+                System.out.println(&quot;456&quot;);
+                break;
+             default :
+                System.out.println(&quot;over ...&quot;);
+        }
+    }   
+</code></pre><p><code>switch</code>语句中的变量类型可以是： <code>byte,short,int,char</code> 或者 <code>enum</code>从 Java 7 开始,可以在<code>switch</code>条件判断语句中使用<code>String</code>对象.</p>
+<p><strong>switch 不支持 long</strong>，是因为 <code>switch</code> 的设计初衷是对那些只有少数的几个值进行等值判断，如果值过于复杂，那么还是用 <code>if</code> 比较合适。</p>
+<pre><code>long x = 111;
+ switch (x) { 
+     case 111:
+         System.out.println(111);
+         break;
+     case 222:
+         System.out.println(222);
+         break;
+}
+</code></pre><p>当变量的值与<code>case</code>语句的值相等时,那么<code>case</code>语句之后的语句开始执行，直到<code>break</code>语句出现才会跳出<code>switch</code>语句.如果没有<code>break</code>语句出现,程序会继续执行下一条<code>case</code>语句,直到出现<code>break</code>语句.</p>
+<pre><code>public static void main(String[] args) {
+        int i = 100;
+        switch (i){
+            case 100:
+                System.out.println(&quot;first case ...&quot;);
+            case 200:
+                System.out.println(&quot;second case ...&quot;);
+                break;
+        }
+    }
+</code></pre><h3 id="for语句">for语句</h3>
+<p>for循环执行的次数是在执行前就确定的.</p>
+<p>for语句提供了一种紧凑的方法来遍历一系列值。程序员经常将其称为“for循环”，因为它反复循环直到满足特定条件。for语句的一般形式可以表示为:</p>
+<pre><code>    public static void main(String[] args) {
+        for (int i = 0; i &lt; 100; i++) {
+            System.out.println(i);
+        }
+    }
+</code></pre><p>for循环的三个表达式是可选的;可以这样创建一个无限循环:</p>
+<pre><code>/ /无限循环
+for(;;){
+
+    // to do ...
+}
+</code></pre><p><code>foreach</code>语句是java5的新特征之一，在遍历数组、集合方面,为开发人员提供了极大的方便.</p>
+<p><strong><code>foreach</code>循环的效率大概是普通for循环效率的一半</strong> ,但在项目开发中如果只是少量的循环,可以忽略<code>foreach</code>带来的影响.</p>
+<pre><code>    public static void main(String[] args) {
+        String[] arr = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;};
+        ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;(Arrays.asList(arr));
+        for (String s : list) {
+            System.out.println(s);
+        }
+        for (String s : arr) {
+            System.out.println(s);
+        }
+    }
+</code></pre><p><strong>分支语句<code>break</code>,<code>continue</code>和<code>return</code></strong></p>
+<p><code>continue</code>语句用来结束当前循环,并进入下一次循环,即仅仅这一次循环结束了,不是所有循环结束了,后边的循环依旧进行.</p>
+<pre><code>    public static void main(String[] args) {
+        String[] arr = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;};
+        for (String s : arr) {
+            // 如果s等于1,则结束本次循环 执行下次循环
+            if (&quot;1&quot;.equals(s)) {
+                continue;
+            }
+            System.out.println(&quot;...&quot;);
+        }
+    }
+</code></pre><p><code>break</code>语句作用是跳出循环.<code>break</code>主要用在循环语句或者<code>switch</code>语句中</p>
+<pre><code>public class HelloWorld {
+    public static void main(String[] args) {
+        String[] arr = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;};
+        for (String s : arr) {
+            // s等于2,结束for循环
+            if (&quot;2&quot;.equals(s)) {
+                break;
+            }
+            System.out.println(&quot;...&quot;);
+        }
+    }
+
+}
+</code></pre><p>如果存在多层循环,要注意<code>break</code>只能跳出一层循环.</p>
+<pre><code>    public static void main(String[] args) {
+        String[] arr = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;};
+        for (int i = 0; i &lt; 10; i++) {
+            for (String s : arr) {
+                if (&quot;2&quot;.equals(s)) {
+                    break;
+                }
+                System.out.println(&quot;...&quot;);
+            }
+            System.out.println(&quot;外层 for ...&quot;);
+        }
+    }
+</code></pre><p>如果存在多层循环,可以用以下方式,当然也可以用<code>break</code>跳两次循环</p>
+<pre><code>    public static void main(String[] args) {
+        String[] arr = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;};
+        
+        test:
+        for (int i = 0; i &lt; 10; i++) {
+            for (String s : arr) {
+                if (&quot;2&quot;.equals(s)) {
+                    break test;
+                }
+                System.out.println(&quot;...&quot;);
+            }
+            System.out.println(&quot;外层 for ...&quot;);
+        }
+    }
+</code></pre><p><code>continue</code>也可以用这种方式</p>
+<pre><code>    public static void main(String[] args) {
+        String[] arr = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;};
+
+        test:
+        for (int i = 0; i &lt; 10; i++) {
+            for (String s : arr) {
+                if (&quot;1&quot;.equals(s)) {
+                    continue test;
+                }
+            }
+            System.out.println(&quot;外层 for ...&quot;);
+        }
+    }
+</code></pre><p><code>return</code>语句表示从当前方法退出,控制流返回到调用方法的地方。</p>
+<p>上面<code>continue</code>的示例,用<code>return</code>也能达到一样的效果</p>
+<pre><code>    public static void main(String[] args) {
+        String[] arr = {&quot;1&quot;, &quot;2&quot;, &quot;3&quot;};
+
+        for (int i = 0; i &lt; 10; i++) {
+            for (String s : arr) {
+                if (&quot;1&quot;.equals(s)) {
+                    return;
+                }
+            }
+            System.out.println(&quot;外层 for ...&quot;);
+        }
+    }
+</code></pre><p><code>return</code>语句有两种形式:一种返回值，另一种不返回值。要返回一个值，只需将值(或计算该值的表达式)放在<code>return</code>关键字之后.</p>
+<p>像这样</p>
+<pre><code>return ++count;
+</code></pre><h3 id="do-while和while语句">do-while和while语句</h3>
+<p><code>while</code>语句对表达式进行计算，表达式必须返回一个布尔值。如果表达式的计算结果为<code>true</code>,<code>while</code>语句将执行<code>while</code>块中的语句。<code>while</code>语句继续测试表达式并执行其块，直到表达式的计算结果为<code>false</code>.</p>
+<pre><code>    public static void main(String[] args) {
+        int i = 0;
+       while(++i &gt;= 1){
+           i--;
+        }
+    }
+</code></pre><p>死循环</p>
+<pre><code>    public static void main(String[] args) {
+        while (true) {
+        }
+    }
+</code></pre><p><code>do…while</code>循环和<code>while</code>循环相似，不同的是<code>do…while</code>循环至少会执行一次.</p>
+<pre><code>    public static void main(String[] args) {
+        int i = 0;
+        do{
+            i++;
+            System.out.println(&quot; ... &quot;);
+        }while (--i == 1);
+    }
+</code></pre><p><strong>注意:布尔表达式在循环体的后面，所以语句块在检测布尔表达式之前已经执行了.如果布尔表达式的值为<code>true</code>，则语句块一直执行，直到布尔表达式的值为<code>false</code></strong></p>
+<h2 id="参数传递">参数传递</h2>
+<h3 id="实参与形参">实参与形参</h3>
+<blockquote>
+<p>形式参数：是在定义函数名和函数体的时候使用的参数,目的是用来接收调用该函数时传入的参数。</p>
+</blockquote>
+<blockquote>
+<p>实际参数：在调用有参函数时，主调函数和被调函数之间有数据传递关系。在主调函数中调用一个函数时，函数名后面括号中的参数称为“实际参数”。</p>
+</blockquote>
+<p>举个例子:</p>
+<pre><code>public class HelloWorld {
+    public static void main(String[] args) {
+        // 实参 
+        test(&quot;world&quot;);
+    }
+    
+    // 形参
+    public static void test(String param){
+        System.out.println(&quot;hello &quot; + param);
+    }
+}
+</code></pre><h3 id="值传递与引用传递">值传递与引用传递</h3>
+<blockquote>
+<p>值传递: 是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。</p>
+</blockquote>
+<blockquote>
+<p>引用传递: 是指在调用函数时将实际参数的地址直接传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>&hellip;</th>
+<th>值传递</th>
+<th>引用传递</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>区别</td>
+<td>传参时会创建副本</td>
+<td>传参数不创建副本</td>
+</tr>
+<tr>
+<td>描述</td>
+<td>方法中无法修改原始对象</td>
+<td>方法中可以修改原始对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="java传递对象参数">Java传递对象参数</h3>
+<p>很多人理解Java中,传递的参数如果是普通类型，那就是值传递，如果是对象，那就是引用传递.这个理解是错误的.</p>
+<p>举个例子:</p>
+<p><strong>如果在方法中改变对象的字段值会改变原对象该字段值，因为改变的是同一个地址指向的内容。</strong></p>
+<pre><code>class PassByValueExample {
+    public static void main(String[] args) {
+        Dog dog = new Dog(&quot;A&quot;);
+        func(dog);
+        System.out.println(dog.getName());          // B
+    }
+
+    private static void func(Dog dog) {
+        dog.setName(&quot;B&quot;);//dog.name=&quot;B&quot;;
+    }
+}
+</code></pre><p>然后有人就说Java传递对象类型参数是引用传递.这一点在官方<a href="https://docs.oracle.com/javase/tutorial/java/javaOO/arguments.html">《Java™教程》</a>中有相关的描述.</p>
+<blockquote>
+<p>Passing Reference Data Type Arguments.
+Reference data type parameters, such as objects, are also passed into methods by value. This means that when the method returns, the passed-in reference still references the same object as before. However, the values of the object&rsquo;s fields can be changed in the method, if they have the proper access level.<br></p>
+</blockquote>
+<p><strong>传递引用数据类型参数。
+引用数据类型参数(如对象)也按值传递给方法。这意味着，当方法返回时，传入的引用仍然引用与之前相同的对象。但是，如果对象的字段具有适当的访问级别，则可以在方法中更改它们的值。</strong></p>
+<blockquote>
+<p>例如，考虑任意类中的一个移动Circle对象的方法:</p>
+</blockquote>
+<pre><code>public void moveCircle(Circle circle, int deltaX, int deltaY) {
+    // code to move origin of circle to x+deltaX, y+deltaY
+    circle.setX(circle.getX() + deltaX);
+    circle.setY(circle.getY() + deltaY);
+        
+    // code to assign a new reference to circle
+    circle = new Circle(0, 0);
+}
+</code></pre><blockquote>
+<p>使用以下参数调用该方法:</p>
+</blockquote>
+<pre><code>moveCircle(myCircle, 23, 56)
+</code></pre><blockquote>
+<p>在这个方法中，circle最初指的是<code>myCircle</code>。该方法将<code>circle</code>引用的对象(即<code>myCircle</code>)的x坐标和y坐标分别更改了23和56。当方法返回时，这些更改将持续存在。然后<code>circle</code>被赋予一个新的<code>circle</code>对象x = y = 0的引用。但是，这种重新分配不具有持久性，因为引用是按值传入的，不能更改。在方法中，circle指向的对象已经改变，但是，当方法返回时，<code>myCircle</code>仍然引用与方法调用之前相同的<code>circle</code>对象。</p>
+</blockquote>
+<p>值传递和引用传递最大的区别是传递的过程中有没有复制出一个副本来，如果是传递副本，那就是值传递，否则就是引用传递。
+在Java中，其实是通过值传递实现的参数传递，只不过对于Java对象的传递，传递的内容是对象的引用。
+所以说 <strong>Java的参数是以值传递的形式传入方法中,而不是引用传递.</strong></p>
+<p><strong>Java对象的传递，是通过复制的方式把引用关系传递了，如果我们没有改引用关系，而是找到引用的地址，把里面的内容改了，是会对调用方有影响的，因为大家指向的是同一个共享对象。</strong></p>
+<p>以下代码中<code>Dog</code>类中的<code>dog</code>是一个指针，存储的是对象的地址.</p>
+<pre><code>public class Dog {
+
+    String name;
+
+    Dog(String name) {
+        this.name = name;
+    }
+
+    String getName() {
+        return this.name;
+    }
+
+    void setName(String name) {
+        this.name = name;
+    }
+
+    String getObjectAddress() {
+        return super.toString();
+    }
+}
+public class PassByValueExample {
+    public static void main(String[] args) {
+        Dog dog = new Dog(&quot;A&quot;);
+        // Dog@4554617c
+        System.out.println(dog.getObjectAddress()); 
+        func(dog);
+        // Dog@4554617c
+        System.out.println(dog.getObjectAddress()); 
+        // A
+        System.out.println(dog.getName());          
+    }
+
+    private static void func(Dog dog) {
+        // Dog@4554617c
+        System.out.println(dog.getObjectAddress()); 
+        //重新new生成新的对象
+        dog = new Dog(&quot;B&quot;);
+        // Dog@74a14482
+        System.out.println(dog.getObjectAddress()); 
+        // B
+        System.out.println(dog.getName());          
+    }
+}
+</code></pre><h2 id="java运算">Java运算</h2>
+<h3 id="精度丢失">精度丢失</h3>
+<p>在Java中,使用浮点类型进行计算会造成精度丢失</p>
+<p>例如:</p>
+<pre><code>    public static void main(String[] args) {
+        // 0.20000005
+        System.out.println(1.2f - 1);
+        // 0.19999999999999996
+        System.out.println(1.2d - 1);
+    }
+</code></pre><p>那么为什么会浮点类型会存在精度精度丢失问题呢?</p>
+<p>因为<a href="https://www.zhihu.com/question/46432979/answer/221485161">Java的浮点类型在计算机中是用二进制来存储</a>的,也就是小数在转二进制的时候出现了精度丢失.</p>
+<p>PS: 小数如何转二进制</p>
+<blockquote>
+<p>将该数字乘以2，取出整数部分作为二进制表示的第1位；然后再将小数部分乘以2，将得到的整数部分作为二进制表示的第2位；以此类推，直到小数部分为0.<br>
+特殊情况： 小数部分出现循环，无法停止，则用有限的二进制位无法准确表示一个小数，这也是在编程语言中表示小数会出现误差的原因.</p>
+</blockquote>
+<p>例如:  0.1 转二进制</p>
+<pre><code>    0.1 转2进制
+    
+    0.1 x 2 = 0.2  取整数位 0
+    0.2 x 2 = 0.4  取整数位 0
+    0.4 x 2 = 0.8  取整数位 0
+    0.8 x 2 = 1.6  取整数位 1
+    0.6 x 2 = 1.2  取整数位 1
+    0.2 x 2 = 0.4  取整数位 0
+    0.4 x 2 = 0.8  取整数位 0
+    0.8 x 2 = 1.6  取整数位 1
+    0.6 x 2 = 1.2  取整数位 1
+    
+    ........无限循环
+</code></pre><p>因为计算机中存储一个浮点类型所用的位数是有限的,所以遇到无限循环的小数,只能选择在某个精度进行保存.</p>
+<p><strong>由于计算机中保存的小数其实是十进制的小数的近似值，并不是准确值，所以，千万不要在代码中使用浮点数来表示金额等重要的指标。</strong></p>
+<h3 id="bigdecimal">BigDecimal</h3>
+<p><code>BigDecimal</code>由任意精度的整数非标度值和32位的整数标度 <code>scale</code>组成。如果为零或正数，则标度是小数点后的位数。如果为负数，则将该数的非标度值乘以 10 的负<code>scale</code> 次幂。因此,<code>BigDecimal</code>表示的数值是<code>unscaledValue × 10-scale</code>.</p>
+<blockquote>
+<p>Java在<code>java.math</code>包中提供的API类<code>BigDecimal</code>，用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数。<strong>在实际应用中，需要对更大或者更小的数进行运算和处理。<code>float</code>和<code>double</code>只能用来做科学计算或者是工程计算，在商业计算中要用<code>java.math.BigDecimal</code>。</strong> <code>BigDecimal</code>所创建的是对象，我们不能使用传统的<code>+、-、*、/</code>等算术运算符直接对其对象进行数学运算，而必须调用其相对应的方法。方法中的参数也必须是<code>BigDecimal</code>的对象。构造器是类的特殊方法，专门用来创建对象，特别是带有参数的对象.</p>
+</blockquote>
+<p>Java中提供了大数字(超过16位有效位)的操作类,即<code>java.math.BinInteger</code>类和<code>java.math.BigDecimal</code>类,用于高精度计算.</p>
+<p>其中<code>BigInteger</code>类是针对大整数的处理类,而<code>BigDecimal</code>类则是针对大小数的处理类.<code>BigDecimal</code>类的实现用到了 <code>BigDecimal</code>BigInteger类,不同的是<code>BigDecimal</code>加入了小数的概念.</p>
+<p>之所以要用<code>BigDecimal</code>,是因为十进制的小数在转化成二进制浮点数时会精度丢失.</p>
+<h4 id="使用">使用</h4>
+<h5 id="基本运算">基本运算</h5>
+<p><code>BigDecimal</code>类创建的是对象,不能使用传统的<code>+、-、*、/</code>等算术运算符直接对其进行数学运算,而必须调用其对应的方法.方法的参数也必须是<code>BigDecimal</code>类型的对象.</p>
+<pre><code>    public static void main(String[] args) {
+        BigDecimal num1 = new BigDecimal(&quot;2&quot;);
+        BigDecimal num2 = new BigDecimal(&quot;1&quot;);
+        BigDecimal num3;
+
+        num3 = num1.add(num2);
+        System.out.printf(&quot;num1 + num2 = %s\n&quot;,num3);
+
+        num3 = num1.subtract(num2);
+        System.out.printf(&quot;num1 - num2 = %s\n&quot;,num3);
+
+        num3 = num1.multiply(num2);
+        System.out.printf(&quot;num1 * num2 = %s\n&quot;,num3);
+
+        num3 = num1.divide(num2);
+        System.out.printf(&quot;num1 / num2 = %s\n&quot;,num3);
+        
+        // 绝对值
+        System.out.printf(&quot;|num1 / num2| = %s\n&quot;,num3.abs());
+    }
+</code></pre><p><code>BigDecimal</code>基本用法如上所示,重点记录一下除法.</p>
+<p>在使用除法的时候如果两个数字,除不尽.而又没有设置精确小数位和舍入模式,就会报错.</p>
+<pre><code>    public static void main(String[] args) {
+        BigDecimal num1 = new BigDecimal(&quot;1&quot;);
+        BigDecimal num2 = new BigDecimal(&quot;3&quot;);
+        BigDecimal num3;
+
+        num3 = num1.divide(num2);
+        System.out.printf(&quot;num1 / num2 = %s\n&quot;,num3);
+    }
+</code></pre><pre><code>Exception in thread &quot;main&quot; java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result.
+</code></pre><p>为了防止报错,我们可以这样写</p>
+<pre><code>    public static void main(String[] args) {
+        BigDecimal num1 = new BigDecimal(&quot;1&quot;);
+        BigDecimal num2 = new BigDecimal(&quot;3&quot;);
+        BigDecimal num3;
+
+        num3 = num1.divide(num2,3, BigDecimal.ROUND_UP);
+        // 打印结果: num1 / num2 = 0.334
+        System.out.printf(&quot;num1 / num2 = %s\n&quot;,num3);
+    }
+</code></pre><p><code>BigDecimal</code>类<code>divide</code>方法</p>
+<pre><code>// divisor: 除数; scale: 精确小数位; roundingMode: 舍入模式
+public BigDecimal divide(BigDecimal divisor, int scale, int roundingMode)
+</code></pre><p>舍入模式,如果不指定默认采用四舍五入方式.</p>
+<pre><code>/**
+     * Rounding mode to round away from zero.  Always increments the
+     * digit prior to a nonzero discarded fraction.  Note that this rounding
+     * mode never decreases the magnitude of the calculated value.
+     * 向远离0的方向舍入 如2.35 --&gt; 2.4
+     */
+    public final static int ROUND_UP =           0;
+
+    /**
+     * Rounding mode to round towards zero.  Never increments the digit
+     * prior to a discarded fraction (i.e., truncates).  Note that this
+     * rounding mode never increases the magnitude of the calculated value.
+     * 向零方向舍入 直接删除多余小数位 如2.35 --&gt; 2.3
+     */
+    public final static int ROUND_DOWN =         1;
+
+    /**
+     * Rounding mode to round towards positive infinity.  If the
+     * {@code BigDecimal} is positive, behaves as for
+     * {@code ROUND_UP}; if negative, behaves as for
+     * {@code ROUND_DOWN}.  Note that this rounding mode never
+     * decreases the calculated value.
+     * 向正无穷方向舍入
+     */
+    public final static int ROUND_CEILING =      2;
+
+    /**
+     * Rounding mode to round towards negative infinity.  If the
+     * {@code BigDecimal} is positive, behave as for
+     * {@code ROUND_DOWN}; if negative, behave as for
+     * {@code ROUND_UP}.  Note that this rounding mode never
+     * increases the calculated value.
+     * 向负无穷方向舍入
+     */
+    public final static int ROUND_FLOOR =        3;
+
+    /**
+     * Rounding mode to round towards {@literal &quot;nearest neighbor&quot;}
+     * unless both neighbors are equidistant, in which case round up.
+     * Behaves as for {@code ROUND_UP} if the discarded fraction is
+     * &amp;ge; 0.5; otherwise, behaves as for {@code ROUND_DOWN}.  Note
+     * that this is the rounding mode that most of us were taught in
+     * grade school.
+     * 向（距离）最近的一边舍入，除非两边（的距离）是相等,如果是这样，向上舍入, 1.55保留一位小数结果为1.6
+     */
+    public final static int ROUND_HALF_UP =      4;
+
+    /**
+     * Rounding mode to round towards {@literal &quot;nearest neighbor&quot;}
+     * unless both neighbors are equidistant, in which case round
+     * down.  Behaves as for {@code ROUND_UP} if the discarded
+     * fraction is {@literal &gt;} 0.5; otherwise, behaves as for
+     * {@code ROUND_DOWN}.
+     * 向（距离）最近的一边舍入，除非两边（的距离）是相等,如果是这样，向下舍入, 例如1.55 保留一位小数结果为1.5 
+     */
+    public final static int ROUND_HALF_DOWN =    5;
+
+    /**
+     * Rounding mode to round towards the {@literal &quot;nearest neighbor&quot;}
+     * unless both neighbors are equidistant, in which case, round
+     * towards the even neighbor.  Behaves as for
+     * {@code ROUND_HALF_UP} if the digit to the left of the
+     * discarded fraction is odd; behaves as for
+     * {@code ROUND_HALF_DOWN} if it's even.  Note that this is the
+     * rounding mode that minimizes cumulative error when applied
+     * repeatedly over a sequence of calculations.
+     * 向（距离）最近的一边舍入，除非两边（的距离）是相等,如果是这样，如果保留位数是奇数，使用ROUND_HALF_UP ，如果是偶数，使用ROUND_HALF_DOWN 
+     */
+    public final static int ROUND_HALF_EVEN =    6;
+
+    /**
+     * Rounding mode to assert that the requested operation has an exact
+     * result, hence no rounding is necessary.  If this rounding mode is
+     * specified on an operation that yields an inexact result, an
+     * {@code ArithmeticException} is thrown.
+     * 计算结果是精确的，不需要舍入模式 
+     */
+    public final static int ROUND_UNNECESSARY =  7;
+</code></pre><p>所以我们在使用<code>BigDecimal</code>除法的时候,最好要指定精确小数位和舍入模式.</p>
+<h5 id="初始化">初始化</h5>
+<p><code>BigDecimal</code>一共有两种方法可以进行初始化赋值</p>
+<ul>
+<li>构造器初始化赋值</li>
+<li><code>valueOf</code>方法初始化赋值</li>
+</ul>
+<h6 id="valueof">valueOf</h6>
+<p><code>valueOf(double val)</code>底层也是调用<code>String</code>构造</p>
+<pre><code>    public static BigDecimal valueOf(double val) {
+        // Reminder: a zero double returns '0.0', so we cannot fastpath
+        // to use the constant ZERO.  This might be important enough to
+        // justify a factory approach, a cache, or a few private
+        // constants, later.
+        return new BigDecimal(Double.toString(val));
+    }
+</code></pre><p><code>valueOf(long val)</code></p>
+<pre><code>    public static BigDecimal valueOf(long val) {
+        // 判断在不在 缓存常用的小BigDecimal值中
+        if (val &gt;= 0 &amp;&amp; val &lt; zeroThroughTen.length)
+            return zeroThroughTen[(int)val];
+        else if (val != INFLATED)
+            return new BigDecimal(null, val, 0, 0);
+        // 会调用BigInteger中 valueOf(long val)涉及到BigDecimal原理
+        return new BigDecimal(INFLATED_BIGINT, val, 0, 0);
+    }
+</code></pre><h6 id="double类型构造器">double类型构造器</h6>
+<p>重点记录一下<strong>double类型构造器初始化赋值</strong></p>
+<p>在使用<code>BigDecimal</code>中参数为<code>double</code>类型的构造器时,发现存储结果并不准确.</p>
+<pre><code>    public static void main(String[] args) {
+        // 打印结果: 0.200000000000000011102230246251565404236316680908203125
+        System.out.println(new BigDecimal(0.2));
+    }
+</code></pre><p>发现Java API 中有相关的描述</p>
+<blockquote>
+<p>The results of this constructor can be somewhat unpredictable.
+One might assume that writing {@code new BigDecimal(0.1)} in
+Java creates a {@code BigDecimal} which is exactly equal to
+0.1 (an unscaled value of 1, with a scale of 1), but it is
+actually equal to
+0.1000000000000000055511151231257827021181583404541015625.
+This is because 0.1 cannot be represented exactly as a
+{@code double} (or, for that matter, as a binary fraction of
+any finite length).  Thus, the value that is being passed
+<i>in</i> to the constructor is not exactly equal to 0.1,
+appearances notwithstanding.<br><br>
+The {@code String} constructor, on the other hand, is perfectly predictable: writing {@code new BigDecimal(&ldquo;0.1&rdquo;)} creates a {@code BigDecimal} which is <i>exactly</i> equal to
+0.1, as one would expect.  Therefore, it is generally
+recommended that the {@linkplain #BigDecimal(String)
+<tt>String</tt> constructor} be used in preference to this one.</p>
+</blockquote>
+<p>大概意思是说 用<code>double</code>作为参数的构造函数，无法精确构造一个<code>BigDecimal</code>对象，需要自己指定一个上下文的环境，也就是指定精确位。</p>
+<p>而利用String对象作为参数传入的构造函数能精确的构造出一个<code>BigDecimal</code>对象.</p>
+<pre><code>    public static void main(String[] args) {
+        // 0.2
+        System.out.println(new BigDecimal(&quot;0.2&quot;));
+    }
+</code></pre><p>所以要想获得精确的结果,要使用<code>BigDecimal</code>的字符串构造函数,不要使用<code>double</code>参数的构造函数.</p>
+<p>PS: 另外说一下<code>BigDecimal</code>转换其他类型.<code>BigDecimal</code>类提供了<code>intValue,byteValue,shortValue</code>&hellip;将<code>BigDecimal</code>对象转换成对应的值.</p>
+<pre><code>    public static void main(String[] args) {
+        BigDecimal bigDecimal = new BigDecimal(&quot;1.2&quot;);
+        System.out.println(bigDecimal.byteValue());
+        System.out.println(bigDecimal.shortValue());
+        System.out.println(bigDecimal.intValue());
+        System.out.println(bigDecimal.floatValue());
+        System.out.println(bigDecimal.doubleValue());
+        System.out.println(bigDecimal.longValue());
+    }
+</code></pre><h5 id="比较">比较</h5>
+<p>用<code>BigDecimal</code>的equals来进行比较</p>
+<pre><code>    public static void main(String[] args) {
+        BigDecimal num1 = new BigDecimal(&quot;1.10&quot;);
+        BigDecimal num2 = new BigDecimal(&quot;1.1&quot;);
+        BigDecimal num3 = new BigDecimal(&quot;1.1&quot;);
+        // false
+        System.out.println(num1.equals(num2));
+        // true
+        System.out.println(num2.equals(num3));
+    }
+</code></pre><p>我们可以看到,用<code>BigDecimal</code>的<code>equals</code>方法进行比较,我们可以看到<code>1.10</code>和<code>1.1</code>数值是相等的,而<code>equals</code>方法返回的却是<code>false</code>.</p>
+<p>为了查清原因,看一下<code>BigDecimal</code>中重写的<code>equals</code>的源码</p>
+<pre><code>    /**
+     * Compares this {@code BigDecimal} with the specified
+     * {@code Object} for equality.  Unlike {@link
+     * #compareTo(BigDecimal) compareTo}, this method considers two
+     * {@code BigDecimal} objects equal only if they are equal in
+     * value and scale (thus 2.0 is not equal to 2.00 when compared by
+     * this method).
+     *
+     * @param  x {@code Object} to which this {@code BigDecimal} is
+     *         to be compared.
+     * @return {@code true} if and only if the specified {@code Object} is a
+     *         {@code BigDecimal} whose value and scale are equal to this
+     *         {@code BigDecimal}'s.
+     * @see    #compareTo(java.math.BigDecimal)
+     * @see    #hashCode
+     */
+    @Override
+    public boolean equals(Object x) {
+        if (!(x instanceof BigDecimal))
+            return false;
+        BigDecimal xDec = (BigDecimal) x;
+        if (x == this)
+            return true;
+        if (scale != xDec.scale)
+            return false;
+        long s = this.intCompact;
+        long xs = xDec.intCompact;
+        if (s != INFLATED) {
+            if (xs == INFLATED)
+                xs = compactValFor(xDec.intVal);
+            return xs == s;
+        } else if (xs != INFLATED)
+            return xs == compactValFor(this.intVal);
+
+        return this.inflated().equals(xDec.inflated());
+    }
+</code></pre><p>源码API注释中有写.</p>
+<blockquote>
+<p>objects equal only if they are equal in value and scale. thus 2.0 is not equal to 2.00 when compared by this method</p>
+</blockquote>
+<p>大概意思: 对象只有在<code>value</code>和<code>scale</code>相等时才相等.因此,用本方法比较时,2.0不等于2.00.</p>
+<p>PS: <code>BigDecimal</code>对象中<code>scale</code>字段属性</p>
+<pre><code>    /**
+     * The scale of this BigDecimal, as returned by {@link #scale}.
+     *
+     * @serial
+     * @see #scale
+     */
+    private final int scale;  // Note: this may have any value, so
+                              // calculations must be done in longs
+</code></pre><p><code>scale</code>指的是小数点后面的位数.</p>
+<p><code>BigDecimal</code>可以通过<code>setScale</code>来提高精度,只要新设的值比原来的大.</p>
+<pre><code>    public static void main(String[] args) {
+        BigDecimal num1 = new BigDecimal(&quot;1.12345&quot;);
+        num1.setScale(8);
+        System.out.println(num1);
+    }
+    
+</code></pre><p><code>setScale</code>方法返回一个<code>BigDecimal</code>对象,它的<code>scale</code>是指定的值，并且它的值在数字上大于等于这个<code>BigDecimal</code>对象的值。</p>
+<pre><code>public BigDecimal setScale(int newScale);
+</code></pre><p>如果不是,则抛出<code>arithmex exception</code>.</p>
+<p>例如: 在上面的示例中,如果设置<code>setScale(4)</code>就会报错</p>
+<pre><code>    public static void main(String[] args) {
+        BigDecimal num1 = new BigDecimal(&quot;1.12345&quot;);
+        num1.setScale(4);
+        System.out.println(num1);
+    }
+</code></pre><pre><code>java.lang.ArithmeticException: Rounding necessary
+</code></pre><p><code>BigDecimal</code>也可以通过<code>setScale</code>来降低精度.因为新设的值比原来的小,所以必须保证原来数值的该位小数点后面都是0,只有这样才可以设比原来小的精度。</p>
+<p>例如</p>
+<pre><code>    public static void main(String[] args) {
+        BigDecimal num1 = new BigDecimal(&quot;1.1234500000&quot;);
+        num1.setScale(5);
+        // 1.1234500000
+        System.out.println(num1);
+    }
+</code></pre><p>所以不要用<code>equals</code>方法来比较<code>BigDecimal</code>对象,因为它的equals方法会比较<code>scale</code>,如果<code>scale</code>不一样,它会返回false.</p>
+<p>比较大小建议使用<code>BigDecimal</code>类中重写的<code>compareTo</code>方法进行比较</p>
+<pre><code>public static void main(String[] args) {
+        BigDecimal a = new BigDecimal(&quot;1.10&quot;);
+        BigDecimal b = new BigDecimal(&quot;1.1&quot;);
+
+        if(a.compareTo(b) == -1){
+            System.out.println(&quot;a小于b&quot;);
+        }
+
+        if(a.compareTo(b) == 0){
+            System.out.println(&quot;a等于b&quot;);
+        }
+
+        if(a.compareTo(b) == 1){
+            System.out.println(&quot;a大于b&quot;);
+        }
+
+        if(a.compareTo(b) &gt; -1){
+            System.out.println(&quot;a大于等于b&quot;);
+        }
+
+        if(a.compareTo(b) &lt; 1){
+            System.out.println(&quot;a小于等于b&quot;);
+        }
+    }
+
+</code></pre><h4 id="保证精度原因及注意事项">保证精度原因及注意事项</h4>
+<p><strong>为什么<code>BigDecimal</code>能够保证精度?</strong></p>
+<p><strong>因为十进制整数在转化成二进制数时不会有精度问题,那么把十进制小数扩大N倍让它在整数的维度上进行计算,并保留相应的精度信息.所以就能保证精度了.</strong></p>
+<p><strong>注意事项</strong></p>
+<p>1.在需要精确的小数计算时再使用<code>BigDecimal</code>,<code>BigDecimal</code>的性能比<code>double</code>和<code>float</code>差,在处理庞大,复杂的运算时尤为明显.故一般精度的计算没必要使用<code>BigDecimal</code>.</p>
+<ol start="2">
+<li>
+<p>尽量使用参数类型为String的构造函数.如果处理<code>double</code>类型数据,可使用<code>BigDecimal.valueOf(double val)</code></p>
+</li>
+<li>
+<p><code>BigDecimal</code>都是不可变的的,在进行每一次四则运算时,都会产生一个新的对象,所以在做加减乘除运算时要记得要保存操作后的值.</p>
+</li>
+</ol>
+<h3 id="math">Math</h3>
+<p><code>java.lang.Math</code>,该类和Java中的运算息息相关.<code>Math</code>类被<code>final</code>修饰.构造方法是私有的.<code>Math</code>类中大部分方法都被<code>public static</code> 修饰.</p>
+<h4 id="常用方法">常用方法</h4>
+<pre><code>public static void main(String[] args) {
+        // 计算平方根
+        System.out.printf(&quot;4的平方根: %s\n&quot;,Math.sqrt(4));
+
+        //计算立方根
+        System.out.printf(&quot;8的立方根: %s\n&quot;,Math.cbrt(8));
+
+        // 计算n的m次方
+        System.out.printf(&quot;2的3次方: %s\n&quot;,Math.pow(2,3));
+
+        // 计算最大值
+        System.out.printf(&quot;1和2中最大值: %s\n&quot;,Math.max(1,2));
+
+        // 计算最小值
+        System.out.printf(&quot;1和2中最小值: %s\n&quot;,Math.min(1,2));
+
+        // 求绝对值
+        System.out.printf(&quot;-1的绝对值: %s\n&quot;,Math.abs(-1));
+
+        // 向上取整
+        System.out.printf(&quot;1.2向上取整: %s\n&quot;,Math.ceil(1.2));
+
+        // 向下取整
+        System.out.printf(&quot;1.2向下取整: %s\n&quot;,Math.floor(1.2));
+
+        // [0,1)区间的随机数
+        System.out.printf(&quot;[0,1)区间的随机数: %s\n&quot;,Math.random());
+
+        // 返回与参数值最接近的 double值
+        double rint = Math.rint(1.5);
+        System.out.printf(&quot;rint方法: %s\n&quot;,rint);
+
+        // 四舍五入 float时返回int值，double时返回long值
+        long round = Math.round(1.5);
+        int round1 = Math.round(1.5f);
+        System.out.printf(&quot;round方法: 1.5四舍五入: %s\n&quot;,round);
+    }
+</code></pre><pre><code>4的平方根: 2.0
+8的立方根: 2.0
+2的3次方: 8.0
+1和2中最大值: 2
+1和2中最小值: 1
+-1的绝对值: 1
+1.2向上取整: 2.0
+1.2向下取整: 1.0
+[0,1)区间的随机数: 8.293290468311953E-4
+rint方法: 1.5四舍五入: 2.0
+round方法: 1.5四舍五入: 2
+</code></pre><p>其中<code>sqrt</code>方法,<code>cbrt</code>方法,<code>pow</code>方法用<code>native</code>关键字修饰,是用其他语言实现的.这里不做过多分析.</p>
+<h5 id="max">max</h5>
+<pre><code>        // 计算最大值
+        System.out.printf(&quot;1和2中最大值: %s\n&quot;,Math.max(1,2));
+</code></pre><blockquote>
+<p>返回两个<code>{@code int}</code>值中较大的一个。也就是说，结果是参数更接近<code>{@link Integer#MAX_VALUE}</code>的值。如果参数具有相同的值，则结果为相同的值。</p>
+</blockquote>
+<p>源码</p>
+<pre><code>    public static int max(int a, int b) {
+        return (a &gt;= b) ? a : b;
+    }
+</code></pre><h5 id="min">min</h5>
+<pre><code>        // 计算最小值
+        System.out.printf(&quot;1和2中最小值: %s\n&quot;,Math.min(1,2));
+</code></pre><blockquote>
+<p>返回两个<code>{@code int}</code>值中较小的一个。也就是说，参数的结果更接近<code>{@link Integer#MIN_VALUE}</code>的值。如果参数具有相同的值，则结果为相同的值。</p>
+</blockquote>
+<p>源码</p>
+<pre><code>    public static int min(int a, int b) {
+        return (a &lt;= b) ? a : b;
+    }
+</code></pre><h5 id="abs">abs</h5>
+<pre><code>        // 求绝对值
+        System.out.printf(&quot;-1的绝对值: %s\n&quot;,Math.abs(-1));
+</code></pre><blockquote>
+<p>返回<code>{@code int}</code>值的绝对值。如果实参不是负数，则返回实参。如果参数为负数，则返回参数的否定值。</p>
+</blockquote>
+<p>源码</p>
+<pre><code>    public static int abs(int a) {
+        return (a &lt; 0) ? -a : a;
+    }
+</code></pre><h5 id="ceil和floor">ceil和floor</h5>
+<p><code>ceil</code>方法的功能是向上取整。<code>ceil</code>译为“天花板”，顾名思义就是对操作数取顶，<code>Math.ceil(a)</code>就是取大于a的最小整数。需要注意的是它的返回值不是<code>int</code>类型，而是<code>double</code>类型.</p>
+<pre><code>        // 向上取整
+        System.out.printf(&quot;1.2向上取整: %s\n&quot;,Math.ceil(1.2));
+</code></pre><p><code>floor</code>方法的功能是向下取整。<code>floor</code>译为“地板”，顾名思义是对操作数取底。<code>Math.floor(a)</code>，就会取小于a的最大整数。它的返回值类型与<code>ceil</code>一致，也是<code>double</code>类型。</p>
+<pre><code>        // 向下取整
+        System.out.printf(&quot;1.2向下取整: %s\n&quot;,Math.floor(1.2));
+</code></pre><p><strong>由于<code>ceil</code>方法和<code>floor</code>方法逻辑是一样的,区别只是传入的参数不同,所以下面主要分析一个方法.</strong></p>
+<p>以<code>ceil</code>方法为例</p>
+<blockquote>
+<p>返回大于或等于参数的最小(最接近负无穷){@code double}值，并且等于一个数学整数。<br>
+特殊情况:<br></p>
+</blockquote>
+<ul>
+<li>如果参数值已经等于一个数学整数，则结果与参数相同。</li>
+<li>如果参数是NaN或无穷大或正零或负零，则结果与参数相同。</li>
+<li>如果实参值小于零但大于-1.0，则结果为负零。
+注意<code>{@code Math.ceil(x)}</code>的值正好是<code>{@code -Math.floor(-x)}</code>的值。</li>
+</ul>
+<p>源码</p>
+<pre><code>    public static double ceil(double a) {
+        // default impl. delegates to StrictMath
+        return StrictMath.ceil(a);
+    }
+    /**
+     * |
+     * |
+     * |
+     * ↓
+     */
+    // StrictMath.ceil
+    public static double ceil(double a) {
+        return floorOrCeil(a, -0.0, 1.0, 1.0);
+    }
+    /**
+     * |
+     * |
+     * |
+     * ↓
+     */
+   /*
+    *内部方法共享floor和ceil之间的逻辑。
+    *
+    * @param a 被floored或ceiled的值
+    * @param negativeBoundary (- 1,0)中的值的结果
+    * @param positiveBoundary (0,1)中的值的结果
+    * @param increment 当参数是非整数时要添加的值
+    */
+    private static double floorOrCeil(double a,
+                                      double negativeBoundary,
+                                      double positiveBoundary,
+                                      double sign) {
+        /**
+         * 返回用于{@code double}表示的无偏指数。
+         *
+         * 特殊情况:
+         * 
+         * 如果参数为NaN或infinite，则结果为{@link Double#MAX_EXPONENT} + 1。
+         * 如果参数为零或低于标准，则结果为{@link Double#MIN_EXPONENT} -1。
+         */
+        // 将浮点数或双精度数转换为浮点表示形式.该方法从表示中返回指数部分
+        int exponent = Math.getExponent(a);
+
+        if (exponent &lt; 0) {
+            /*
+             * 参数的绝对值小于1
+             * floorOrceil(-0.0) =&gt; -0.0
+             * floorOrceil(+0.0) =&gt; +0.0
+             */
+            return ((a == 0.0) ? a :
+                    ( (a &lt; 0.0) ?  negativeBoundary : positiveBoundary) );
+        } else if (exponent &gt;= 52) {
+            /*
+             * 无穷，NaN，或者一个很大的值.但一定是整数
+             */
+            return a;
+        }
+        // 否则，参数要么是一个已经异或运算的整数值
+        // 必须四舍五入为1
+        assert exponent &gt;= 0 &amp;&amp; exponent &lt;= 51;
+
+        long doppel = Double.doubleToRawLongBits(a);
+        long mask   = DoubleConsts.SIGNIF_BIT_MASK &gt;&gt; exponent;
+
+        if ( (mask &amp; doppel) == 0L )
+            return a; // integral value
+        else {
+            double result = Double.longBitsToDouble(doppel &amp; (~mask));
+            if (sign*a &gt; 0.0)
+                result = result + sign;
+            return result;
+        }
+    } 
+    
+</code></pre><h5 id="random">random</h5>
+<p>返回一个大于0的<code>double</code>类型数据，该值大于等于0.0且小于1.0，返回的是一个伪随机选择数，在该范围内（几乎）均匀分布.</p>
+<pre><code>        // [0,1)区间的随机数
+        System.out.printf(&quot;[0,1)区间的随机数: %s\n&quot;,Math.random());
+</code></pre><p>API中<code>random</code>方法描述</p>
+<blockquote>
+<p>返回一个大于或等于<code>{@code 0.0}</code>且小于<code>{@code 1.0}</code>的<code>{@code double}</code>值，带有正号。返回值是在该范围内(近似)均匀分布的伪随机选择的。<br>
+当这个方法第一次被调用时，它会创建一个新的伪随机数生成器，与表达式<code>{@code new java.util.Random()}</code>完全一样。
+此方法被正确同步以允许多个线程正确使用。但是，如果许多线程需要以非常快的速度生成伪随机数，那么每个线程拥有自己的伪随机数生成器就可以减少争用。</p>
+</blockquote>
+<p>API中<code>nextDouble</code>方法中描述</p>
+<blockquote>
+<p>返回该随机数生成器序列中在<code>{@code 0.0}</code>和<code>{@code 1.0}</code>之间均匀分布的<code>{@code double}</code>值的下一个伪随机值。
+<code>{@code nextDouble}</code>的一般约定是，从<code>{@code 0.0d}</code>(包括)到<code>{@code 1.0d}</code>(排除)范围内(近似地)统一选择一个<code>{@code double}</code>值，伪随机生成并返回。</p>
+</blockquote>
+<p>源码</p>
+<pre><code>    public static double random() {
+        return RandomNumberGeneratorHolder.randomNumberGenerator.nextDouble();
+    }
+    /**
+     * |
+     * |
+     * |
+     * ↓
+     */
+    // Random.nextDouble
+    public double nextDouble() {
+        return (((long)(next(26)) &lt;&lt; 27) + next(27)) * DOUBLE_UNIT;
+    }
+</code></pre><p>通过源码可以看到,<code>Math.random</code>底层是调用了<code>Random</code>类中<code>nextDouble</code>方法.</p>
+<p>也就是说以下打印语句<strong>执行代码相同</strong></p>
+<pre><code>    // [0,1)区间的随机数
+    System.out.printf(&quot;[0,1)区间的随机数: %s\n&quot;,Math.random());
+    System.out.printf(&quot;[0,1)区间的随机数: %s\n&quot;,new Random().nextDouble());
+</code></pre><p><strong>Random</strong>类</p>
+<blockquote>
+<p>该类的一个实例用于生成<strong>伪随机数</strong>流。该类使用48位种子，并使用线性同余公式进行修改。(参见Donald Knuth， 计算机编程的艺术，第二卷，第3.2.1节。)</p>
+</blockquote>
+<blockquote>
+<p>如果用相同的种子创建了<code>{@code Random}</code>的两个实例，并且对每个实例进行了相同的方法调用序列，那么它们将生成并返回相同的数字序列。为了保证这个属性，为类<code>{@code Random}</code>指定了特定的算法。为了保证Java代码的绝对可移植性，Java实现必须对<code>{@code Random}</code>类使用这里显示的所有算法。然而，<code>{@code Random}</code>类的子类约定了所有的方法。</p>
+</blockquote>
+<p><code>Random</code>类位于<code>java.util</code>包下，此类的实例用于生成伪随机数流。之所以称之为伪随机，是因为真正意义上的随机数（或者称为随机事件）在某次产生过程中是按照实验过程表现的分布概率随机产生的，其结果是不可预测，不可见的。而计算机中的随机函数是按照一定的算法模拟产生的，其结果是确定的，可见的。我们认为这样产生的数据不是真正意义上的随机数，因而称之为伪随机。</p>
+<p>该类提供了两种构造方法.</p>
+<p>无参构造底层调用的也是有参构造.将<code>System.nanoTime()</code>作为参数传递。即如果使用无参构造，默认的seed值为<code>System.nanoTime()</code>。</p>
+<pre><code>    public Random() {
+        this(seedUniquifier() ^ System.nanoTime());
+    }
+</code></pre><pre><code>    public Random(long seed) {
+        if (getClass() == Random.class)
+            this.seed = new AtomicLong(initialScramble(seed));
+        else {
+            // subclass might have overriden setSeed
+            this.seed = new AtomicLong();
+            setSeed(seed);
+        }
+    }
+</code></pre><p>要注意的是用有参构造创建<code>Random</code>对象,如果随机种子相同,不管执行多少次,最后结果都是相同的.</p>
+<p>例如</p>
+<pre><code>    public static void main(String[] args) {
+        Random random = new Random(1);
+        // 第一次执行程序打印结果: 随机数: -1155869325
+        // 第二次执行程序打印结果: 随机数: -1155869325
+        System.out.printf(&quot;随机数: %s\n&quot;,random.nextInt());
+    }
+</code></pre><p><strong>随机数应用举例</strong></p>
+<p>生成100个不重复的随机数,1~100的范围</p>
+<pre><code>    public static void main(String[] args) {
+        int[] nums=new int[100];
+        boolean[] flag=new boolean[101];
+        Random random=new Random();
+        for (int i = 0; i &lt; nums.length; i++) {
+            int num=random.nextInt(100)+1;
+            while (flag[num]) {
+                num=random.nextInt(100)+1;
+            }
+            flag[num]=true;
+            nums[i]=num;
+        }
+        Arrays.sort(nums);
+        System.out.println(Arrays.toString(nums));
+        System.out.println(Arrays.toString(flag));
+    }
+</code></pre><h5 id="rint">rint</h5>
+<blockquote>
+<p>返回与参数值最接近的<code>{@code double}</code>值，该值等于一个数学整数。如果两个数学整数<code>{@code double</code>}值相同，则结果为偶数整数值.<br><br><br>
+特殊情况:<br>
+如果参数值已经等于一个数学整数，则结果与参数相同。<br>
+如果参数是NaN或无穷大或正零或负零，则结果与参数相同</p>
+</blockquote>
+<pre><code>        // 返回与参数值最接近的 double值
+        double rint = Math.rint(1.5);
+        System.out.printf(&quot;rint方法: %s\n&quot;,rint);
+</code></pre><p>若存在两个这样的数,则返回其中的偶数值</p>
+<p>例如</p>
+<pre><code>    public static void main(String[] args) {
+        double rint = Math.rint(100.5);
+        double rint2 = Math.rint(101.5);  
+        // 100.0
+        System.out.printf(&quot; %s\n&quot;,rint);
+        // 102.0
+        System.out.printf(&quot; %s\n&quot;,rint2); 
+    }
+</code></pre><h5 id="round">round</h5>
+<blockquote>
+<p>round 表示&quot;四舍五入&quot;，算法为<code>Math.floor(x+0.5)</code> ，即将原来的数字加上 0.5 后再向下取整，所以 <code>Math.round(11.5)</code> 的结果为 12，<code>Math.round(-11.5)</code> 的结果为 -11。</p>
+</blockquote>
+<pre><code>        // 四舍五入 float时返回int值，double时返回long值
+        long round = Math.round(1.5);
+        int round1 = Math.round(1.5f);
+        System.out.printf(&quot;round方法: 1.5四舍五入: %s\n&quot;,round);
+</code></pre><blockquote>
+<p>返回与实参最接近的<code>{@code int}</code>，并四舍五入到正无穷。
+特殊情况:</p>
+</blockquote>
+<ul>
+<li>如果参数是NaN，结果是0。
+如果参数是负无穷或任何值小于或等于{<code>@code Integer.MIN_VALUE}</code>，结果等于<code>{@code Integer.MIN_VALUE}</code>的值。</li>
+<li>如果参数是正无穷或任何大于或等于<code>{@code Integer.MAX_VALUE}</code>，结果等于<code>{@code Integer.MAX_VALUE}</code>的值.</li>
+</ul>
+<blockquote>
+<p><strong>PS: NAN
+NaN表示非数值，例如：0.0/0结果为NAN，负数的平方根结果也为NAN.</strong></p>
+</blockquote>
+<pre><code>   public static void main(String[] args) {
+        // 四舍五入 float时返回int值，double时返回long值
+        int round1 = Math.round(0);
+        long round2 = Math.round(Double.NaN);
+        int round3 = Math.round(2147483648123L);
+        int round4 = Math.round(-2147483647123L);
+        System.out.printf(&quot;0四舍五入: %s\n&quot;, round1);
+        System.out.printf(&quot;Double.NaN=[%s],四舍五入: %s\n&quot;, Double.NaN, round2);
+        System.out.printf(&quot;Integer.MAX_VALUE=[%s] + 1 四舍五入: %s\n&quot;, Integer.MAX_VALUE, round3);
+        System.out.printf(&quot;Integer.MIN_VALUE=[%s] - 1 四舍五入: %s\n&quot;, Integer.MIN_VALUE, round4);
+    }
+</code></pre><pre><code>0四舍五入: 0
+Double.NaN=[NaN],四舍五入: 0
+Integer.MAX_VALUE=[2147483647] + 1 四舍五入: 2147483647
+Integer.MIN_VALUE=[-2147483648] - 1 四舍五入: -2147483648
+</code></pre></div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/%E9%9D%A2%E5%90%91%E8%8F%9C%E9%B8%9F%E7%BC%96%E7%A8%8B/">面向菜鸟编程</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

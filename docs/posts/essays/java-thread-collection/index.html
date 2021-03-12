@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>Java中集合的线程不安全问题 ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#arraylist">
+                    ArrayList
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#copyonwritearraylist%e5%8e%9f%e7%90%86">
+                    CopyOnWriteArrayList原理
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#hashset">
+                    HashSet
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#copyonwritearrayset%e5%8e%9f%e7%90%86">
+                    CopyOnWriteArraySet原理
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#hashmap">
+                    HashMap
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#concurrenthashmap%e5%8e%9f%e7%90%86">
+                    ConcurrentHashMap原理
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#jdk18%e7%89%88%e6%9c%ac%e7%9a%84currenthashmap%e7%9a%84%e5%ae%9e%e7%8e%b0%e5%8e%9f%e7%90%86">
+                    JDK1.8版本的CurrentHashMap的实现原理
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/essays/java-thread-collection/'>Java中集合的线程不安全问题</a></h2>
+                        <span class="date">2020.04.05</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="arraylist">ArrayList</h2>
+<p>ArrayList线程不安全示例:</p>
+<pre><code>	public static void main(String[] args) {
+		ArrayList&lt;String&gt; arrayList = new ArrayList&lt;&gt;();
+		for(int i=0; i&lt; 3; i++) {
+			new Thread(() -&gt; {
+				arrayList.add(UUID.randomUUID().toString());
+				System.out.println(arrayList);
+			},String.valueOf(i)).start();
+		}
+	}
+</code></pre><pre><code>// ConcurrentModificationException 同步修改异常
+Exception in thread &quot;8&quot; java.util.ConcurrentModificationException
+
+[null, 2041b613-8068-4ddd-9d01-305f5680d377]
+[null, 2041b613-8068-4ddd-9d01-305f5680d377, b3e0296d-e263-4632-a023-4267cdec5e25]
+[null, 2041b613-8068-4ddd-9d01-305f5680d377]
+</code></pre><p><strong>原因分析:</strong>
+当某个线程正在执行 <code>add()</code>方法时,被某个线程打断,添加到一半被打断,没有被添加完</p>
+<p><strong>解决方案:</strong></p>
+<ul>
+<li>使用<code>Vector</code>来代替<code>ArrayList</code>,<code>Vector</code>是线程安全的<code>ArrayList</code>,但是由于,并发量太小,被淘汰</li>
+<li>使用<code>Collections.synchronizedArrayList(new ArrayList&lt;&gt;())</code>来创建<code>ArrayList</code>.使用<code>Collections</code>工具类来创建<code>ArrayList</code>的思路是,在<code>ArrayList</code>的外边套了一个外壳,来使<code>ArrayList</code>线程安全</li>
+<li><strong>使用<code>new CopyOnWriteArrayList()</code>来保证ArrayList线程安全</strong></li>
+</ul>
+<h3 id="copyonwritearraylist原理">CopyOnWriteArrayList原理</h3>
+<p><code>CopyWriteArrayList</code>字面意思就是在写的时候复制,思想就是读写分离的思想</p>
+<p>以下是<code>CopyOnWriteArrayList</code>的<code>add()</code>方法源码</p>
+<pre><code>/** The array, accessed only via getArray/setArray. */
+    private transient volatile Object[] array;
+
+/** The lock protecting all mutators */
+    final transient ReentrantLock lock = new ReentrantLock();
+
+  /**
+     * Gets the array.  Non-private so as to also be accessible
+     * from CopyOnWriteArraySet class.
+     */
+    final Object[] getArray() {
+        return array;
+    }
+
+/**
+     * Appends the specified element to the end of this list.
+     *
+     * @param e element to be appended to this list
+     * @return {@code true} (as specified by {@link Collection#add})
+     */
+    public boolean add(E e) {
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            Object[] elements = getArray();
+            int len = elements.length;
+            Object[] newElements = Arrays.copyOf(elements, len + 1);
+            newElements[len] = e;
+            setArray(newElements);
+            return true;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+</code></pre><p>因为在源码里面加了<code>ReentrantLock</code>所以保证了某个线程在写的时候不会被打断,
+可以看到源码开始先是复制了一份数组(因为同一时刻只有一个线程写,其余的线程会读),在复制的数组上边进行写操作,写好以后在返回<code>true</code>.
+这样写的就把读写进行了分离.写好以后因为<code>array</code>加了<code>volatile</code>关键字,所以该数组是对于其他的线程是可见的,就会读取到最新的值.</p>
+<h2 id="hashset">HashSet</h2>
+<p><code>HashSet</code>和<code>ArrayList</code>类似,也是线程不安全的集合类,具体证明<code>HashSet</code>线程不安全的代码,请参考<code>ArrayList</code>线程不安全的示例.
+因为与ArrayList类似,都属于一类问题,也会报<code>ConcurrentModificationException </code>异常.</p>
+<p><strong>解决方案</strong></p>
+<ul>
+<li><code>Collections.synchronizedSet(new HashSet&lt;&gt;())</code>使用集合工具类解决</li>
+<li>使用<code>new CopyOnWriteArraySet&lt;&gt;()</code>来保证集合线程安全</li>
+</ul>
+<h3 id="copyonwritearrayset原理">CopyOnWriteArraySet原理</h3>
+<pre><code>   private final CopyOnWriteArrayList&lt;E&gt; al;
+
+    /**
+     * Creates an empty set.
+     */
+    public CopyOnWriteArraySet() {
+        al = new CopyOnWriteArrayList&lt;E&gt;();
+    }
+</code></pre><p>底层是<code>CopyOnWriteArrayList</code></p>
+<h2 id="hashmap">HashMap</h2>
+<p><code>HashMap</code>也是线程不安全的集合类</p>
+<p><strong>解决方案</strong></p>
+<ul>
+<li><code>Collections.synchronizedMap(new HashMap&lt;&gt;())</code>使用集合工具类</li>
+<li><code>new ConcurrentHashMap&lt;&gt;()</code>来保证线程安全</li>
+</ul>
+<h3 id="concurrenthashmap原理">ConcurrentHashMap原理</h3>
+<p><strong>参考:</strong><a href="https://baijiahao.baidu.com/s?id=1617089947709260129&amp;wfr=spider&amp;for=pc">CurrentHashMap原理</a></p>
+<p>在<strong>JDK1.7中ConcurrentHashMap</strong>采用了数组+Segment+分段锁的方式实现。</p>
+<ul>
+<li>
+<p>Segment(分段锁)
+ConcurrentHashMap中的分段锁称为Segment，它即类似于HashMap的结构，即内部拥有一个Entry数组，数组中的每个元素又是一个链表,同时又是一个ReentrantLock（Segment继承了ReentrantLock）。</p>
+</li>
+<li>
+<p>内部结构
+ConcurrentHashMap使用分段锁技术，将数据分成一段一段的存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问，能够实现真正的并发访问。如下图是ConcurrentHashMap的内部结构图：
+<img src="/myblog/posts/images/essays/concurrentHashMap%E7%9A%84%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84%E5%9B%BE.jpeg" alt="CurrentHashMap"></p>
+</li>
+</ul>
+<p>从上面的结构我们可以了解到，<code>ConcurrentHashMap</code>定位一个元素的过程需要进行两次Hash操作。</p>
+<p>第一次Hash定位到Segment，第二次Hash定位到元素所在的链表的头部。</p>
+<ul>
+<li>
+<p>该结构的优劣势</p>
+<ul>
+<li>坏处: 这一种结构的带来的副作用是Hash的过程要比普通的HashMap要长</li>
+<li>好处: 写操作的时候可以只对元素所在的Segment进行加锁即可，不会影响到其他的Segment，这样，在最理想的情况下，ConcurrentHashMap可以最高同时支持Segment数量大小的写操作（刚好这些写操作都非常平均地分布在所有的Segment上).所以，通过这一种结构，ConcurrentHashMap的并发能力可以大大的提高。</li>
+</ul>
+</li>
+</ul>
+<h3 id="jdk18版本的currenthashmap的实现原理">JDK1.8版本的CurrentHashMap的实现原理</h3>
+<p>JDK8中<code>ConcurrentHashMap</code>参考了JDK8 HashMap的实现，采用了数组+链表+红黑树的实现方式来设计，内部大量采用CAS操作.如果不了解CAS请移步<a href="../cas-principle">CAS原理</a>
+JDK8中彻底放弃了Segment转而采用的是Node，其设计思想也不再是JDK1.7中的分段锁思想。</p>
+<p>Node：保存key，value及key的hash值的数据结构。其中value和next都用volatile修饰，保证并发的可见性。
+Java8 ConcurrentHashMap结构基本上和Java8的HashMap一样，不过保证线程安全性。</p>
+<p>在JDK8中ConcurrentHashMap的结构，由于引入了红黑树，使得ConcurrentHashMap的实现非常复杂，我们都知道，红黑树是一种性能非常好的二叉查找树，其查找性能为O（logN），但是其实现过程也非常复杂，而且可读性也非常差，DougLea的思维能力确实不是一般人能比的，早期完全采用链表结构时Map的查找时间复杂度为O（N），JDK8中ConcurrentHashMap在链表的长度大于某个阈值的时候会将链表转换成红黑树进一步提高其查找性能。
+<img src="/myblog/posts/images/essays/%E7%BA%A2%E9%BB%91%E6%A0%91%E7%BB%93%E6%9E%84.jpeg" alt="JDK1.8后的currentHashMap">
+其实可以看出JDK1.8版本的<code>ConcurrentHashMap</code>的数据结构已经接近HashMap，相对而言，ConcurrentHashMap只是增加了同步的操作来控制并发，从JDK1.7版本的ReentrantLock+Segment+HashEntry，到JDK1.8版本中synchronized+CAS+HashEntry+红黑树。</p>
+<p><strong>CurrentHashMapJDK1.7,JDK1.8前后对比</strong></p>
+<ol>
+<li>数据结构：取消了Segment分段锁的数据结构，取而代之的是数组+链表+红黑树的结构。</li>
+<li>保证线程安全机制：JDK1.7采用segment的分段锁机制实现线程安全，其中segment继承自ReentrantLock。JDK1.8采用CAS+Synchronized保证线程安全。</li>
+<li>锁的粒度：原来是对需要进行数据操作的Segment加锁，现调整为对每个数组元素加锁（Node）。</li>
+<li>链表转化为红黑树:定位结点的hash算法简化会带来弊端,Hash冲突加剧,因此在链表节点数量大于8时，会将链表转化为红黑树进行存储。</li>
+<li>查询时间复杂度：从原来的遍历链表O(n)，变成遍历红黑树O(logN)。</li>
+</ol>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/%E7%BA%BF%E7%A8%8B/">线程</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/%E9%9B%86%E5%90%88/">集合</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>
