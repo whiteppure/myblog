@@ -93,7 +93,7 @@ public static final String var3 = "var3";
 ```
 public static String var2 = "var2";
 ```
-在准备阶段变量`var2`的值为`null`,在初始化阶段值为'var2'.
+在准备阶段变量`var2`的值为`null`,在初始化阶段赋值为'var2'.
 
 在Java中对类变量进行初始值设定有两种方式：
 - 声明类变量时指定初始值
@@ -114,47 +114,204 @@ public static String var2 = "var2";
     - 子类引用父类的静态字段,只会引发父类的初始化;
 - 被标明为启动类的类(即包含`main()`方法),需要初始化    
 
-#### 初始化顺序
-存在继承关系的代码中,初始化顺序
+#### 初始化规则
+若该类具有父类，JVM会保证子类的<clinit>()方法执行前，父类的<clinit>()方法已经执行完毕。
+
+初始化顺序
 ```
 父类静态域 --> 子类静态域 --> 父类成员初始化 -->父类构造块 --->父类构造方法 -->子类成员初始化 -->子类构造块 -->子类构造方法
 ```
-`静态域是指静态代码块和静态变量`
 
 一些初始化规则:
-> - 类从顶至底的顺序初始化，所以声明在顶部的字段的早于底部的字段初始化
+>- 类从顶至底的顺序初始化，所以声明在顶部的字段的早于底部的字段初始化
 >- 超类早于子类和衍生类的初始化
 >- 如果类的初始化是由于访问静态域而触发，那么只有声明静态域的类才被初始化，而不会触发超类的初始化或者子类的
 >- 初始化即使静态域被子类或子接口或者它的实现类所引用。
 >- 接口初始化不会导致父接口的初始化。
 >- 静态域的初始化是在类的静态初始化期间，非静态域的初始化时在类的实例创建期间。这意味这静态域初始化在非静态域之前。
->- 非静态域通过构造器初始化，子类在做任何初始化之前构造器会隐含地调用父类的构造器，他保证了非静态或实例变量（父类）初始化早于子类
+>- 非静态域通过构造器初始化，子类在做任何初始化之前构造器会隐含地调用父类的构造器，他保证了非静态或实例变量（父类）初始化早于子类。
+>- 虚拟机必须保证一个类的`<clinit>()`方法在多线程下被同步加锁。也就是说类只能被初始化一次。
 
 ## 类加载器
 JVM设计者把**类加载阶段中的"通过'类全名'来获取定义此类的二进制字节流"** 这个动作放到Java虚拟机外部去实现，以便让应用程序自己决定如何去获取所需要的类。实现这个动作的代码模块称为“类加载器”。
 
-类加载器。一般包括**启动类加载器，扩展类加载器，应用类加载器，以及用户的自定义类加载器.**
+从虚拟机的角度来说，只存在两种不同的类加载器：一种是启动类加载器(`Bootstrap ClassLoader`)，该类加载器使用C++语言实现(这里仅限于`Hotspot`，也就是JDK1.5之后默认的虚拟机，有很多其他的虚拟机是用Java语言实现的)，属于虚拟机自身的一部分。
+另外一种就是自定义类加载器，这些类加载器是由Java语言实现，独立于JVM外部，并且全部继承自抽象类`java.lang.ClassLoader`。
 
-### 双亲委派模型
-从虚拟机的角度来说，只存在两种不同的类加载器：一种是启动类加载器(`Bootstrap ClassLoader`)，该类加载器使用C++语言实现(这里仅限于`Hotspot`，也就是JDK1.5之后默认的虚拟机，有很多其他的虚拟机是用Java语言实现的)，属于虚拟机自身的一部分。另外一种就是所有其它的类加载器，这些类加载器是由Java语言实现，独立于JVM外部，并且全部继承自抽象类`java.lang.ClassLoader。`
+```
+public class ClassloaderTest {
+    public static void main(String[] args) {
+        // 获取系统类加载器
+        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
+        // sun.misc.Launcher$AppClassLoader@18b4aac2
+        System.out.println(systemClassLoader);
 
-站在Java开发人员的角度来看，类加载器可以大致划分为以下三类:
+        // 获取其上层的：扩展类加载器
+        ClassLoader extClassLoader = systemClassLoader.getParent();
+        // sun.misc.Launcher$ExtClassLoader@5cad8086
+        System.out.println(extClassLoader);
 
-- 启动类加载器：Bootstrap ClassLoader，跟上面相同。它负责加载存放在`JDK\jre\lib`(JDK代表JDK的安装目录，下同)下，或被`-Xbootclasspath`参数指定的路径中的，并且能被虚拟机识别的类库（如`rt.jar`，所有的`java.*`开头的类均被`Bootstrap ClassLoader`加载）。启动类加载器是无法被Java程序直接引用的。
+        // 试图获取 启动类加载器
+        ClassLoader bootstrapClassLoader = extClassLoader.getParent();
+        // null 不能获取到启动类加载器
+        System.out.println(bootstrapClassLoader);
 
+        // 获取自定义加载器
+        ClassLoader classLoader = ClassloaderTest.class.getClassLoader();
+        // sun.misc.Launcher$AppClassLoader@18b4aac2
+        System.out.println(classLoader);
 
-- 扩展类加载器：Extension ClassLoader，该加载器由`sun.misc.Launcher$ExtClassLoader`实现，它负责加载`JDK\jre\lib\ext`目录中，或者由`java.ext.dirs`系统变量指定的路径中的所有类库（如`javax.*`开头的类），开发者可以直接使用扩展类加载器。
+        // 获取String类型的加载器
+        // Java 核心包都是用启动类加载器加载的
+        ClassLoader classLoader1 = String.class.getClassLoader();
+        // null
+        System.out.println(classLoader1);
+    }
+}
+```
+可以看出 启动类加载器无法直接通过代码获取，同时目前用户代码所使用的加载器为系统类加载器。同时我们通过获取String类型的加载器，发现是null，
+那么说明String类型是通过根加载器进行加载的，也就是说Java的核心类库都是使用根加载器进行加载的。
 
+获取启动类加载器加载的路径
+```
+public class ClassloaderTest {
+    public static void main(String[] args) {
+        System.out.println("*********启动类加载器加载的路径************");
+        // 获取BootstrapClassLoader 能够加载的API的路径
+        URL[] urls = sun.misc.Launcher.getBootstrapClassPath().getURLs();
+        for (URL url : urls) {  
+            System.out.println(url.toExternalForm());
+        }
 
-- 应用程序类加载器：Application ClassLoader，该类加载器由`sun.misc.Launcher$AppClassLoader`来实现，它负责加载用户类路径（ClassPath）所指定的类，开发者可以直接使用该类加载器，如果应用程序中没有自定义过自己的类加载器，**一般情况下这个就是程序中默认的类加载器。**
+        // 从上面路径中，随意选择一个类，来看看他的类加载器是什么：得到的是null，说明是  根加载器
+        ClassLoader classLoader = Provider.class.getClassLoader();
+        System.out.println(classLoader);
 
-![类加载器](/myblog/posts/images/essays/类加载器.png)
+    }
+}
+```
 
- 这种层次关系称为**类加载器的双亲委派模型。** 我们把每一层上面的类加载器叫做当前层类加载器的父加载器，当然，它们之间的父子关系并不是通过继承关系来实现的，而是使用组合关系来复用父加载器中的代码。该模型在JDK1.2期间被引入并广泛应用于之后几乎所有的Java程序中，但它并不是一个强制性的约束模型，而是Java设计者们推荐给开发者的一种类的加载器实现方式。
+### 启动类加载器(引导类加载器、Bootstrap ClassLoader)
+- 该类加载器使用C/C++语言实现的，嵌套在JVM内部,可理解为就是JVM的一部分。
+- 它用来加载Java的核心库（`JAVAHOME/jre/1ib/rt.jar、resources.jar`或`sun.boot.class.path`路径下的内容），用于提供JVM自身需要的类。
+- 并不继承自`java.lang.ClassLoader`，没有父加载器。
+- 加载扩展类和应用程序类加载器，并指定为他们的父类加载器。
+- 出于安全考虑，Bootstrap启动类加载器只加载包名为java、javax、sun等开头的类
 
-双亲委派模型的工作流程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把请求委托给父加载器去完成，依次向上，因此，所有的类加载请求最终都应该被传递到顶层的启动类加载器中，只有当父加载器在它的搜索范围中没有找到所需的类时，即无法完成该加载，子加载器才会尝试自己去加载该类。
+### 扩展类加载器
+- Java语言编写，由`sun.misc.Launcher$ExtClassLoader`实现。
+- 派生于`ClassLoader`类。
+- 父类加载器为启动类加载器。
+- 从`java.ext.dirs`系统属性所指定的目录中加载类库，或从JDK的安装目录的`jre/1ib/ext`子目录（扩展目录）下加载类库。如果用户创建的JAR放在此目录下，也会自动由扩展类加载器加载。
 
-使用这种模型来组织类加载器之间的关系的好处是Java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如`java.lang.Object`类，无论哪个类加载器去加载该类，最终都是由启动类加载器进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。否则的话，如果不使用该模型的话，如果用户自定义一个`java.lang.Object`类且存放在`classpath`中，那么系统中将会出现多个Object类，应用程序也会变得很混乱。如果我们自定义一个`rt.jar`中已有类的同名Java类，会发现JVM可以正常编译，但该类永远无法被加载运行。
+### 应用程序类加载器(系统类加载器、AppClassLoader)
+- javI语言编写，由`sun.misc.LaunchersAppClassLoader`实现。
+- 派生于ClassLoader类。
+- 父类加载器为扩展类加载器。
+- 它负责加载环境变量`classpath`或系统属性`java.class.path`指定路径下的类库。
+- 该类加载是程序中默认的类加载器，一般来说，Java应用的类都是由它来完成加载。
+- 通过`classLoader#getSystemclassLoader（）`方法可以获取到该类加载器。
+
+### 自定义类加载器
+
+> PS 为什么会有自定义类加载器？
+> - 一方面是由于java代码很容易被反编译，如果需要对自己的代码加密的话，可以对编译后的代码进行加密，然后再通过实现自己的自定义类加载器进行解密，最后再加载。
+> - 另一方面也有可能从非标准的来源加载代码，比如从网络来源，那就需要自己实现一个类加载器，从指定源进行加载。
+>
+> 自定义加载器使用场景
+> 1. 隔离加载类
+> 2. 修改类加载的方式
+> 3. 扩展加载源
+> 4. 防止源码泄漏
+
+若要实现自定义类加载器，只需要继承`java.lang.ClassLoader`类.按需重写相关方法即可.
+- 如果不想打破双亲委派模型，那么只需要重写`findClass`方法
+- 如果想打破双亲委派模型，那么就重写整个`loadClass`方法
+
+> **在JDK1.2之前，类加载尚未引入双亲委派模式，因此实现自定义类加载器时常常重写`loadClass`方法，提供双亲委派逻辑，从JDK1.2之后，双亲委派模式已经被引入到类加载体系中，自定义类加载器时不需要在自己写双亲委派的逻辑，因此不鼓励重写`loadClass`方法，而推荐重写`findClass`方法。**
+>
+>**在Java中，任意一个类都需要由加载它的类加载器和这个类本身一同确定其在java虚拟机中的唯一性，即比较两个类是否相等，只有在这两个类是由同一个类加载器加载的前提之下才有意义，否则，即使这两个类来源于同一个Class类文件，只要加载它的类加载器不相同，那么这两个类必定不相等(这里的相等包括代表类的Class对象的`equals()`方法、`isAssignableFrom()`方法、`isInstance()`方法和`instanceof`关键字的结果)。**
+
+**重写`findClass`方法**
+
+准备一个class文件，编译后放到C盘根目录下
+```
+public class People {
+	private String name;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+}
+
+```
+自定义类加载器,继承`ClassLoader`重写`findClass`方法（其中`defineClass`方法可以把二进制流字节组成的文件转换为一个`java.lang.Class`）
+```
+public class MyClassLoader extends ClassLoader {
+
+    public MyClassLoader(){}
+    
+    public MyClassLoader(ClassLoader parent)
+    {
+        super(parent);
+    }
+    
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+    	File file = new File("C:/People.class");
+        try{
+            byte[] bytes = getClassBytes(file);
+            //defineClass方法可以把二进制流字节组成的文件转换为一个java.lang.Class
+            Class<?> c = this.defineClass(name, bytes, 0, bytes.length);
+            return c;
+        } 
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        return super.findClass(name);
+    }
+    
+    private byte[] getClassBytes(File file) throws Exception {
+        // 这里要读入.class的字节，因此要使用字节流
+        FileInputStream fis = new FileInputStream(file);
+        FileChannel fc = fis.getChannel();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        WritableByteChannel wbc = Channels.newChannel(baos);
+        ByteBuffer by = ByteBuffer.allocate(1024);
+        
+        while (true){
+            int i = fc.read(by);
+            if (i == 0 || i == -1)
+            break;
+            by.flip();
+            wbc.write(by);
+            by.clear();
+        }
+        fis.close();
+        return baos.toByteArray();
+    }
+}
+
+```
+
+## 双亲委派模型
+
+![双亲委派模型](/myblog/posts/images/essays/双亲委派模型.png)
+
+ 这种层次关系称为**类加载器的双亲委派模型。** 我们把每一层上面的类加载器叫做当前层类加载器的父加载器，当然，它们之间的父子关系并不是通过继承关系来实现的，而是使用组合关系来复用父加载器中的代码。
+ 该模型在JDK1.2期间被引入并广泛应用于之后几乎所有的Java程序中，但它并不是一个强制性的约束模型，而是Java设计者们推荐给开发者的一种类的加载器实现方式。
+
+### 工作原理
+
+- 如果一个类加载器收到了类加载请求，它并不会自己先去加载，而是把这个请求委托给父类的加载器去执行；
+- 如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器；
+- 如果父类加载器可以完成类加载任务，就成功返回，倘若父类加载器无法完成此加载任务，子加载器才会尝试自己去加载。
+
+双亲委派模型的工作流程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把请求委托给父加载器去完成，依次向上。
+因此，所有的类加载请求最终都应该被传递到顶层的启动类加载器中，只有当父加载器在它的搜索范围中没有找到所需的类时，即无法完成该加载，子加载器才会尝试自己去加载该类。
 
 在`rt.jar`包中的`java.lang.ClassLoader`类中，我们可以查看类加载实现过程`loadClass`方法的代码，具体源码如下：
 ```
@@ -198,87 +355,51 @@ JVM设计者把**类加载阶段中的"通过'类全名'来获取定义此类的
     }
 ```
 
-根据代码以及代码中的注释可以很清楚地了解整个过程：先检查是否已经被加载过，如果没有则调用父加载器的`loadClass()`方法，如果父加载器为空则默认使用启动类加载器作为父加载器。如果父类加载器加载失败，则先抛出`ClassNotFoundException`,然后再调用自己的`findClass()`方法进行加载。
+根据代码以及代码中的注释可以很清楚地了解整个过程：
+先检查是否已经被加载过，如果没有则调用父加载器的`loadClass()`方法，如果父加载器为空则默认使用启动类加载器作为父加载器。
+如果父类加载器加载失败，则先抛出`ClassNotFoundException`,然后再调用自己的`findClass()`方法进行加载。
 
-### 自定义类加载器
+### 优势
+使用这种模型来组织类加载器之间的关系的好处是Java类随着它的类加载器一起具备了一种带有优先级的层次关系。
+例如`java.lang.Object`类，无论哪个类加载器去加载该类，最终都是由启动类加载器进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。
+否则的话，如果不使用该模型的话，如果用户自定义一个`java.lang.Object`类且存放在`classpath`中，那么系统中将会出现多个Object类，应用程序也会变得很混乱。
+如果我们自定义一个`rt.jar`中已有类的同名Java类，会发现JVM可以正常编译，但该类永远无法被加载运行。
 
-> PS 为什么会有自定义类加载器？
-> - 一方面是由于java代码很容易被反编译，如果需要对自己的代码加密的话，可以对编译后的代码进行加密，然后再通过实现自己的自定义类加载器进行解密，最后再加载。
-> - 另一方面也有可能从非标准的来源加载代码，比如从网络来源，那就需要自己实现一个类加载器，从指定源进行加载。
+- 避免类的重复加载
+- 保护程序安全，防止核心API被随意篡改
 
-若要实现自定义类加载器，只需要继承`java.lang.ClassLoader`类.按需重写相关方法即可.
-通过对上边`Classloader`类中`loadClass()`源码分析,可以看出
-- 如果不想打破双亲委派模型，那么只需要重写`findClass`方法
-- 如果想打破双亲委派模型，那么就重写整个`loadClass`方法
+### 沙箱安全机制
+自定义string类，但是在加载自定义String类的时候会率先使用引导类加载器加载，而引导类加载器在加载的过程中会先加载jdk自带的文件（rt.jar包中java\lang\String.class），
+报错信息说没有main方法，就是因为加载的是rt.jar包中的string类。这样可以保证对java核心源代码的保护，这就是沙箱安全机制。
 
-> **在JDK1.2之前，类加载尚未引入双亲委派模式，因此实现自定义类加载器时常常重写`loadClass`方法，提供双亲委派逻辑，从JDK1.2之后，双亲委派模式已经被引入到类加载体系中，自定义类加载器时不需要在自己写双亲委派的逻辑，因此不鼓励重写`loadClass`方法，而推荐重写`findClass`方法。**
->
->**在Java中，任意一个类都需要由加载它的类加载器和这个类本身一同确定其在java虚拟机中的唯一性，即比较两个类是否相等，只有在这两个类是由同一个类加载器加载的前提之下才有意义，否则，即使这两个类来源于同一个Class类文件，只要加载它的类加载器不相同，那么这两个类必定不相等(这里的相等包括代表类的Class对象的`equals()`方法、`isAssignableFrom()`方法、`isInstance()`方法和`instanceof`关键字的结果)。**
+### 补充
 
-**重写`findClass`方法**
+#### 判断两个class对象是否相同
+在JVM中表示两个class对象是否为同一个类存在两个必要条件：
+- 类的完整类名必须一致，包括包名。
+- 加载这个类的ClassLoader（指ClassLoader实例对象）必须相同。
 
-准备一个class文件，编译后放到C盘根目录下
-```
-public class People {
-	private String name;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-}
+换句话说，在JvM中，即使这两个类对象（class对象）来源同一个Class文件，被同一个虚拟机所加载，
+但只要加载它们的ClassLoader实例对象不同，那么这两个类对象也是不相等的。
 
-```
-自定义类加载器,继承`ClassLoader`重写`findClass`方法（其中`defineClass`方法可以把二进制流字节组成的文件转换为一个`java.lang.Class`）
-```
-public class MyClassLoader extends ClassLoader
-{
-    public MyClassLoader(){}
-    
-    public MyClassLoader(ClassLoader parent)
-    {
-        super(parent);
-    }
-    
-    protected Class<?> findClass(String name) throws ClassNotFoundException
-    {
-    	File file = new File("C:/People.class");
-        try{
-            byte[] bytes = getClassBytes(file);
-            //defineClass方法可以把二进制流字节组成的文件转换为一个java.lang.Class
-            Class<?> c = this.defineClass(name, bytes, 0, bytes.length);
-            return c;
-        } 
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        
-        return super.findClass(name);
-    }
-    
-    private byte[] getClassBytes(File file) throws Exception
-    {
-        // 这里要读入.class的字节，因此要使用字节流
-        FileInputStream fis = new FileInputStream(file);
-        FileChannel fc = fis.getChannel();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        WritableByteChannel wbc = Channels.newChannel(baos);
-        ByteBuffer by = ByteBuffer.allocate(1024);
-        
-        while (true){
-            int i = fc.read(by);
-            if (i == 0 || i == -1)
-            break;
-            by.flip();
-            wbc.write(by);
-            by.clear();
-        }
-        fis.close();
-        return baos.toByteArray();
-    }
-}
+JVM必须知道一个类型是由启动加载器加载的还是由用户类加载器加载的。如果一个类型是由用户类加载器加载的，那么JVM会将这个类加载器的一个引用作为类型信息的一部分保存在方法区中。
+当解析一个类型到另一个类型的引用的时候，JVM需要保证这两个类型的类加载器是相同的。
 
-```
+#### 类的主动使用和被动使用
+Java程序对类的使用方式分为：王动使用和被动使用。 主动使用，又分为七种情况：
+- 创建类的实例
+- 访问某个类或接口的静态变量，或者对该静态变量赋值
+- 调用类的静态方法I
+- 反射（比如：Class.forName（"com.atguigu.Test"））
+- 初始化一个类的子类
+- Java虚拟机启动时被标明为启动类的类
+- JDK7开始提供的动态语言支持：
+- java.lang.invoke.MethodHandle实例的解析结果REF getStatic、REF putStatic、REF invokeStatic句柄对应的类没有初始化，则初始化
+
+除了以上七种情况，其他使用Java类的方式都被看作是对类的被动使用，都不会导致类的初始化。
+
+
+
+
+
 
