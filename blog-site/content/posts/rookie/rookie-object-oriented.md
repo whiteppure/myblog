@@ -7,6 +7,7 @@ slug: "rookie-object-oriented"
 ---
 
 
+
 > 面向对象是一种编程思想，包括三大特性和六大原则，其中，三大特性指的是封装、继承和多态；六大原则指的是[单一职责原则](#单一职责原则)、[开放封闭原则](#开放封闭原则)、[迪米特原则](#迪米特法则)、[里氏替换原则](#里氏替换原则)、[依赖倒置原则](#依赖倒置原则)以及[接口隔离原则](#接口隔离原则)，其中，单一职责原则是指一个类应该是一组相关性很高的函数和数据的封装，这是为了提高程序的内聚性，而其他五个原则是通过抽象来实现的，目的是为了降低程序的耦合性以及提高可扩展性。
 
 面向对象简称OO(object-oriented)是相对面向过程(procedure-oriented)来说的,是一种编程思想.Java就是一门面向对象的语言.
@@ -168,7 +169,7 @@ class Vehicle2 {
 >- 对扩展开放，意味着有新的需求或变化时，可以对现有代码进行扩展，以适应新的情况。
 >- 对修改封闭，意味着类一旦设计完成，就可以独立完成其工作，而不要对其进行任何尝试的修改。 
 >
->实现开放封闭原则的核心思想就是对抽象编程，而不对具体编程，因为抽象相对稳定。让类依赖于固定的抽象，所以修改就是封闭的；而通过面向对象的继承和多态机制，又可以实现对抽象类的继承，通过覆写其方法来改变固有行为，实现新的拓展方法，所以就是开放的。 “需求总是变化”没有不变的软件，所以就需要用封闭开放原则来封闭变化满足需求，同时还能保持软件内部的封装体系稳定，不被需求的变化影响。==**编程中遵循其他原则,以及使用其他设计模式的目的就是为了遵循开闭原则.**==
+>实现开放封闭原则的核心思想就是对抽象编程，而不对具体编程，因为抽象相对稳定。让类依赖于固定的抽象，所以修改就是封闭的；而通过面向对象的继承和多态机制，又可以实现对抽象类的继承，通过覆写其方法来改变固有行为，实现新的拓展方法，所以就是开放的。 “需求总是变化”没有不变的软件，所以就需要用封闭开放原则来封闭变化满足需求，同时还能保持软件内部的封装体系稳定，不被需求的变化影响。**编程中遵循其他原则,以及使用其他设计模式的目的就是为了遵循开闭原则.**
 
 当软件需要变化时,尽量使用扩展的软件实体的方式行为来实现变化,而不是通过修改已有的代码来实现变化.
 
@@ -1599,8 +1600,8 @@ interface Food {
     void eat();
 }
 
-interface Factory {
-    ColdRiceNoodle getCOldRiceNoodle();
+interface FoodFactory {
+    ColdRiceNoodle getColdRiceNoodle();
     RiceNoodle getRiceNoodle();
 }
 class RiceNoodle implements Food{
@@ -1617,11 +1618,11 @@ class ColdRiceNoodle implements Food{
         System.out.println("eating cold rice noodle");
     }
 }
-class RiceNoodleFactory implements Factory {
+class RiceNoodleFactory implements FoodFactory {
 
 
     @Override
-    public ColdRiceNoodle getCOldRiceNoodle() {
+    public ColdRiceNoodle getColdRiceNoodle() {
         return new ColdRiceNoodle();
     }
 
@@ -1631,10 +1632,10 @@ class RiceNoodleFactory implements Factory {
     }
 }
 
-class ColdRiceNoodleFactory implements Factory {
+class ColdRiceNoodleFactory implements FoodFactory {
 
     @Override
-    public ColdRiceNoodle getCOldRiceNoodle() {
+    public ColdRiceNoodle getColdRiceNoodle() {
         return new ColdRiceNoodle();
     }
 
@@ -3019,7 +3020,143 @@ class CGLibProxy implements MethodInterceptor {
 
 - 想在访问一个类时做一些控制。
 
-### 职责链模式（未完）
+### 职责链模式
+
+> 职责链模式：避免请求发送者与接收者耦合在一起，让多个对象都有可能接收请求，将这些对象连接成一条链，并且沿着这条链传递请求，直到有对象处理它为止。职责链模式是一种对象行为型模式。
+
+
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        RequestEntity test = new RequestEntity("test", 2000);
+
+        // 指定指责链
+        BeforeHandler before = new BeforeHandler("before");
+        AfterHandler after = new AfterHandler("after");
+        PostHandler post = new PostHandler("post");
+
+        // 形成链状闭环
+        before.setHandler(after);
+        after.setHandler(post);
+        post.setHandler(before);
+
+        after.handleRequest(test);
+    }
+
+}
+
+class RequestEntity {
+
+    public String name;
+
+    public Integer grade;
+
+    public RequestEntity(String name,Integer grade) {
+        this.name = name;
+        this.grade = grade;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public float getGrade() {
+        return grade;
+    }
+}
+
+abstract class Handler {
+
+    // 下一个引用
+    protected Handler handler;
+
+    protected String name;
+
+    public Handler(String name) {
+        this.name = name;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public abstract void handleRequest(RequestEntity requestEntity);
+
+}
+
+class BeforeHandler extends Handler {
+
+    public BeforeHandler(String name){
+        super(name);
+    }
+
+
+    @Override
+    public void handleRequest(RequestEntity requestEntity) {
+        if (requestEntity.getGrade() < 1000) {
+            System.out.println("分数为：" + requestEntity.getGrade() + "，被" + this.name + "处理 ");
+        }else {
+            handler.handleRequest(requestEntity);
+        }
+    }
+}
+
+class AfterHandler extends Handler {
+
+    public AfterHandler(String name){
+        super(name);
+    }
+
+    @Override
+    public void handleRequest(RequestEntity requestEntity) {
+        if (requestEntity.getGrade() <= 2000) {
+            System.out.println("分数为：" + requestEntity.getGrade() + "，被" + this.name + "处理 ");
+        }else {
+            handler.handleRequest(requestEntity);
+        }
+    }
+}
+
+class PostHandler extends Handler {
+
+    public PostHandler(String name){
+        super(name);
+    }
+
+    @Override
+    public void handleRequest(RequestEntity requestEntity) {
+        if (requestEntity.getGrade() > 3000) {
+            System.out.println("分数为：" + requestEntity.getGrade() + "，被" + this.name + "处理 ");
+        }else {
+            handler.handleRequest(requestEntity);
+        }
+    }
+}
+```
+
+职责链模式通过建立一条链来组织请求的处理者，请求将沿着链进行传递，请求发送者无须知道请求在何时、何处以及如何被处理，实现了请求发送者与处理者的解耦。在软件开发中，如果遇到有多个对象可以处理同一请求时可以应用职责链模式，例如在Web应用开发中创建一个过滤器(Filter)链来对请求数据进行过滤，在工作流系统中实现公文的分级审批等等，使用职责链模式可以较好地解决此类问题。
+
+**优点**
+
+- 增加新的请求处理类很方便，只需要在客户端重新建链即可，从这一点来看是符合[开闭原则](#开放封闭原则)的。
+-  为请求创建了一个接收者对象的链式结构。对请求的发送者和接收者进行解耦。
+- 简化了对象。使得对象不需要知道链的结构。
+- 增强给对象指派职责的灵活性。通过改变链内的成员或者调动它们的次序，允许动态地新增或者删除责任。
+
+**缺点**
+
+- 系统性能将受到一定影响，可能会造成循环调用。特别是在链比较长的时候，因此需控制链中最大节点数量，一般通过在 Handler 中设置一个最大节点数量，在` setNext()`方法中判断是否已经超过阀值，超过则不允许该链建立，避免出现超长链无意识地破坏系统性能。
+- 调试不方便。采用了类似递归的方式，调试时逻辑可能比较复杂。可能不容易观察运行时的特征，有碍于除错。
+
+**使用场景**
+
+- 在处理消息的时候以过滤很多道。
+- 有多个对象可以处理同一个请求，具体哪个对象处理该请求由运行时刻自动确定。
+- 在不明确指定接收者的情况下，向多个对象中的一个提交一个请求。
+- 可动态指定一组对象处理请求。
 
 ### 命令模式（未完）
 
