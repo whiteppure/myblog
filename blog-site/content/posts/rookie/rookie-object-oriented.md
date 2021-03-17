@@ -7,7 +7,6 @@ slug: "rookie-object-oriented"
 ---
 
 
-
 > 面向对象是一种编程思想，包括三大特性和六大原则，其中，三大特性指的是封装、继承和多态；六大原则指的是[单一职责原则](#单一职责原则)、[开放封闭原则](#开放封闭原则)、[迪米特原则](#迪米特法则)、[里氏替换原则](#里氏替换原则)、[依赖倒置原则](#依赖倒置原则)以及[接口隔离原则](#接口隔离原则)，其中，单一职责原则是指一个类应该是一组相关性很高的函数和数据的封装，这是为了提高程序的内聚性，而其他五个原则是通过抽象来实现的，目的是为了降低程序的耦合性以及提高可扩展性。
 
 面向对象简称OO(object-oriented)是相对面向过程(procedure-oriented)来说的,是一种编程思想.Java就是一门面向对象的语言.
@@ -3158,7 +3157,190 @@ class PostHandler extends Handler {
 - 在不明确指定接收者的情况下，向多个对象中的一个提交一个请求。
 - 可动态指定一组对象处理请求。
 
-### 命令模式（未完）
+### 命令模式
+
+> 命令模式：将一个请求封装为一个对象，从而让我们可用不同的请求对客户进行参数化；对请求排队或者记录请求日志，以及支持可撤销的操作。命令模式是一种对象行为型模式，其别名为动作模式或事务模式。
+
+**命令模式可以将请求发送者和接收者完全解耦，发送者与接收者之间没有直接引用关系，发送请求的对象只需要知道如何发送请求，而不必知道如何完成请求**。
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        LightReceiver lightReceiver = new LightReceiver();
+
+        LightOnCommand lightOnCommand = new LightOnCommand(lightReceiver);
+        LightOffCommand lightOffCommand = new LightOffCommand(lightReceiver);
+        RemoteCommand remoteCommand = new RemoteCommand();
+        // 测试
+        remoteCommand.setCommand(0,lightOnCommand,lightOffCommand);
+        // 按下开灯按钮
+        System.out.println("按下开灯按钮 -------");
+        remoteCommand.onButtonPushed(0);
+        // 按下关灯按钮
+        System.out.println("按下关灯按钮 -------");
+        remoteCommand.offButtonPushed(0);
+        // 按下撤销按钮
+        System.out.println("按下撤销按钮 ---------");
+        remoteCommand.undoButtonPushed(0);
+    }
+}
+
+interface Command{
+
+    /**
+     * 执行命令
+     */
+    void exec();
+
+    /**
+     * 撤销命令
+     */
+    void undo();
+
+}
+
+class LightReceiver{
+
+    public void on(){
+        System.out.println("开灯 ...");
+    }
+
+    public void off() {
+        System.out.println("关灯 ...");
+    }
+
+
+}
+
+class LightOnCommand implements Command{
+
+    private LightReceiver lightReceiver;
+
+    public LightOnCommand(LightReceiver lightReceiver) {
+        super();
+        this.lightReceiver = lightReceiver;
+    }
+
+    @Override
+    public void exec() {
+        lightReceiver.on();
+    }
+
+    @Override
+    public void undo() {
+        lightReceiver.off();
+    }
+}
+
+class LightOffCommand implements Command {
+
+    private LightReceiver lightReceiver;
+
+    public LightOffCommand(LightReceiver lightReceiver) {
+        super();
+        this.lightReceiver = lightReceiver;
+    }
+
+    @Override
+    public void exec() {
+        lightReceiver.off();
+    }
+
+    @Override
+    public void undo() {
+        lightReceiver.on();
+    }
+}
+
+/**
+ * 空执行 默认命令实现类
+ */
+class NoCommand implements Command {
+
+    @Override
+    public void exec() {
+        System.out.println("默认命令执行");
+    }
+
+    @Override
+    public void undo() {
+        System.out.println("默认撤销方法");
+    }
+}
+
+class RemoteCommand {
+
+    // 存放开关命令
+    private Command onCommands[];
+
+    private Command offCommands[];
+
+    // 存放撤销命令
+    private Command undoCommands[];
+
+    public RemoteCommand() {
+        undoCommands = new Command[5];
+        onCommands = new Command[5];
+        offCommands = new Command[5];
+
+        // 默认空命令
+        for (int i = 0; i < 5; i++) {
+            onCommands[i] = new NoCommand();
+            offCommands[i] = new NoCommand();
+        }
+    }
+
+    // 设置命令
+    public  void  setCommand(int no, Command onCommand, Command offCommand) {
+        onCommands[no] = onCommand;
+        offCommands[no] = offCommand;
+    }
+
+    // 按下开的按钮
+    public void onButtonPushed(int no) {
+        onCommands[no].exec();
+        // 记录撤销操作
+        undoCommands[no] = onCommands[no];
+    }
+
+    // 按下关闭的按钮
+    public void offButtonPushed(int no) {
+        offCommands[no].exec();
+        // 记录撤销操作
+        undoCommands[no] = offCommands[no];
+    }
+
+    // 按下撤销按钮
+    public void undoButtonPushed(int no) {
+        undoCommands[no].undo();
+    }
+
+
+}
+```
+
+命令模式是一种使用频率非常高的设计模式，它可以将请求发送者与接收者解耦，请求发送者通过命令对象来间接引用请求接收者，使得系统具有更好的灵活性和可扩展性。在基于GUI的软件开发，无论是在电脑桌面应用还是在移动应用中，命令模式都得到了广泛的应用。
+
+在软件系统中，行为请求者与行为实现者通常是一种紧耦合的关系，但某些场合，比如需要对行为进行记录、撤销或重做、事务等处理时，这种无法抵御变化的紧耦合的设计就不太合适。
+
+**优点**
+
+- 降低了系统耦合度。
+- 新的命令可以很容易地加入到系统中。由于增加新的具体命令类不会影响到其他类，因此增加新的具体命令类很容易，无须修改原有系统源代码，甚至客户类代码，满足[开闭原则](#开放封闭原则)的要求。
+
+**缺点**
+
+- 使用命令模式可能会导致某些系统有过多的具体命令类。因为针对每一个对请求接收者的调用操作都需要设计一个具体命令类，因此在某些系统中可能需要提供大量的具体命令类，这将影响命令模式的使用。
+
+**使用场景**
+
+- 请求调用者需要与请求接收者解耦时，命令模式可以使调用者和接收者不直接交互。
+- 当系统需要支持命令的撤销操作和恢复操作时。
+-  系统需要在不同的时间指定请求、将请求排队和执行请求。一个命令对象和请求的初始调用者可以有不同的生命期，换言之，最初的请求发出者可能已经不在了，而命令对象本身仍然是活动的，可以通过该命令对象去调用请求接收者，而无须关心请求调用者的存在性，可以通过请求日志文件等机制来具体实现。
+
+
 
 ### 解释器模式（未完）
 
