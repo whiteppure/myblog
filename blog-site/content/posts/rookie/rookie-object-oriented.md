@@ -7,6 +7,7 @@ slug: "rookie-object-oriented"
 ---
 
 
+
 > 面向对象是一种编程思想，包括三大特性和六大原则，其中，三大特性指的是封装、继承和多态；六大原则指的是[单一职责原则](#单一职责原则)、[开放封闭原则](#开放封闭原则)、[迪米特原则](#迪米特法则)、[里氏替换原则](#里氏替换原则)、[依赖倒置原则](#依赖倒置原则)以及[接口隔离原则](#接口隔离原则)，其中，单一职责原则是指一个类应该是一组相关性很高的函数和数据的封装，这是为了提高程序的内聚性，而其他五个原则是通过抽象来实现的，目的是为了降低程序的耦合性以及提高可扩展性。
 
 面向对象简称OO(object-oriented)是相对面向过程(procedure-oriented)来说的,是一种编程思想.Java就是一门面向对象的语言.
@@ -3340,9 +3341,206 @@ class RemoteCommand {
 - 当系统需要支持命令的撤销操作和恢复操作时。
 -  系统需要在不同的时间指定请求、将请求排队和执行请求。一个命令对象和请求的初始调用者可以有不同的生命期，换言之，最初的请求发出者可能已经不在了，而命令对象本身仍然是活动的，可以通过该命令对象去调用请求接收者，而无须关心请求调用者的存在性，可以通过请求日志文件等机制来具体实现。
 
+### 解释器模式
+
+> 解释器模式：定义一个语言的文法，并且建立一个解释器来解释该语言中的句子，这里的“语言”是指使用规定格式和语法的代码。解释器模式是一种类行为型模式。
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) throws IOException {
+        String expStr = getExpStr();
+        HashMap<String, Integer> var = getValue(expStr);
+        Calculator calculator = new Calculator(expStr);
+        System.out.println("运算结果：" + expStr + "=" + calculator.run(var));
+    }
+
+    // 获得表达式
+    public static String getExpStr() throws IOException {
+        System.out.print("请输入表达式：");
+        return (new BufferedReader(new InputStreamReader(System.in))).readLine();
+    }
+
+    // 获得值映射
+    public static HashMap<String, Integer> getValue(String expStr) throws IOException {
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for (char ch : expStr.toCharArray()) {
+            if (ch != '+' && ch != '-') {
+                if (!map.containsKey(String.valueOf(ch))) {
+                    System.out.print("请输入" + String.valueOf(ch) + "的值：");
+                    String in = (new BufferedReader(new InputStreamReader(System.in))).readLine();
+                    map.put(String.valueOf(ch), Integer.valueOf(in));
+                }
+            }
+        }
+        return map;
+    }
+
+}
+
+abstract class AbstractExpression {
+
+    /**
+     * 表达式解释器
+     */
+    public abstract int interpreter(HashMap<String, Integer> var);
+
+}
+
+/**
+ * 终结表达式
+ */
+class VarExpression extends AbstractExpression {
+
+    private String key;
+
+    public VarExpression(String key) {
+        this.key = key;
+    }
+
+    @Override
+    public int interpreter(HashMap<String, Integer> map) {
+        return map.get(key);
+    }
+}
+
+/**
+ * 非终结表达式
+ */
+class SymbolExpression extends AbstractExpression {
+
+    protected AbstractExpression left;
+
+    protected AbstractExpression right;
+
+    SymbolExpression(AbstractExpression left, AbstractExpression right) {
+        this.left = left;
+        this.right = right;
+    }
 
 
-### 解释器模式（未完）
+    // 因为 SymbolExpression  是让其子类来实现，因此 interpreter 是一个默认实现
+    @Override
+    public int interpreter(HashMap<String, Integer> var) {
+        return 0;
+    }
+
+}
+
+/**
+ * 减法
+ */
+class SubExpression extends SymbolExpression {
+
+    public SubExpression(AbstractExpression left, AbstractExpression right) {
+        super(left, right);
+    }
+
+    @Override
+    public int interpreter(HashMap<String, Integer> var) {
+        return super.left.interpreter(var) - super.right.interpreter(var);
+    }
+
+}
+
+/**
+ * 加法
+ */
+class AddExpression extends SymbolExpression {
+
+    public AddExpression(AbstractExpression left, AbstractExpression right) {
+        super(left, right);
+    }
+
+    @Override
+    public int interpreter(HashMap<String, Integer> var) {
+        return super.left.interpreter(var) + super.right.interpreter(var);
+    }
+
+}
+
+/**
+ * 计算器 调用加减法
+ */
+class Calculator {
+
+    private AbstractExpression expression;
+
+    public  Calculator(AbstractExpression expression) {
+        this.expression = expression;
+    }
+
+    public Calculator(String expStr) {
+        // 安排运算先后顺序
+        Stack<AbstractExpression> stack = new Stack<>();
+        // 表达式拆分成字符数组
+        char[] charArray = expStr.toCharArray();
+
+
+        AbstractExpression left = null;
+        AbstractExpression right = null;
+        //遍历我们的字符数组，  即遍历	[a, +, b]
+        //针对不同的情况，做处理
+        for (int i = 0; i < charArray.length; i++) {
+            switch (charArray[i]) {
+                case '+':
+                    // 从 stack 取 出 left => "a"
+                    left = stack.pop();
+                    // 取出右表达式 "b"
+                    right = new VarExpression(String.valueOf(charArray[++i]));
+                    stack.push(new AddExpression(left, right));
+                    // 然后根据得到 left 和 right 构建 AddExpresson 加入 stack
+                    break;
+                case '-':
+                    left = stack.pop();
+                    right = new VarExpression(String.valueOf(charArray[++i]));
+                    stack.push(new SubExpression(left, right));
+                    break;
+                default:
+                    //如果是一个 Var 就创建要给 VarExpression 对象，并 push 到 stack
+                    stack.push(new VarExpression(String.valueOf(charArray[i])));
+
+                    break;
+            }
+        }
+        //当遍历完整个 charArray  数组后，stack 就得到最后
+        this.expression = stack.pop();
+    }
+
+
+    public int run(HashMap<String, Integer> var) {
+        //最后将表达式 a+b 和 var = {a=10,b=20}
+        //然后传递给 expression 的 interpreter 进行解释执行
+        return this.expression.interpreter(var);
+    }
+
+}
+
+```
+
+解释器模式为自定义语言的设计和实现提供了一种解决方案，它用于定义一组文法规则并通过这组文法规则来解释语言中的句子。虽然解释器模式的使用频率不是特别高，但是它在正则表达式、XML文档解释等领域还是得到了广泛使用。与解释器模式类似，目前还诞生了很多基于抽象语法树的源代码处理工具，例如Eclipse中的Eclipse AST，它可以用于表示Java语言的语法结构，用户可以通过扩展其功能，创建自己的文法规则。
+
+**优点**
+
+- 易于改变和扩展文法。增加新的解释表达式较为方便。如果用户需要增加新的解释表达式只需要对应增加一个新的终结符表达式或非终结符表达式类，原有表达式类代码无须修改，符合“[开闭原则](#开放封闭原则)”。
+- 易于实现简单文法。
+
+**缺点**
+
+- 可利用场景比较少。
+- 对于复杂的文法比较难维护。解释器模式会引起类膨胀。如果一个语言包含太多文法规则，类的个数将会急剧增加，导致系统难以管理和维护。
+-  解释器模式采用递归调用方法。
+
+**使用场景**
+
+- 对于一些固定文法构建一个解释句子的解释器。
+- 可以将一个需要解释执行的语言中的句子表示为一个抽象语法树
+- 一些重复出现的问题可以用一种简单的语言来进行表达。
+-  一个简单语法需要解释的场景。
+
+
 
 ### 迭代器模式
 > 迭代器模式：提供一种方法来访问聚合对象，而不用暴露这个对象的内部表示，其别名为游标。迭代器模式是一种对象行为型模式。
@@ -3441,5 +3639,4 @@ class Bread implements Food{
 ### 模板方法模式（未完）
 
 ### 访问者模式（未完）
-
 
