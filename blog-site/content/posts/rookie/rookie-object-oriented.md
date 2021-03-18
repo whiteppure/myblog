@@ -7,7 +7,6 @@ slug: "rookie-object-oriented"
 ---
 
 
-
 > 面向对象是一种编程思想，包括三大特性和六大原则，其中，三大特性指的是封装、继承和多态；六大原则指的是[单一职责原则](#单一职责原则)、[开放封闭原则](#开放封闭原则)、[迪米特原则](#迪米特法则)、[里氏替换原则](#里氏替换原则)、[依赖倒置原则](#依赖倒置原则)以及[接口隔离原则](#接口隔离原则)，其中，单一职责原则是指一个类应该是一组相关性很高的函数和数据的封装，这是为了提高程序的内聚性，而其他五个原则是通过抽象来实现的，目的是为了降低程序的耦合性以及提高可扩展性。
 
 面向对象简称OO(object-oriented)是相对面向过程(procedure-oriented)来说的,是一种编程思想.Java就是一门面向对象的语言.
@@ -3626,7 +3625,210 @@ class Bread implements Food{
 - 需要为一个聚合对象提供多种遍历方式。
 - 使用迭代器模式可以为遍历不同的聚合结构提供一个统一的接口，接口的实现类中为不同的聚合结构提供不同的遍历方式，而客户端可以一致性地操作该接口。
 
-### 中介者模式（未完）
+### 中介者模式
+
+> 中介者模式：用一个中介对象（中介者）来封装一系列的对象交互，中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。中介者模式又称为调停者模式，它是一种对象行为型模式。
+
+如果在一个系统中对象之间存在多对多的相互关系，我们可以将对象之间的一些交互行为从各个对象中分离出来，并集中封装在一个中介者对象中，并由该中介者进行统一协调，这样对象之间多对多的复杂关系就转化为相对简单的一对多关系。通过引入中介者来简化对象之间的复杂交互，中介者模式是“[迪米特法则](#迪米特法则)”的一个典型应用。
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        //创建一个中介者对象
+        Mediator mediator = new ConcreteMediator();
+
+        //创建 Alarm  并且加入到ConcreteMediator 对象的 HashMap
+        Alarm alarm = new Alarm(mediator, "alarm");
+
+        //创建了 CoffeeMachine 对象，并且加入到	ConcreteMediator 对象的 HashMap
+        CoffeeMachine coffeeMachine = new CoffeeMachine(mediator, "coffeeMachine");
+
+        //创建  tV , 并	且加入到	ConcreteMediator 对象的 HashMap
+        TV tV = new TV(mediator, "TV");
+
+        //让闹钟发出消息 依次调用
+        alarm.sendAlarm(0);
+        coffeeMachine.finishCoffee();
+        alarm.sendAlarm(1);
+        tV.startTv();
+    }
+
+}
+
+/**
+ * 中介者
+ */
+abstract class Mediator {
+
+    public abstract void register(String colleagueName, Colleague colleague);
+
+    public abstract void getMessage(int stateChange, String name);
+}
+
+class ConcreteMediator extends Mediator {
+
+    /**
+     * 集合，放入所有的同事对象
+     */
+    private HashMap<String, Colleague> colleagueMap;
+    private HashMap<String, String> interMap;
+
+    public ConcreteMediator() {
+        colleagueMap = new HashMap<>();
+        interMap = new HashMap<>();
+    }
+
+
+    @Override
+    public void register(String colleagueName, Colleague colleague) {
+        if (colleague instanceof Alarm) {
+            interMap.put("Alarm", colleagueName);
+        } else if (colleague instanceof CoffeeMachine) {
+            interMap.put("CoffeeMachine", colleagueName);
+        } else {
+            System.out.println("........");
+        }
+    }
+
+    @Override
+    public void getMessage(int stateChange, String colleagueName) {
+        if (colleagueMap.get(colleagueName) instanceof Alarm) {
+            if (stateChange == 0) {
+                ((CoffeeMachine) (colleagueMap.get(interMap
+                        .get("CoffeeMachine")))).startCoffee();
+                ((TV) (colleagueMap.get(interMap.get("TV")))).startTv();
+            } else if (stateChange == 1) {
+                ((TV) (colleagueMap.get(interMap.get("TV")))).stopTv();
+            }
+
+        } else if (colleagueMap.get(colleagueName) instanceof TV) {
+            //如果 TV 发现消息
+        }
+    }
+}
+
+/**
+ * 抽象同事类
+ */
+abstract class Colleague {
+
+    private final Mediator mediator;
+    public String name;
+
+    public Colleague(Mediator mediator, String name) {
+
+
+        this.mediator = mediator;
+        this.name = name;
+
+    }
+
+
+    public Mediator getMediator() {
+        return this.mediator;
+    }
+
+
+    public abstract void sendMessage(int stateChange);
+}
+
+class Alarm extends Colleague {
+
+    public Alarm(Mediator mediator, String name) {
+        super(mediator, name);
+        //在创建 Alarm 同事对象时，将自己放入到 ConcreteMediator 对象中[集合]
+        mediator.register(name, this);
+    }
+
+    public void sendAlarm(int stateChange) {
+        this.sendMessage(stateChange);
+    }
+
+    @Override
+    public void sendMessage(int stateChange) {
+        // 调用的中介者对象的 getMessage 方法
+        this.getMediator().getMessage(stateChange, this.name);
+    }
+
+}
+
+class TV extends Colleague {
+
+
+    public TV(Mediator mediator, String name) {
+        super(mediator, name);
+        mediator.register(name, this);
+    }
+
+
+    @Override
+    public void sendMessage(int stateChange) {
+        this.getMediator().getMessage(stateChange, this.name);
+    }
+
+
+    public void startTv() {
+        System.out.println("It's time to StartTv!");
+    }
+
+
+    public void stopTv() {
+        System.out.println("StopTv!");
+    }
+}
+
+
+class CoffeeMachine extends Colleague {
+
+    public CoffeeMachine(Mediator mediator, String name) {
+        super(mediator, name);
+        mediator.register(name, this);
+    }
+
+
+    @Override
+    public void sendMessage(int stateChange) {
+        this.getMediator().getMessage(stateChange, this.name);
+    }
+
+
+    public void startCoffee() {
+        System.out.println("It's time to startcoffee!");
+    }
+
+
+    public void finishCoffee() {
+        System.out.println("After 5 minutes!");
+        System.out.println("Coffee is ok!");
+        sendMessage(0);
+    }
+}
+```
+
+中介者模式将一个网状的系统结构变成一个以中介者对象为中心的星形结构，在这个星型结构中，使用中介者对象与其他对象的一对多关系来取代原有对象之间的多对多关系。中介者模式在事件驱动类软件中应用较为广泛，特别是基于GUI（图形用户界面）的应用软件，此外，在类与类之间存在错综复杂的关联关系的系统中，中介者模式都能得到较好的应用。
+
+**优点**
+
+- 减少类间依赖，降低了耦合，符合[迪米特法则](#迪米特法则)。
+- 简化了对象之间的交互，它用中介者和同事的一对多交互代替了原来同事之间的多对多交互，一对多关系更容易理解、维护和扩展，将原本难以理解的网状结构转换成相对简单的星型结构。
+- 降低了类的复杂度，将一对多转化成了一对一。
+
+**缺点**
+
+- 中介者承担了较多的责任，一旦中介者出现了问题，整个系统就会受到影响。
+- 如果设计不当，可能会导致具体中介者类非常复杂，使得系统难以维护，在实际使用过程中要特别注意。
+
+**使用场景**
+
+主要解决：对象与对象之间存在大量的关联关系，这样势必会导致系统的结构变得很复杂，同时若一个对象发生改变，我们也需要跟踪与之相关联的对象，同时做出相应的处理。
+
+应当注意：不应当在职责混乱的时候使用。
+
+- 系统中对象之间存在比较复杂的引用关系，导致它们之间的依赖关系结构混乱而且难以复用该对象。
+-  想通过一个中间类来封装多个类中的行为，而又不想生成太多的子类。
+
 
 ### 备忘录模式（未完）
 
@@ -3639,4 +3841,3 @@ class Bread implements Food{
 ### 模板方法模式（未完）
 
 ### 访问者模式（未完）
-
