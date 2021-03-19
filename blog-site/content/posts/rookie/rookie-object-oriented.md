@@ -6,7 +6,6 @@ tags: ["Java", "面向菜鸟编程"]
 slug: "rookie-object-oriented"
 ---
 
-
 > 面向对象是一种编程思想，包括三大特性和六大原则，其中，三大特性指的是封装、继承和多态；六大原则指的是[单一职责原则](#单一职责原则)、[开放封闭原则](#开放封闭原则)、[迪米特原则](#迪米特法则)、[里氏替换原则](#里氏替换原则)、[依赖倒置原则](#依赖倒置原则)以及[接口隔离原则](#接口隔离原则)，其中，单一职责原则是指一个类应该是一组相关性很高的函数和数据的封装，这是为了提高程序的内聚性，而其他五个原则是通过抽象来实现的，目的是为了降低程序的耦合性以及提高可扩展性。
 
 面向对象简称OO(object-oriented)是相对面向过程(procedure-oriented)来说的,是一种编程思想.Java就是一门面向对象的语言.
@@ -3829,8 +3828,116 @@ class CoffeeMachine extends Colleague {
 - 系统中对象之间存在比较复杂的引用关系，导致它们之间的依赖关系结构混乱而且难以复用该对象。
 -  想通过一个中间类来封装多个类中的行为，而又不想生成太多的子类。
 
+### 备忘录模式
 
-### 备忘录模式（未完）
+> 备忘录模式：在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。它是一种对象行为型模式，其别名为Token。
+
+在设计备忘录类时需要考虑其封装性，除了`Originator`类，不允许其他类来调用备忘录类`Memento`的构造函数与相关方法，如果不考虑封装性，允许其他类调用构造方法，将导致在备忘录中保存的历史状态发生改变，通过撤销操作所恢复的状态就不再是真实的历史状态，备忘录模式也就失去了本身的意义。
+
+所谓备忘录模式就是在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        Originator originator = new Originator();
+        CareTaker careTaker = new CareTaker();
+        // 保存状态
+        careTaker.saveMemento(originator.saveState(" 状态#1 "));
+        careTaker.saveMemento(originator.saveState(" 状态#2 "));
+        careTaker.saveMemento(originator.saveState(" 状态#3 "));
+
+        System.out.println("目前保存的状态为：" + originator.getState());
+
+        System.out.println("开始恢复以前的状态 ....");
+        originator.recover(careTaker.recover(0));
+
+        System.out.println("恢复之后的状态为：" + originator.getState());
+
+    }
+}
+
+
+class Originator{
+
+    private String state;
+
+
+    public String getState() {
+        return state;
+    }
+
+    public Memento saveState(String state) {
+        this.state = state;
+        return new Memento(state);
+    }
+
+    public void recover(Memento memento) {
+        this.state =  memento.getState();
+    }
+}
+
+/**
+ * 备忘录对象 保存对象信息
+ */
+class Memento{
+
+    /**
+     * 需要保存状态
+     */
+    private final String state;
+
+    public Memento(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+}
+
+/**
+ * 管理备忘录对象
+ */
+class CareTaker {
+
+    public ArrayList<Memento> mementos = new ArrayList<>();
+
+    public Memento recover(int index) {
+       return mementos.get(index);
+    }
+
+    public void saveMemento(Memento memento) {
+        mementos.add(memento);
+    }
+
+}
+
+```
+
+备忘录模式在很多软件的使用过程中普遍存在，但是在应用软件开发中，它的使用频率并不太高，因为现在很多基于窗体和浏览器的应用软件并没有提供撤销操作。如果需要为软件提供撤销功能，备忘录模式无疑是一种很好的解决方案。在一些字处理软件、图像编辑软件、数据库管理系统等软件中备忘录模式都得到了很好的应用。
+
+为了符合迪米特原则，还要增加一个管理备忘录的类(`CareTaker`);为了节约内存，可使用[原型模式](#原型模式)+[备忘录模式](#备忘录模式)。
+
+**优点**
+
+- 给用户提供了一种可以恢复状态的机制，可以使用户能够比较方便地回到某个历史的状态。
+- 实现了信息的封装，使得用户不需要关心状态的保存细节。
+
+**缺点**
+
+- 消耗资源。如果类的成员变量过多，势必会占用比较大的资源，而且每一次保存都会消耗一定的内存。每保存一次对象的状态都需要消耗一定的系统资源。
+
+**使用场景**
+
+很多时候我们总是需要记录一个对象的内部状态，这样做的目的就是为了允许用户取消不确定或者错误的操作，能够恢复到他原先的状态，使得他有"后悔药"可吃。
+
+- 需要保存/恢复数据的相关状态场景。
+- 提供一个可回滚的操作。
+
+
 
 ### 观察者模式（未完）
 
@@ -3841,3 +3948,4 @@ class CoffeeMachine extends Colleague {
 ### 模板方法模式（未完）
 
 ### 访问者模式（未完）
+
