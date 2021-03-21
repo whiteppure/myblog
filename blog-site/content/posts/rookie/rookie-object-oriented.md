@@ -3937,9 +3937,157 @@ class CareTaker {
 - 需要保存/恢复数据的相关状态场景。
 - 提供一个可回滚的操作。
 
+### 观察者模式
+
+> 观察者模式：定义对象之间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式的别名包括发布-订阅模式、模型-视图模式、源-监听器模式或从属者模式。观察者模式是一种对象行为型模式。
+
+  观察者模式描述了如何建立对象与对象之间的依赖关系，以及如何构造满足这种需求的系统。观察者模式包含观察目标和观察者两类对象，一个目标可以有任意数目的与之相依赖的观察者，一旦观察目标的状态发生改变，所有的观察者都将得到通知。作为对这个通知的响应，每个观察者都将监视观察目标的状态以使其状态与目标状态同步，这种交互也称为发布-订阅(Publish-Subscribe)。观察目标是通知的发布者，它发出通知时并不需要知道谁是它的观察者，可以有任意数目的观察者订阅它并接收通知。
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        WeatherData weatherData = new WeatherData();
+        CurrentCondition currentCondition = new CurrentCondition();
+        BaiduSite baiduSite = new BaiduSite();
+
+        // 注册观察者
+        weatherData.registerObserver(currentCondition);
+        weatherData.registerObserver(baiduSite);
+        // 设置数据 一旦数据变化 所有的观察者都会变化
+        weatherData.setWeatherData(10f, 20f);
+
+        // 移除注册观察者
+        weatherData.removeObserver(baiduSite);
+        
+        // 唤醒所有已经注册的观察者
+        weatherData.notifyObservers();
+    }
+}
+
+interface Subject {
+
+    void registerObserver(Observer observer);
+
+    void removeObserver(Observer observer);
+
+    void notifyObservers();
+}
+
+/**
+ * 观察者
+ */
+interface Observer {
+
+    void update(float  temperature, float humidity);
+}
+
+class WeatherData implements Subject{
+
+    private ArrayList<Observer> observers = new ArrayList<>();
+
+    private float temperature;
+
+    private float humidity;
+
+    public void setWeatherData(float humidity, float temperature) {
+        this.humidity = humidity;
+        this.temperature = temperature;
+    }
 
 
-### 观察者模式（未完）
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        if (observers.contains(observer)) {
+            observers.remove(observer);
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        // 唤醒所有的观察者
+        for (Observer observer : observers) {
+            observer.update(temperature,humidity);
+        }
+    }
+}
+
+class CurrentCondition implements Observer{
+
+    private float temperature;
+    private float humidity;
+
+    @Override
+    public void update(float temperature, float humidity) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        displayed();
+    }
+
+    void displayed() {
+        System.out.println("===当前天气情况===");
+        System.out.println("当前湿度：" + this.temperature);
+        System.out.println("当前温度：" + this.humidity);
+    }
+}
+
+class BaiduSite implements Observer{
+
+    private float temperature;
+    private float humidity;
+
+    @Override
+    public void update(float temperature, float humidity) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        displayed();
+    }
+
+    void displayed() {
+        System.out.println("===当前百度网站天气情况===");
+        System.out.println("当前湿度：" + this.temperature);
+        System.out.println("当前温度：" + this.humidity);
+    }
+}
+
+```
+
+观察者模式是一种使用频率非常高的设计模式，无论是移动应用、Web应用或者桌面应用，观察者模式几乎无处不在，它为实现对象之间的联动提供了一套完整的解决方案，凡是涉及到一对一或者一对多的对象交互场景都可以使用观察者模式。观察者模式广泛应用于各种编程语言的GUI事件处理的实现，在基于事件的XML解析技术（如SAX2）以及Web事件处理中也都使用了观察者模式。
+
+**优点**
+
+- 观察者和被观察者是抽象耦合的。察目标只需要维持一个抽象观察者的集合，无须了解其具体观察者。由于观察目标和观察者没有紧密地耦合在一起，因此它们可以属于不同的抽象化层次。
+- 观察者模式满足“[开闭原则](#开放封闭原则)”的要求，增加新的具体观察者无须修改原有系统代码，在具体观察者与观察目标之间不存在关联关系的情况下，增加新的观察目标也很方便。
+-  观察者模式可以实现表示层和数据逻辑层的分离，定义了稳定的消息更新传递机制，并抽象了更新接口，使得可以有各种各样不同的表示层充当具体观察者角色。
+
+**缺点**
+
+- 如果一个被观察者对象有很多的直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。
+- 如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。
+- 观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。
+
+**使用场景**
+
+一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。一个对象（目标对象）的状态发生改变，所有的依赖对象（观察者对象）都将得到通知，进行广播通知。
+
+- 一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这些方面封装在独立的对象中使它们可以各自独立地改变和复用。
+- 一个对象的改变将导致其他一个或多个对象也发生改变，而不知道具体有多少对象将发生改变，可以降低对象之间的耦合度。
+- 一个对象必须通知其他对象，而并不知道这些对象是谁。
+- 需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象……，可以使用观察者模式创建一种链式触发机制。
+
+**注意事项：** 
+
+- JAVA 中已经有了对观察者模式的支持类。 
+- 避免循环引用。 
+- 如果顺序执行，某一观察者错误会导致系统卡壳，一般采用异步方式。
+
+
 
 ### 状态模式（未完）
 
@@ -3948,4 +4096,3 @@ class CareTaker {
 ### 模板方法模式（未完）
 
 ### 访问者模式（未完）
-
