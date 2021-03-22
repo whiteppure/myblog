@@ -4087,12 +4087,317 @@ class BaiduSite implements Observer{
 - 避免循环引用。 
 - 如果顺序执行，某一观察者错误会导致系统卡壳，一般采用异步方式。
 
+### 状态模式
+
+> 状态模式：允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。其别名为状态对象，状态模式是一种对象行为型模式。
+
+状态模式用于解决系统中复杂对象的状态转换以及不同状态下行为的封装问题。当系统中某个对象存在多个状态，这些状态之间可以进行转换，而且对象在不同状态下行为不相同时可以使用状态模式。状态模式将一个对象的状态从该对象中分离出来，封装到专门的状态类中，使得对象状态可以灵活变化，对于客户端而言，无须关心对象状态的转换以及对象所处的当前状态，无论对于何种状态的对象，客户端都可以一致处理。
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        // 创建活动对象，奖品有 1 个奖品
+        RaffleActivity activity = new RaffleActivity(1);
+
+        // 我们连续抽 300 次奖
+        for (int i = 0; i < 30; i++) {
+            System.out.println("--------第" + (i + 1) + "次抽奖----------");
+            // 参加抽奖，第一步点击扣除积分
+            activity.debuctMoney();
+
+            // 第二步抽奖
+            activity.raffle();
+        }
+    }
+}
 
 
-### 状态模式（未完）
+abstract class State {
+
+
+    // 扣除积分 - 50
+    public abstract void deductMoney();
+
+    // 是否抽中奖品
+    public abstract boolean raffle();
+
+    // 发放奖品
+    public abstract void dispensePrize();
+}
+
+
+class RaffleActivity {
+
+    // state 表示活动当前的状态，是变化
+    State state = null;
+
+    // 奖品数量
+    int count = 0;
+
+    // 四个属性，表示四种状态
+    State noRafflleState = new NoRaffleState(this);
+    State canRaffleState = new CanRaffleState(this);
+
+    State dispenseState = new DispenseState(this);
+    State dispensOutState = new DispenseOutState(this);
+
+    //构造器
+    //1. 初始化当前的状态为 noRafflleState（即不能抽奖的状态）
+    //2. 初始化奖品的数量
+    public RaffleActivity(int count) {
+        this.state = getNoRafflleState();
+        this.count = count;
+    }
+
+    //扣分, 调用当前状态的 deductMoney
+    public void debuctMoney() {
+        state.deductMoney();
+    }
+
+    //抽奖
+    public void raffle() {
+        // 如果当前的状态是抽奖成功
+        if (state.raffle()) {
+            //领取奖品
+            state.dispensePrize();
+        }
+
+
+    }
+
+
+    public State getState() {
+        return state;
+    }
+
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    //这里请大家注意，每领取一次奖品，count--
+    public int getCount() {
+        int curCount = count;
+        count--;
+        return curCount;
+    }
+
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public State getNoRafflleState() {
+        return noRafflleState;
+    }
+
+
+    public void setNoRafflleState(State noRafflleState) {
+        this.noRafflleState = noRafflleState;
+    }
+
+
+    public State getCanRaffleState() {
+        return canRaffleState;
+    }
+
+
+    public void setCanRaffleState(State canRaffleState) {
+        this.canRaffleState = canRaffleState;
+    }
+
+
+    public State getDispenseState() {
+        return dispenseState;
+    }
+
+
+    public void setDispenseState(State dispenseState) {
+        this.dispenseState = dispenseState;
+    }
+
+    public State getDispensOutState() {
+        return dispensOutState;
+
+    }
+
+
+    public void setDispensOutState(State dispensOutState) {
+        this.dispensOutState = dispensOutState;
+    }
+}
+
+
+class DispenseOutState extends State {
+
+    // 初始化时传入活动引用
+    RaffleActivity activity;
+
+
+    public DispenseOutState(RaffleActivity activity) {
+        this.activity = activity;
+    }
+
+    @Override
+    public void deductMoney() {
+        System.out.println("奖品发送完了，请下次再参加");
+    }
+
+
+    @Override
+    public boolean raffle() {
+        System.out.println("奖品发送完了，请下次再参加");
+        return false;
+    }
+
+
+    @Override
+    public void dispensePrize() {
+        System.out.println("奖品发送完了，请下次再参加");
+    }
+}
+
+class DispenseState extends State {
+
+    // 初始化时传入活动引用，发放奖品后改变其状态
+    RaffleActivity activity;
+
+
+    public DispenseState(RaffleActivity activity) {
+        this.activity = activity;
+    }
+
+
+    @Override
+    public void deductMoney() {
+        System.out.println("不能扣除积分");
+    }
+
+
+    @Override
+    public boolean raffle() {
+        System.out.println("不能抽奖");
+        return false;
+    }
+
+    //发放奖品
+    @Override
+    public void dispensePrize() {
+        if (activity.getCount() > 0) {
+            System.out.println("恭喜中奖了");
+            // 改变状态为不能抽奖
+            activity.setState(activity.getNoRafflleState());
+        } else {
+            System.out.println("很遗憾，奖品发送完了");
+            // 改变状态为奖品发送完毕, 后面我们就不可以抽奖
+            activity.setState(activity.getDispensOutState());
+            //System.out.println("抽奖活动结束");
+            //System.exit(0);
+        }
+
+    }
+}
+
+class NoRaffleState extends State {
+
+    // 初始化时传入活动引用，扣除积分后改变其状态
+    RaffleActivity activity;
+
+
+    public NoRaffleState(RaffleActivity activity) {
+        this.activity = activity;
+    }
+
+    // 当前状态可以扣积分 , 扣除后，将状态设置成可以抽奖状态
+    @Override
+    public void deductMoney() {
+        System.out.println("扣除 50 积分成功，您可以抽奖了");
+        activity.setState(activity.getCanRaffleState());
+    }
+
+    // 当前状态不能抽奖
+    @Override
+    public boolean raffle() {
+        System.out.println("扣了积分才能抽奖喔！");
+        return false;
+    }
+
+    // 当前状态不能发奖品
+    @Override
+    public void dispensePrize() {
+        System.out.println("不能发放奖品");
+    }
+}
+
+
+class CanRaffleState extends State {
+
+    RaffleActivity activity;
+
+    public CanRaffleState(RaffleActivity activity) {
+        this.activity = activity;
+    }
+
+    @Override
+    public void deductMoney() {
+        System.out.println("已经扣取过了积分");
+    }
+
+    //可以抽奖, 抽完奖后，根据实际情况，改成新的状态
+    @Override
+    public boolean raffle() {
+        System.out.println("正在抽奖，请稍等！");
+        Random r = new Random();
+        int num = r.nextInt(10);
+        // 10%中奖机会
+        if (num == 0) {
+            // 改变活动状态为发放奖品
+            activity.setState(activity.getDispenseState());
+            return true;
+        } else {
+            System.out.println("很遗憾没有抽中奖品！");
+            // 改变状态为不能抽奖
+            activity.setState(activity.getNoRafflleState());
+            return false;
+        }
+    }
+
+    // 不能发放奖品
+    @Override
+    public void dispensePrize() {
+        System.out.println("没中奖，不能发放奖品");
+    }
+}
+```
+
+状态模式将一个对象在不同状态下的不同行为封装在一个个状态类中，通过设置不同的状态对象可以让环境对象拥有不同的行为，而状态转换的细节对于客户端而言是透明的，方便了客户端的使用。在实际开发中，状态模式具有较高的使用频率，在工作流和游戏开发中状态模式都得到了广泛的应用，例如公文状态的转换、游戏中角色的升级等。
+
+**优点**
+
+- 封装了状态的转换规则，在状态模式中可以将状态的转换代码封装在环境类或者具体状态类中，可以对状态转换代码进行集中管理，而不是分散在一个个业务方法中。
+- 将所有与某个状态有关的行为放到一个类中，只需要注入一个不同的状态对象即可使环境对象拥有不同的行为。
+- 可以让多个环境对象共享一个状态对象，从而减少系统中对象的个数。
+- 允许状态转换逻辑与状态对象合成一体，而不是提供一个巨大的条件语句块，状态模式可以让我们避免使用庞大的条件语句来将业务方法和状态转换代码交织在一起。
+
+**缺点**
+
+- 状态模式的使用必然会增加系统类和对象的个数。
+- 状态模式的结构与实现都较为复杂，如果使用不当将导致程序结构和代码的混乱。
+- 状态模式对“[开闭原则](#开放封闭原则)”的支持并不太好，增加新的状态类需要修改那些负责状态转换的源代码，否则无法转换到新增状态；而且修改某个状态类的行为也需修改对应类的源代码。
+
+**使用场景**
+
+状态模式主要解决对象的行为依赖于它的状态（属性），并且可以根据它的状态改变而改变它的相关行为。在代码中包含大量与对象状态有关的条件语句时应该考虑使用状态模式。应当注意的是，在行为受状态约束的时候使用状态模式，状态应该不超过 5 个，太多则导致程序结构、代码混乱。
+
+- 行为随状态改变而改变的场景。
+- 条件、分支语句的代替者。
+
 
 ### 策略模式（未完）
 
 ### 模板方法模式（未完）
 
 ### 访问者模式（未完）
+
