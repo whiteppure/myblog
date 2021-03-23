@@ -4394,8 +4394,138 @@ class CanRaffleState extends State {
 - 行为随状态改变而改变的场景。
 - 条件、分支语句的代替者。
 
+### 策略模式
 
-### 策略模式（未完）
+>策略模式：定义一系列算法类，将每一个算法封装起来，并让它们可以相互替换，策略模式让算法独立于使用它的客户而变化，也称为政策模式。策略模式是一种对象行为型模式。
+
+策略模式的主要目的是将算法的定义与使用分开，也就是将算法的行为和环境分开，将算法的定义放在专门的策略类中，每一个策略类封装了一种实现算法，使用算法的环境类针对抽象策略类进行编程，符合“依赖倒转原则”。在出现新的算法时，只需要增加一个新的实现了抽象策略类的具体策略类即可。
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        Bird bird = new Bird();
+        bird.fly();
+
+        Duck duck = new Duck();
+        duck.fly();
+
+        Dog dog = new Dog();
+        dog.fly();
+
+        System.out.println("变为会飞 ：");
+        dog.setFlyStrategy(new GoodFlyStrategy());
+        dog.fly();
+    }
+}
+
+abstract class AbstractStrategy {
+
+    protected FlyStrategy flyStrategy;
+
+    public void setFlyStrategy(FlyStrategy flyStrategy) {
+        this.flyStrategy = flyStrategy;
+    }
+
+    public abstract void fly();
+
+}
+
+class Bird  extends AbstractStrategy{
+
+    public Bird() {
+        System.out.print("小鸟");
+        flyStrategy = new GoodFlyStrategy();
+    }
+
+    @Override
+    public void fly() {
+        flyStrategy.fly();
+    }
+}
+
+class Duck extends AbstractStrategy {
+
+    public Duck() {
+        System.out.print("鸭子");
+        flyStrategy = new BadFlyStrategy();
+    }
+
+    @Override
+    public void fly() {
+        flyStrategy.fly();
+    }
+}
+
+class Dog extends AbstractStrategy {
+
+    public Dog() {
+        System.out.print("狗");
+        flyStrategy = new NoFlyStrategy();
+    }
+
+    @Override
+    public void fly() {
+        flyStrategy.fly();
+    }
+}
+
+
+
+interface FlyStrategy {
+
+    void fly();
+}
+
+class GoodFlyStrategy implements FlyStrategy {
+
+    @Override
+    public void fly() {
+        System.out.println("擅长飞翔 ...");
+    }
+}
+
+class BadFlyStrategy implements FlyStrategy {
+
+    @Override
+    public void fly() {
+        System.out.println("不擅长飞翔 ...");
+    }
+}
+
+class NoFlyStrategy implements FlyStrategy {
+    @Override
+    public void fly() {
+        System.out.println("不会飞 ...");
+    }
+}
+
+
+```
+
+策略模式用于算法的自由切换和扩展，它是应用较为广泛的设计模式之一。策略模式对应于解决某一问题的一个算法族，允许用户从该算法族中任选一个算法来解决某一问题，同时可以方便地更换算法或者增加新的算法。只要涉及到算法的封装、复用和切换都可以考虑使用策略模式。
+
+**优点**
+
+- 策略模式提供了对“[开闭原则](#开放封闭原则)”的完美支持，用户可以在不修改原有系统的基础上选择算法或行为，也可以灵活地增加新的算法或行为。
+- 策略模式提供了管理相关的算法族的办法。策略类的等级结构定义了一个算法或行为族，恰当使用继承可以把公共的代码移到抽象策略类中，从而避免重复的代码。
+- 策略模式提供了一种算法的复用机制，由于将算法单独提取出来封装在策略类中，因此不同的环境类可以方便地复用这些策略类。
+
+**缺点**
+
+- 客户端必须知道所有的策略类，并自行决定使用哪一个策略类。这就意味着客户端必须理解这些算法的区别，以便适时选择恰当的算法。换言之，策略模式只适用于客户端知道所有的算法或行为的情况。
+- 所有策略类都需要对外暴露。
+
+如果一个系统的策略多于四个，就需要考虑使用混合模式，解决策略类膨胀的问题。
+
+**使用场景**
+
+- 一个系统有许多许多类，而区分它们的只是他们直接的行为，那么使用策略模式可以动态地让一个对象在许多行为中选择一种行为。
+
+- 如果一个对象有很多的行为，如果不用恰当的模式，这些行为就只好使用多重的条件选择语句来实现。
+
+  
 
 ### 模板方法模式（未完）
 
