@@ -6,6 +6,8 @@ tags: ["Java", "面向菜鸟编程"]
 slug: "rookie-object-oriented"
 ---
 
+
+
 > 面向对象是一种编程思想，包括三大特性和六大原则，其中，三大特性指的是封装、继承和多态；六大原则指的是[单一职责原则](#单一职责原则)、[开放封闭原则](#开放封闭原则)、[迪米特原则](#迪米特法则)、[里氏替换原则](#里氏替换原则)、[依赖倒置原则](#依赖倒置原则)以及[接口隔离原则](#接口隔离原则)，其中，单一职责原则是指一个类应该是一组相关性很高的函数和数据的封装，这是为了提高程序的内聚性，而其他五个原则是通过抽象来实现的，目的是为了降低程序的耦合性以及提高可扩展性。
 
 面向对象简称OO(object-oriented)是相对面向过程(procedure-oriented)来说的,是一种编程思想.Java就是一门面向对象的语言.
@@ -4527,7 +4529,121 @@ class NoFlyStrategy implements FlyStrategy {
 
   
 
-### 模板方法模式（未完）
+### 模板方法模式
+
+>模板方法模式：定义一个操作中的算法骨架，而将算法的一些步骤延迟到子类中，使得子类可以不改变该算法结构的情况下重定义该算法的某些特定步骤。模板方法模式是一种基于继承的代码复用技术，它是一种类行为型模式。
+
+
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        System.out.println("=====红豆豆浆=====");
+        RedBean redBean = new RedBean();
+        redBean.template();
+
+        System.out.println("=====花生豆浆=====");
+        Peanut peanut = new Peanut();
+        peanut.template();
+
+        System.out.println("=====豆浆=====");
+        None none = new None();
+        none.template();
+    }
+}
+
+abstract class SoyaMilk {
+
+    final void template(){
+        filterMaterial();
+        soak();
+        if (isAppended()) {
+            add();
+        }
+        over();
+    }
+
+    void filterMaterial() {
+        System.out.println("第一步：筛选材料");
+    }
+
+    void soak() {
+        System.out.println("第二步：浸泡");
+    }
+
+    abstract void add();
+
+    void over(){
+        System.out.println("第四步：打豆浆");
+    }
+
+    /**
+     * 钩子方法
+     * @return
+     */
+    boolean isAppended(){
+        return true;
+    }
+
+}
+
+class Peanut extends SoyaMilk{
+
+
+    @Override
+    void add() {
+        System.out.println("第三步：加入花生");
+    }
+}
+
+class RedBean extends SoyaMilk {
+
+
+    @Override
+    void add() {
+        System.out.println("第三步：加入红豆");
+    }
+}
+
+class None extends SoyaMilk {
+
+    @Override
+    void add() {
+
+    }
+
+    @Override
+    boolean isAppended() {
+        return false;
+    }
+
+}
+
+```
+
+模板方法模式是基于继承的代码复用技术，它体现了面向对象的诸多重要思想，是一种使用较为频繁的模式。模板方法模式广泛应用于框架设计中，以确保通过父类来控制处理流程的逻辑顺序（如框架的初始化，测试流程的设置等）。
+
+
+
+**优点**
+
+- 它封装了不变部分，扩展可变部分。它把认为是不变部分的算法封装到父类中实现，而把可变部分算法由子类继承实现，便于子类继续扩展。
+- 它在父类中提取了公共的部分代码，便于代码复用。
+- 部分方法是由子类实现的，因此子类可以通过扩展方式增加相应的功能，符合[开闭原则](#开放封闭原则)。
+
+**缺点**
+
+- 需要为每一个基本方法的不同实现提供一个子类，如果父类中可变的基本方法太多，将会导致类的个数增加，系统更加庞大，设计也更加抽象，间接地增加了系统实现的复杂度。此时，可结合[桥接模式](#桥接模式)来进行设计。
+- 由于继承关系自身的缺点，如果父类添加新的抽象方法，则所有子类都要改一遍。
+
+**使用场景**
+
+- 算法的整体步骤很固定，但其中个别部分易变时，这时候可以使用模板方法模式，将容易变的部分抽象出来，供子类实现。
+- 当多个子类存在公共的行为时，可以将其提取出来并集中到一个公共父类中以避免代码重复。首先，要识别现有代码中的不同之处，并且将不同之处分离为新的操作。最后，用一个调用这些新的操作的模板方法来替换这些不同的代码。
+- 当需要控制子类的扩展时，模板方法只在特定点调用钩子操作，这样就只允许在这些点进行扩展。
+
 
 ### 访问者模式（未完）
 
