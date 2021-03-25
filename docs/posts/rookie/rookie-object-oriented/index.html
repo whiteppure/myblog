@@ -1865,8 +1865,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e8%ae%bf%e9%97%ae%e8%80%85%e6%a8%a1%e5%bc%8f%e6%9c%aa%e5%ae%8c">
-                    访问者模式（未完）
+                <a class="nav-link text-left" href="#%e8%ae%bf%e9%97%ae%e8%80%85%e6%a8%a1%e5%bc%8f">
+                    访问者模式
                 </a>
             </li>
             
@@ -6455,7 +6455,124 @@ class None extends SoyaMilk {
 <li>当多个子类存在公共的行为时，可以将其提取出来并集中到一个公共父类中以避免代码重复。首先，要识别现有代码中的不同之处，并且将不同之处分离为新的操作。最后，用一个调用这些新的操作的模板方法来替换这些不同的代码。</li>
 <li>当需要控制子类的扩展时，模板方法只在特定点调用钩子操作，这样就只允许在这些点进行扩展。</li>
 </ul>
-<h3 id="访问者模式未完">访问者模式（未完）</h3>
+<h3 id="访问者模式">访问者模式</h3>
+<blockquote>
+<p>访问者模式：提供一个作用于某对象结构中的各元素的操作表示，它使我们可以在不改变各元素的类的前提下定义作用于这些元素的新操作。访问者模式是一种对象行为型模式。</p>
+</blockquote>
+<p>代码实现</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        ObjectStructure objectStructure = new ObjectStructure();
+        objectStructure.attach(new Man());
+        objectStructure.attach(new WoMan());
+        objectStructure.attach(new Man());
+        objectStructure.attach(new WoMan());
+
+        // 显示成功的评价
+        Success success = new Success();
+        objectStructure.display(success);
+
+        System.out.println(&quot;==================&quot;);
+
+        // 显示失败的评价
+        Fail fail = new Fail();
+        objectStructure.display(fail);
+    }
+}
+
+abstract class Action {
+
+    protected abstract void getManResult(Man man);
+
+    protected abstract void getWomanResult(WoMan woman );
+
+}
+
+class Success  extends Action{
+
+    @Override
+    protected void getManResult(Man man) {
+        System.out.println(&quot;男人觉得很赞～&quot;);
+    }
+
+    @Override
+    protected void getWomanResult(WoMan woman) {
+        System.out.println(&quot;女人觉得很赞～&quot;);
+    }
+}
+
+class Fail  extends Action{
+
+    @Override
+    protected void getManResult(Man man) {
+        System.out.println(&quot;男人觉得很失败～&quot;);
+    }
+
+    @Override
+    protected void getWomanResult(WoMan woman) {
+        System.out.println(&quot;女人觉得很失败～&quot;);
+    }
+}
+
+
+abstract class  Person {
+    abstract void accpet(Action action);
+}
+
+class WoMan extends Person{
+
+    @Override
+    void accpet(Action action) {
+         action.getWomanResult(this);
+    }
+}
+
+class Man  extends Person{
+
+    @Override
+    void accpet(Action action) {
+        action.getManResult(this);
+    }
+}
+
+class ObjectStructure {
+
+    ArrayList&lt;Person&gt; people =  new ArrayList&lt;&gt;();
+
+    public void attach(Person person) {
+        people.add(person);
+    }
+
+    public void detach(Person person) {
+        people.remove(person);
+    }
+
+    public void display(Action acion) {
+        people.forEach(item -&gt; {
+            item.accpet(acion);
+        });
+    }
+
+}
+</code></pre><p>由于访问者模式的使用条件较为苛刻，本身结构也较为复杂，因此在实际应用中使用频率不是特别高。当系统中存在一个较为复杂的对象结构，且不同访问者对其所采取的操作也不相同时，可以考虑使用访问者模式进行设计。在XML文档解析、编译器的设计、复杂集合对象的处理等领域访问者模式得到了一定的应用。</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>扩展性好。增加新的访问操作很方便。使用访问者模式，增加新的访问操作就意味着增加一个新的具体访问者类，实现简单，无须修改源代码，符合“<a href="#%E5%BC%80%E6%94%BE%E5%B0%81%E9%97%AD%E5%8E%9F%E5%88%99">开闭原则</a>”。</li>
+<li>复用性好。可以通过访问者来定义整个对象结构通用的功能，从而提高系统的复用程度。</li>
+<li>灵活性好。访问者模式将数据结构与作用于结构上的操作解耦，使得操作集合可相对自由地演化而不影响系统的数据结构。</li>
+<li>符合<a href="#%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99">单一职责原则</a>。访问者模式把相关的行为封装在一起，构成一个访问者，使每一个访问者的功能都比较单一。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>破坏封装。访问者模式中具体元素对访问者公布细节，这破坏了对象的封装性。具体元素对访问者公布细节，违反了<a href="#%E8%BF%AA%E7%B1%B3%E7%89%B9%E6%B3%95%E5%88%99">迪米特法则</a></li>
+<li>违反了<a href="#%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99">依赖倒置原则</a>。访问者模式依赖了具体类，而没有依赖抽象类。</li>
+</ul>
+<p><strong>使用场景</strong></p>
+<p>需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而需要避免让这些操作&quot;污染&quot;这些对象的类，使用访问者模式将这些封装到类中。访问者可以对功能进行统一，可以做报表、UI、拦截器与过滤器。</p>
+<ul>
+<li>对象结构中对象对应的类很少改变，但经常需要在此对象结构上定义新的操作。</li>
+<li>需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而需要避免让这些操作&quot;污染&quot;这些对象的类，也不希望在增加新操作时修改这些类。</li>
+</ul>
 </div>
                     <div class="post_footer">
                         
