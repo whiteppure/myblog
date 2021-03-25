@@ -7,7 +7,6 @@ slug: "rookie-object-oriented"
 ---
 
 
-
 > 面向对象是一种编程思想，包括三大特性和六大原则，其中，三大特性指的是封装、继承和多态；六大原则指的是[单一职责原则](#单一职责原则)、[开放封闭原则](#开放封闭原则)、[迪米特原则](#迪米特法则)、[里氏替换原则](#里氏替换原则)、[依赖倒置原则](#依赖倒置原则)以及[接口隔离原则](#接口隔离原则)，其中，单一职责原则是指一个类应该是一组相关性很高的函数和数据的封装，这是为了提高程序的内聚性，而其他五个原则是通过抽象来实现的，目的是为了降低程序的耦合性以及提高可扩展性。
 
 面向对象简称OO(object-oriented)是相对面向过程(procedure-oriented)来说的,是一种编程思想.Java就是一门面向对象的语言.
@@ -4645,5 +4644,129 @@ class None extends SoyaMilk {
 - 当需要控制子类的扩展时，模板方法只在特定点调用钩子操作，这样就只允许在这些点进行扩展。
 
 
-### 访问者模式（未完）
 
+### 访问者模式
+
+> 访问者模式：提供一个作用于某对象结构中的各元素的操作表示，它使我们可以在不改变各元素的类的前提下定义作用于这些元素的新操作。访问者模式是一种对象行为型模式。
+
+
+
+代码实现
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        ObjectStructure objectStructure = new ObjectStructure();
+        objectStructure.attach(new Man());
+        objectStructure.attach(new WoMan());
+        objectStructure.attach(new Man());
+        objectStructure.attach(new WoMan());
+
+        // 显示成功的评价
+        Success success = new Success();
+        objectStructure.display(success);
+
+        System.out.println("==================");
+
+        // 显示失败的评价
+        Fail fail = new Fail();
+        objectStructure.display(fail);
+    }
+}
+
+abstract class Action {
+
+    protected abstract void getManResult(Man man);
+
+    protected abstract void getWomanResult(WoMan woman );
+
+}
+
+class Success  extends Action{
+
+    @Override
+    protected void getManResult(Man man) {
+        System.out.println("男人觉得很赞～");
+    }
+
+    @Override
+    protected void getWomanResult(WoMan woman) {
+        System.out.println("女人觉得很赞～");
+    }
+}
+
+class Fail  extends Action{
+
+    @Override
+    protected void getManResult(Man man) {
+        System.out.println("男人觉得很失败～");
+    }
+
+    @Override
+    protected void getWomanResult(WoMan woman) {
+        System.out.println("女人觉得很失败～");
+    }
+}
+
+
+abstract class  Person {
+    abstract void accpet(Action action);
+}
+
+class WoMan extends Person{
+
+    @Override
+    void accpet(Action action) {
+         action.getWomanResult(this);
+    }
+}
+
+class Man  extends Person{
+
+    @Override
+    void accpet(Action action) {
+        action.getManResult(this);
+    }
+}
+
+class ObjectStructure {
+
+    ArrayList<Person> people =  new ArrayList<>();
+
+    public void attach(Person person) {
+        people.add(person);
+    }
+
+    public void detach(Person person) {
+        people.remove(person);
+    }
+
+    public void display(Action acion) {
+        people.forEach(item -> {
+            item.accpet(acion);
+        });
+    }
+
+}
+```
+
+由于访问者模式的使用条件较为苛刻，本身结构也较为复杂，因此在实际应用中使用频率不是特别高。当系统中存在一个较为复杂的对象结构，且不同访问者对其所采取的操作也不相同时，可以考虑使用访问者模式进行设计。在XML文档解析、编译器的设计、复杂集合对象的处理等领域访问者模式得到了一定的应用。
+
+**优点**
+
+- 扩展性好。增加新的访问操作很方便。使用访问者模式，增加新的访问操作就意味着增加一个新的具体访问者类，实现简单，无须修改源代码，符合“[开闭原则](#开放封闭原则)”。
+- 复用性好。可以通过访问者来定义整个对象结构通用的功能，从而提高系统的复用程度。
+- 灵活性好。访问者模式将数据结构与作用于结构上的操作解耦，使得操作集合可相对自由地演化而不影响系统的数据结构。
+- 符合[单一职责原则](#单一职责原则)。访问者模式把相关的行为封装在一起，构成一个访问者，使每一个访问者的功能都比较单一。
+
+**缺点**
+
+- 破坏封装。访问者模式中具体元素对访问者公布细节，这破坏了对象的封装性。具体元素对访问者公布细节，违反了[迪米特法则](#迪米特法则)
+- 违反了[依赖倒置原则](#依赖倒置原则)。访问者模式依赖了具体类，而没有依赖抽象类。
+
+**使用场景**
+
+需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而需要避免让这些操作"污染"这些对象的类，使用访问者模式将这些封装到类中。访问者可以对功能进行统一，可以做报表、UI、拦截器与过滤器。
+
+- 对象结构中对象对应的类很少改变，但经常需要在此对象结构上定义新的操作。
+-  需要对一个对象结构中的对象进行很多不同的并且不相关的操作，而需要避免让这些操作"污染"这些对象的类，也不希望在增加新操作时修改这些类。
