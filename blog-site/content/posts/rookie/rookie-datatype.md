@@ -1,5 +1,5 @@
 ---
-title: "Java数据类型总结"
+title: "Java数据类型"
 date: 2021-01-20
 draft: false
 tags: ["Java", "面向菜鸟编程"]

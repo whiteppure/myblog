@@ -1,5 +1,5 @@
 ---
-title: "Java运算总结"
+title: "运算"
 date: 2021-01-30
 draft: false
 tags: ["Java", "面向菜鸟编程"]
