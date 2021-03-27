@@ -6,7 +6,16 @@
     <description>Recent content on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 07 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 27 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>运行时数据区</title>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-runtime/</link>
+      <pubDate>Sat, 27 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-runtime/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>《尚硅谷宋红康老师详解JVM》相关资料链接</title>
       <link>https://whiteppure.github.io/myblog/posts/tmp/shangguigu-jvm-link/</link>
@@ -18,10 +27,10 @@
     
     <item>
       <title>Jvm介绍</title>
-      <link>https://whiteppure.github.io/myblog/posts/essays/jvm-start/</link>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-start/</link>
       <pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/essays/jvm-start/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-start/</guid>
       <description></description>
     </item>
     
@@ -71,7 +80,7 @@
     </item>
     
     <item>
-      <title>面向对象总结</title>
+      <title>面向对象</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/</link>
       <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -81,15 +90,15 @@
     
     <item>
       <title>Java类加载机制</title>
-      <link>https://whiteppure.github.io/myblog/posts/essays/jvm-classloader/</link>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-classloader/</link>
       <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/essays/jvm-classloader/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-classloader/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Java运算总结</title>
+      <title>运算</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-operation/</link>
       <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -98,7 +107,7 @@
     </item>
     
     <item>
-      <title>Java数据类型总结</title>
+      <title>Java数据类型</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-datatype/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -116,6 +125,15 @@
     </item>
     
     <item>
+      <title>springmvc原理类图</title>
+      <link>https://whiteppure.github.io/myblog/posts/spring/spring-mvc/</link>
+      <pubDate>Fri, 25 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/spring/spring-mvc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Java中的数组</title>
       <link>https://whiteppure.github.io/myblog/posts/essays/java-array/</link>
       <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
@@ -126,28 +144,28 @@
     
     <item>
       <title>Springboot整合docker</title>
-      <link>https://whiteppure.github.io/myblog/posts/springboot/springboot-docker/</link>
+      <link>https://whiteppure.github.io/myblog/posts/spring/springboot-docker/</link>
       <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/springboot/springboot-docker/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/spring/springboot-docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Springboot整合kafka</title>
-      <link>https://whiteppure.github.io/myblog/posts/springboot/springboot-kafka/</link>
+      <link>https://whiteppure.github.io/myblog/posts/spring/springboot-kafka/</link>
       <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/springboot/springboot-kafka/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/spring/springboot-kafka/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Jvm内存划分和垃圾回收</title>
-      <link>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</link>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-memory-rubbish/</link>
       <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-memory-rubbish/</guid>
       <description></description>
     </item>
     
@@ -234,19 +252,19 @@
     
     <item>
       <title>Springboot整合redis</title>
-      <link>https://whiteppure.github.io/myblog/posts/springboot/springboot-redis/</link>
+      <link>https://whiteppure.github.io/myblog/posts/spring/springboot-redis/</link>
       <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/springboot/springboot-redis/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/spring/springboot-redis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Springboot整合elasticsearch</title>
-      <link>https://whiteppure.github.io/myblog/posts/springboot/springboot-elasticsearch/</link>
+      <link>https://whiteppure.github.io/myblog/posts/spring/springboot-elasticsearch/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/springboot/springboot-elasticsearch/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/spring/springboot-elasticsearch/</guid>
       <description></description>
     </item>
     

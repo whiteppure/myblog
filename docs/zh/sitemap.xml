@@ -3,13 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://whiteppure.github.io/myblog/tags/java/</loc>
+    <lastmod>2021-03-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/jvm/</loc>
+    <lastmod>2021-03-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://whiteppure.github.io/myblog/posts/</loc>
-    <lastmod>2021-03-07T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/</loc>
-    <lastmod>2021-03-07T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-27T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -24,7 +34,7 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/</loc>
-    <lastmod>2021-03-07T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-27T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -38,6 +48,11 @@
   </url>
   
   <url>
+    <loc>https://whiteppure.github.io/myblog/posts/jvm/jvm-runtime/</loc>
+    <lastmod>2021-03-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://whiteppure.github.io/myblog/posts/tmp/shangguigu-jvm-link/</loc>
     <lastmod>2021-03-07T00:00:00+00:00</lastmod>
   </url>
@@ -48,17 +63,7 @@
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/tags/java/</loc>
-    <lastmod>2021-03-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://whiteppure.github.io/myblog/tags/jvm/</loc>
-    <lastmod>2021-03-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://whiteppure.github.io/myblog/posts/essays/jvm-start/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/jvm/jvm-start/</loc>
     <lastmod>2021-03-05T00:00:00+00:00</lastmod>
   </url>
   
@@ -128,7 +133,7 @@
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/essays/jvm-classloader/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/jvm/jvm-classloader/</loc>
     <lastmod>2021-02-05T00:00:00+00:00</lastmod>
   </url>
   
@@ -145,6 +150,16 @@
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/rookie/rookie-link/</loc>
     <lastmod>2021-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/spring/</loc>
+    <lastmod>2020-12-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/spring/spring-mvc/</loc>
+    <lastmod>2020-12-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -168,7 +183,7 @@
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/springboot/springboot-docker/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/spring/springboot-docker/</loc>
     <lastmod>2020-08-30T00:00:00+00:00</lastmod>
   </url>
   
@@ -178,12 +193,12 @@
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/springboot/springboot-kafka/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/spring/springboot-kafka/</loc>
     <lastmod>2020-08-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/jvm/jvm-memory-rubbish/</loc>
     <lastmod>2020-08-16T00:00:00+00:00</lastmod>
   </url>
   
@@ -258,7 +273,7 @@
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/springboot/springboot-redis/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/spring/springboot-redis/</loc>
     <lastmod>2020-03-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -268,7 +283,7 @@
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/springboot/springboot-elasticsearch/</loc>
+    <loc>https://whiteppure.github.io/myblog/posts/spring/springboot-elasticsearch/</loc>
     <lastmod>2020-02-09T00:00:00+00:00</lastmod>
   </url>
   

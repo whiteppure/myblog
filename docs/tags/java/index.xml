@@ -6,18 +6,27 @@
     <description>Recent content in Java on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 05 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 27 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Jvm介绍</title>
-      <link>https://whiteppure.github.io/myblog/posts/essays/jvm-start/</link>
-      <pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate>
+      <title>运行时数据区</title>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-runtime/</link>
+      <pubDate>Sat, 27 Mar 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/essays/jvm-start/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-runtime/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>面向对象总结</title>
+      <title>Jvm介绍</title>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-start/</link>
+      <pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-start/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>面向对象</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/</link>
       <pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate>
       
@@ -27,15 +36,15 @@
     
     <item>
       <title>Java类加载机制</title>
-      <link>https://whiteppure.github.io/myblog/posts/essays/jvm-classloader/</link>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-classloader/</link>
       <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/essays/jvm-classloader/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-classloader/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Java运算总结</title>
+      <title>运算</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-operation/</link>
       <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -44,7 +53,7 @@
     </item>
     
     <item>
-      <title>Java数据类型总结</title>
+      <title>Java数据类型</title>
       <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-datatype/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
@@ -72,10 +81,10 @@
     
     <item>
       <title>Jvm内存划分和垃圾回收</title>
-      <link>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</link>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-memory-rubbish/</link>
       <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/essays/jvm-memory-rubbish/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-memory-rubbish/</guid>
       <description></description>
     </item>
     
