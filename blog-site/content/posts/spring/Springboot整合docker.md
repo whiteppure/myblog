@@ -158,7 +158,7 @@ docker images
 ```
 
 运行该镜像
-> 使用镜像 demo-docker ，将容器的 8080 端口映射到主机的 9090 端口,
+> 使用镜像 demo-docker ，将容器的 8080 端口映射到主机的 9090 端口
 ```
 docker run -d -p 9090:8080 demo-docker
 ```

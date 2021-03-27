@@ -197,24 +197,6 @@ public class RedisExampleController {
 
 ## 测试
 
-注解版:
-
-```
-//自定义名称
-@CacheConfig(cacheNames = "xxx")
-public class ProductInfoController {   
-    //简单用法 
-    @Caching(cacheable = {@Cacheable}, put = {@CachePut})
-    public Response<Map<String, Object>> getById(@RequestParam Integer id) {
-        //to do sthing
-    }
-}
-```
-
-
-Redistemplate版:
-
-
 ```
 @Autowired
 private RedisTemplate redisTemplate;

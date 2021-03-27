@@ -1,7 +1,7 @@
 ---
 title: "我的中文简历"
 date: 2021-02-24
-draft: false
+draft: true
 tags: ["中文", "个人简历"]
 slug: "whitepure-resume_zh"
 ---
