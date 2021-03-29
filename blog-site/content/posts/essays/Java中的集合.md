@@ -45,7 +45,7 @@ Java中的集合主要包括 `Collection` 和 `Map` 两种，
 - 归纳: 总的来说hashMap底层将key-value(键值对)当成一个整体来处理,hashMap底层采用一个 Entry 数组保存所有的键值对,当存储一个entry对象时,会根据key的hash算法来决定存放在数组中的位置,在根据equals方法来确定在链表中的位置,读取一个entry对象,先根据hash算法确定在数组中的位置,再根据equals来获取该值,equals和equals在hashMap中就像一个坐标一样,来确定hashMap中的值
 
 
-### 1.8的hashMap与1.7之前的区别
+### HashMap1.8与1.7区别
 - 结构 :  数组+链表+红黑树(链表长度>8时使用)
 - 算法:   扩容后数据存储位置的计算方式也不一样
 
@@ -62,7 +62,7 @@ Java中的集合主要包括 `Collection` 和 `Map` 两种，
 ### ConcurrentHashMap
 线程安全的HashMap
 
-图示:
+![ConcurrentHashMap](/myblog/posts/images/essays/ConcurrentHashMap.png)
 
 在多线程中，每一个Segment对象守护了一个HashEntry数组，
 当对ConcurrentHashMap中的元素修改时，

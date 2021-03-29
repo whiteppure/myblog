@@ -229,8 +229,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#18%e7%9a%84hashmap%e4%b8%8e17%e4%b9%8b%e5%89%8d%e7%9a%84%e5%8c%ba%e5%88%ab">
-                    1.8的hashMap与1.7之前的区别
+                <a class="nav-link text-left" href="#hashmap18%e4%b8%8e17%e5%8c%ba%e5%88%ab">
+                    HashMap1.8与1.7区别
                 </a>
             </li>
             
@@ -377,7 +377,7 @@
 <p>归纳: 总的来说hashMap底层将key-value(键值对)当成一个整体来处理,hashMap底层采用一个 Entry 数组保存所有的键值对,当存储一个entry对象时,会根据key的hash算法来决定存放在数组中的位置,在根据equals方法来确定在链表中的位置,读取一个entry对象,先根据hash算法确定在数组中的位置,再根据equals来获取该值,equals和equals在hashMap中就像一个坐标一样,来确定hashMap中的值</p>
 </li>
 </ul>
-<h3 id="18的hashmap与17之前的区别">1.8的hashMap与1.7之前的区别</h3>
+<h3 id="hashmap18与17区别">HashMap1.8与1.7区别</h3>
 <ul>
 <li>结构 :  数组+链表+红黑树(链表长度&gt;8时使用)</li>
 <li>算法:   扩容后数据存储位置的计算方式也不一样</li>
@@ -394,7 +394,7 @@
 </ol>
 <h3 id="concurrenthashmap">ConcurrentHashMap</h3>
 <p>线程安全的HashMap</p>
-<p>图示:</p>
+<p><img src="/myblog/posts/images/essays/ConcurrentHashMap.png" alt="ConcurrentHashMap"></p>
 <p>在多线程中，每一个Segment对象守护了一个HashEntry数组，
 当对ConcurrentHashMap中的元素修改时，
 在获取到对应的Segment数组角标后，都会对此Segment对象加锁，
