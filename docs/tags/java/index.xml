@@ -6,13 +6,22 @@
     <description>Recent content in Java on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 27 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>运行时数据区</title>
-      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-runtime/</link>
+      <title>虚拟机栈</title>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-stack/</link>
+      <pubDate>Sun, 28 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-stack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>程序计数寄存器</title>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-pc-register/</link>
       <pubDate>Sat, 27 Mar 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-runtime/</guid>
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-pc-register/</guid>
       <description></description>
     </item>
     
