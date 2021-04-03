@@ -48,6 +48,11 @@
   </url>
   
   <url>
+    <loc>https://whiteppure.github.io/myblog/posts/jvm/jvm-native-interface/</loc>
+    <lastmod>2021-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://whiteppure.github.io/myblog/posts/jvm/jvm-native-stack/</loc>
     <lastmod>2021-04-02T00:00:00+00:00</lastmod>
   </url>
@@ -265,14 +270,6 @@
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/spring/springboot-elasticsearch/</loc>
     <lastmod>2020-02-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://whiteppure.github.io/myblog/posts/jvm/%E5%A0%86/</loc>
-  </url>
-  
-  <url>
-    <loc>https://whiteppure.github.io/myblog/posts/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/</loc>
   </url>
   
   <url>
