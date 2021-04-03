@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh" >
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,11 +8,11 @@
 	
 	
 	
-	<title>whitepure ｜ 大道至简 </title>
+	<title>本地方法栈 ｜ whitepure</title>
 	
     
     
-    <meta name="description" content="whitepure&#39;s blog of github" />
+    <meta name="description" content="" />
     
 
     
@@ -22,8 +21,6 @@
     
 
 	
-	<link rel="alternate" type="application/rss+xml" href="https://whiteppure.github.io/myblog/index.xml" title="whitepure" />
-    
     
     <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
 
@@ -40,10 +37,18 @@
 </head>
 
 <body>
+    
+    
+    
+
+
+
+
+    
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
-        <ul><li class="active">
+        <ul><li class="">
                 <a href="https://whiteppure.github.io/myblog/">首页</a>
             </li><li class="">
                 <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
@@ -88,185 +93,53 @@
     </div>
 </div>
         <div class="content">
-            
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-heap/'>堆</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.04.03</span>
-                </span>
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/jvm/jvm-native-stack/'>本地方法栈</a></h2>
+                        <span class="date">2021.04.02</span>
+                    </div>
+                    <div class="post_content markdown"><p>Java虚拟机栈于管理Java方法的调用，而本地方法栈用于管理本地方法的调用。</p>
+<p>本地方法栈，也是线程私有的。</p>
+<p>允许被实现成固定或者是可动态扩展的内存大小。（在内存溢出方面是相同的）</p>
+<p>如果线程请求分配的栈容量超过本地方法栈允许的最大容量，Java虚拟机将会抛出一个<code>stackOverflowError</code>异常。
+如果本地方法栈可以动态扩展，并且在尝试扩展的时候无法申请到足够的内存，或者在创建新的线程时没有足够的内存去创建对应的本地方法栈，那么Java虚拟机将会抛出一个<code>OutOfMemoryError</code>异常。
+本地方法是使用C语言实现的。</p>
+<p>它的具体做法是Native Method Stack中登记native方法，在Execution Engine 执行时加载本地方法库。
+<img src="/myblog/posts/images/essays/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88.png" alt="本地方法栈"></p>
+<p>当某个线程调用一个本地方法时，它就进入了一个全新的并且不再受虚拟机限制的世界。它和虚拟机拥有同样的权限。</p>
+<p>本地方法可以通过本地方法接口来访问虚拟机内部的运行时数据区。</p>
+<ul>
+<li>它甚至可以直接使用本地处理器中的寄存器</li>
+<li>直接从本地内存的堆中分配任意数量的内存。
+并不是所有的JVM都支持本地方法。因为Java虚拟机规范并没有明确要求本地方法栈的使用语言、具体实现方式、数据结构等。如果JVM产品不打算支持native方法，也可以无需实现本地方法栈。</li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
                 
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
+                
+                <div class="doc_comments"></div>
                 
             </div>
         </div>
     </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-native-interface/'>本地方法接口</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.04.02</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-native-stack/'>本地方法栈</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.04.02</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-stack/'>虚拟机栈</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.03.28</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-pc-register/'>程序计数寄存器</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.03.27</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-start/'>Jvm介绍</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.03.05</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">Jvm</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">使用介绍</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="pagination">
-    
-    
-    
-    <a href="/myblog/page/2/" class="next">
-        下一页
-    </a>
-    
-    
-</div>
-        </div>
-    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
     <footer class="footer">
     <div class="powered_by">
         <a href="https://varkai.com">Designed by VarKai,</a>

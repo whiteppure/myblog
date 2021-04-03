@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>Springboot整合elasticsearch ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%ae%89%e8%a3%85elasticsearch">
+                    安装elasticsearch
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%94%a8-docker-%e5%ae%89%e8%a3%85-elasticsearch">
+                    用 docker 安装 elasticsearch
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#springboot%e9%9b%86%e6%88%90elasticsearch">
+                    Springboot集成elasticsearch
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%af%bc%e5%85%a5pom%e4%be%9d%e8%b5%96">
+                    导入pom依赖
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e6%b5%8b%e8%af%95%e6%8e%a5%e5%8f%a3">
+                    创建测试接口
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e6%b5%8b%e8%af%95%e7%b1%bb">
+                    创建测试类
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/spring/springboot-elasticsearch/'>Springboot整合elasticsearch</a></h2>
+                        <span class="date">2020.02.09</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="安装elasticsearch">安装elasticsearch</h2>
+<p>要注意导入依赖的版本和安装<code>elasticsearch</code>的版本与<code>springboot</code>的兼容问题
+<img src="/myblog/posts/images/application/Springboot%E5%AF%B9%E5%BA%94elasticseach%E7%89%88%E6%9C%AC.jpg" alt="springbootelasticsearch.jpg"></p>
+<h3 id="用-docker-安装-elasticsearch">用 docker 安装 elasticsearch</h3>
+<p>本例用<code>elasticsearch-6.5.3</code>和<code>springboot-2.1.0.RELEASE</code>版本</p>
+<ol>
+<li>下载镜像：</li>
+</ol>
+<pre><code>docker pull elasticsearch:6.5.3
+</code></pre><ol start="2">
+<li>运行容器：</li>
+</ol>
+<pre><code>docker run -d -p 9200:9200 -p 9300:9300 --name elasticsearch-6.5.3 elasticsearch:6.5.3
+</code></pre><ol start="3">
+<li>进入容器：</li>
+</ol>
+<pre><code>docker exec -it elasticsearch-6.5.3 /bin/bash
+</code></pre><ol start="4">
+<li><a href="https://elasticstack.blog.csdn.net/article/details/100516428">安装 IK 分词器</a>：</li>
+</ol>
+<pre><code>/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.3/elasticsearch-analysis-ik-6.5.3.zip
+</code></pre><ol start="5">
+<li>修改 es 配置文件：<code>vi ./config/elasticsearch.yml</code></li>
+</ol>
+<pre><code>cluster.name: &quot;docker-cluster&quot;
+network.host: 0.0.0.0
+
+# minimum_master_nodes need to be explicitly set when bound on a public IP
+# set to 1 to allow single node clusters
+# Details: https://github.com/elastic/elasticsearch/pull/17288
+discovery.zen.minimum_master_nodes: 1
+
+# just for elasticsearch-head plugin
+http.cors.enabled: true
+http.cors.allow-origin: &quot;*&quot;
+</code></pre><ol start="6">
+<li>退出容器：</li>
+</ol>
+<pre><code>exit
+</code></pre><ol start="7">
+<li>停止容器：</li>
+</ol>
+<pre><code>docker stop elasticsearch-6.5.3
+</code></pre><ol start="8">
+<li>启动容器：</li>
+</ol>
+<pre><code>docker start elasticsearch-6.5.3
+</code></pre><h2 id="springboot集成elasticsearch">Springboot集成elasticsearch</h2>
+<h3 id="导入pom依赖">导入pom依赖</h3>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-elasticsearch&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><h3 id="创建测试接口">创建测试接口</h3>
+<p>EsConsts 常量池</p>
+<pre><code>public interface EsConsts {
+    /**
+     * 索引名称
+     */
+    String INDEX_NAME = &quot;person&quot;;
+
+    /**
+     * 类型名称
+     */
+    String TYPE_NAME = &quot;person&quot;;
+}
+</code></pre><p>创建Javabean</p>
+<blockquote>
+<p>@Document 注解主要声明索引名、类型名、分片数量和备份数量</p>
+<p>@Field 注解主要声明字段对应ES的类型</p>
+</blockquote>
+<pre><code>/** 注意(坑点): ES 6以后不允许一个索引下有多个类型,只允许一个索引下有一个类型
+ *  @Document:
+ * 
+ * String indexName(); //索引库的名称，个人建议以项目的名称命名
+ *
+ * String type() default &quot;&quot;; //类型，建议以实体的名称命名
+ *
+ * short shards() default 5; //默认分区数
+ *
+ * short replicas() default 1; //每个分区默认的备份数
+ *
+ * String refreshInterval() default &quot;1s&quot;; //刷新间隔
+ *
+ * String indexStoreType() default &quot;fs&quot;; //索引文件存储类型
+ */
+@Document(indexName = EsConsts.INDEX_NAME, type = EsConsts.TYPE_NAME, shards = 1, replicas = 0)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Person {
+    /**
+     * 主键
+     */
+    @Id
+    private Long id;
+
+    /**
+     * 名字
+     */
+    @Field(type = FieldType.Keyword)
+    private String name;
+
+    /**
+     * 国家
+     */
+    @Field(type = FieldType.Keyword)
+    private String country;
+
+    /**
+     * 年龄
+     */
+    @Field(type = FieldType.Integer)
+    private Integer age;
+
+    /**
+     * 生日
+     */
+    @Field(type = FieldType.Date)
+    private Date birthday;
+
+    /**
+     * 介绍
+     */
+    @Field(type = FieldType.Text, analyzer = &quot;ik_smart&quot;)
+    private String remark;
+}
+</code></pre><p>PersonRepository</p>
+<pre><code>public interface PersonRepository extends ElasticsearchRepository&lt;Person, Long&gt; {
+
+    /**
+     * 根据年龄区间查询
+     *
+     * @param min 最小值
+     * @param max 最大值
+     * @return 满足条件的用户列表
+     */
+    List&lt;Person&gt; findByAgeBetween(Integer min, Integer max);
+}
+</code></pre><p>application.yml配置</p>
+<pre><code>spring:
+  data:
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: localhost:9300
+</code></pre><h3 id="创建测试类">创建测试类</h3>
+<pre><code>@RunWith(SpringRunner.class)
+@SpringBootTest
+public class SpringBootDemoElasticsearchApplicationTests {
+
+    @Test
+    public void contextLoads() {
+    }
+
+}
+</code></pre><pre><code>@Slf4j
+public class PersonRepositoryTest extends SpringBootDemoElasticsearchApplicationTests {
+    @Autowired
+    private PersonRepository repo;
+
+    /**
+     * 测试新增
+     */
+    @Test
+    public void save() {
+        Person person = new Person(1L, &quot;刘备&quot;, &quot;蜀国&quot;, 18, DateUtil.parse(&quot;1990-01-02 03:04:05&quot;), &quot;刘备（161年－223年6月10日），即汉昭烈帝（221年－223年在位），又称先主，字玄德，东汉末年幽州涿郡涿县（今河北省涿州市）人，西汉中山靖王刘胜之后，三国时期蜀汉开国皇帝、政治家。\n刘备少年时拜卢植为师；早年颠沛流离，备尝艰辛，投靠过多个诸侯，曾参与镇压黄巾起义。先后率军救援北海相孔融、徐州牧陶谦等。陶谦病亡后，将徐州让与刘备。赤壁之战时，刘备与孙权联盟击败曹操，趁势夺取荆州。而后进取益州。于章武元年（221年）在成都称帝，国号汉，史称蜀或蜀汉。《三国志》评刘备的机权干略不及曹操，但其弘毅宽厚，知人待士，百折不挠，终成帝业。刘备也称自己做事“每与操反，事乃成尔”。\n章武三年（223年），刘备病逝于白帝城，终年六十三岁，谥号昭烈皇帝，庙号烈祖，葬惠陵。后世有众多文艺作品以其为主角，在成都武侯祠有昭烈庙为纪念。&quot;);
+        Person save = repo.save(person);
+        log.info(&quot;【save】= {}&quot;, save);
+    }
+
+    /**
+     * 测试批量新增
+     */
+    @Test
+    public void saveList() {
+        List&lt;Person&gt; personList = Lists.newArrayList();
+        personList.add(new Person(2L, &quot;曹操&quot;, &quot;魏国&quot;, 20, DateUtil.parse(&quot;1988-01-02 03:04:05&quot;), &quot;曹操（155年－220年3月15日），字孟德，一名吉利，小字阿瞒，沛国谯县（今安徽亳州）人。东汉末年杰出的政治家、军事家、文学家、书法家，三国中曹魏政权的奠基人。\n曹操曾担任东汉丞相，后加封魏王，奠定了曹魏立国的基础。去世后谥号为武王。其子曹丕称帝后，追尊为武皇帝，庙号太祖。\n东汉末年，天下大乱，曹操以汉天子的名义征讨四方，对内消灭二袁、吕布、刘表、马超、韩遂等割据势力，对外降服南匈奴、乌桓、鲜卑等，统一了中国北方，并实行一系列政策恢复经济生产和社会秩序，扩大屯田、兴修水利、奖励农桑、重视手工业、安置流亡人口、实行“租调制”，从而使中原社会渐趋稳定、经济出现转机。黄河流域在曹操统治下，政治渐见清明，经济逐步恢复，阶级压迫稍有减轻，社会风气有所好转。曹操在汉朝的名义下所采取的一些措施具有积极作用。\n曹操军事上精通兵法，重贤爱才，为此不惜一切代价将看中的潜能分子收于麾下；生活上善诗歌，抒发自己的政治抱负，并反映汉末人民的苦难生活，气魄雄伟，慷慨悲凉；散文亦清峻整洁，开启并繁荣了建安文学，给后人留下了宝贵的精神财富，鲁迅评价其为“改造文章的祖师”。同时曹操也擅长书法，唐朝张怀瓘在《书断》将曹操的章草评为“妙品”。&quot;));
+        personList.add(new Person(3L, &quot;孙权&quot;, &quot;吴国&quot;, 19, DateUtil.parse(&quot;1989-01-02 03:04:05&quot;), &quot;孙权（182年－252年5月21日），字仲谋，吴郡富春（今浙江杭州富阳区）人。三国时代孙吴的建立者（229年－252年在位）。\n孙权的父亲孙坚和兄长孙策，在东汉末年群雄割据中打下了江东基业。建安五年（200年），孙策遇刺身亡，孙权继之掌事，成为一方诸侯。建安十三年（208年），与刘备建立孙刘联盟，并于赤壁之战中击败曹操，奠定三国鼎立的基础。建安二十四年（219年），孙权派吕蒙成功袭取刘备的荆州，使领土面积大大增加。\n黄武元年（222年），孙权被魏文帝曹丕册封为吴王，建立吴国。同年，在夷陵之战中大败刘备。黄龙元年（229年），在武昌正式称帝，国号吴，不久后迁都建业。孙权称帝后，设置农官，实行屯田，设置郡县，并继续剿抚山越，促进了江南经济的发展。在此基础上，他又多次派人出海。黄龙二年（230年），孙权派卫温、诸葛直抵达夷州。\n孙权晚年在继承人问题上反复无常，引致群下党争，朝局不稳。太元元年（252年）病逝，享年七十一岁，在位二十四年，谥号大皇帝，庙号太祖，葬于蒋陵。\n孙权亦善书，唐代张怀瓘在《书估》中将其书法列为第三等。&quot;));
+        personList.add(new Person(4L, &quot;诸葛亮&quot;, &quot;蜀国&quot;, 16, DateUtil.parse(&quot;1992-01-02 03:04:05&quot;), &quot;诸葛亮（181年-234年10月8日），字孔明，号卧龙，徐州琅琊阳都（今山东临沂市沂南县）人，三国时期蜀国丞相，杰出的政治家、军事家、外交家、文学家、书法家、发明家。\n早年随叔父诸葛玄到荆州，诸葛玄死后，诸葛亮就在襄阳隆中隐居。后刘备三顾茅庐请出诸葛亮，联孙抗曹，于赤壁之战大败曹军。形成三国鼎足之势，又夺占荆州。建安十六年（211年），攻取益州。继又击败曹军，夺得汉中。蜀章武元年（221年），刘备在成都建立蜀汉政权，诸葛亮被任命为丞相，主持朝政。蜀后主刘禅继位，诸葛亮被封为武乡侯，领益州牧。勤勉谨慎，大小政事必亲自处理，赏罚严明；与东吴联盟，改善和西南各族的关系；实行屯田政策，加强战备。前后六次北伐中原，多以粮尽无功。终因积劳成疾，于蜀建兴十二年（234年）病逝于五丈原（今陕西宝鸡岐山境内），享年54岁。刘禅追封其为忠武侯，后世常以武侯尊称诸葛亮。东晋政权因其军事才能特追封他为武兴王。\n诸葛亮散文代表作有《出师表》《诫子书》等。曾发明木牛流马、孔明灯等，并改造连弩，叫做诸葛连弩，可一弩十矢俱发。诸葛亮一生“鞠躬尽瘁、死而后已”，是中国传统文化中忠臣与智者的代表人物。&quot;));
+        Iterable&lt;Person&gt; people = repo.saveAll(personList);
+        log.info(&quot;【people】= {}&quot;, people);
+    }
+
+    /**
+     * 测试更新
+     */
+    @Test
+    public void update() {
+        repo.findById(1L).ifPresent(person -&gt; {
+            person.setRemark(person.getRemark() + &quot;\n更新更新更新更新更新&quot;);
+            Person save = repo.save(person);
+            log.info(&quot;【save】= {}&quot;, save);
+        });
+    }
+
+    /**
+     * 测试删除
+     */
+    @Test
+    public void delete() {
+        // 主键删除
+        repo.deleteById(1L);
+
+        // 对象删除
+        repo.findById(2L).ifPresent(person -&gt; repo.delete(person));
+
+        // 批量删除
+        repo.deleteAll(repo.findAll());
+    }
+
+    /**
+     * 测试普通查询，按生日倒序
+     */
+    @Test
+    public void select() {
+        repo.findAll(Sort.by(Sort.Direction.DESC, &quot;birthday&quot;)).
+            forEach(person -&gt; log.info(&quot;{} 生日: {}&quot;, person.getName(), DateUtil.formatDateTime(person.getBirthday())));
+    }
+
+    /**
+     * 自定义查询，根据年龄范围查询
+     */
+    @Test
+    public void customSelectRangeOfAge() {
+        repo.findByAgeBetween(18, 19).forEach(person -&gt; log.info(&quot;{} 年龄: {}&quot;, person.getName(), person.getAge()));
+    }
+
+    /**
+     * 高级查询
+     */
+    @Test
+    public void advanceSelect() {
+        // QueryBuilders 提供了很多静态方法，可以实现大部分查询条件的封装
+        MatchQueryBuilder queryBuilder = QueryBuilders.matchQuery(&quot;name&quot;, &quot;孙权&quot;);
+        log.info(&quot;【queryBuilder】= {}&quot;, queryBuilder.toString());
+
+        repo.search(queryBuilder).forEach(person -&gt; log.info(&quot;【person】= {}&quot;, person));
+    }
+
+    /**
+     * 自定义高级查询
+     */
+    @Test
+    public void customAdvanceSelect() {
+        // 构造查询条件
+        NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+        // 添加基本的分词条件
+        queryBuilder.withQuery(QueryBuilders.matchQuery(&quot;remark&quot;, &quot;东汉&quot;));
+        // 排序条件
+        queryBuilder.withSort(SortBuilders.fieldSort(&quot;age&quot;).order(SortOrder.DESC));
+        // 分页条件
+        queryBuilder.withPageable(PageRequest.of(0, 2));
+        Page&lt;Person&gt; people = repo.search(queryBuilder.build());
+        log.info(&quot;【people】总条数 = {}&quot;, people.getTotalElements());
+        log.info(&quot;【people】总页数 = {}&quot;, people.getTotalPages());
+        people.forEach(person -&gt; log.info(&quot;【person】= {}，年龄 = {}&quot;, person.getName(), person.getAge()));
+    }
+
+    /**
+     * 测试聚合，测试平均年龄
+     */
+    @Test
+    public void agg() {
+        // 构造查询条件
+        NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+        // 不查询任何结果
+        queryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{&quot;&quot;}, null));
+
+        // 平均年龄
+        queryBuilder.addAggregation(AggregationBuilders.avg(&quot;avg&quot;).field(&quot;age&quot;));
+
+        log.info(&quot;【queryBuilder】= {}&quot;, JSONUtil.toJsonStr(queryBuilder.build()));
+
+        AggregatedPage&lt;Person&gt; people = (AggregatedPage&lt;Person&gt;) repo.search(queryBuilder.build());
+        double avgAge = ((InternalAvg) people.getAggregation(&quot;avg&quot;)).getValue();
+        log.info(&quot;【avgAge】= {}&quot;, avgAge);
+    }
+
+    /**
+     * 测试高级聚合查询，每个国家的人有几个，每个国家的平均年龄是多少
+     */
+    @Test
+    public void advanceAgg() {
+        // 构造查询条件
+        NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+        // 不查询任何结果
+        queryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{&quot;&quot;}, null));
+
+        // 1. 添加一个新的聚合，聚合类型为terms，聚合名称为country，聚合字段为age
+        queryBuilder.addAggregation(AggregationBuilders.terms(&quot;country&quot;).field(&quot;country&quot;)
+            // 2. 在国家聚合桶内进行嵌套聚合，求平均年龄
+            .subAggregation(AggregationBuilders.avg(&quot;avg&quot;).field(&quot;age&quot;)));
+
+        log.info(&quot;【queryBuilder】= {}&quot;, JSONUtil.toJsonStr(queryBuilder.build()));
+
+        // 3. 查询
+        AggregatedPage&lt;Person&gt; people = (AggregatedPage&lt;Person&gt;) repo.search(queryBuilder.build());
+
+        // 4. 解析
+        // 4.1. 从结果中取出名为 country 的那个聚合，因为是利用String类型字段来进行的term聚合，所以结果要强转为StringTerm类型
+        StringTerms country = (StringTerms) people.getAggregation(&quot;country&quot;);
+        // 4.2. 获取桶
+        List&lt;StringTerms.Bucket&gt; buckets = country.getBuckets();
+        for (StringTerms.Bucket bucket : buckets) {
+            // 4.3. 获取桶中的key，即国家名称  4.4. 获取桶中的文档数量
+            log.info(&quot;{} 总共有 {} 人&quot;, bucket.getKeyAsString(), bucket.getDocCount());
+            // 4.5. 获取子聚合结果：
+            InternalAvg avg = (InternalAvg) bucket.getAggregations().asMap().get(&quot;avg&quot;);
+            log.info(&quot;平均年龄：{}&quot;, avg);
+        }
+    }
+
+}
+</code></pre></div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/springboot/">springboot</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/elasticsearch/">elasticsearch</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

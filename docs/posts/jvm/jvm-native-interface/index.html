@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh" >
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,11 +8,11 @@
 	
 	
 	
-	<title>whitepure ｜ 大道至简 </title>
+	<title>本地方法接口 ｜ whitepure</title>
 	
     
     
-    <meta name="description" content="whitepure&#39;s blog of github" />
+    <meta name="description" content="" />
     
 
     
@@ -22,8 +21,6 @@
     
 
 	
-	<link rel="alternate" type="application/rss+xml" href="https://whiteppure.github.io/myblog/index.xml" title="whitepure" />
-    
     
     <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
 
@@ -40,10 +37,169 @@
 </head>
 
 <body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%a6%82%e5%bf%b5">
+                    概念
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bd%bf%e7%94%a8%e6%9c%ac%e5%9c%b0%e6%96%b9%e6%b3%95">
+                    为什么使用本地方法
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%8ejava%e7%8e%af%e5%a2%83%e7%9a%84%e4%ba%a4%e4%ba%92">
+                    与Java环境的交互
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%8e%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e4%ba%a4%e4%ba%92">
+                    与操作系统的交互
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#suns-java">
+                    Sun’s Java
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
-        <ul><li class="active">
+        <ul><li class="">
                 <a href="https://whiteppure.github.io/myblog/">首页</a>
             </li><li class="">
                 <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
@@ -88,185 +244,67 @@
     </div>
 </div>
         <div class="content">
-            
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-heap/'>堆</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.04.03</span>
-                </span>
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/jvm/jvm-native-interface/'>本地方法接口</a></h2>
+                        <span class="date">2021.04.02</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="概念">概念</h2>
+<p>简单地讲，一个Native Methodt是一个Java调用非Java代码的接囗。
+一个Native Method是这样一个Java方法：该方法的实现由非Java语言实现，比如C。
+这个特征并非Java所特有，很多其它的编程语言都有这一机制，比如在C++中，你可以用extern &ldquo;c&rdquo; 告知c++编译器去调用一个c的函数。</p>
+<p>在定义一个native method时，并不提供实现体（有些像定义一个Java interface），因为其实现体是由非java语言在外面实现的。</p>
+<p>本地接口的作用是融合不同的编程语言为Java所用，它的初衷是融合C/C++程序。
+<img src="/myblog/posts/images/essays/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%8E%A5%E5%8F%A3.png" alt="本地方法接口"></p>
+<p>需要注意的是：标识符native可以与其它java标识符连用，但是abstract除外。</p>
+<pre><code>public class IhaveNatives {
+    public native void Native1(int x);
+    native static public long Native2();
+    native synchronized private float Native3(Object o);
+    native void Natives(int[] ary) throws Exception;
+}
+</code></pre><h2 id="为什么使用本地方法">为什么使用本地方法</h2>
+<p>Java使用起来非常方便，然而有些层次的任务用Java实现起来不容易，或者我们对程序的效率很在意时，问题就来了。</p>
+<h3 id="与java环境的交互">与Java环境的交互</h3>
+<p>有时Java应用需要与Java外面的环境交互，这是本地方法存在的主要原因。你可以想想Java需要与一些底层系统，如操作系统或某些硬件交换信息时的情况。
+本地方法正是这样一种交流机制：它为我们提供了一个非常简洁的接口，而且我们无需去了解Java应用之外的繁琐的细节。</p>
+<h3 id="与操作系统的交互">与操作系统的交互</h3>
+<p>JVM支持着Java语言本身和运行时库，它是Java程序赖以生存的平台，它由一个解释器（解释字节码）和一些连接到本地代码的库组成。
+然而不管怎样，它毕竟不是一个完整的系统，它经常依赖于一底层系统的支持。这些底层系统常常是强大的操作系统。
+通过使用本地方法，我们得以用Java实现了jre的与底层系统的交互，甚至JVM的一些部分就是用c写的。
+还有，如果我们要使用一些Java语言本身没有提供封装的操作系统的特性时，我们也需要使用本地方法。</p>
+<h3 id="suns-java">Sun&rsquo;s Java</h3>
+<p>Sun的解释器是用C实现的，这使得它能像一些普通的C一样与外部交互。jre大部分是用Java实现的，它也通过一些本地方法与外界交互。
+例如：类java.lang.Thread的setPriority（）方法是用Java实现的，但是它实现调用的是该类里的本地方法setPriorityo（）。
+这个本地方法是用C实现的，并被植入JVM内部，在Windows 95的平台上，这个本地方法最终将调用Win32 setPriority（）ApI。
+这是一个本地方法的具体实现由JVM直接提供，更多的情况是本地方法由外部的动态链接库提供，然后被JVM调用</p>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
                 
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
+                
+                <div class="doc_comments"></div>
                 
             </div>
         </div>
     </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-native-interface/'>本地方法接口</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.04.02</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-native-stack/'>本地方法栈</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.04.02</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-stack/'>虚拟机栈</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.03.28</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-pc-register/'>程序计数寄存器</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.03.27</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/jvm/jvm-start/'>Jvm介绍</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2021.03.05</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">Jvm</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">使用介绍</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="pagination">
-    
-    
-    
-    <a href="/myblog/page/2/" class="next">
-        下一页
-    </a>
-    
-    
-</div>
-        </div>
-    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
     <footer class="footer">
     <div class="powered_by">
         <a href="https://varkai.com">Designed by VarKai,</a>
