@@ -189,10 +189,38 @@
             
         <ul class="nav">
             
+        <ul class="nav">
+            
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#jstat--gc">
                     jstat -gc
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#oom">
+                    OOM
                 </a>
             </li>
             
@@ -337,12 +365,41 @@
 <p>程序启动加入<code>-XX:+PrintGCDetails</code>参数</p>
 <p><img src="/myblog/posts/images/essays/-XXPrintGCDetails.png" alt="-XXPrintGCDetails"></p>
 <p><img src="/myblog/posts/images/essays/PrintGCDetails%E6%9F%A5%E7%9C%8B%E5%A0%86%E5%86%85%E5%AD%98.png" alt="-PrintGCDetails查看堆内存"></p>
-<p>一旦堆区中的内存大小超过“-Xmx&quot;所指定的最大内存时，将会抛出<code>outOfMemoryError</code>异常。</p>
-<h2 id="jstat--gc">jstat -gc</h2>
+<h3 id="jstat--gc">jstat -gc</h3>
 <blockquote>
 <p>jps  -&gt;  jstat -gc 进程ID</p>
 </blockquote>
 <p><img src="/myblog/posts/images/essays/jstat.png" alt="jstat"></p>
+<h2 id="oom">OOM</h2>
+<p>一旦堆区中的内存大小超过“-Xmx&quot;所指定的最大内存时，将会抛出<code>outOfMemoryError</code>异常。</p>
+<p>代码实现</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        ArrayList&lt;Object&gt; list = new ArrayList&lt;&gt;();
+        while (true){
+//            try {
+//                Thread.sleep(1000000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            list.add(new Picture(new Random().nextInt(1024 * 1024)));
+        }
+    }
+}
+
+class Picture {
+    private int data;
+    public Picture(int data) {
+        this.data = data;
+    }
+}
+</code></pre><p><img src="/myblog/posts/images/essays/OOM.png" alt="OOM"></p>
+<blockquote>
+<p><code>jvisual</code> 工具在 jdk /bin/jvisualvm.exe ；
+亦可在编译器 <a href="https://blog.csdn.net/qq_37960603/article/details/85224547">下载jvisual插件</a></p>
+</blockquote>
+<p>出现OOM错误后，可以通过 VisualVM 这个工具查看具体是什么参数造成的
+<img src="/myblog/posts/images/essays/jvisual-OOM.png" alt="jvisual-OOM"></p>
 </div>
                     <div class="post_footer">
                         
