@@ -2,7 +2,7 @@
 title: "Docker介绍"
 date: 2020-04-07
 draft: false
-tags: ["使用介绍", "Java", "docker"]
+tags: ["使用介绍", "docker"]
 slug: "docker-start"
 ---
 
@@ -88,16 +88,22 @@ docker exec -it myNginx bash
 ```
 // 查看当前运行的镜像
 docker ps
+
 //查看所有镜像
 docker ps -a
+
 //停止容器
 docker stop 容器名称
+
 // 删除镜像
 docker rmi 镜像名称
+
 //下载镜像 若不指定版本为最新版本
 docker pull 镜像:版本
+
 //查看当前本地仓库的镜像
 docker images
+
 //查看远程仓库镜像
 docker search 镜像名
 ```
