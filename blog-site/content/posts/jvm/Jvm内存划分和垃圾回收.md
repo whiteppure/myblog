@@ -132,7 +132,3 @@ Object obj = new Object();
 PhantomReference<Object> pf = new PhantomReference<Object>(obj, null);
 obj = null;
 
-
-
-
-[/myblog/posts/images/essays/jvm1.8之前.png]: https://imgconvert.csdnimg.cn/aHR0cDovLzQ5LjIzNS4yMDYuMjE0OjgwOTAvdXBsb2FkLzIwMjAvMi8xLjglRTQlQjklOEIlRTUlODklOEQtYmRlMjViNzhiNjAwNDdlYmEwOWRjODAxMjMzOGIyMGMucG5n?x-oss-process=image/format,png

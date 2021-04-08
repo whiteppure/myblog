@@ -67,12 +67,40 @@
             
             
             <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%9c%ac%e5%9c%b0%e6%96%b9%e6%b3%95%e6%a0%88">
+                    本地方法栈
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
                 <a class="nav-link text-left" href="#%e6%a6%82%e8%a7%88">
                     概览
                 </a>
             </li>
             
             
+        </ul>
+        
         </ul>
         
         </ul>
@@ -142,7 +170,20 @@
                         <h2><a href='/myblog/posts/jvm/jvm-native-stack/'>本地方法栈</a></h2>
                         <span class="date">2021.04.02</span>
                     </div>
-                    <div class="post_content markdown"><h2 id="概览">概览</h2>
+                    <div class="post_content markdown"><p>Java虚拟机定义了若干种程序运行期间会使用到的运行时数据区，其中有一些会随着虚拟机启动而创建，随着虚拟机退出而销毁。
+另外一些则是与线程一一对应的，这些与线程对应的数据区域会随着线程开始和结束而创建和销毁。</p>
+<p><img src="/myblog/posts/images/essays/%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA.png" alt="运行时数据区"></p>
+<p>运行时数据区域包括</p>
+<ul>
+<li>程序计数寄存器</li>
+<li>虚拟机栈</li>
+<li>本地方法栈</li>
+<li>堆</li>
+<li>方法区</li>
+</ul>
+<p>其中：方法区、堆为线程共享；程序计数寄存器、虚拟机栈、本地方法栈 为线程私有。</p>
+<h2 id="本地方法栈">本地方法栈</h2>
+<h3 id="概览">概览</h3>
 <p>Java虚拟机栈于管理Java方法的调用，而本地方法栈用于管理本地方法的调用。</p>
 <p>本地方法栈，也是线程私有的。</p>
 <p>允许被实现成固定或者是可动态扩展的内存大小。（在内存溢出方面是相同的）</p>

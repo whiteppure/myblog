@@ -6,7 +6,16 @@
     <description>Recent content on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 03 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>方法区</title>
+      <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-method-area/</link>
+      <pubDate>Thu, 08 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/jvm/jvm-method-area/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>堆</title>
       <link>https://whiteppure.github.io/myblog/posts/jvm/jvm-heap/</link>
