@@ -102,7 +102,7 @@ class Test2Exception extends RuntimeException{
 
 ## 处理异常
 
-异常的处理⽅式有两种。
+异常的处理⽅式有两种:
 1. ⾃⼰处理。
 2. 向上抛， 交给调⽤者处理。
 
@@ -110,18 +110,24 @@ class Test2Exception extends RuntimeException{
 异常， 千万不能捕获了之后什么也不做。 或者只是使⽤`e.printStacktrace`。
 
 catch语句应该指定具体的异常类型。不能把不该捕获的异常也捕获了;
-在finally里面释放资源。如果finally里面也会抛出异常，也一样需要使用`try..catch`处理
+如果finally里面也会抛出异常，也一样需要使用`try..catch`处理。
 
 
-### try和catch、finally
+### try..catch..
+
+在Java中如果需要处理异常，必须先对异常通过`try..catch..`进行捕获，然后再对异常情况进行处理。
+```
+try{
+   // 程序代码
+}catch(异常类型1 异常的变量名1){
+  // 程序代码
+}
+```
 
 一个try对应多个catch,进行多重捕获。
 
-- 可以在 try 语句后面添加任意数量的 catch 块。
-- 如果保护代码中发生异常，异常被抛给第一个 catch 块。
-- 如果抛出异常的数据类型与 ExceptionType1 匹配，它在这里就会被捕获。
-- 如果不匹配，它会被传递给第二个 catch 块。
-- 如此，直到异常被捕获或者通过所有的 catch 块。
+可以在 try 语句后面添加任意数量的 catch 块。如果发生异常，异常被抛给第一个 catch 块。如果不匹配，它会被传递给第二个 catch 块。
+如此，直到异常被捕获或者通过所有的 catch 块。
 
 ```
 try{
@@ -134,7 +140,7 @@ try{
   // 程序代码
 }
 ```
-
+在JDK7之后，可以将catch语句块折叠。
 ```
 try{
   // 程序代码
@@ -143,21 +149,15 @@ try{
 }
 ```
 
-
-根据JVM规范: 
-- 如果 try 语句块里边有返回值则返回 try 语句块里边的;
-- 如果 try 语句块和 finally 语句块都有return,则忽略 try 语句块里边的使用 finally 语句块里边的return; 
-- finally 语句块是在 try 语句块或者 catch 语句块中的 return 语句之前执行的;
-- 无论是否发生异常，finally 代码块中的代码总会被执行;
+### finally
+`try..catch..`通常连用用来捕获异常；`try..catch..finally..`也可以连用。
 
 ```
 try{
   // 程序代码
-  // 该情况下不执行该代码，执行finally块中的代码
   return a;
 }catch(异常类型2 异常的变量名2){
   // 程序代码
-  // 如果存在异常则执行，该情况下无论是否有异常也不执行
   return b;
 }finally{
   // 程序代码
@@ -165,11 +165,24 @@ try{
 }
 ```
 
-**finally语句块什么时候不执行**
+对于`try..catch..finally..`语句块中执行顺序的解释
 
-如果当一个线程在执行 try 语句块或者 catch 语句块时被打断（interrupted）或者被终止（killed）或退出虚拟机(`System.exit(0)`)，与其相对应的 finally 语句块可能不会执行。还有更极端的情况，就是在线程运行 try 语句块或者 catch 语句块时，突然死机或者断电，finally 语句块肯定不会执行了。
+根据JVM规范: 
+- 如果 try 语句块里边有返回值则返回 try 语句块里边的;
+- 如果 try 语句块和 finally 语句块都有return,则忽略 try 语句块里边的使用 finally 语句块里边的return; 
+- finally 语句块是在 try 语句块或者 catch 语句块中的 return 语句之前执行的;
+- 无论是否发生异常，finally 代码块中的代码总会被执行;
 
-**JVM先会把try或者catch代码块中的返回值保留，再来执行finally代码块中的语句，等到finally代码块执行完毕之后，在把之前保留的返回值给返回出去。  这条规则（保留返回值），只适用于 return和throw语句，不适用于break和continue语句，因为它们根本就没有返回值。**
+如果方法有返回值，切忌不要再finally中使用return，这样会使得程序结构变得混乱。
+
+> finally语句块什么时候不执行 ？
+>
+>如果当一个线程在执行 try 语句块或者 catch 语句块时被打断（interrupted）或者被终止（killed）或退出虚拟机(`System.exit(0)`)，与其相对应的 finally 语句块可能不会执行。
+还有更极端的情况，就是在线程运行 try 语句块或者 catch 语句块时，突然死机或者断电，finally 语句块肯定不会执行了。
+
+
+JVM先会把try或者catch代码块中的返回值保留，再来执行finally代码块中的语句，等到finally代码块执行完毕之后，在把之前保留的返回值给返回出去。
+这条规则（保留返回值），只适用于 return和throw语句，不适用于break和continue语句，因为它们根本就没有返回值。
 
 ``` 
 public class MyTest {
@@ -195,9 +208,7 @@ public class MyTest {
 }
 ```
 
-
-
-try后边不是必须跟catch{},可以跟finally{}
+try 不止可以与 catch 连用，也可以与 finally 连用，但是 catch 不能与 finally 连用
 
 ```
 try{
@@ -207,19 +218,103 @@ try{
 }
 ```
 
+### try-with-resources
+由于`..finally..`语句块中的代码一般情况下一定会执行，所以经常用来关闭资源。
+
+代码演示
+```
+public class MainTest {
+    public static void main(String[] args) {
+        InputStream in = null;
+        try {
+            in = new FileInputStream("awsl");
+            in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+```
+
+自从JDK7之后，支持`try-with-resources`的写法,这种写法对比之前更清晰、明了
+```
+public class MainTest {
+    public static void main(String[] args) {
+        try (InputStream in = new FileInputStream("awsl")) {
+            in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+这种写法其实是Java语法糖。
+> Java语法糖
+>
+> 1.什么是语法糖?
+  语法糖（Syntactic sugar），也译为糖衣语法，是由英国计算机科学家彼得·兰丁发明的一个术语，指计算机语言中添加的某种语法，这种语法对语言的功能没有影响，但是更方便程序员使用。
+>
+> 2.能够带来的好处
+ 语法糖让程序更加简洁，有更高的可读性
+>
+> 3.有哪些语法糖?
+>    自动拆箱、装箱
+     泛型擦除
+     不定长参数
+     迭代器
+     枚举
+     switch支持枚举和字符串
+     内部类
+     try-with-resources
+     lambda
+
+
 ### throws、throw
 
-- `throws` 用在方法上声明异常,子类继承的时候要继承该异常或者该异常的子类,不处理异常,谁调用该方法谁处理异常, 语法(可以抛出多个异常):
+处理异常的方法，除了可以捕获异常，也可以将其丢给调用者进行处理。
+
+- `throws` 用在方法上声明异常,子类继承的时候要继承该异常或者该异常的子类,不处理异常,谁调用该方法谁处理异常；
+`throws`抛出异常时，它的调用者也要申明抛出异常或者捕获，不然编译报错。
 
 ```
 public static void main(String[] args) throws Exception {}
 ```
 
-- `throw`是语句抛出一个异常 new 异常对象 例如:
-
+- `throw`用于方法内部，抛出的是异常对象。调用者可以不申明或不捕获（这是非常不负责任的方式）但编译器不会报错。
 ```
 throw new RuntimeException("这是运行中的异常");
 ```
 
+throws表示出现异常的一种可能性，告诉调用者这个方法是危险的，并不一定会发生这些异常；throw则是抛出了异常，执行throw则一定抛出了某种异常对象。
+两者都是消极处理异常的方式（这里的消极并不是说这种方式不好），只是抛出或者可能抛出异常，但是不会由方法去处理异常，真正的处理异常由此方法的上层调用处理。
 
-// .. trycatch 语法糖 处理异常总结 
+## 总结
+### 不要滥用异常
+
+谨慎地使用异常，异常捕获的代价非常高昂，异常使用过多会严重影响程序的性能。
+如果在程序中能够用if语句和boolean变量来进行逻辑判断，那么尽量减少异常的使用，从而避免不必要的异常捕获和处理。
+
+### 空catch
+
+在捕获了异常之后什么都不做，相当于忽略了这个异常。
+千万不要使用空的catch块，空的catch块意味着你在程序中隐藏了错误和异常，并且很可能导致程序出现不可控的执行结果。
+如果你非常肯定捕获到的异常不会以任何方式对程序造成影响，最好用日志将该异常进行记录，以便日后方便更新和维护。
+
+### 选择异常
+
+一旦你决定抛出异常，你就要决定抛出什么异常。这里面的主要问题就是抛出检查异常还是非检查异常。
+
+检查异常导致了太多的try…catch代码，可能有很多检查异常对开发人员来说是无法合理地进行处理的，
+比如SQLException，而开发人员却不得不去进行try…catch，这样就会导致经常出现这样一种情况：逻辑代码只有很少的几行，而进行异常捕获和处理的代码却有很多行。
+这样不仅导致逻辑代码阅读起来晦涩难懂，而且降低了程序的性能。
+
+建议尽量避免检查异常的使用，如果确实该异常情况的出现很普遍，需要提醒调用者注意处理的话，就使用检查异常；否则使用非检查异常。
+因此，在一般情况下，尽量将检查异常转变为非检查异常交给上层处理。
