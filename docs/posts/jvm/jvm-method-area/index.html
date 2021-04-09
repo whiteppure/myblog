@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>方法区 ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e6%b3%95%e5%8c%ba">
+                    方法区
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%af%b9%e4%ba%8e%e6%96%b9%e6%b3%95%e5%8c%ba%e7%9a%84%e7%90%86%e8%a7%a3">
+                    对于方法区的理解
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#hotspot%e4%b8%adjdk7%e4%b8%8ejdk8">
+                    HotSpot中JDK7与JDK8
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%ae%be%e7%bd%ae%e6%96%b9%e6%b3%95%e5%8c%ba%e5%a4%a7%e5%b0%8f">
+                    设置方法区大小
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#jdk7%e5%8f%8a%e4%b9%8b%e5%89%8d">
+                    JDK7及之前
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#jdk8%e5%8f%8a%e4%b9%8b%e5%90%8e">
+                    JDK8及之后
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#oom">
+                    OOM
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e6%b3%95%e5%8c%ba%e7%9a%84%e5%86%85%e9%83%a8%e7%bb%93%e6%9e%84">
+                    方法区的内部结构
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%b1%bb%e5%9e%8b%e4%bf%a1%e6%81%af">
+                    类型信息
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%9f%9f%e4%bf%a1%e6%81%af">
+                    域信息
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e6%b3%95%e4%bf%a1%e6%81%af">
+                    方法信息
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#non-final%e7%9a%84%e7%b1%bb%e5%8f%98%e9%87%8f">
+                    non-final的类变量
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%bf%90%e8%a1%8c%e6%97%b6%e5%b8%b8%e9%87%8f%e6%b1%a0httpswhiteppuregithubiomyblogpostsrookierookie-datatype%e5%b8%b8%e9%87%8f%e6%b1%a0">
+                    运行时常量池
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%ad%97%e8%8a%82%e7%a0%81%e6%8c%87%e4%bb%a4%e8%a7%a3%e6%9e%90">
+                    字节码指令解析
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/jvm/jvm-method-area/'>方法区</a></h2>
+                        <span class="date">2021.04.08</span>
+                    </div>
+                    <div class="post_content markdown"><p>Java虚拟机定义了若干种程序运行期间会使用到的运行时数据区，其中有一些会随着虚拟机启动而创建，随着虚拟机退出而销毁。
+另外一些则是与线程一一对应的，这些与线程对应的数据区域会随着线程开始和结束而创建和销毁。</p>
+<p><img src="/myblog/posts/images/essays/%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA.png" alt="运行时数据区"></p>
+<p>运行时数据区域包括</p>
+<ul>
+<li>程序计数寄存器</li>
+<li>虚拟机栈</li>
+<li>本地方法栈</li>
+<li>堆</li>
+<li>方法区</li>
+</ul>
+<p>其中：方法区、堆为线程共享；程序计数寄存器、虚拟机栈、本地方法栈 为线程私有。</p>
+<h2 id="方法区">方法区</h2>
+<h3 id="对于方法区的理解">对于方法区的理解</h3>
+<blockquote>
+<p>尽管所有的方法区在逻辑上是属于堆的一部分，但一些简单的实现可能不会选择去进行垃圾收集或者进行压缩。
+”但对于HotSpotJVM而言，方法区还有一个别名叫做Non-Heap（非堆），目的就是要和堆分开。</p>
+</blockquote>
+<p>方法区看作是一块独立于Java堆的内存空间。下图说明了栈、堆、方法区的交互关系
+<img src="/myblog/posts/images/essays/%E6%96%B9%E6%B3%95%E5%8C%BA%E5%AE%9A%E4%BD%8D.png" alt="方法区定位"></p>
+<ul>
+<li>方法区主要存放的是 class，而堆中主要存放的是实例化的对象.</li>
+<li>方法区与Java堆一样，是各个线程共享的内存区域。</li>
+<li>方法区在JVM启动的时候被创建，并且它的实际的物理内存空间中和Java堆区一样都可以是不连续的。</li>
+<li>方法区的大小，跟堆空间一样，可以选择固定大小或者可扩展。</li>
+<li>方法区的大小决定了系统可以保存多少个类，如果系统定义了太多的类，导致方法区溢出，
+虚拟机同样会抛出内存溢出错误：<code>java.lang.OuOfMemoryError：PermGen space</code> 或者<code>java.lang.OutOfMemoryError:Metaspace</code></li>
+<li>关闭JVM就会释放这个区域的内存。</li>
+</ul>
+<h3 id="hotspot中jdk7与jdk8">HotSpot中JDK7与JDK8</h3>
+<p>在JDK7及以前，习惯上把方法区，称为永久代。JDK8开始，使用元空间取代了永久代。
+JDK 1.8后，元空间存放在直接内存中。</p>
+<div style="width: 45%;display: inline-block">
+    <img src="/myblog/posts/images/essays/jvm1.8之前.png" alt="jvm1.8之前">
+</div>
+<div style="width: 45%;display: inline-block">
+    <img src="/myblog/posts/images/essays/jvm1.8.png" alt="jvm1.8">
+</div>
+<p>元空间的本质和永久代类似，都是对JVM规范中方法区的实现。不过元空间与永久代最大的区别在于：元空间不在虚拟机设置的内存中，而是使用本地内存。</p>
+<p>永久代、元空间二者并不只是名字变了，内部结构也调整了。
+根据《Java虚拟机规范》的规定，如果方法区无法满足新的内存分配需求时，将抛出OOM异常。</p>
+<h3 id="设置方法区大小">设置方法区大小</h3>
+<p>方法区的大小不必是固定的，JVM可以根据应用的需要动态调整。</p>
+<h4 id="jdk7及之前">JDK7及之前</h4>
+<p>通过参数<code>-XX:Permsize=size</code>来设置永久代初始分配空间。默认值是20.75M
+通过参数<code>-XX:MaxPermsize=size</code>来设定永久代最大可分配空间。32位机器默认是64M，64位机器模式是82M
+当JVM加载的类信息容量超过了这个值，会报异常<code>OuOfMemoryError:PermGen space</code>。</p>
+<h4 id="jdk8及之后">JDK8及之后</h4>
+<p>元空间大小可以使用参数 <code>-XX:MetaspaceSize=size</code> 和 <code>-XX:MaxMetaspaceSize=size</code> 来指定。</p>
+<p>默认值依赖于平台。windows下，<code>-XX:MetaspaceSize</code>是21M，<code>-XX:MaxMetaspaceSize</code>的值是-1，由于直接存放在直接内存中所以没有限制。</p>
+<p>与永久代不同，如果不指定大小，默认情况下，虚拟机会耗尽所有的可用系统内存。
+如果元数据区发生溢出，虚拟机一样会抛出异常<code>OutOfMemoryError:Metaspace</code>。</p>
+<p><code>-XX:MetaspaceSize=size</code>设置初始的元空间大小。对于一个64位的服务器端JVM来说，其默认的<code>-XX:MetaspaceSize</code>值为21MB。
+这就是初始的高水位线，一旦触及这个水位线，Ful1GC将会被触发并卸载没用的类即这些类对应的类加载器不再存活然后这个高水位线将会重置。
+新的高水位线的值取决于GC后释放了多少元空间。
+如果释放的空间不足，那么在不超过<code>MaxMetaspaceSize</code>时，适当提高该值。如果释放空间过多，则适当降低该值。</p>
+<p>如果初始化的高水位线设置过低，上述高水位线调整情况会发生很多次。
+通过垃圾回收器的日志可以观察到Ful1GC多次调用。
+<strong>为了避免频繁地GC，建议将<code>-XX:MetaspaceSize=size</code>设置为一个相对较高的值。</strong></p>
+<h3 id="oom">OOM</h3>
+<p>JDK8 方法区/元空间 OOM代码演示</p>
+<p>设置虚拟机参数</p>
+<pre><code>-XX:MetaspaceSize=10m -XX:MaxMetaspaceSize=10m
+</code></pre><pre><code>public class MainTest  extends ClassLoader{
+    public static void main(String[] args) {
+        MainTest mainTest = new MainTest();
+        int count = 0;
+        try {
+            for (int i = 0; i &lt; 1000; i++) {
+
+                ClassWriter classWriter = new ClassWriter(0);
+                classWriter.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC ,&quot;Class&quot; + i,null,&quot;java/lang/Object&quot;,null);
+
+                byte[] bytes = classWriter.toByteArray();
+                mainTest.defineClass(&quot;Class&quot; + i, bytes, 0, bytes.length);
+                count ++;
+            }
+        }finally {
+            System.out.println(count);
+        }
+    }
+}
+</code></pre><p><strong>如何解决OOM？</strong></p>
+<ol>
+<li>
+<p>要解决ooM异常或heap space的异常，一般的手段是首先通过内存映像分析工具（如Ec1ipse Memory Analyzer）对dump出来的堆转储快照进行分析，
+重点是确认内存中的对象是否是必要的，也就是要先分清楚到底是出现了内存泄漏（Memory Leak）还是内存溢出（Memory Overflow）.</p>
+</li>
+<li>
+<p>如果是内存泄漏，可进一步通过工具查看泄漏对象到GC Roots的引用链。
+于是就能找到泄漏对象是通过怎样的路径与GCRoots相关联并导致垃圾收集器无法自动回收它们的。
+掌握了泄漏对象的类型信息，以及GCRoots引用链的信息，就可以比较准确地定位出泄漏代码的位置。</p>
+</li>
+</ol>
+<blockquote>
+<p>内存泄漏： 有大量的引用指向某些对象，但是这些对象以后不会使用了，但是因为它们还和GC ROOT有关联，所以导致以后这些对象也不会被回收，这就是内存泄漏的问题</p>
+</blockquote>
+<ol start="3">
+<li>如果不存在内存泄漏，换句话说就是内存中的对象确实都还必须存活着，那就应当检查虚拟机的堆参数（-Xmx与-Xms），
+与机器物理内存对比看是否还可以调大，从代码上检查是否存在某些对象生命周期过长、持有状态时间过长的情况，尝试减少程序运行期的内存消耗。</li>
+</ol>
+<h3 id="方法区的内部结构">方法区的内部结构</h3>
+<p><img src="/myblog/posts/images/essays/%E6%96%B9%E6%B3%95%E5%8C%BA%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.png" alt="方法区内部结构"></p>
+<blockquote>
+<p>方法区用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等。</p>
+</blockquote>
+<p>展示方法区内部结构，演示代码</p>
+<pre><code>public class MainTest {
+
+    private String string = &quot;awsl&quot;;
+
+    public static void context() {
+        try {
+            int a = 0;
+            int b = 20/a;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String context2() {
+        return string;
+    }
+
+    public static void main(String[] args) {
+        new MainTest().context2();
+        context();
+    }
+
+}
+</code></pre><p>编译该类，找到该类的class文件，打开终端执行<code>javap -v MainTest.class &gt; test.txt</code>命令，在当前目录会生成<code>test.txt</code>文件.
+打开即可查看反编译后的字节码信息。</p>
+<h4 id="类型信息">类型信息</h4>
+<p>对每个加载的类型（类class、接口interface、枚举enum、注解annotation），Jvm必须在方法区中存储以下类型信息：</p>
+<ul>
+<li>这个类型的完整有效名称（包名.类名）</li>
+<li>这个类型直接父类的完整有效名（对于interface或是java.lang.object，都没有父类）</li>
+<li>这个类型的修饰符（public，abstract，final的某个子集）</li>
+<li>这个类型直接接口的一个有序列表</li>
+</ul>
+<pre><code>// ...
+public class content.posts.jvm.MainTest
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+//...
+</code></pre><h4 id="域信息">域信息</h4>
+<p>JVM必须在方法区中保存类型的所有域的相关信息以及域的声明顺序。</p>
+<p>域的相关信息包括：域名称、域类型、域修饰符（public，private，protected，static，final，volatile，transient的某个子集）</p>
+<pre><code>// ...
+Constant pool:
+   #1 = Methodref          #10.#35        // java/lang/Object.&quot;&lt;init&gt;&quot;:()V
+   #2 = String             #36            // awsl
+   #3 = Fieldref           #6.#37         // content/posts/jvm/MainTest.string:Ljava/lang/String;
+
+// ...
+</code></pre><h4 id="方法信息">方法信息</h4>
+<p>JVM必须保存所有方法的以下信息，同域信息一样包括声明顺序：</p>
+<ul>
+<li>方法名称</li>
+<li>方法的返回类型（或void）</li>
+<li>方法参数的数量和类型（按顺序）</li>
+<li>方法的修饰符（public，private，protected，static，final，synchronized，native，abstract的一个子集）</li>
+<li>方法的字节码（bytecodes）、操作数栈、局部变量表及大小（abstract和native方法除外）</li>
+<li>异常表（abstract和native方法除外）</li>
+</ul>
+<p>每个异常处理的开始位置、结束位置、代码处理在程序计数器中的偏移地址、被捕获的异常类的常量池索引</p>
+<pre><code> public static void context();
+    descriptor: ()V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=2, args_size=0
+         0: iconst_0
+         1: istore_0
+         2: bipush        20
+         4: iload_0
+         5: idiv
+         6: istore_1
+         7: goto          15
+        10: astore_0
+        11: aload_0
+        12: invokevirtual #5                  // Method java/lang/Exception.printStackTrace:()V
+        15: return
+       // 异常表
+      Exception table:
+         from    to  target type
+             0     7    10   Class java/lang/Exception
+       // 代码字节码指令行号对照表
+      LineNumberTable:
+        line 11: 0
+        line 12: 2
+        line 15: 7
+        line 13: 10
+        line 14: 11
+        line 16: 15
+        // 局部变量表
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            2       5     0     a   I
+           11       4     0     e   Ljava/lang/Exception;
+      StackMapTable: number_of_entries = 2
+        frame_type = 74 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Exception ]
+        frame_type = 4 /* same */
+</code></pre><h4 id="non-final的类变量">non-final的类变量</h4>
+<p>静态变量和类关联在一起，随着类的加载而加载，他们成为类数据在逻辑上的一部分。</p>
+<p>类变量被类的所有实例共享，即使没有类实例时，也可以访问它：</p>
+<pre><code>public class MainTest {
+
+    public static void main(String[] args) {
+        Test test = null;
+        // 相当于 Test.hello();
+        test.hello();
+        // Test.count;
+        System.out.println(test.count);
+    }
+}
+
+class Test {
+    public static int count = 1;
+    public static final int number = 2;
+
+    public static void hello() {
+        System.out.println(&quot;hello!&quot;);
+    }
+}
+</code></pre><p>全局常量就是使用 static final 进行修饰</p>
+<p>被声明为final的类变量的处理方法则不同，每个全局常量在编译的时候就会被分配了。</p>
+<h3 id="运行时常量池httpswhiteppuregithubiomyblogpostsrookierookie-datatype常量池"><a href="https://whiteppure.github.io/myblog/posts/rookie/rookie-datatype/#%E5%B8%B8%E9%87%8F%E6%B1%A0">运行时常量池</a></h3>
+<h3 id="字节码指令解析">字节码指令解析</h3>
+<p>代码如下</p>
+<pre><code>public class MethodAreaDemo {
+    public static void main(String args[]) {
+        int x = 500;
+        int y = 100;
+        int a = x / y;
+        int b = 50;
+        System.out.println(a+b);
+    }
+}
+</code></pre><p>反编译后该方法字节码指令</p>
+<pre><code>// ....
+     // 栈的最大深度为3 局部变量表长度为5 参数长度为1
+      stack=3, locals=5, args_size=1
+         // 将500压入操作数栈
+         0: sipush        500
+         // 在局部变量表里存放 500
+         3: istore_1
+         // 将100压入栈
+         4: bipush        100
+         // 在局部变量表里存放 100 
+         6: istore_2
+         // 将 500 从局部变量表里边取出，并压入操作数栈
+         7: iload_1
+         // 将 100 从局部变量表里边取出，并压入操作数栈
+         8: iload_2
+         // 调用 CPU 执行除法 500/100=5
+         9: idiv
+        // 存储在局部变量表里
+        10: istore_3
+        // 将50压入栈中
+        11: bipush        50
+        // 将 50 存储在局部变量表中
+        13: istore        4
+        // 获取 #2 地址上类或接口字段的值并将其推入操作数栈
+        15: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        // 将 5 从本地变量表取出放到栈中
+        18: iload_3
+        // 将50从本地变量表，压入栈
+        19: iload         4
+        // 调用cpu执行加法 5 + 50=55
+        21: iadd
+        // 虚方法调用 #3 中的方法 
+        // JVM会根据这个方法的描述，创建新的栈桢，方法的参数从操作数栈中弹出来，压入虚拟机栈，然后虚拟机会开始执行虚拟机栈上最上面的栈桢
+        22: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        // void 类型返回 main方法执行结束
+        25: return
+// ...
+</code></pre></div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                
+
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>
