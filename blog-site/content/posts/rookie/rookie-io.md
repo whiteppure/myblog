@@ -7,9 +7,9 @@ slug: "rookie-io"
 ---
 
 ## 概念
-> IO，即in和out，也就是输入和输出，指应用程序和外部设备之间的数据传递，常见的外部设备包括文件、管道、网络连接。
+> IO，即 in 和 out，也就是输入和输出，指应用程序和外部设备之间的数据传递，常见的外部设备包括文件、管道、网络连接。
 
-Java 中是通过*流技术*处理IO的。
+Java 中是通过*流技术*处理 IO 的。
 
 > 流（Stream），是一个抽象的概念，是指一连串的数据（字符或字节），是以先进先出的方式发送信息的通道。
 代表任何有能力产出数据的数据源对象或者是有能力接受数据的接收端对象。
@@ -19,7 +19,7 @@ Java 中是通过*流技术*处理IO的。
 一般来说关于流的特性有下面几点：
 
 - 先进先出：最先写入输出流的数据最先被输入流读取到。
-- 顺序存取：可以一个接一个地往流中写入一串字节，读出时也将按写入顺序读取一串字节，不能随机访问中间的数据。（RandomAccessFile除外）
+- 顺序存取：可以一个接一个地往流中写入一串字节，读出时也将按写入顺序读取一串字节，不能随机访问中间的数据。（`RandomAccessFile`除外）
 - 只读或只写：每个流只能是输入流或输出流的一种，不能同时具备两个功能，输入流只能进行读操作，对输出流只能进行写操作。
 在一个数据传输通道中，如果既要写入数据，又要读取数据，则要分别提供两个流。
 
@@ -38,7 +38,6 @@ Java 中是通过*流技术*处理IO的。
 - 输入流：从别的地方获取资源 输入到 我们的程序中
 - 输出流：从我们的程序中输出到别的地方；例如：将一个字符串保存到本地文件中，就需要使用输出流。
 
-
 ### 字节流与字符流
 字节流和字符流的用法几乎完成全一样，区别在于字节流和字符流所操作的数据单元不同，字节流操作的单元是数据单元是8位的字节，字符流操作的是数据单元为16位的字符。
 
@@ -55,7 +54,7 @@ Java 中是通过*流技术*处理IO的。
 - 字节流：每次读取(写出)一个字节，当传输的资源文件有中文时，就会出现乱码，
 - 字符流：每次读取(写出)两个字节，有中文时，使用该流就可以正确传输显示中文。
 
->- 字节流一般用来处理图像、视频、音频、PPT、Word等类型的文件。字符流一般用于处理纯文本类型的文件，如TXT文件等，但不能处理图像视频等非文本文件。
+>- 字节流一般用来处理图像、视频、音频、`PPT、Word`等类型的文件。字符流一般用于处理纯文本类型的文件，如TXT文件等，但不能处理图像视频等非文本文件。
 用一句话说就是：字节流可以处理一切文件，而字符流只能处理纯文本文件。
 >- 字节流本身没有缓冲区，缓冲字节流相对于字节流，效率提升非常高。而字符流本身就带有缓冲区，缓冲字符流相对于字符流效率提升就不是那么大了。
 
@@ -314,15 +313,215 @@ public static void main(String[] args) throws IOException {
 
 ```
 
+## Java序列化、反序列化
+Java对象序列化：一个对象可以被表示为一个字节序列，该字节序列包括该对象的数据、有关对象的类型的信息和存储在对象中数据的类型。
+
+序列化是将对象的状态信息转换为可存储或传输的形式的过程。是一种数据的持久化手段。一般广泛应用于网络传输，RMI和RPC等场景中。
+一般是以字节码或XML格式传输。而字节码或XML编码格式可以还原为完全相等的对象。
+
+将序列化对象写入文件之后，可以从文件中读取出来，这个相反的过程称为反序列化。
+
+### 序列化作用
+序列化机制允许将实现序列化的Java对象转换位字节序列，这些字节序列可以保存在磁盘上，或通过网络传输，以达到以后恢复成原来的对象。
+序列化机制使得对象可以脱离程序的运行而独立存在。
+
+对象序列化机制是Java语言内建的一种对象持久化方式，通过对象序列化，可以把对象的状态保存为字节数组，
+并且可以在有需要的时候将这个字节数组通过反序列化的方式再转换成对象。对象序列化可以很容易的在JVM中的活动对象和字节流之间进行转换。
+
+由于序列化整个过程都是 Java 虚拟机独立的，也就是说，在一个平台上序列化的对象可以在另一个完全不同的平台上反序列化该对象。
+
+在Java中，对象的序列化与反序列化被广泛应用到RMI(远程方法调用)及网络传输中。
+
+### 实现序列化
+将保存在内存中的对象数据转化为二进制数据流进行传输，任何对象都可以序列化。
+
+如果需要将某个对象保存到磁盘上或者通过网络传输，那么这个类应该实现`Serializable`接口或者`Externalizable`接口。
+
+#### [Serializable](https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html)
+
+>类的可序列化性是通过实现 `java.io.Serializable` 接口的类来启用的。没有实现此接口的类的任何状态都不会被序列化或反序列化。
+可序列化类的所有子类型本身都是可序列化的。序列化接口没有方法或字段，只用于标识可序列化的语义。
+>
+>为了允许非序列化类的子类型被序列化，子类型可以承担保存和恢复超类型的公共、受保护和(如果可以访问)包字段的状态的责任。
+只有当它所继承的类有一个可访问的无参数构造函数来初始化类的状态时，子类型才可以承担这种责任。如果不是这种情况，则声明一个类可序列化是错误的。
+该错误将在运行时检测到。
+>
+>当试图对一个对象进行序列化的时候，如果遇到不支持 Serializable 接口的对象。在此情况下，将抛出 `NotSerializableException`。并标识非`serializable`对象的类。
+
+实现`Serializable`序列化反序列对象化代码演示
+```
+public class MainTest {
+    public static void main(String[] args) {
+//       serialUser();
+        System.out.println("----------反序列化对象----------");
+        unSerialUser();
+    }
+
+    private static void serialUser (){
+        User user = new User();
+        user.setName("Jane");
+        user.setAge("100");
+        System.out.println(user);
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./user.txt"));) {
+            oos.writeObject(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void unSerialUser() {
+        File file = new File("./user.txt");
+        try(ObjectInputStream ois  = new ObjectInputStream(new FileInputStream(file))) {
+            User newUser = (User) ois.readObject();
+            System.out.println(newUser);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+
+class User implements Serializable {
+    private String name;
+    private String age;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                '}';
+    }
+}
+```
 
 
-## 序列化
+#### [Externalizable](https://docs.oracle.com/javase/7/docs/api/java/io/Externalizable.html)
 
-### 反序列化
+> Externalizable继承了Serializable，该接口中定义了两个抽象方法：`writeExternal`()与`readExternal()`。
+当使用Externalizable接口来进行序列化与反序列化的时候需要开发人员重写`writeExternal()`与`readExternal()`方法。
+由于上面的代码中，并没有在这两个方法中定义序列化实现细节，所以输出的内容为空。
+>
+>还有一点值得注意：在使用`Externalizable`进行序列化的时候，在读取对象时，会调用被序列化类的无参构造器去创建一个新的对象，然后再将被保存对象的字段的值分别填充到新对象中。
+所以，实现`Externalizable`接口的类必须要提供一个public的无参的构造器。
+
+如果User类中没有无参数的构造函数，在反序列化时会抛出异常：
+`java.io.InvalidClassException: content.posts.rookie.User; no valid constructor`
+
+实现`Externalizable`序列化反序列对象化代码演示
+```
+public class MainTest {
+    public static void main(String[] args) {
+//       serialUser();
+        System.out.println("----------反序列化对象----------");
+        unSerialUser();
+    }
+
+    private static void serialUser ()  {
+        User user = new User();
+        user.setName("Jane");
+        user.setAge("100");
+        System.out.println(user);
+        // /将对象序列化到文件
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./user.txt"));) {
+            oos.writeObject(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void unSerialUser() {
+        File file = new File("./user.txt");
+        try(ObjectInputStream ois  = new ObjectInputStream(new FileInputStream(file))) {
+            User newUser = (User) ois.readObject();
+            System.out.println(newUser);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+
+class User implements Externalizable {
+
+    public User() {
+    }
+
+    private String name;
+    private String age;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                '}';
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(name);
+        out.writeObject(age);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        name = (String) in.readObject();
+        age = (String) in.readObject();
+    }
+}
+
+```
+
+### transient
+对于一个类中的某些字段如果不需要序列化，就需要加上`transient`关键字。
+> 被`transient`修饰的成员变量，在序列化的时候其值会被忽略，在被反序列化后， `transient` 变量的值被设为初始值， 
+如 int 型的是 0，对象型的是 null。
+
+```
+private transient String name;
+```
+此时name字段将不会被序列化。
 
 
+### 序列化与单例模式
 
-## IO分类
+### 序列化原理
+
+
+## IO模型
 
 ### 阻塞式IO模型
 
@@ -334,8 +533,6 @@ public static void main(String[] args) throws IOException {
 
 ### 异步IO模型
 
-
-
 ## IO种类
 
 ### AIO
@@ -343,7 +540,6 @@ public static void main(String[] args) throws IOException {
 ### BIO
 
 ### NIO
-
 
 
 ## 网络编程
