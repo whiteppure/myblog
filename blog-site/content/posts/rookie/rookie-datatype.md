@@ -464,7 +464,7 @@ public class HelloWorld {
 ```
 生成`.class`文件.`vi`命令查看
 
-```class
+```
 Êþº¾^@^@^@4^@^Q
 ^@^D^@^M^H^@^N^G^@^O^G^@^P^A^@^F<init>^A^@^C()V^A^@^DCode^A^@^OLineNumberTable^A^@^Dmain^A^@^V([Ljava/lang/String;)V^A^@
 SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/example/security/util/HelloWorld^A^@^Pjava/lang/Object^@!^@^C^@^D^@^@^@^@^@^B^@^A^@^E^@^F^@^A^@^G^@^@^@^]^@^A^@^A^@^@^@^E*·^@^A±^@^@^@^A^@^H^@^@^@^F^@^A^@^@^@^C^@        ^@      ^@
@@ -473,7 +473,7 @@ SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/ex
 ```
 > 使用16进制打开class文件：使用 vim xxx.class ，然后在交互模式下，输入:%!xxd 即可。
 
-```class 
+```
 00000000: cafe babe 0000 0034 0011 0a00 0400 0d08  .......4........
 00000010: 000e 0700 0f07 0010 0100 063c 696e 6974  ...........<init
 00000020: 3e01 0003 2829 5601 0004 436f 6465 0100  >...()V...Code..
@@ -491,7 +491,7 @@ SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/ex
 ```
 > HelloWorld.class文件中的前八个字母是cafe babe，这就是Class文件的魔数（Java中的”魔数”）
 
-```class
+```
 cafe babe   0000      0034        0011      0a00 0400 0d08
    魔数    此版本号   主版本号    常量池计数器      常量池计数区
 ```

@@ -1566,7 +1566,7 @@ static str = &quot;Hello World&quot;;  //str为变量,HelloWorld为字面量
     }
 }
 </code></pre><p>生成<code>.class</code>文件.<code>vi</code>命令查看</p>
-<pre><code class="language-class" data-lang="class">Êþº¾^@^@^@4^@^Q
+<pre><code>Êþº¾^@^@^@4^@^Q
 ^@^D^@^M^H^@^N^G^@^O^G^@^P^A^@^F&lt;init&gt;^A^@^C()V^A^@^DCode^A^@^OLineNumberTable^A^@^Dmain^A^@^V([Ljava/lang/String;)V^A^@
 SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/example/security/util/HelloWorld^A^@^Pjava/lang/Object^@!^@^C^@^D^@^@^@^@^@^B^@^A^@^E^@^F^@^A^@^G^@^@^@^]^@^A^@^A^@^@^@^E*·^@^A±^@^@^@^A^@^H^@^@^@^F^@^A^@^@^@^C^@        ^@      ^@
 ^@^A^@^G^@^@^@ ^@^A^@^B^@^@^@^D^R^BL±^@^@^@^A^@^H^@^@^@
@@ -1574,7 +1574,7 @@ SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/ex
 </code></pre><blockquote>
 <p>使用16进制打开class文件：使用 vim xxx.class ，然后在交互模式下，输入:%!xxd 即可。</p>
 </blockquote>
-<pre><code class="language-class" data-lang="class">00000000: cafe babe 0000 0034 0011 0a00 0400 0d08  .......4........
+<pre><code>00000000: cafe babe 0000 0034 0011 0a00 0400 0d08  .......4........
 00000010: 000e 0700 0f07 0010 0100 063c 696e 6974  ...........&lt;init
 00000020: 3e01 0003 2829 5601 0004 436f 6465 0100  &gt;...()V...Code..
 00000030: 0f4c 696e 654e 756d 6265 7254 6162 6c65  .LineNumberTable
@@ -1591,7 +1591,7 @@ SourceFile^A^@^OHelloWorld.java^L^@^E^@^F^A^@^C123^A^@7com/example/springboot/ex
 </code></pre><blockquote>
 <p>HelloWorld.class文件中的前八个字母是cafe babe，这就是Class文件的魔数（Java中的”魔数”）</p>
 </blockquote>
-<pre><code class="language-class" data-lang="class">cafe babe   0000      0034        0011      0a00 0400 0d08
+<pre><code>cafe babe   0000      0034        0011      0a00 0400 0d08
    魔数    此版本号   主版本号    常量池计数器      常量池计数区
 </code></pre><blockquote>
 <p>我们需要知道的是,在Class文件的4个字节的魔数后面的分别是4个字节的Class文件的版本号（第5、6个字节是次版本号，第7、8个字节是主版本号，我生成的Class文件的版本号是52，这时Java 8对应的版本。也就是说，这个版本的字节码，在JDK 1.8以下的版本中无法运行）在版本号后面的，就是Class常量池入口了.</p>

@@ -4,22 +4,22 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/java/</loc>
-    <lastmod>2021-04-09T00:00:00+00:00</lastmod>
+    <lastmod>2021-04-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/rookie/rookie-io/</loc>
-    <lastmod>2021-04-09T00:00:00+00:00</lastmod>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/java-syntax-sugar/</loc>
+    <lastmod>2021-04-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/</loc>
-    <lastmod>2021-04-09T00:00:00+00:00</lastmod>
+    <lastmod>2021-04-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/</loc>
-    <lastmod>2021-04-09T00:00:00+00:00</lastmod>
+    <lastmod>2021-04-10T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -34,7 +34,7 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/</loc>
-    <lastmod>2021-04-09T00:00:00+00:00</lastmod>
+    <lastmod>2021-04-10T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -45,6 +45,16 @@
                 hreflang="zh"
                 href="https://whiteppure.github.io/myblog/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/%E8%BD%AC%E8%BD%BD/</loc>
+    <lastmod>2021-04-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/rookie/rookie-io/</loc>
+    <lastmod>2021-04-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
