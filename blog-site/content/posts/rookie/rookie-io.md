@@ -694,9 +694,6 @@ public long getSerialVersionUID() {
 ![idea自动生成serialVersionUID](/myblog/posts/images/essays/idea自动生成serialVersionUID.png)
 
 
-
-
-
 ### 序列化原理
 
 
