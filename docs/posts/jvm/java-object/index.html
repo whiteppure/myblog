@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh" >
 <head>
-	<meta name="generator" content="Hugo 0.80.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,11 +8,11 @@
 	
 	
 	
-	<title>whitepure ｜ 大道至简 </title>
+	<title>Java对象 ｜ whitepure</title>
 	
     
     
-    <meta name="description" content="whitepure&#39;s blog of github" />
+    <meta name="description" content="" />
     
 
     
@@ -22,8 +21,6 @@
     
 
 	
-	<link rel="alternate" type="application/rss+xml" href="https://whiteppure.github.io/myblog/index.xml" title="whitepure" />
-    
     
     <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
 
@@ -40,10 +37,89 @@
 </head>
 
 <body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%af%b9%e8%b1%a1%e5%ae%9e%e4%be%8b%e5%8c%96">
+                    对象实例化
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%af%b9%e8%b1%a1%e5%88%9b%e5%bb%ba%e6%96%b9%e5%bc%8f">
+                    对象创建方式
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
-        <ul><li class="active">
+        <ul><li class="">
                 <a href="https://whiteppure.github.io/myblog/">首页</a>
             </li><li class="">
                 <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
@@ -88,127 +164,48 @@
     </div>
 </div>
         <div class="content">
-            
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/essays/cas-principle/'>CAS原理</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2020.04.04</span>
-                </span>
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/jvm/java-object/'>Java对象</a></h2>
+                        <span class="date">2021.04.12</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="对象实例化">对象实例化</h2>
+<h3 id="对象创建方式">对象创建方式</h3>
+<ul>
+<li>new：最常见的方式、单例类中调用<code>getInstance</code>的静态类方法，<code>XXXFactory</code>的静态方法</li>
+<li><code>Class</code>的<code>newInstance</code>方法：在JDK9里面被标记为过时的方法，因为只能调用空参构造器</li>
+<li><code>Constructor</code>的<code>newInstance(XXX)</code>：反射的方式，可以调用空参的，或者带参的构造器</li>
+<li>使用<code>clone()</code>：不调用任何的构造器，要求当前的类需要实现<code>Cloneable</code>接口中的<code>clone</code>接口</li>
+<li>使用序列化：序列化一般用于<code>Socket</code>的网络传输</li>
+<li>第三方库 <code>Objenesis</code></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
                 
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/%E7%BA%BF%E7%A8%8B/">线程</a>
-                    
-                </span>
+                
+                <div class="doc_comments"></div>
                 
             </div>
         </div>
     </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/essays/java-collection/'>Java中集合</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2020.03.30</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/%E9%9B%86%E5%90%88/">集合</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/spring/springboot-redis/'>Springboot整合redis</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2020.03.01</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/springboot/">springboot</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/redis/">redis</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="post animated fadeInDown">
-    <div class="post_title">
-        <h2><a href='/myblog/posts/spring/springboot-elasticsearch/'>Springboot整合elasticsearch</a></h2>
-    </div>
-    
-    <div class="post_footer">
-        <div class="meta">
-            <div class="info">
-                <span class="field">
-                    <i class="ri-map-pin-time-line"></i>
-                    <span class="date">2020.02.09</span>
-                </span>
-                
-                <span class="field tags">
-                    <i class="ri-stack-line"></i>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/springboot/">springboot</a>
-                    
-                    <a href="https://whiteppure.github.io/myblog/tags/elasticsearch/">elasticsearch</a>
-                    
-                </span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="pagination">
-    
-    
-    <a href="/myblog/page/3/" class="pre">
-        上一页
-    </a>
-    
-    
-    
-</div>
-        </div>
-    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
     <footer class="footer">
     <div class="powered_by">
         <a href="https://varkai.com">Designed by VarKai,</a>
