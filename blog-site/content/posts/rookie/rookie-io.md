@@ -314,9 +314,8 @@ public static void main(String[] args) throws IOException {
 ```
 
 ## Java序列化、反序列化
-Java对象序列化：一个对象可以被表示为一个字节序列，该字节序列包括该对象的数据、有关对象的类型的信息和存储在对象中数据的类型。
-
-序列化是将对象的状态信息转换为可存储或传输的形式的过程。是一种数据的持久化手段。一般广泛应用于网络传输，RMI和RPC等场景中。
+序列化是将对象的状态信息转换为可存储或传输的形式的过程（一个对象可以被表示为一个字节序列，该字节序列包括该对象的数据、有关对象的类型的信息和存储在对象中数据的类型）。
+是一种数据的持久化手段。一般广泛应用于网络传输，RMI和RPC等场景中。
 一般是以字节码或XML格式传输。而字节码或XML编码格式可以还原为完全相等的对象。
 
 将序列化对象写入文件之后，可以从文件中读取出来，这个相反的过程称为反序列化。
@@ -333,7 +332,10 @@ Java对象序列化：一个对象可以被表示为一个字节序列，该字�
 在Java中，对象的序列化与反序列化被广泛应用到RMI(远程方法调用)及网络传输中。
 
 ### 实现序列化
-将保存在内存中的对象数据转化为二进制数据流进行传输，任何对象都可以序列化。
+> [参考与《Java成神之路》](http://hollischuang.gitee.io/tobetopjavaer) 
+
+使用Java对象序列化，在保存对象时，会把其状态保存为一组字节，在未来，再将这些字节组装成对象。
+必须注意地是，对象序列化保存的是对象的"状态"，即它的成员变量。所以，对象序列化不会关注类中的静态变量。
 
 如果需要将某个对象保存到磁盘上或者通过网络传输，那么这个类应该实现`Serializable`接口或者`Externalizable`接口。
 
@@ -513,12 +515,195 @@ class User implements Externalizable {
 ```
 private transient String name;
 ```
-此时name字段将不会被序列化。
+此时name字段将不会被序列化;当然如果一个变量被static修饰，他也不会被序列化。
+
+### serialVersionUID
+虚拟机是否允许反序列化， 不仅取决于类路径和功能代码是否⼀致， ⼀个⾮常重要的⼀点是两个类的序列化 ID 是否⼀致， 即`serialVersionUID`要求⼀致。
+
+因为⽂件存储中的内容可能被篡改,为了保证数据的安全: 在进⾏反序列化时， JVM会把传来的字节流中的`serialVersionUID`与本地相应实体类的`serialVersionUID`进⾏⽐较， 如果相同就认为是⼀致的， 可以进⾏反序列化;
+否则就会出现序列化版本不⼀致的异常， 即是`InvalidCastException`。
+
+以下内容来自`Serializable`接口注释
+>  If a serializable class does not explicitly declare a serialVersionUID,
+then the serialization runtime will calculate a default 
+serialVersionUID value for that class based on various aspects of the class, 
+as described in the Java(TM) Object Serialization Specification. 
+ However, it is strongly recommended that all serializable classes explicitly declare serialVersionUID values,
+since the default serialVersionUID computation is highly sensitive to class details that may vary depending on compiler implementations,
+and can thus result in unexpectedInvalidClassExceptions during deserialization.
+  
+当实现`java.io.Serializable`接口的类没有显式地定义⼀个`serialVersionUID`变量时候，Java序列化机制会根据编译的Class⾃动⽣成⼀个`serialVersionUID`作序列化版本⽐较⽤,
+这种情况下，如果Class⽂件没有发⽣变化，就算再编译多次， `serialVersionUID`也不会变化的。
+但是，如果发⽣了变化，那么这个⽂件对应的`serialVersionUID`也就会发⽣变化。
+
+Java强烈建议用户自定义一个`serialVersionUID`,因为默认的`serialVersinUID`对于class的细节非常敏感，
+反序列化时可能会导致`InvalidClassException`这个异常。
+
+
+代码演示序列化、反序列化加上`serialVersionUID`
+```
+private static final long serialVersionUID = 1L;
+```
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        System.out.println("----------序列化对象----------");
+        serialUser();
+        System.out.println("----------反序列化对象----------");
+        unSerialUser();
+    }
+
+    private static void serialUser (){
+        User user = new User();
+        user.setName("Jane");
+        user.setAge("100");
+        System.out.println(user);
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./user.txt"));) {
+            oos.writeObject(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void unSerialUser() {
+        File file = new File("./user.txt");
+        try(ObjectInputStream ois  = new ObjectInputStream(new FileInputStream(file))) {
+            User newUser = (User) ois.readObject();
+            System.out.println(newUser);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+
+class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private String name;
+    private String age;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                '}';
+    }
+}
+```
+```
+java.io.InvalidClassException: co.test.User; local class incompatible: stream classdesc serialVersionUID = -1643371274357194431, local class serialVersionUID = 1
+```
+
+代码调用链：
+```
+ObjectInputStream.readObject -> readObject0 -> readOrdinaryObject -> readClassDesc -> readNonProxyDesc -> ObjectStreamClass.initNonProxy
+```
+
+在`initNonProxy`中 ，关键代码如下：
+```
+ void initNonProxy(ObjectStreamClass model,
+                      Class<?> cl,
+                      ClassNotFoundException resolveEx,
+                      ObjectStreamClass superDesc)
+        throws InvalidClassException
+    {
+        long suid = Long.valueOf(model.getSerialVersionUID());
+        ObjectStreamClass osc = null;
+        if (cl != null) {
+            osc = lookup(cl, true);
+            if (osc.isProxy) {
+                throw new InvalidClassException(
+                        "cannot bind non-proxy descriptor to a proxy class");
+            }
+            if (model.isEnum != osc.isEnum) {
+                throw new InvalidClassException(model.isEnum ?
+                        "cannot bind enum descriptor to a non-enum class" :
+                        "cannot bind non-enum descriptor to an enum class");
+            }
+
+            // ========== 判断反序列化 serializableUID 是否一致 ========== start//
+            if (model.serializable == osc.serializable &&
+                    !cl.isArray() &&
+                    suid != osc.getSerialVersionUID()) {
+                throw new InvalidClassException(osc.name,
+                        "local class incompatible: " +
+                                "stream classdesc serialVersionUID = " + suid +
+                                ", local class serialVersionUID = " +
+                                osc.getSerialVersionUID());
+            }
+            // ========== 判断反序列化 serializableUID 是否一致 ========== end//
+
+            if (!classNamesEqual(model.name, osc.name)) {
+                throw new InvalidClassException(osc.name,
+                        "local class name incompatible with stream class " +
+                                "name \"" + model.name + "\"");
+            }
+            
+            // ...
+   
+```
+`getSerialVersionUID`方法：
+
+```
+public long getSerialVersionUID() {
+    // REMIND: synchronize instead of relying on volatile?
+    if (suid == null) {
+        suid = AccessController.doPrivileged(
+            new PrivilegedAction<Long>() {
+                public Long run() {
+                    return computeDefaultSUID(cl);
+                }
+            }
+        );
+    }
+    return suid.longValue();
+}
+```
+
+在没有定义`serialVersionUID`的时候，会调用`computeDefaultSUID`方法，生成一个默认的`serialVersionUID`。
+
+
+
+
+`serialVersionUID`有两种显示的生成方式： 
+- 默认的1L，比如：`private static final long serialVersionUID = 1L; `
+- 根据类名、接口名、成员方法及属性等来生成一个64位的哈希字段，比如： `private static final  long   serialVersionUID = xxxxL;`
+
+第二种方式可通过编译器进行配置：
+![idea检查serialVersionUID](/myblog/posts/images/essays/idea检查serialVersionUID.png)
+
+![idea自动生成serialVersionUID](/myblog/posts/images/essays/idea自动生成serialVersionUID.png)
+
+
+
+
+
+### 序列化原理
+
+
 
 
 ### 序列化与单例模式
 
-### 序列化原理
 
 
 ## IO模型
