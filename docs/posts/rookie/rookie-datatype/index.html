@@ -569,8 +569,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%ae%9a%e4%b9%89">
-                    定义
+                <a class="nav-link text-left" href="#%e5%ae%9a%e4%b9%89%e5%b8%b8%e9%87%8f">
+                    定义常量
                 </a>
             </li>
             
@@ -1502,10 +1502,10 @@ System.out.println(m == n); // true
 <li>浮点数可能是个近似值,不是精确值.如果想要表示精确用<code>BigDecimal</code>类型</li>
 </ul>
 <h2 id="常量">常量</h2>
-<p>案例: Java中常量,变量和字面量</p>
+<p>案例: 常量,变量和字面量</p>
 <pre><code>int a = 10; //a为变量，10为字面量
 final int b = 10;  //b为常量，10为字面量
-static str = &quot;Hello World&quot;;  //str为变量,HelloWorld为字面量
+static c = &quot;Hello World&quot;;  //c为变量,HelloWorld为字面量
 </code></pre><ul>
 <li>常量：程序运行中，固定不变的量.</li>
 <li>变量：值可以修改的数据类型。</li>
@@ -1520,10 +1520,10 @@ static str = &quot;Hello World&quot;;  //str为变量,HelloWorld为字面量
 <p>JAVA常量就是在程序运行过程中一直不会改变的量的量称为常量.常量在整个程序中只能被赋值一次.</p>
 </blockquote>
 <p>Java常量简单理解为<code>final</code>修饰的变量</p>
-<h3 id="定义">定义</h3>
+<h3 id="定义常量">定义常量</h3>
 <p>在 Java 中使用<code>final</code>关键字来修饰常量，声明方式和变量类似</p>
-<p>要声明一个常量，第一需要制定数据类型，第二需要通过<code>final</code>关键字进行限定
-格式：<code>final 数据类型 常量名称[=值]</code></p>
+<p>要声明一个常量，第一需要制定数据类型，第二需要通过<code>final</code>关键字进行限定格式：
+<code>final 数据类型 常量名称[=值]</code></p>
 <p><strong>常量在程序运行时是不能被修改的(final作用).所以在定义常量时就需要对该常量进行初始化.为了与变量区别，常量取名一般都用大写字符</strong></p>
 <pre><code>final double PI = 3.1415927;
 </code></pre><p><code>final</code> 关键字表示最终的，它可以修改很多元素，修饰变量就变成了常量.之后会详细说明<code>final</code>关键字</p>
