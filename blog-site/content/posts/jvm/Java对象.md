@@ -15,4 +15,3 @@ slug: "java-object"
 - 使用`clone()`：不调用任何的构造器，要求当前的类需要实现`Cloneable`接口中的`clone`接口
 - 使用序列化：序列化一般用于`Socket`的网络传输
 - 第三方库 `Objenesis`
-

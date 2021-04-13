@@ -361,8 +361,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%ae%9e%e7%8e%b0%e5%ba%8f%e5%88%97%e5%8c%96">
-                    实现序列化
+                <a class="nav-link text-left" href="#%e4%bd%bf%e7%94%a8%e5%ba%8f%e5%88%97%e5%8c%96">
+                    使用序列化
                 </a>
             </li>
             
@@ -451,6 +451,8 @@
             
         <ul class="nav">
             
+        <ul class="nav">
+            
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#transient">
@@ -459,6 +461,8 @@
             </li>
             
             
+        </ul>
+        
         </ul>
         
         </ul>
@@ -509,8 +513,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%ba%8f%e5%88%97%e5%8c%96%e5%8e%9f%e7%90%86">
-                    序列化原理
+                <a class="nav-link text-left" href="#%e5%ba%8f%e5%88%97%e5%8c%96%e5%ba%95%e5%b1%82%e5%8e%9f%e7%90%86httphollischuanggiteeiotobetopjavaerbasicsjava-basicserialize-principleid%e5%ba%8f%e5%88%97%e5%8c%96%e5%ba%95%e5%b1%82%e5%8e%9f%e7%90%86">
+                    序列化底层原理
                 </a>
             </li>
             
@@ -1226,6 +1230,9 @@
     }
 
 </code></pre><h2 id="java序列化反序列化">Java序列化、反序列化</h2>
+<blockquote>
+<p><a href="http://hollischuang.gitee.io/tobetopjavaer">参考与《Java成神之路》</a></p>
+</blockquote>
 <p>序列化是将对象的状态信息转换为可存储或传输的形式的过程（一个对象可以被表示为一个字节序列，该字节序列包括该对象的数据、有关对象的类型的信息和存储在对象中数据的类型）。
 是一种数据的持久化手段。一般广泛应用于网络传输，RMI和RPC等场景中。
 一般是以字节码或XML格式传输。而字节码或XML编码格式可以还原为完全相等的对象。</p>
@@ -1237,10 +1244,7 @@
 并且可以在有需要的时候将这个字节数组通过反序列化的方式再转换成对象。对象序列化可以很容易的在JVM中的活动对象和字节流之间进行转换。</p>
 <p>由于序列化整个过程都是 Java 虚拟机独立的，也就是说，在一个平台上序列化的对象可以在另一个完全不同的平台上反序列化该对象。</p>
 <p>在Java中，对象的序列化与反序列化被广泛应用到RMI(远程方法调用)及网络传输中。</p>
-<h3 id="实现序列化">实现序列化</h3>
-<blockquote>
-<p><a href="http://hollischuang.gitee.io/tobetopjavaer">参考与《Java成神之路》</a></p>
-</blockquote>
+<h3 id="使用序列化">使用序列化</h3>
 <p>使用Java对象序列化，在保存对象时，会把其状态保存为一组字节，在未来，再将这些字节组装成对象。
 必须注意地是，对象序列化保存的是对象的&quot;状态&quot;，即它的成员变量。所以，对象序列化不会关注类中的静态变量。</p>
 <p>如果需要将某个对象保存到磁盘上或者通过网络传输，那么这个类应该实现<code>Serializable</code>接口或者<code>Externalizable</code>接口。</p>
@@ -1401,7 +1405,7 @@ class User implements Externalizable {
     }
 }
 
-</code></pre><h3 id="transient">transient</h3>
+</code></pre><h4 id="transient">transient</h4>
 <p>对于一个类中的某些字段如果不需要序列化，就需要加上<code>transient</code>关键字。</p>
 <blockquote>
 <p>被<code>transient</code>修饰的成员变量，在序列化的时候其值会被忽略，在被反序列化后， <code>transient</code> 变量的值被设为初始值，
@@ -1559,7 +1563,69 @@ class User implements Serializable {
 <p>第二种方式可通过编译器进行配置：
 <img src="/myblog/posts/images/essays/idea%E6%A3%80%E6%9F%A5serialVersionUID.png" alt="idea检查serialVersionUID"></p>
 <p><img src="/myblog/posts/images/essays/idea%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90serialVersionUID.png" alt="idea自动生成serialVersionUID"></p>
-<h3 id="序列化原理">序列化原理</h3>
+<h3 id="序列化底层原理httphollischuanggiteeiotobetopjavaerbasicsjava-basicserialize-principleid序列化底层原理"><a href="http://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/serialize-principle?id=%E5%BA%8F%E5%88%97%E5%8C%96%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86">序列化底层原理</a></h3>
+<p><strong>如何自定义的序列化和反序列化策略？</strong>
+通过在被序列化的类中增加 writeObject 和 readObject 方法来实现。</p>
+<p>在<code>java.util.ArrayList</code>中我们能找到答案：</p>
+<pre><code>public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;
+        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable
+{
+    private static final long serialVersionUID = 8683452581122892189L;
+    transient Object[] elementData; // non-private to simplify nested class access
+    private int size;
+}
+
+</code></pre><p>ArrayList实现了<code>java.io.Serializable</code>接口，那么我们就可以对它进行序列化及反序列化。
+因为<code>elementData</code>是 <code>transient</code> 的，所以这个成员变量不会被序列化而保留下来.</p>
+<p>ArrayList底层是通过数组实现的。
+那么数组elementData其实就是用来保存列表中的元素的。通过该属性的声明方式我们知道，他是无法通过序列化持久化下来的。
+那么为什么却通过序列化和反序列化把List中的元素保留下来了呢？</p>
+<pre><code>public static void main(String[] args) throws IOException, ClassNotFoundException {
+        List&lt;String&gt; stringList = new ArrayList&lt;String&gt;();
+        stringList.add(&quot;hello&quot;);
+        stringList.add(&quot;world&quot;);
+        stringList.add(&quot;hollis&quot;);
+        stringList.add(&quot;chuang&quot;);
+        System.out.println(&quot;init StringList&quot; + stringList);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(&quot;stringlist&quot;));
+        objectOutputStream.writeObject(stringList);
+
+        IOUtils.close(objectOutputStream);
+        File file = new File(&quot;stringlist&quot;);
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+        List&lt;String&gt; newStringList = (List&lt;String&gt;)objectInputStream.readObject();
+        IOUtils.close(objectInputStream);
+        if(file.exists()){
+            file.delete();
+        }
+        System.out.println(&quot;new StringList&quot; + newStringList);
+    }
+//init StringList[hello, world, hollis, chuang]
+//new StringList[hello, world, hollis, chuang]
+
+</code></pre><blockquote>
+<p>在序列化过程中，如果被序列化的类中定义了<code>writeObject</code> 和 <code>readObject</code> 方法，虚拟机会试图调用对象类里的 <code>writeObject</code> 和 <code>readObject</code> 方法，进行用户自定义的序列化和反序列化。</p>
+<p>如果没有这样的方法，则默认调用是 <code>ObjectOutputStream</code> 的 <code>defaultWriteObject</code> 方法以及 <code>ObjectInputStream</code> 的 <code>defaultReadObject</code> 方法。</p>
+<p>用户自定义的 <code>writeObject</code> 和 <code>readObject</code> 方法可以允许用户控制序列化的过程，比如可以在序列化的过程中动态改变序列化的数值。
+对象的序列化过程通过 <code>ObjectOutputStream</code> 和 <code>ObjectInputputStream</code> 来实现的.</p>
+</blockquote>
+<p>ArrayList实际上是动态数组，每次在放满以后自动增长设定的长度值，如果数组自动增长长度设为100，
+而实际只放了一个元素，那就会序列化99个null元素。为了保证在序列化的时候不会将这么多null同时进行序列化，
+ArrayList把元素数组设置为transient。</p>
+<p>为了防止一个包含大量空对象的数组被序列化，为了优化存储，所以，ArrayList使用transient来声明elementData。
+但是，作为一个集合，在序列化过程中还必须保证其中的元素可以被持久化下来，
+所以，通过重写writeObject 和 readObject方法的方式把其中的元素保留下来。</p>
+<ul>
+<li><code>writeObject</code> 方法把 <code>elementData</code> 数组中的元素遍历的保存到输出流（<code>ObjectOutputStream</code>）中。</li>
+<li><code>readObject</code> 方法从输入流（<code>ObjectInputStream</code>）中读出对象并保存赋值到 <code>elementData</code> 数组中。</li>
+</ul>
+<p><strong>在一个类中定义了 <code>writeObject</code> 和 <code>readObject</code> 方法，那么这两个方法是怎么被调用的呢?</strong>
+在使用 <code>ObjectOutputStream</code> 的 <code>writeObject</code> 方法和 <code>ObjectInputStream</code> 的 <code>readObject</code> 方法时，会通过反射的方式调用。</p>
+<p><strong>为什么实现了<code>Serializable</code>接口就能保证对象序列化？</strong></p>
+<p><code>ObjectOutputStream中writeObject</code>的调用栈：</p>
+<blockquote>
+<p>writeObject &mdash;&gt; writeObject0 &mdash;&gt;writeOrdinaryObject&mdash;&gt;writeSerialData&mdash;&gt;invokeWriteObject</p>
+</blockquote>
 <h3 id="序列化与单例模式">序列化与单例模式</h3>
 <h2 id="io模型">IO模型</h2>
 <h3 id="阻塞式io模型">阻塞式IO模型</h3>

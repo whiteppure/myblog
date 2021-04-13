@@ -314,6 +314,8 @@ public static void main(String[] args) throws IOException {
 ```
 
 ## Java序列化、反序列化
+> [参考与《Java成神之路》](http://hollischuang.gitee.io/tobetopjavaer) 
+
 序列化是将对象的状态信息转换为可存储或传输的形式的过程（一个对象可以被表示为一个字节序列，该字节序列包括该对象的数据、有关对象的类型的信息和存储在对象中数据的类型）。
 是一种数据的持久化手段。一般广泛应用于网络传输，RMI和RPC等场景中。
 一般是以字节码或XML格式传输。而字节码或XML编码格式可以还原为完全相等的对象。
@@ -331,8 +333,7 @@ public static void main(String[] args) throws IOException {
 
 在Java中，对象的序列化与反序列化被广泛应用到RMI(远程方法调用)及网络传输中。
 
-### 实现序列化
-> [参考与《Java成神之路》](http://hollischuang.gitee.io/tobetopjavaer) 
+### 使用序列化
 
 使用Java对象序列化，在保存对象时，会把其状态保存为一组字节，在未来，再将这些字节组装成对象。
 必须注意地是，对象序列化保存的是对象的"状态"，即它的成员变量。所以，对象序列化不会关注类中的静态变量。
@@ -507,7 +508,7 @@ class User implements Externalizable {
 
 ```
 
-### transient
+#### transient
 对于一个类中的某些字段如果不需要序列化，就需要加上`transient`关键字。
 > 被`transient`修饰的成员变量，在序列化的时候其值会被忽略，在被反序列化后， `transient` 变量的值被设为初始值， 
 如 int 型的是 0，对象型的是 null。
@@ -681,9 +682,6 @@ public long getSerialVersionUID() {
 
 在没有定义`serialVersionUID`的时候，会调用`computeDefaultSUID`方法，生成一个默认的`serialVersionUID`。
 
-
-
-
 `serialVersionUID`有两种显示的生成方式： 
 - 默认的1L，比如：`private static final long serialVersionUID = 1L; `
 - 根据类名、接口名、成员方法及属性等来生成一个64位的哈希字段，比如： `private static final  long   serialVersionUID = xxxxL;`
@@ -693,8 +691,87 @@ public long getSerialVersionUID() {
 
 ![idea自动生成serialVersionUID](/myblog/posts/images/essays/idea自动生成serialVersionUID.png)
 
+### [序列化底层原理](http://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/serialize-principle?id=序列化底层原理)
+**如何自定义的序列化和反序列化策略？**
+通过在被序列化的类中增加 writeObject 和 readObject 方法来实现。
 
-### 序列化原理
+在`java.util.ArrayList`中我们能找到答案：
+```
+public class ArrayList<E> extends AbstractList<E>
+        implements List<E>, RandomAccess, Cloneable, java.io.Serializable
+{
+    private static final long serialVersionUID = 8683452581122892189L;
+    transient Object[] elementData; // non-private to simplify nested class access
+    private int size;
+}
+
+```
+ArrayList实现了`java.io.Serializable`接口，那么我们就可以对它进行序列化及反序列化。
+因为`elementData`是 `transient` 的，所以这个成员变量不会被序列化而保留下来.
+
+ArrayList底层是通过数组实现的。
+那么数组elementData其实就是用来保存列表中的元素的。通过该属性的声明方式我们知道，他是无法通过序列化持久化下来的。
+那么为什么却通过序列化和反序列化把List中的元素保留下来了呢？
+
+```
+public static void main(String[] args) throws IOException, ClassNotFoundException {
+        List<String> stringList = new ArrayList<String>();
+        stringList.add("hello");
+        stringList.add("world");
+        stringList.add("hollis");
+        stringList.add("chuang");
+        System.out.println("init StringList" + stringList);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("stringlist"));
+        objectOutputStream.writeObject(stringList);
+
+        IOUtils.close(objectOutputStream);
+        File file = new File("stringlist");
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+        List<String> newStringList = (List<String>)objectInputStream.readObject();
+        IOUtils.close(objectInputStream);
+        if(file.exists()){
+            file.delete();
+        }
+        System.out.println("new StringList" + newStringList);
+    }
+//init StringList[hello, world, hollis, chuang]
+//new StringList[hello, world, hollis, chuang]
+
+```
+
+> 在序列化过程中，如果被序列化的类中定义了`writeObject` 和 `readObject` 方法，虚拟机会试图调用对象类里的 `writeObject` 和 `readObject` 方法，进行用户自定义的序列化和反序列化。
+>  
+> 如果没有这样的方法，则默认调用是 `ObjectOutputStream` 的 `defaultWriteObject` 方法以及 `ObjectInputStream` 的 `defaultReadObject` 方法。
+>  
+> 用户自定义的 `writeObject` 和 `readObject` 方法可以允许用户控制序列化的过程，比如可以在序列化的过程中动态改变序列化的数值。
+> 对象的序列化过程通过 `ObjectOutputStream` 和 `ObjectInputputStream` 来实现的.
+
+
+ArrayList实际上是动态数组，每次在放满以后自动增长设定的长度值，如果数组自动增长长度设为100，
+而实际只放了一个元素，那就会序列化99个null元素。为了保证在序列化的时候不会将这么多null同时进行序列化，
+ArrayList把元素数组设置为transient。
+
+为了防止一个包含大量空对象的数组被序列化，为了优化存储，所以，ArrayList使用transient来声明elementData。
+但是，作为一个集合，在序列化过程中还必须保证其中的元素可以被持久化下来，
+所以，通过重写writeObject 和 readObject方法的方式把其中的元素保留下来。
+
+- `writeObject` 方法把 `elementData` 数组中的元素遍历的保存到输出流（`ObjectOutputStream`）中。
+- `readObject` 方法从输入流（`ObjectInputStream`）中读出对象并保存赋值到 `elementData` 数组中。
+
+
+**在一个类中定义了 `writeObject` 和 `readObject` 方法，那么这两个方法是怎么被调用的呢?**
+在使用 `ObjectOutputStream` 的 `writeObject` 方法和 `ObjectInputStream` 的 `readObject` 方法时，会通过反射的方式调用。
+
+
+
+**为什么实现了`Serializable`接口就能保证对象序列化？**
+
+`ObjectOutputStream中writeObject`的调用栈：
+> writeObject ---> writeObject0 --->writeOrdinaryObject--->writeSerialData--->invokeWriteObject
+
+
+
+
 
 
 
