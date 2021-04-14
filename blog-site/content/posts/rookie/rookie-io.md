@@ -692,7 +692,9 @@ public long getSerialVersionUID() {
 ![idea自动生成serialVersionUID](/myblog/posts/images/essays/idea自动生成serialVersionUID.png)
 
 ### [序列化底层原理](http://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/serialize-principle?id=序列化底层原理)
-**如何自定义的序列化和反序列化策略？**
+
+#### 如何自定义的序列化和反序列化策略?
+
 通过在被序列化的类中增加 writeObject 和 readObject 方法来实现。
 
 在`java.util.ArrayList`中我们能找到答案：
@@ -759,25 +761,239 @@ ArrayList把元素数组设置为transient。
 - `readObject` 方法从输入流（`ObjectInputStream`）中读出对象并保存赋值到 `elementData` 数组中。
 
 
-**在一个类中定义了 `writeObject` 和 `readObject` 方法，那么这两个方法是怎么被调用的呢?**
+
+#### 在一个类中定义了 `writeObject` 和 `readObject` 方法，那么这两个方法是怎么被调用的呢?
+
 在使用 `ObjectOutputStream` 的 `writeObject` 方法和 `ObjectInputStream` 的 `readObject` 方法时，会通过反射的方式调用。
 
+`ObjectOutputStream中writeObject`的调用栈：
+> writeObject ---> writeObject0 --->writeOrdinaryObject--->writeSerialData--->**invokeWriteObject**
+
+> 调用表示的 `serializable` 类的 `writeObject` 方法。
+如果类描述符不与类相关联，或者该类是可外部化、不可序列化的，或者没有定义 `writeObject`，
+则抛出 `UnsupportedOperationException`。
+>  
+>类定义的writeObject方法，如果没有则为null
+
+`invokeWriteObject`方法
+```
+    /**
+     * Invokes the writeObject method of the represented serializable class.
+     * Throws UnsupportedOperationException if this class descriptor is not
+     * associated with a class, or if the class is externalizable,
+     * non-serializable or does not define writeObject.
+     */
+    void invokeWriteObject(Object obj, ObjectOutputStream out)
+        throws IOException, UnsupportedOperationException
+    {
+        requireInitialized();
+        if (writeObjectMethod != null) {
+            try {
+
+                // ========== 调用writeObject 方法 start========== //
+                writeObjectMethod.invoke(obj, new Object[]{ out });
+                // ========== 调用writeObject 方法 end========== //
+
+            } catch (InvocationTargetException ex) {
+                Throwable th = ex.getTargetException();
+                if (th instanceof IOException) {
+                    throw (IOException) th;
+                } else {
+                    throwMiscException(th);
+                }
+            } catch (IllegalAccessException ex) {
+                // should not occur, as access checks have been suppressed
+                throw new InternalError(ex);
+            }
+        } else {
+            throw new UnsupportedOperationException();
+        }
+    }
+```
+```
+    /** class-defined writeObject method, or null if none */
+    private Method writeObjectMethod;
+```
 
 
-**为什么实现了`Serializable`接口就能保证对象序列化？**
+
+#### 为什么实现了`Serializable`接口就能保证对象序列化？
 
 `ObjectOutputStream中writeObject`的调用栈：
-> writeObject ---> writeObject0 --->writeOrdinaryObject--->writeSerialData--->invokeWriteObject
+> writeObject ---> **writeObject0** --->writeOrdinaryObject--->writeSerialData--->invokeWriteObject
+
+`writeObject0`方法
+```
+ /**
+     * Underlying writeObject/writeUnshared implementation.
+     */
+    private void writeObject0(Object obj, boolean unshared)
+        throws IOException
+    {
+        boolean oldMode = bout.setBlockDataMode(false);
+        depth++;
+        try {
+           // ... 
+
+            // remaining cases
+            if (obj instanceof String) {
+                writeString((String) obj, unshared);
+            } else if (cl.isArray()) {
+                writeArray(obj, desc, unshared);
+            } else if (obj instanceof Enum) {
+                writeEnum((Enum<?>) obj, desc, unshared);
+            // =============================
+            } else if (obj instanceof Serializable) {
+                writeOrdinaryObject(obj, desc, unshared);
+            } else {
+                if (extendedDebugInfo) {
+                    throw new NotSerializableException(
+                        cl.getName() + "\n" + debugInfoStack.toString());
+                } else {
+                    throw new NotSerializableException(cl.getName());
+                }
+            }
+            // =============================
+        } finally {
+            // ... 
+        }
+    }
+```
+
+在进行序列化操作时，会判断要被序列化的类是否是 `String、Enum、Array` 和 `Serializable` 类型，
+如果不是则直接抛出 `NotSerializableException`。
 
 
 
+### [序列化与单例模式](http://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/serialize-singleton?id=序列化对单例的破坏)
+为什么序列化可以破坏单例了？
 
+序列化会通过反射调用无参数的构造方法创建一个新的对象。
 
+```
+public class MainTest {
+    public static void main(String[] args) throws Exception {
+        String path = "/Users/whitepure/github/myblog/blog-site/content/posts/rookie/singleton.txt";
 
+        //Write Obj to file
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
+        oos.writeObject(Singleton.getSingleton());
 
+        //Read Obj from file
+        File file = new File(path);
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+        Singleton newInstance = (Singleton) ois.readObject();
 
-### 序列化与单例模式
+        //判断是否是同一个对象
+        System.out.println(newInstance == Singleton.getSingleton());
+    }
 
+}
+
+class Singleton implements Serializable {
+    private static final long serialVersionUID = 6377402142849822126L;
+
+    private volatile static Singleton singleton;
+
+    private Singleton() {
+    }
+
+    public static Singleton getSingleton() {
+        if (singleton == null) {
+            synchronized (MainTest.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+}
+```
+输出结果为false，对`Singleton` 的序列化与反序列化得到的对象是一个新的对象，这就破坏了 `Singleton` 的单例性。
+
+#### 分析原因
+对象的序列化过程通过 `ObjectOutputStream` 和 `ObjectInputputStream` 来实现的
+
+`ObjectInputStream` 中 `readObject` 的调用栈：
+> readObject ---> readObject0 ---> readOrdinary ---> checkResolve
+
+`readOrdinaryObject` 方法
+
+> 读取并返回"ordinary"(即，不是字符串，类，ObjectStreamClass，数组，或枚举常量)对象，如果对象的类是不可解析的，则为null(在这种情况下，ClassNotFoundException将与对象的句柄相关联)。
+设置passHandle为对象的赋值句柄。
+
+```
+    /**
+     * Reads and returns "ordinary" (i.e., not a String, Class,
+     * ObjectStreamClass, array, or enum constant) object, or null if object's
+     * class is unresolvable (in which case a ClassNotFoundException will be
+     * associated with object's handle).  Sets passHandle to object's assigned
+     * handle.
+     */
+    private Object readOrdinaryObject(boolean unshared)
+        throws IOException
+    {
+
+        // ...
+
+        Object obj;
+        try {
+            // `desc.isInstantiable()`: 如果一个 `serializable/externalizable` 的类可以在运行时被实例化，那么该方法就返回true
+            // `desc.newInstance`：该方法通过反射的方式调用无参构造方法新建一个对象
+            obj = desc.isInstantiable() ? desc.newInstance() : null;
+        } catch (Exception ex) {
+            throw (IOException) new InvalidClassException(
+                desc.forClass().getName(),
+                "unable to create instance").initCause(ex);
+        }
+
+        // ...
+
+        // hasReadResolveMethod:如果实现了serializable 或者 externalizable接口的类中包含readResolve则返回true
+        if (obj != null &&
+            handles.lookupException(passHandle) == null &&
+            desc.hasReadResolveMethod())
+        {
+            // invokeReadResolve:通过反射的方式调用要被反序列化的类的readResolve方法。
+            Object rep = desc.invokeReadResolve(obj);
+            if (unshared && rep.getClass().isArray()) {
+                rep = cloneArray(rep);
+            }
+            // ...
+        }
+
+        return obj;
+    }
+
+```
+#### 解决
+在 `Singleton` 中定义 `readResolve` 方法，并在该方法中指定要返回的对象的生成策略，就可以防止单例被破坏。
+```
+class Singleton implements Serializable {
+    private static final long serialVersionUID = 6377402142849822126L;
+
+    private volatile static Singleton singleton;
+
+    private Singleton() {
+    }
+
+    public static Singleton getSingleton() {
+        if (singleton == null) {
+            synchronized (MainTest.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+    public Object readResolve() {
+        return singleton;
+    }
+}
+```
 
 
 ## IO模型
