@@ -8,11 +8,11 @@
 	
 	
 	
-	<title>JVM ｜ whitepure</title>
+	<title>直接内存 ｜ whitepure</title>
 	
     
     
-    <meta name="description" content="whitepure&#39;s blog of github" />
+    <meta name="description" content="" />
     
 
     
@@ -21,8 +21,6 @@
     
 
 	
-	<link rel="alternate" type="application/rss+xml" href="https://whiteppure.github.io/myblog/tags/jvm/index.xml" title="whitepure" />
-    
     
     <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
 
@@ -39,6 +37,14 @@
 </head>
 
 <body>
+    
+    
+    
+
+
+
+
+    
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
@@ -87,107 +93,91 @@
     </div>
 </div>
         <div class="content">
-            <div class="list_with_title">
-                
-                <div class="listing_title">2021</div>
-                <div class="listing">
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-direct-memory/">直接内存</a>
-                            <div class="post_time"><span class="date">04-14</span></div>
-                        </div>
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/jvm/jvm-direct-memory/'>直接内存</a></h2>
+                        <span class="date">2021.04.14</span>
                     </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-execute-engine/">执行引擎</a>
-                            <div class="post_time"><span class="date">04-14</span></div>
+                    <div class="post_content markdown"><p>直接内存不是虚拟机运行时数据区的一部分，也不是《Java虚拟机规范》中定义的内存区域。
+直接内存是在Java堆外的、直接向系统申请的内存区间。</p>
+<p>操作直接内存演示代码：</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        ByteBuffer allocate = ByteBuffer.allocate(1024 * 1024 * 1024);
+
+        System.out.println(&quot;直接内存分配完成 ...&quot;);
+        Scanner scanner = new Scanner(System.in);
+        scanner.next();
+
+        System.out.println(&quot;直接内存开始释放&quot;);
+        System.gc();
+
+        scanner.next();
+        System.out.println(&quot;退出！&quot;);
+    }
+}
+</code></pre><p>使用NIO，通过存在堆中的直接内存操作本地内存</p>
+<p><img src="/myblog/posts/images/essays/IO%E8%AF%BB%E5%86%99.png" alt="IO读写">
+<img src="/myblog/posts/images/essays/NIO%E8%AF%BB%E5%86%99.png" alt="NIO读写"></p>
+<p>通常，访问直接内存的速度会优于Java堆。即读写性能高。因此出于性能考虑，读写频繁的场合可能会考虑使用直接内存。
+Java的NIO库允许Java程序使用直接内存，用于数据缓冲区。</p>
+<p>直接内存也存在 <code>OutOfMemoryError</code> 异常:<code>OutOfMemoryError: Direct buffer memory</code></p>
+<pre><code>public class MainTest {
+    private static final int BUFFER = 1024 * 1024 * 20;
+    public static void main(String[] args) {
+        ArrayList&lt;ByteBuffer&gt; list = new ArrayList&lt;&gt;();
+        int count = 0;
+        try {
+            while(true){
+                ByteBuffer byteBuffer = ByteBuffer.allocateDirect(BUFFER);
+                list.add(byteBuffer);
+                count++;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } finally {
+            System.out.println(count);
+        }
+    }
+}
+</code></pre><p>由于直接内存在Java堆外，因此它的大小不会直接受限于<code>-Xmx</code>指定的最大堆大小，但是系统内存是有限的，
+Java堆和直接内存的总和依然受限于操作系统能给出的最大内存。</p>
+<p>直接内存缺点：</p>
+<ul>
+<li>分配回收成本较高</li>
+<li>不受JVM内存回收管理</li>
+</ul>
+<p>直接内存大小可以通过 <code>MaxDirectMemorySize</code> 设置，如果不指定，默认与堆的最大值<code>-Xmx</code>参数值一致.</p>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
+                                    
+                                </span>
+                            </div>
                         </div>
+                        
                     </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/java-object/">Java对象</a>
-                            <div class="post_time"><span class="date">04-12</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-method-area/">方法区</a>
-                            <div class="post_time"><span class="date">04-08</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-heap/">堆</a>
-                            <div class="post_time"><span class="date">04-03</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-native-stack/">本地方法栈</a>
-                            <div class="post_time"><span class="date">04-02</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-native-interface/">本地方法接口</a>
-                            <div class="post_time"><span class="date">04-02</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-stack/">虚拟机栈</a>
-                            <div class="post_time"><span class="date">03-28</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-pc-register/">程序计数寄存器</a>
-                            <div class="post_time"><span class="date">03-27</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-start/">Jvm介绍</a>
-                            <div class="post_time"><span class="date">03-05</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-classloader/">Java类加载机制</a>
-                            <div class="post_time"><span class="date">02-05</span></div>
-                        </div>
-                    </div>
-                    
                 </div>
                 
-                <div class="listing_title">2020</div>
-                <div class="listing">
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-memory-rubbish/">Jvm内存划分和垃圾回收</a>
-                            <div class="post_time"><span class="date">08-16</span></div>
-                        </div>
-                    </div>
-                    
-                </div>
+                
+                <div class="doc_comments"></div>
                 
             </div>
-            <div class="pagination"></div>
         </div>
-        <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
     </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
     <footer class="footer">
     <div class="powered_by">
         <a href="https://varkai.com">Designed by VarKai,</a>
