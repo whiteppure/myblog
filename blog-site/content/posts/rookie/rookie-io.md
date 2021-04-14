@@ -995,7 +995,6 @@ class Singleton implements Serializable {
 }
 ```
 
-
 ## IO模型
 
 ### 阻塞式IO模型
