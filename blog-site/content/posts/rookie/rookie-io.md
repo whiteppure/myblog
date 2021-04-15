@@ -866,6 +866,8 @@ ArrayList把元素数组设置为transient。
 
 
 ### [序列化与单例模式](http://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/serialize-singleton?id=序列化对单例的破坏)
+
+#### 序列化破坏单例
 为什么序列化可以破坏单例了？
 
 序列化会通过反射调用无参数的构造方法创建一个新的对象。
@@ -1013,7 +1015,33 @@ class Singleton implements Serializable {
 
 ### BIO
 
-### NIO
+
+
+## NIO
+`Java NIO `解释为： `New IO` 或 `Non Blocking IO` 是从J ava 1.4 版本开始引入的一个新的IO API，可以替代标准的Java IO API。
+NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的方式进行文件的读写操作。
+
+与传统IO的区别：
+| 区别 | IO                 | NIO                    |
+| ---- | ------------------ | ---------------------- |
+| 1    | 面向流，通过流传输 | 面向缓冲区，通过缓冲区 |
+| 2    | 阻塞IO             | 非阻塞IO               |
+| 3    |                    | 选择器                 |
+
+
+![IO](/myblog/posts/images/essays/IO与NIO-1.png)
+
+![NIO](/myblog/posts/images/essays/IO与NIO-2.png)
+
+### 通道与缓冲区
+通道负责传输，缓冲区负责存储。
+
+若需要使用 NIO ，需要获取用于连接 IO 设备的通道以及用于容纳数据的缓冲区。然后操作缓冲区，对数据进行处理。
+
+#### 操作缓冲区
+
+
+
 
 
 ## 网络编程

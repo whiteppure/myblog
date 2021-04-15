@@ -667,6 +667,38 @@
             
             
             <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%ba%8f%e5%88%97%e5%8c%96%e7%a0%b4%e5%9d%8f%e5%8d%95%e4%be%8b">
+                    序列化破坏单例
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
                 <a class="nav-link text-left" href="#%e5%88%86%e6%9e%90%e5%8e%9f%e5%9b%a0">
                     分析原因
                 </a>
@@ -969,8 +1001,6 @@
             
         <ul class="nav">
             
-        <ul class="nav">
-            
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#nio">
@@ -979,6 +1009,64 @@
             </li>
             
             
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e9%80%9a%e9%81%93%e4%b8%8e%e7%bc%93%e5%86%b2%e5%8c%ba">
+                    通道与缓冲区
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%93%8d%e4%bd%9c%e7%bc%93%e5%86%b2%e5%8c%ba">
+                    操作缓冲区
+                </a>
+            </li>
+            
+            
+        </ul>
+        
         </ul>
         
         </ul>
@@ -1869,6 +1957,7 @@ ArrayList把元素数组设置为transient。</p>
 </code></pre><p>在进行序列化操作时，会判断要被序列化的类是否是 <code>String、Enum、Array</code> 和 <code>Serializable</code> 类型，
 如果不是则直接抛出 <code>NotSerializableException</code>。</p>
 <h3 id="序列化与单例模式httphollischuanggiteeiotobetopjavaerbasicsjava-basicserialize-singletonid序列化对单例的破坏"><a href="http://hollischuang.gitee.io/tobetopjavaer/#/basics/java-basic/serialize-singleton?id=%E5%BA%8F%E5%88%97%E5%8C%96%E5%AF%B9%E5%8D%95%E4%BE%8B%E7%9A%84%E7%A0%B4%E5%9D%8F">序列化与单例模式</a></h3>
+<h4 id="序列化破坏单例">序列化破坏单例</h4>
 <p>为什么序列化可以破坏单例了？</p>
 <p>序列化会通过反射调用无参数的构造方法创建一个新的对象。</p>
 <pre><code>public class MainTest {
@@ -1997,7 +2086,42 @@ class Singleton implements Serializable {
 <h2 id="io种类">IO种类</h2>
 <h3 id="aio">AIO</h3>
 <h3 id="bio">BIO</h3>
-<h3 id="nio">NIO</h3>
+<h2 id="nio">NIO</h2>
+<p><code>Java NIO </code>解释为： <code>New IO</code> 或 <code>Non Blocking IO</code> 是从J ava 1.4 版本开始引入的一个新的IO API，可以替代标准的Java IO API。
+NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的方式进行文件的读写操作。</p>
+<p>与传统IO的区别：</p>
+<table>
+<thead>
+<tr>
+<th>区别</th>
+<th>IO</th>
+<th>NIO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>面向流，通过流传输</td>
+<td>面向缓冲区，通过缓冲区</td>
+</tr>
+<tr>
+<td>2</td>
+<td>阻塞IO</td>
+<td>非阻塞IO</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>选择器</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/myblog/posts/images/essays/IO%E4%B8%8ENIO-1.png" alt="IO"></p>
+<p><img src="/myblog/posts/images/essays/IO%E4%B8%8ENIO-2.png" alt="NIO"></p>
+<h3 id="通道与缓冲区">通道与缓冲区</h3>
+<p>通道负责传输，缓冲区负责存储。</p>
+<p>若需要使用 NIO ，需要获取用于连接 IO 设备的通道以及用于容纳数据的缓冲区。然后操作缓冲区，对数据进行处理。</p>
+<h4 id="操作缓冲区">操作缓冲区</h4>
 <h2 id="网络编程">网络编程</h2>
 <h3 id="netty">Netty</h3>
 </div>
