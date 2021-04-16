@@ -1026,7 +1026,7 @@ NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的
 | ---- | ------------------ | ---------------------- |
 | 1    | 面向流，通过流传输 | 面向缓冲区，通过缓冲区 |
 | 2    | 阻塞IO             | 非阻塞IO               |
-| 3    |                    | 选择器                 |
+| 3    | 无                   | 选择器                 |
 
 
 ![IO](/myblog/posts/images/essays/IO与NIO-1.png)
@@ -1038,9 +1038,554 @@ NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的
 
 若需要使用 NIO ，需要获取用于连接 IO 设备的通道以及用于容纳数据的缓冲区。然后操作缓冲区，对数据进行处理。
 
-#### 操作缓冲区
+#### 缓冲区
+缓冲区：在java NIO 中负者数据的存储。缓冲区底层实现是数组。用于存储不同类型的数据。
+根据数据类型的不同(boolean 除外)，有以下 Buffer 常用子类：
+- ByteBuffer
+- CharBuffer
+- ShortBuffer
+- IntBuffer
+- LongBuffer
+- FloatBuffer
+- DoubleBuffer
+
+##### 常用API及属性解析
+在父类抽象类Buffer中存在四个核心属性：
+- capacity：容量，表示缓冲区中最大存储数据的容量。一旦声明不能改变。
+- limit：界限，表示缓冲区中可以操作数据的大小。(limit后数据不能进行读写)
+- position：位置，表示缓冲区中正在操作数据的位置。
+- mark:标记，表示记录当前position位置。可以通过reset()恢复到mark的位置。
+
+大小关系：`0<=mark<=position<=limit<=capacity`
+
+存储数据：
+- put():存入数据到缓冲区中
+- put(byte b)：将给定单个字节写入缓冲区的当前位置
+- put(byte[] src)：将 src 中的字节写入缓冲区的当前位置
+- put(int index, byte b)：将指定字节写入缓冲区的索引位置
+
+flip(): 切换为读取数据模式
+
+读取数据：
+- get():获取缓存区中的数据
+- get() ：读取单个字节
+- get(byte[] dst)：批量读取多个字节到 dst 中
+- get(int index)：读取指定索引位置的字节
+
+clear(): 清空缓冲区；但是缓冲区中的数据依然存在，只是将position、limit 的值回归到初始值
+
+position、limit 数值变化：
+- 使用 put() 存储数据时，把 position 向前移动，移动长度为要存储数据的长度；
+- 使用 filp() 切换为只读模式时，把 position 的值赋值给 limit，在将 position 的值归零；
+- 使用 get() 读取数据时，在把 position 移动，移动的长度为想要读取的长度，但是要小于等于 limit 的位置；
+- 使用 rewind() 切换为重读模式时，将 position、limit 恢复到使用 filp() 方法时的值；
+- 使用 clear() 清空缓冲区，将position、limit 的值回归到初始值；
+
+代码演示
+```
+public class MainTest {
+    public static void main(String[] args) {
+        String str = "abcde";
+        ByteBuffer allocate = ByteBuffer.allocate(1024);
+        allocate.put(str.getBytes());
+        System.out.println("========向ByteBuffer添加数据========");
+        System.out.println(str);
+        System.out.println("capacity: "+ allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+
+        allocate.flip();
+        System.out.println("========切换为读取数据模式========");
+        System.out.println("capacity: "+ allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+
+        byte[] bytes = str.getBytes();
+        allocate.get(bytes);
+        System.out.println("========从ByteBuffer取出数据========");
+        System.out.println(new String(bytes, 0, bytes.length));
+        System.out.println("capacity: "+ allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+
+        allocate.rewind();
+        System.out.println("========切换重新读取数据模式========");
+        System.out.println("capacity: "+ allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+
+        allocate.clear();
+        System.out.println("========清空缓冲区========");
+        System.out.println("capacity: "+ allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+        System.out.println("再来读取数据：" + (char)allocate.get());
+    }
+}
+```
+
+mark方法: 记录当前position位置。可以通过 reset() 恢复到 mark 的位置。
+
+代码演示
+```
+public class MainTest {
+    public static void main(String[] args) {
+        String str = "abcde";
+        ByteBuffer allocate = ByteBuffer.allocate(1024);
+
+        allocate.put(str.getBytes());
+
+        allocate.flip();
+
+        byte[] bytes = str.getBytes();
+        allocate.get(bytes, 0, 2);
+        System.out.println("========从ByteBuffer取出数据========");
+        System.out.println(new String(bytes, 0, 2));
+        System.out.println("capacity: " + allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+
+        allocate.mark();
+        System.out.println("========记录当前 `position` 的位置========");
+        System.out.println("capacity: " + allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+
+        allocate.get(bytes, 2, 2);
+        System.out.println("========从ByteBuffer再次取出数据========");
+        System.out.println(new String(bytes, 2, 2));
+        System.out.println("capacity: " + allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+
+        allocate.reset();
+        System.out.println("========恢复之前被标记的位置========");
+        System.out.println("capacity: " + allocate.capacity());
+        System.out.println("limit: " + allocate.limit());
+        System.out.println("position: " + allocate.position());
+    }
+}
+```
+
+##### 非直接缓冲区与直接缓冲区
+直接缓冲区：通过 `allocateDirect()` 方法分配直接缓冲区，将缓冲区建立在物理内存中。可以提高读写效率。
+
+![直接缓冲区](/myblog/posts/images/essays/直接缓冲区.png)
+
+非直接缓冲区：通过 `allocate()` 方法分配缓冲区，将缓冲区建立在JVM的内存中。
+
+`allocate()`方法返回的缓冲区进行分配和取消分配所需成本通常高于非直接缓冲区 。
+直接缓冲区的内容可以驻留在常规的垃圾回收堆之外.
+
+![非直接缓冲区](/myblog/posts/images/essays/非直接缓冲区.png)
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        ByteBuffer allocate = ByteBuffer.allocate(1024);
+        ByteBuffer direct = ByteBuffer.allocateDirect(1024);
+
+        if (direct.isDirect()){
+            System.out.println("allocateDirect 是直接缓冲区");
+        }
+        if (!allocate.isDirect()){
+            System.out.println("allocate 是非直接缓冲区");
+        }
+    }
+}
+```
+#### 通道
+通道(Channel):用于源节点与目标节点的连接。在 `java NIO` 中负责缓冲区中数据的传输。Channel本身不存储数据，需要配合缓冲区进行数据传输。
 
 
+在操作系统中，通道是一种通过执行通道程序管理I/O操作的控制器，它使主机（CPU和内存）与I/O操作之间达到更高的并行程度。
+需要进行I/O操作时，CPU只需启动通道，然后可以继续执行自身程序，通道则执行通道程序，管理与实现I/O操作。
+
+##### 操作通道
+通道的主要实现类：
+- `FileChannel`：用于读取、写入、映射和操作文件的通道。
+- `SocketChannel`：通过 TCP 读写网络中的数据。
+- `ServerSocketChannel`：可以监听新进来的 TCP 连接，对每一个新进来的连接都会创建一个 `SocketChannel`。
+- `DatagramChannel`：通过 UDP 读写网络中的数据通道。
+
+Java 针对支持通道的类提供了 `getChannel()` 方法
+
+使用 非直接缓冲区 完成对文件的读写
+```
+public class MainTest {
+    /**
+     * 使用非直接缓冲区完成读写操作
+     * @param args args
+     */
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        try (
+                // 获取通道
+                FileChannel inChannel = new FileInputStream("1.jpg").getChannel();
+                FileChannel outChannel = new FileOutputStream("2.jpg").getChannel();
+        ) {
+            // 分配指定大小的缓冲区
+            ByteBuffer buf = ByteBuffer.allocate(1024);
+
+            // 将通道中的数据存入缓冲区中
+            while (inChannel.read(buf) != -1) {
+
+                // 切换读取数据的模式
+                buf.flip();
+
+                // 将缓冲区中的数据写入通道中
+                outChannel.write(buf);
+
+                // 清空缓冲区
+                buf.clear();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            long end = System.currentTimeMillis();
+            System.out.println("耗费的时间为：" + (end - start));
+        }
+    }
+}
+
+```
+使用 直接缓冲区 完成对文件的读写
+```
+public class MainTest {
+    /**
+     * 使用直接缓冲区完成文件的读写
+     *
+     * @param args args
+     */
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        try (
+                FileChannel inChannel = FileChannel.open(Paths.get("1.jpg"), StandardOpenOption.READ);
+                FileChannel outChannel = FileChannel.open(Paths.get("2.jpg"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE);
+        ) {
+
+            //内存映射文件
+            MappedByteBuffer inMappedBuf = inChannel.map(FileChannel.MapMode.READ_ONLY, 0, inChannel.size());
+            MappedByteBuffer outMappedBuf = outChannel.map(FileChannel.MapMode.READ_WRITE, 0, inChannel.size());
+
+            //直接对缓冲区进行数据的读写操作
+            byte[] dst = new byte[inMappedBuf.limit()];
+            inMappedBuf.get(dst);
+            outMappedBuf.put(dst);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            long end = System.currentTimeMillis();
+            System.out.println("耗费的时间为：" + (end - start));
+        }
+    }
+}
+```
+使用 通道 完成对文件的读写
+```
+public class MainTest {
+    /**
+     * 使用通道完成读写操作
+     *
+     * @param args args
+     */
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        try (
+                // 获取通道
+                FileChannel inChannel = FileChannel.open(Paths.get("1.jpg"), StandardOpenOption.READ);
+                FileChannel outChannel = FileChannel.open(Paths.get("2.jpg"), StandardOpenOption.WRITE, StandardOpenOption.READ, StandardOpenOption.CREATE);
+        ) {
+
+            //内存映射文件
+            MappedByteBuffer inMappedBuf = inChannel.map(FileChannel.MapMode.READ_ONLY, 0, inChannel.size());
+            MappedByteBuffer outMappedBuf = outChannel.map(FileChannel.MapMode.READ_WRITE, 0, inChannel.size());
+            
+            //直接对缓冲区进行数据的读写操作
+            byte[] dst = new byte[inMappedBuf.limit()];
+            inMappedBuf.get(dst);
+            outMappedBuf.put(dst);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            long end = System.currentTimeMillis();
+            System.out.println("耗费的时间为：" + (end - start));
+        }
+    }
+}
+```
+分散读取和聚集写入：
+- 分散读取（Scattering Reads）：将通道中的数据分散到多个缓冲区中
+- 聚集写入（Gathering Writes）：将多个缓冲区中的数据聚集到通道中
+```
+public class MainTest {
+    /**
+     * 分散和聚集
+     *
+     * @param args args
+     */
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        try (
+            // 分散读取通道
+            FileChannel channel1 = new RandomAccessFile("1.txt", "rw").getChannel();
+            // 聚集写入通道
+            FileChannel channel2 = new RandomAccessFile("2.txt", "rw").getChannel();
+        ) {
+            // 分配指定大小的缓冲区
+            ByteBuffer buf1 = ByteBuffer.allocate(100);
+            ByteBuffer buf2 = ByteBuffer.allocate(1024);
+
+            // 分散读取
+            ByteBuffer[] bufs = {buf1, buf2};
+            channel1.read(bufs);
+
+            for (ByteBuffer byteBuffer : bufs) {
+                byteBuffer.flip();
+            }
+
+            System.out.println(new String(bufs[0].array(), 0, bufs[0].limit()));
+            System.out.println("--------------------");
+            System.out.println(new String(bufs[1].array(), 0, bufs[1].limit()));
+
+            // 聚集写入
+            channel2.write(bufs);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            long end = System.currentTimeMillis();
+            System.out.println("耗费的时间为：" + (end - start));
+        }
+    }
+}
+```
+
+解码与编码：
+- 编码：字符串转化为字符数组的过程
+- 解码：字符数组转化为字符串的过程
+```
+public class MainTest {
+    /**
+     * 编码与解码
+     *
+     * @param args args
+     */
+    public static void main(String[] args) {
+        Charset cs1 = Charset.forName("GBK");
+
+        //获取编码器
+        CharsetEncoder ce = cs1.newEncoder();
+
+        //获取解码器
+        CharsetDecoder cd = cs1.newDecoder();
+
+        CharBuffer cBuf = CharBuffer.allocate(1024);
+        cBuf.put("阿伟死了");
+        cBuf.flip();
+
+        ByteBuffer bBuf;
+        try {
+            //编码
+            bBuf = ce.encode(cBuf);
+            for (int i = 0; i < 8; i++) {
+                System.out.println(bBuf.get());
+            }
+            bBuf.flip();
+
+            //解码
+            CharBuffer cBuf2 = cd.decode(bBuf);
+            System.out.println(cBuf2.toString());
+
+        } catch (CharacterCodingException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+```
+### 阻塞与非阻塞
+传统的 IO 流都是阻塞式的。
+就是说，当一个线程调用 `read()` 或 `write()` 时，该线程被阻塞，直到有一些数据被读取或写入，该线程在此期间不能执行其他任务。
+因此，在完成网络通信进行 IO 操作时，由于线程会阻塞，所以服务器端必须为每个客户端都提供一个独立的线程进行处理，当服务器端需要处理大量客户端时，性能急剧下降。
+
+阻塞式IO,代码演示
+```
+class Client {
+    public static void main(String[] args) throws IOException {
+        System.out.println("启动客户端 ...");
+        client();
+    }
+
+    /**
+     * 阻塞NIO 客户端 发送数据并接收服务器端返回数据
+     */
+    public static void client() throws IOException {
+        SocketChannel sChannel=SocketChannel.open(new InetSocketAddress("127.0.0.1",9898));
+        FileChannel inChannel=FileChannel.open(Paths.get("/Users/whitepure/Desktop/1.txt"), StandardOpenOption.READ);
+        ByteBuffer buf=ByteBuffer.allocate(1024);
+
+        while(inChannel.read(buf)!=-1){
+            buf.flip();
+            sChannel.write(buf);
+            buf.clear();
+        }
+
+        //关闭发送通道，表明发送完毕
+        sChannel.shutdownOutput();
+
+        //接收服务端的反馈
+        int len=0;
+        while((len=sChannel.read(buf))!=-1){
+            buf.flip();
+            System.out.println(new String(buf.array(),0,len));
+            buf.clear();
+        }
+        inChannel.close();
+        sChannel.close();
+    }
+}
+
+class Server {
+    public static void main(String[] args) throws IOException {
+        System.out.println("启动服务端 ...");
+        server();
+    }
+    /**
+     * 阻塞IO 服务器方
+     */
+    public static void server() throws IOException{
+        ServerSocketChannel ssChannel=ServerSocketChannel.open();
+        FileChannel outChannel=FileChannel.open(Paths.get("/Users/whitepure/Desktop/2.txt"), StandardOpenOption.WRITE,StandardOpenOption.CREATE);
+        ssChannel.bind(new InetSocketAddress(9898));
+        SocketChannel sChannel=ssChannel.accept();
+        ByteBuffer buf=ByteBuffer.allocate(1024);
+        
+        while(sChannel.read(buf)!=-1){
+            buf.flip();
+            outChannel.write(buf);
+            buf.clear();
+        }
+
+        //发送反馈给客户端
+        buf.put("服务端接收数据成功".getBytes());
+        buf.flip();
+        sChannel.write(buf);
+
+        sChannel.close();
+        outChannel.close();
+        ssChannel.close();
+    }
+}
+```
+Java NIO 是非阻塞模式的。
+当线程从某通道进行读写数据时，若没有数据可用时，该线程可以进行其他任务。线程通常将非阻塞 IO 的空闲时间用于在其他通道上执行 IO 操作，所以单独的线程可以管理多个输入和输出通道。
+因此，NIO 可以让服务器端使用一个或有限几个线程来同时处理连接到服务器端的所有客户端。
+
+非阻塞式IO,代码演示
+```
+class Client {
+    public static void main(String[] args) throws IOException {
+        System.out.println("启动客户端 ... 等待输入 ...");
+        client();
+    }
+
+    /**
+     * 非阻塞NIO 客户端
+     */
+    public static void client() throws IOException {
+        SocketChannel sChannel = SocketChannel.open(new InetSocketAddress("127.0.0.1", 9898));
+        ByteBuffer buf = ByteBuffer.allocate(1024);
+
+        Scanner scanner = new Scanner(System.in);
+
+        // 发送数据到服务方
+        while (scanner.hasNextLine()) {
+            buf.put((LocalDate.now() + "\n" + scanner.next()).getBytes());
+            buf.flip();
+            sChannel.write(buf);
+            buf.clear();
+        }
+        sChannel.close();
+    }
+}
+
+class Server {
+    public static void main(String[] args) throws IOException {
+        System.out.println("启动服务端 ... 等待客户端请求 ...");
+        server();
+    }
+
+    /**
+     * 非阻塞IO 服务器方
+     */
+    public static void server() throws IOException {
+        ServerSocketChannel ssChannel = ServerSocketChannel.open();
+
+        // 切换为非阻塞模式
+        ssChannel.configureBlocking(false);
+        // 绑定链接
+        ssChannel.bind(new InetSocketAddress(9898));
+
+        // 获取选择器
+        Selector selector = Selector.open();
+
+        /**
+         * 将通道注册到选择器上，并且指定“监听接收事件”
+         * 使用 SelectionKey 的四个常量 表示
+         *
+         * 读 : SelectionKey.OP_READ （1）
+         * 写 : SelectionKey.OP_WRITE （4）
+         * 连接 : SelectionKey.OP_CONNECT （8）
+         * 接收 : SelectionKey.OP_ACCEPT （16）
+         *
+         * 若注册时不止监听一个事件，则可以使用“位或”操作符连接。
+         */
+        SelectionKey selectionKey = ssChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+        // 轮巡获取 注册器上的接收事件
+        while (selector.select() > 0) {
+            // 获取当前选择器中所有注册的“选择键（已就绪的监听事件）”
+            Iterator<SelectionKey> it = selector.selectedKeys().iterator();
+
+            while (it.hasNext()) {
+                // 获取准备“就绪”的事件
+                SelectionKey sk = it.next();
+
+                // 判断具体是什么时间准备就绪
+                if (sk.isAcceptable()) {
+                    // 若“接收就绪”，获取客户端连接
+                    SocketChannel sChannel = ssChannel.accept();
+
+                    // 切换非阻塞模式
+                    sChannel.configureBlocking(false);
+
+                    // 将该通道注册到选择器上
+                    sChannel.register(selector, SelectionKey.OP_READ);
+                } else if (sk.isReadable()) {
+                    // 获取当前选择器上“读就绪”状态的通道
+                    SocketChannel sChannel = (SocketChannel) sk.channel();
+                    // 读取数据
+                    ByteBuffer buf = ByteBuffer.allocate(1024);
+                    int len = 0;
+                    while ((len = sChannel.read(buf)) > 0) {
+                        buf.flip();
+                        System.out.println(new String(buf.array(), 0, len));
+                        buf.clear();
+                    }
+                }
+
+                // 移除注册的选择键，否则会一直轮巡获取
+                it.remove();
+            }
+        }
+    }
+}
+
+```
 
 
 
