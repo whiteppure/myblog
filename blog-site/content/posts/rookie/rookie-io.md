@@ -1078,7 +1078,7 @@ NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的
 | ---- | ------------------ | ---------------------- |
 | 传输方式    | 面向流，通过流传输 | 面向缓冲区，通过缓冲区传输 |
 | 是否阻塞    | 阻塞IO             | 非阻塞IO               |
-| 其他    | 无                   | 选择器，可以解决IO阻塞问题                 |
+| 其他    | 无                   | 选择器，可以解决阻塞问题  |
 
 
 ![IO](/myblog/posts/images/essays/IO与NIO-1.png)
@@ -1673,7 +1673,10 @@ public class MainTest {
 
 ## 网络编程
 
-### Netty
-
+### [Netty](https://dongzl.github.io/netty-handbook/#/)
+- Netty 是一个异步的、基于事件驱动的网络应用框架，用以快速开发高性能、高可靠性的网络 IO 程序。
+- Netty 主要针对在 TCP 协议下，面向 Client 端的高并发应用，或者 Peer-to-Peer 场景下的大量数据持续传输的应用。
+- Netty 本质是一个 NIO 框架，适用于服务器通讯相关的多种应用场景。
+- Netty 是由 JBoss 提供的一个 Java 开源框架，现为 Github 上的独立项目。
 
 
