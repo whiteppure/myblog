@@ -1671,12 +1671,88 @@ public class MainTest {
 ```
 
 
-## 网络编程
+## [Netty](https://dongzl.github.io/netty-handbook/#/)
 
-### [Netty](https://dongzl.github.io/netty-handbook/#/)
-- Netty 是一个异步的、基于事件驱动的网络应用框架，用以快速开发高性能、高可靠性的网络 IO 程序。
-- Netty 主要针对在 TCP 协议下，面向 Client 端的高并发应用，或者 Peer-to-Peer 场景下的大量数据持续传输的应用。
-- Netty 本质是一个 NIO 框架，适用于服务器通讯相关的多种应用场景。
-- Netty 是由 JBoss 提供的一个 Java 开源框架，现为 Github 上的独立项目。
+### 概述
+> [Netty is an asynchronous event-driven network application framework 
+  for rapid development of maintainable high performance protocol servers & clients.](https://netty.io)
 
+Netty 是一个异步的、基于事件驱动的网络应用框架，用以快速开发高性能、高可靠性的网络 IO 程序。
+Netty 主要针对在 TCP 协议下，面向 Client 端的高并发应用，或者 Peer-to-Peer 场景下的大量数据持续传输的应用。
+Netty 本质是一个 NIO 框架，适用于服务器通讯相关的多种应用场景。
+Netty 是由 JBoss 提供的一个 Java 开源框架，现为 Github 上的独立项目。
+
+### 简单使用
+1.[导入依赖](https://netty.io/downloads.html)
+```
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-all</artifactId>
+    <version>4.1.36.Final</version>
+</dependency>
+```
+
+2.服务器端代码演示
+```
+/**
+ * netty 服务端测试
+ */
+public class MainTestServer {
+    public static void main(String[] args) {
+        // 启动器， 负责组装netty组件 启动服务器
+        new ServerBootstrap()
+                // BossEventLoop WorkEventLoop 每个 EventLoop 就是 一个选择器 + 一个线程
+                .group(new NioEventLoopGroup())
+                // 选择服务器 ServerSocketChannel 具体实现
+                .channel(NioServerSocketChannel.class)
+                // 决定了 workEventLoop 能做那些操作
+                .childHandler(
+                        // 建立连接后会被调用； 作用： 初始化 + 添加其他的 handler
+                        new ChannelInitializer<NioSocketChannel>() {
+                    // 当客户端请求发过来时 才会调用
+                    @Override 
+                    protected void initChannel(NioSocketChannel channel) throws Exception {
+                        channel.pipeline().addLast(new StringDecoder());
+                        // 自定义handler 
+                        channel.pipeline().addLast(new ChannelInboundHandlerAdapter() {
+                            @Override
+                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                                System.out.println("服务器端接收数据：" + msg);
+                            }
+                        });
+                    }
+                })
+                // 绑定监听端口
+                .bind(8090);
+    }
+}
+```
+
+3.客户端代码演示
+```
+/**
+ * netty 客户端测试
+ */
+public class MainTestClient {
+    public static void main(String[] args) throws InterruptedException {
+        new Bootstrap()
+                .group(new NioEventLoopGroup())
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer<NioSocketChannel>() {
+                    // 初始化 在与服务器建立链接的时候 调用
+                    @Override
+                    protected void initChannel(NioSocketChannel channel) throws Exception {
+                        // 添加编码器 只有当向服务端发送请求数据时 才会执行
+                        channel.pipeline().addLast(new StringEncoder());
+                    }
+                })
+                .connect(new InetSocketAddress("127.0.0.1", 8090))
+                //阻塞方法，直到与服务器端连接建立
+                .sync()
+                .channel()
+                // 向服务器端发送数据
+                .writeAndFlush("hello word");
+    }
+}
+```
 

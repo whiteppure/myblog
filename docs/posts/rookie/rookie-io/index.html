@@ -1163,8 +1163,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e7%bd%91%e7%bb%9c%e7%bc%96%e7%a8%8b">
-                    网络编程
+                <a class="nav-link text-left" href="#nettyhttpsdongzlgithubionetty-handbook">
+                    Netty
                 </a>
             </li>
             
@@ -1189,8 +1189,36 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#nettyhttpsdongzlgithubionetty-handbook">
-                    Netty
+                <a class="nav-link text-left" href="#%e6%a6%82%e8%bf%b0">
+                    概述
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%ae%80%e5%8d%95%e4%bd%bf%e7%94%a8">
+                    简单使用
                 </a>
             </li>
             
@@ -2796,15 +2824,82 @@ class Server {
         sinkChannel.close();
     }
 }
-</code></pre><h2 id="网络编程">网络编程</h2>
-<h3 id="nettyhttpsdongzlgithubionetty-handbook"><a href="https://dongzl.github.io/netty-handbook/#/">Netty</a></h3>
-<ul>
-<li>Netty 是一个异步的、基于事件驱动的网络应用框架，用以快速开发高性能、高可靠性的网络 IO 程序。</li>
-<li>Netty 主要针对在 TCP 协议下，面向 Client 端的高并发应用，或者 Peer-to-Peer 场景下的大量数据持续传输的应用。</li>
-<li>Netty 本质是一个 NIO 框架，适用于服务器通讯相关的多种应用场景。</li>
-<li>Netty 是由 JBoss 提供的一个 Java 开源框架，现为 Github 上的独立项目。</li>
-</ul>
-</div>
+</code></pre><h2 id="nettyhttpsdongzlgithubionetty-handbook"><a href="https://dongzl.github.io/netty-handbook/#/">Netty</a></h2>
+<h3 id="概述">概述</h3>
+<blockquote>
+<p><a href="https://netty.io">Netty is an asynchronous event-driven network application framework
+for rapid development of maintainable high performance protocol servers &amp; clients.</a></p>
+</blockquote>
+<p>Netty 是一个异步的、基于事件驱动的网络应用框架，用以快速开发高性能、高可靠性的网络 IO 程序。
+Netty 主要针对在 TCP 协议下，面向 Client 端的高并发应用，或者 Peer-to-Peer 场景下的大量数据持续传输的应用。
+Netty 本质是一个 NIO 框架，适用于服务器通讯相关的多种应用场景。
+Netty 是由 JBoss 提供的一个 Java 开源框架，现为 Github 上的独立项目。</p>
+<h3 id="简单使用">简单使用</h3>
+<p>1.<a href="https://netty.io/downloads.html">导入依赖</a></p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;io.netty&lt;/groupId&gt;
+    &lt;artifactId&gt;netty-all&lt;/artifactId&gt;
+    &lt;version&gt;4.1.36.Final&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>2.服务器端代码演示</p>
+<pre><code>/**
+ * netty 服务端测试
+ */
+public class MainTestServer {
+    public static void main(String[] args) {
+        // 启动器， 负责组装netty组件 启动服务器
+        new ServerBootstrap()
+                // BossEventLoop WorkEventLoop 每个 EventLoop 就是 一个选择器 + 一个线程
+                .group(new NioEventLoopGroup())
+                // 选择服务器 ServerSocketChannel 具体实现
+                .channel(NioServerSocketChannel.class)
+                // 决定了 workEventLoop 能做那些操作
+                .childHandler(
+                        // 建立连接后会被调用； 作用： 初始化 + 添加其他的 handler
+                        new ChannelInitializer&lt;NioSocketChannel&gt;() {
+                    // 当客户端请求发过来时 才会调用
+                    @Override 
+                    protected void initChannel(NioSocketChannel channel) throws Exception {
+                        channel.pipeline().addLast(new StringDecoder());
+                        // 自定义handler 
+                        channel.pipeline().addLast(new ChannelInboundHandlerAdapter() {
+                            @Override
+                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                                System.out.println(&quot;服务器端接收数据：&quot; + msg);
+                            }
+                        });
+                    }
+                })
+                // 绑定监听端口
+                .bind(8090);
+    }
+}
+</code></pre><p>3.客户端代码演示</p>
+<pre><code>/**
+ * netty 客户端测试
+ */
+public class MainTestClient {
+    public static void main(String[] args) throws InterruptedException {
+        new Bootstrap()
+                .group(new NioEventLoopGroup())
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer&lt;NioSocketChannel&gt;() {
+                    // 初始化 在与服务器建立链接的时候 调用
+                    @Override
+                    protected void initChannel(NioSocketChannel channel) throws Exception {
+                        // 添加编码器 只有当向服务端发送请求数据时 才会执行
+                        channel.pipeline().addLast(new StringEncoder());
+                    }
+                })
+                .connect(new InetSocketAddress(&quot;127.0.0.1&quot;, 8090))
+                //阻塞方法，直到与服务器端连接建立
+                .sync()
+                .channel()
+                // 向服务器端发送数据
+                .writeAndFlush(&quot;hello word&quot;);
+    }
+}
+</code></pre></div>
                     <div class="post_footer">
                         
                         <div class="meta">
