@@ -691,8 +691,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#string%e5%b8%b8%e9%87%8f%e6%b1%a0">
-                    String常量池
+                <a class="nav-link text-left" href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%b8%b8%e9%87%8f%e6%b1%a0">
+                    字符串常量池
                 </a>
             </li>
             
@@ -1656,34 +1656,108 @@ JDK1.7之前方法区位于堆内存中的永久代.由于一些原因在JDK1.8�
 此时不再是常量池中的符号地址了，这里换为真实地址。</p>
 <p>运行时常量池内容包含了Class常量池中的常量和字符串常量池中的内容.
 运行时常量池，相对于Class文件常量池的另一重要特征是：具备动态性。</p>
-<h4 id="string常量池">String常量池</h4>
+<h4 id="字符串常量池">字符串常量池</h4>
 <p>在JVM中，为了减少相同的字符串的重复创建，为了达到节省内存的目的。会单独开辟一块内存，用于保存字符串常量，这个内存区域被叫做字符串常量池.</p>
 <p>字符串常量池保存着所有字符串字面量,这些字面量在编译时期就确定.</p>
-<h5 id="intern">intern()</h5>
-<p><code>intern</code>方法作用:
-<strong>当一个字符串调用 <code>intern()</code> 方法时，如果 String Pool 中已经存在一个字符串和该字符串值相等（使用 <code>equals()</code>方法进行确定），那么就会返回 String Pool 中字符串的引用；否则，就会在 String Pool 中添加一个新的字符串，并返回这个新字符串的引用.</strong></p>
+<h5 id="内存分配">内存分配</h5>
+<p>不同版本JDK内存分配情况：</p>
+<ul>
+<li>Java 6及以前，字符串常量池存放在永久代</li>
+<li>Java 7将字符串常量池的位置调整到Java堆内</li>
+</ul>
+<p><strong>字符串常量池为什么要调整位置？</strong></p>
+<p>JDK7中将字符串常量池放到了堆空间中。因为对永久代的回收效率很低，只有在Full GC的时候才会触发。</p>
+<p>Full GC 是老年代的空间不足、永久代不足时才会触发。
+这就导致字符串常量池回收效率不高。而我们开发中会有大量的字符串被创建，回收效率低，导致永久代内存不足。
+所以JDK7之后将字符串常量池放到堆里，能及时回收内存，避免出现<code>OOM</code>错误。</p>
+<p>简单说来：</p>
+<ul>
+<li>永久代垃圾回收频率低；而字符串使用频率比较高，不能及时回收字符串，会导致导致永久代内存不足。</li>
+<li>永久代的默认比较小；因字符串大量使用，所以会导致<code>OOM</code>(<code>OutOfMemoryError </code>)错误。</li>
+</ul>
+<p><strong>如何证明Java8中的字符串常量池方到了堆中？</strong></p>
+<p>代码演示：</p>
+<pre><code>public class MainTest {
+    // 虚拟机参数： -Xmx6m -Xms6m -XX:MetaspaceSize=10m -XX:MaxMetaspaceSize=10m
+    public static void main(String[] args) {
+        HashSet&lt;String&gt; hashSet = new HashSet&lt;&gt;();
+        short i = 0;
+        while (true) {
+            hashSet.add(String.valueOf(i++).intern());
+        }
+    }
+}
+</code></pre><p>抛出异常证明Java8中的字符串常量池方到了堆中</p>
+<pre><code>Exception in thread &quot;main&quot; java.lang.OutOfMemoryError: Java heap space
+</code></pre><h5 id="intern方法">intern方法</h5>
+<p>intern是一个native方法，调用的是底层C的方法</p>
+<pre><code>    /**
+     * Returns a canonical representation for the string object.
+     * &lt;p&gt;
+     * A pool of strings, initially empty, is maintained privately by the
+     * class {@code String}.
+     * &lt;p&gt;
+     * When the intern method is invoked, if the pool already contains a
+     * string equal to this {@code String} object as determined by
+     * the {@link #equals(Object)} method, then the string from the pool is
+     * returned. Otherwise, this {@code String} object is added to the
+     * pool and a reference to this {@code String} object is returned.
+     * &lt;p&gt;
+     * It follows that for any two strings {@code s} and {@code t},
+     * {@code s.intern() == t.intern()} is {@code true}
+     * if and only if {@code s.equals(t)} is {@code true}.
+     * &lt;p&gt;
+     * All literal strings and string-valued constant expressions are
+     * interned. String literals are defined in section 3.10.5 of the
+     * &lt;cite&gt;The Java&amp;trade; Language Specification&lt;/cite&gt;.
+     *
+     * @return  a string that has the same contents as this string, but is
+     *          guaranteed to be from a pool of unique strings.
+     */
+    public native String intern();
+</code></pre><p><code>intern</code>方法文档注释大意是：字符串池最初是空的，由String类私有地维护。在调用intern方法时，如果池中已经包含了由equals(object)方法确定的与该字符串对象相等的字符串，则返回池中的字符串。
+否则，该字符串对象将被添加到池中，并返回对该字符串对象的引用。</p>
+<p><strong>当一个字符串调用 <code>intern()</code> 方法时，如果 String Pool 中已经存在一个字符串和该字符串值相等（使用 <code>equals()</code>方法进行确定），那么就会返回 String Pool 中字符串的引用；否则，就会在 String Pool 中添加一个新的字符串，并返回这个新字符串的引用.</strong></p>
 <p>下面示例中，s1 和 s2 采用<code> new String()</code> 的方式新建了两个不同字符串，而 s3 和 s4 是通过 <code>s1.intern()</code> 方法取得一个字符串引用。<code>intern()</code> 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。</p>
-<pre><code>String s1 = new String(&quot;aaa&quot;);
-String s2 = new String(&quot;aaa&quot;);
-System.out.println(s1 == s2);           // false
-String s3 = s1.intern();
-String s4 = s1.intern();
-System.out.println(s3 == s4);           // true
-</code></pre><p>如果是采用&quot;bbb&quot;这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中。</p>
-<pre><code>String s5 = &quot;bbb&quot;;
-String s6 = &quot;bbb&quot;;
-System.out.println(s5 == s6);  // true
-</code></pre><p>在 Java 7 之前，String Pool 被放在运行时常量池中，它属于永久代。(方法区)而在 Java 7，String Pool 被移到堆中。这是因为永久代的空间有限，在大量使用字符串的场景下会导致<code>OOM</code>(<code>OutOfMemoryError </code>)错误。</p>
-<p><strong>上面的示例说明了可以使用 String的<code>intern()</code>方法在运行过程中将字符串添加到字符串常量池中。</strong></p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        String s1 = new String(&quot;aaa&quot;);
+        String s2 = new String(&quot;aaa&quot;);
+        System.out.println(s1 == s2);           // false
+        String s3 = s1.intern();
+        String s4 = s1.intern();
+        System.out.println(s3 == s4);           // true
+    }
+}
+</code></pre><p>上面的示例说明了可以使用 String的<code>intern()</code>方法在程序运行过程中将字符串添加到字符串常量池中。</p>
 <h5 id="经典案例">经典案例</h5>
-<p>String常量池常考的一个问题就是<code>new String(&quot;abc&quot;)</code>会创建几个对象?</p>
+<p><strong>String常量池常考的一个问题就是<code>new String(&quot;abc&quot;)</code>会创建几个对象?</strong></p>
 <p>答案: 两个字符串对象(前提是 String常量池中还没有 &ldquo;abc&rdquo; 字符串对象).</p>
 <ul>
 <li>&ldquo;abc&rdquo; 属于字符串字面量，因此编译时期会在 String 常量池 中创建一个字符串对象，指向这个 &ldquo;abc&rdquo; 字符串字面量;</li>
 <li>而使用 new 的方式会在堆中创建一个字符串对象。</li>
 </ul>
-<pre><code>// 创建一个测试类，其 main 方法中使用这种方式来创建字符串对象。
-public class MainTest {
+<p>String 构造文档注释：</p>
+<p>以下是 JDK8 中 String 构造函数的源码，代码注释大意是：</p>
+<blockquote>
+<p>初始化新创建的String对象，使其表示与实参相同的字符序列;换句话说，新创建的字符串是实参字符串的副本。
+除非需要显式复制形参的值，否则没有必要使用这个构造函数，因为字符串是不可变的。</p>
+</blockquote>
+<pre><code>/**
+ * Initializes a newly created {@code String} object so that it represents
+ * the same sequence of characters as the argument; in other words, the
+ * newly created string is a copy of the argument string. Unless an
+ * explicit copy of {@code original} is needed, use of this constructor is
+ * unnecessary since Strings are immutable.
+ *
+ */
+public String(String original) {
+    this.value = original.value;
+    this.hash = original.hash;
+}
+</code></pre><p>字节码分析：</p>
+<p>创建一个测试类，其 main 方法中使用这种方式来创建字符串对象。</p>
+<pre><code>public class MainTest {
     public static void main(String[] args) {
         String s = new String(&quot;abc&quot;);
     }
@@ -1710,11 +1784,54 @@ Constant pool:
          6: invokespecial #4                  // Method java/lang/String.&quot;&lt;init&gt;&quot;:(Ljava/lang/String;)V
          9: astore_1
 // ...
-</code></pre><p>在 <code>Constant Pool</code> 中，#19 存储这字符串字面量 <code>&quot;abc&quot;</code>，#3 是 String Pool 的字符串对象，它指向 <code>#19</code> 这个字符串字面量。在 <code>main</code> 方法中，<code>0:</code> 行使用 <code>new #2</code> 在堆中创建一个字符串对象，并且使用 <code>ldc #3</code> 将 String Pool 中的字符串对象作为 String 构造函数的参数。</p>
-<p>以下是 String 构造函数的源码，可以看到，在将一个字符串对象作为另一个字符串对象的构造函数参数时，并不会完全复制 value 数组内容，而是都会指向同一个 value 数组。</p>
-<pre><code>public String(String original) {
-    this.value = original.value;
-    this.hash = original.hash;
+</code></pre><p>在 <code>Constant Pool</code> 中，#19 存储这字符串字面量 <code>&quot;abc&quot;</code>，#3 是 String Pool 的字符串对象，它指向 <code>#19</code> 这个字符串字面量。
+在 <code>main</code> 方法中，<code>0:</code> 行使用 <code>new #2</code> 在堆中创建一个字符串对象，并且使用 <code>ldc #3</code> 将 String Pool 中的字符串对象作为 String 构造函数的参数。
+所以能看到使用<code>new String()</code> 的方式创建字符串是创建两个对象。</p>
+<p><strong><code>new String(&quot;a&quot;) + new String(&quot;b&quot;)</code> 会创建几个对象？</strong></p>
+<p>答案：会创建6个对象：</p>
+<ul>
+<li>对象1：因为存在用&quot;+&ldquo;连接，所以从字节码角度分析会产生<code>new StringBuilder()</code>对象；</li>
+<li>对象2：<code>new String(&quot;a&quot;)</code>会从堆空间创建一个对象；</li>
+<li>对象3：常量池的 a ；</li>
+<li>对象4：<code>new String(&quot;b&quot;)</code> 会从堆空间创建一个对象；</li>
+<li>对象5：常量池的 b；</li>
+<li>对象6：从字节码角度分析，通过<code>new StringBuilder().append()</code>添加完字符串后，会通过<code>StringBuilder.toString()</code>中会创建一个 <code>new String(&quot;ab&quot;)</code>；
+但是调用<code>toString()</code>方法，不会在常量池中生成ab字符串；</li>
+</ul>
+<p>也可跟上面的代码一样从字节码角度进行分析，这里不做过多分析。</p>
+<p><strong>扩展：在JDK1.6/JDK1.7中下列代码执行结果不同</strong></p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        String s3 = new String(&quot;1&quot;) + new String(&quot;1&quot;); // ==&gt; new String(&quot;11&quot;); 并不会在字符串常量池创建 &quot;11&quot;
+        s3.intern(); // &quot;11&quot;不在字符串常量池中 ，把&quot;11&quot;放入字符串常量池中
+        String s4 = &quot;11&quot;; // 获取字符串常量池的引用，因为JVM为了节省空间进行优化，在字符串常量池中的对象只保留了引用堆中对象的地址，而并不是创建了一个真正的对象；通过地址获取堆中的对象
+        System.out.println(s3 == s4); // JDK1.6: false   JDK1.7: true
+    }
+}
+</code></pre><p>原因是因为字符串常量池在JDK1.7的时候被放在了堆中，而JDK1.6被放在了永久区中；</p>
+<p>JDK1.6创建对象被放在了永久区中的字符串常量池，并非堆中，JVM无法对其进行优化；
+在JDK1.7及之后，<code>new String(&quot;1)</code> 会在堆中创建一个对象并且会在字符串常量池中创建一个对象；
+因为在堆中已经创建了对象，JVM为了节省空间，在字符串常量池中的对象只保留了引用堆中对象的地址，而并不是创建了一个真正的对象；</p>
+<h5 id="注意">注意</h5>
+<p>字符串常量池是不会存储相同内容的字符串的。</p>
+<p>字符串常量池其实是一个固定大小的Hashtable;
+如果放进字符串常量池的string非常多，就会造成Hash冲突严重，从而导致链表会很长，而链表长了后直接会造成的影响就是当调用string.intern时性能会大幅下降。</p>
+<p>使用VM参数<code>-XX:StringTablesize</code>可设置字符串常量池的的长度；</p>
+<p>不同JDK版本字符串常量池的的长度：</p>
+<ul>
+<li>在JDK6中stringTable是固定的，为1009的长度，所以如果常量池中的字符串过多就会导致效率下降很快。<code>-XX:StringTablesize</code>设置没有要求，可随意设置；</li>
+<li>在JDK中，stringTable的长度默认值是60013；<code>-XX:StringTablesize</code>设置没有要求，可随意设置；</li>
+<li>在JDK8中，StringTable可以设置的最小值为1009;stringTable的长度默认值是60013；</li>
+</ul>
+<p>可以配置不同版本的JRE，运行下列代码，然后使用 <code>jsp(获取程序进程ID) -&gt; jinfo -flag StringTableSize 进程ID</code>命令进行查看stringTableSize</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        try {
+            Thread.sleep(1000000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
 </code></pre><h4 id="为什么需要常量池">为什么需要常量池</h4>
 <p>一个Java源文件中的类、接口，编译后产生一个字节码文件。
@@ -1772,9 +1889,28 @@ The encoding flag will indicate which encoding is used.</p>
 如果存放的不是拉丁文则需要占两个字节，所以还需要加上编码标记。</p>
 <p>基于String的数据结构，<code>StringBuffer</code>和<code>StringBuilder</code>也同样做了修改</p>
 <h3 id="不可变性">不可变性</h3>
-<p><strong>value数组被声明为<code>final</code>，这意味着value数组初始化之后就不能再引用其它数组。
-并且 String 内部没有改变 value 数组的方法，因此可以保证<code>String</code>不可变.</strong></p>
-<p>String是Java中一个不可变的类，所以他一旦一个string对象在内存(堆)中被创建出来，他就无法被修改。<strong>特别要注意的是，String类的所有方法都没有改变字符串本身的值，都是返回了一个新的对象。字符串不可变的根本原因应是处于安全性考虑。</strong></p>
+<p>value数组被声明为<code>final</code>，这意味着value数组初始化之后就不能再引用其它数组。
+并且 String 内部没有改变 value 数组的方法，因此可以保证<code>String</code>不可变；
+String是Java中一个不可变的类，所以他一旦一个string对象在内存(堆)中被创建出来，他就无法被修改。</p>
+<p>下面代码说明String是不可变的：</p>
+<pre><code>public class MainTest {
+    String str = new String(&quot;good&quot;);
+    char [] ch = {'t','e','s','t'};
+
+    public void change(String str, char ch []) {
+        str = &quot;test ok&quot;;
+        System.out.println( &quot;chanage方法里str=&quot; + str); // chanage方法里str=test ok
+        ch[0] = 'b';
+    }
+
+    public static void main(String[] args) {
+        MainTest ex = new MainTest();
+        ex.change(ex.str, ex.ch);
+        System.out.println(ex.str); // good
+        System.out.println(ex.ch);// best
+    }
+}
+</code></pre><p><strong>特别要注意的是，String类的所有方法都没有改变字符串本身的值，都是返回了一个新的对象。字符串不可变的根本原因应是处于安全性考虑。</strong></p>
 <p>不可变性优点：</p>
 <ol>
 <li>可以缓存 hash 值</li>
@@ -1809,7 +1945,7 @@ String str3 = str1;
                    &quot; %d, 字符串变量: &quot; +
                    &quot; %s&quot;, 1.0f, 1, &quot;1&quot;);
 System.out.println(str);
-</code></pre><p><strong>String 直接创建的字符串存储在String常量池中，而 new 创建的字符串对象在堆上.</strong></p>
+</code></pre><p><strong>通过字面量的方式（区别于new）给一个字符串赋值,存储在String常量池中，而 new 创建的字符串对象在堆上.</strong></p>
 <h4 id="连接字符串">连接字符串</h4>
 <p><strong>因为String类是不可变的.所以所谓字符串拼接，都是重新生成了一个新的字符串.</strong></p>
 <p>以下是字符串的几种拼接的方式</p>
@@ -1852,7 +1988,7 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
 // Java8提供的String.join方法和`apache.commons`方法相似.
 // 主要作用是将数组或集合以某拼接符拼接到一起形成新的字符串
 
-</code></pre><h5 id="连接字符串-1">&ldquo;+&ldquo;连接字符串</h5>
+</code></pre><h5 id="拼接字符串">拼接字符串</h5>
 <p>拼接字符串最简单的方式就是直接使用符号+来拼接. + 是Java提供的一个语法糖.</p>
 <blockquote>
 <p>语法糖：语法糖（Syntactic sugar），也译为糖衣语法，是由英国计算机科学家彼得·兰丁发明的一个术语，指计算机语言中添加的某种语法，这种语法对语言的功能没有影响，但是更方便程序员使用。语法糖让程序更加简洁，有更高的可读性。</p>
@@ -1861,6 +1997,7 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
         String str = &quot;12&quot; + &quot;3&quot;;
     }
 </code></pre><p>两个都为编译期常量,编译器会进行常量折叠变为<code>String str = &quot;123&quot;;</code></p>
+<p>如果拼接符号的前后出现了变量，则相当于在堆空间中<code>new String()</code>（这里的堆指的是除了字符串常量池外的区域），具体的内容为拼接的结果.</p>
 <pre><code>    public static void main(String[] args) {
         String str1 = &quot;123&quot;;
         String str2 = &quot;456&quot;;
@@ -1868,7 +2005,7 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
         System.out.println(str3);
     }
 </code></pre><p>打开文件所在位置,用<code>javap -verbose</code>命令进行反编译.</p>
-<pre><code class="language-byte" data-lang="byte">// ...
+<pre><code>// ...
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
@@ -1893,7 +2030,21 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
         32: return
       // ...
 
-</code></pre><p><strong>在字符串拼接过程中,是将String转成了<code>StringBuilder</code>后，使用其<code>append</code>方法进行处理的.</strong></p>
+</code></pre><p>可以看到<strong>在字符串拼接过程中,是将String转成了<code>StringBuilder</code>后，使用其<code>append</code>方法进行拼接字符串处理的.最后在去调用<code>StringBuilder</code>的<code>toString</code>方法进行返回</strong></p>
+<blockquote>
+<p>在JDK5之后，使用的是StringBuilder，在JDK5之前使用的是StringBuffer</p>
+</blockquote>
+<p>但是如果使用final修饰String变量时，在VM编译过程中，仍然被编译器优化；</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        final String a = &quot;1&quot;;
+        final String b = &quot;2&quot;;
+        String ab = a + b; // 在class文件中会优化为: String ab = 12;
+        String ab0 = &quot;12&quot;;
+        System.out.println(ab == ab0);
+    }
+}
+</code></pre><p>在开发中，能够使用final的时候，建议使用上。</p>
 <h5 id="concat方法">concat方法</h5>
 <p>源码</p>
 <pre><code>    public String concat(String str) {
@@ -1914,7 +2065,7 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
         return new String(buf, true);
     }
 </code></pre><h5 id="stringbuffer和stringbuilder">StringBuffer和StringBuilder</h5>
-<p>在<code>Stringbuilder</code>和<code>StringBuffer</code>共同的父类中</p>
+<p><code>Stringbuilder</code>和<code>StringBuffer</code>共同的父类：</p>
 <pre><code>abstract class AbstractStringBuilder implements Appendable, CharSequence {
     /**
      * The value is used for character storage.
@@ -1972,20 +2123,37 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
         count += len;
         return this;
     }
-</code></pre><p>和 String 类不同的是，<code>StringBuffer</code> 和 <code>StringBuilder</code> 类的对象能够被多次的修改，并且不产生新的未使用对象。</p>
-<p>如果你需要一个可修改的字符串，应该使用<code>StringBuffer</code> 或者 <code>StringBuilder</code>。否则会有大量时间浪费在垃圾回收上，因为每次试图修改都有新的<code>String</code>对象被创建出来.</p>
+</code></pre><p>与 String 类不同的是，<code>StringBuffer</code> 和 <code>StringBuilder</code> 类的对象能够被多次的修改，并且不产生新的未使用对象。</p>
+<p>如果你需要一个可修改的字符串，应该使用<code>StringBuffer</code> 或者 <code>StringBuilder</code>。但是会有大量时间浪费在垃圾回收上，因为每次试图修改都有新的<code>String</code>对象被创建出来.</p>
 <h5 id="比较和使用">比较和使用</h5>
 <p>时间比较(短-&gt;长):</p>
 <p><code>StringBuilder</code>&lt;<code>StringBuffer</code>&lt;<code>concat</code>&lt;<code>+</code>&lt;<code>StringUtils.join</code></p>
 <p>使用注意:</p>
 <ul>
 <li>
-<p>如果不是在<strong>循环体中</strong>进行字符串拼接的话,直接使用+就好了,如果在循环体内使用&rdquo;+&ldquo;拼接字符串对象会在每一次循环都会创建<code>StringBuilder</code>对象,导致程序效率降低.</p>
-</li>
-<li>
 <p>如果在并发场景中进行字符串拼接的话,要使用<code>StringBuffer</code>来代替<code>StringBuilder</code>.</p>
 </li>
+<li>
+<p>如果不是在循环体中进行字符串拼接的话,直接使用+就好了,如果在循环体内使用&quot;+&ldquo;拼接字符串对象会在每一次循环都会创建<code>StringBuilder</code>对象,导致程序效率降低.
+如下代码：</p>
+</li>
 </ul>
+<pre><code>    public static void method1(int highLevel) {
+        String src = &quot;&quot;;
+        for (int i = 0; i &lt; highLevel; i++) {
+            src += &quot;a&quot;; // 每次循环都会创建一个StringBuilder对象
+        }
+    }
+
+    public static void method2(int highLevel) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; highLevel; i++) {
+            sb.append(&quot;a&quot;);
+        }
+    }
+</code></pre><p>通过<code>StringBuilder</code>的<code>append()</code>方式添加字符串的效率，要远远高于<code>String</code>的字符串拼接方法.</p>
+<p>在实际开发中还可以进行优化，<code>StringBuilder</code> 的空参构造器，默认的字符串容量是16,如果需要存放的数据过多，容量就会进行扩容，我们可以设置默认初始化更大的长度，来减少扩容的次数。</p>
+<p>如果我们能够确定，前前后后需要添加的字符串不高于某个限定值，那么建议使用构造器创建一个阈值的长度。</p>
 <h4 id="常用方法">常用方法</h4>
 <p>基于Java8整理.如果查看其他方法请参照<a href="https://docs.oracle.com/javase/8/docs/api/index.html">Java8API官方文档</a> <code>java.lang.String</code></p>
 <h5 id="substring">substring</h5>
@@ -2240,7 +2408,7 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
         ++this.nerrs;
     }
 }
-</code></pre><p>可以看到程序中如果<code>String</code>长度大于等于65535会导致编译失败</p>
+</code></pre><p>可以看到源码中如果<code>String</code>长度大于等于65535会导致编译失败</p>
 <p>在编译期的时候,字面量要进字符串常量池.所以要遵守<a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.3">《Java®虚拟机规范》(Java8)中对String常量池的描述.</a></p>
 <p><code>CONSTANT_String_info</code> 用于表示 <code>java.lang.String</code> 类型的常量对象结构体</p>
 <p><code>CONSTANT_String_info</code>格式如下:</p>
