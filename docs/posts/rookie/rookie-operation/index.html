@@ -1821,7 +1821,6 @@ public class PassByValueExample {
 </code></pre><p>因为计算机中存储一个浮点类型所用的位数是有限的,所以遇到无限循环的小数,只能选择在某个精度进行保存.</p>
 <p><strong>由于计算机中保存的小数其实是十进制的小数的近似值，并不是准确值，所以，千万不要在代码中使用浮点数来表示金额等重要的指标。</strong></p>
 <h3 id="bigdecimal">BigDecimal</h3>
-<p><code>BigDecimal</code>由任意精度的整数非标度值和32位的整数标度 <code>scale</code>组成。如果为零或正数，则标度是小数点后的位数。如果为负数，则将该数的非标度值乘以 10 的负<code>scale</code> 次幂。因此,<code>BigDecimal</code>表示的数值是<code>unscaledValue × 10-scale</code>.</p>
 <blockquote>
 <p>Java在<code>java.math</code>包中提供的API类<code>BigDecimal</code>，用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数。<strong>在实际应用中，需要对更大或者更小的数进行运算和处理。<code>float</code>和<code>double</code>只能用来做科学计算或者是工程计算，在商业计算中要用<code>java.math.BigDecimal</code>。</strong> <code>BigDecimal</code>所创建的是对象，我们不能使用传统的<code>+、-、*、/</code>等算术运算符直接对其对象进行数学运算，而必须调用其相对应的方法。方法中的参数也必须是<code>BigDecimal</code>的对象。构造器是类的特殊方法，专门用来创建对象，特别是带有参数的对象.</p>
 </blockquote>

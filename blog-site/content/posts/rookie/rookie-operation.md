@@ -966,9 +966,6 @@ PS: 小数如何转二进制
 
 
 ### BigDecimal
-
-`BigDecimal`由任意精度的整数非标度值和32位的整数标度 `scale`组成。如果为零或正数，则标度是小数点后的位数。如果为负数，则将该数的非标度值乘以 10 的负`scale` 次幂。因此,`BigDecimal`表示的数值是`unscaledValue × 10-scale`.
-
 > Java在`java.math`包中提供的API类`BigDecimal`，用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数。**在实际应用中，需要对更大或者更小的数进行运算和处理。`float`和`double`只能用来做科学计算或者是工程计算，在商业计算中要用`java.math.BigDecimal`。** `BigDecimal`所创建的是对象，我们不能使用传统的`+、-、*、/`等算术运算符直接对其对象进行数学运算，而必须调用其相对应的方法。方法中的参数也必须是`BigDecimal`的对象。构造器是类的特殊方法，专门用来创建对象，特别是带有参数的对象.
 
 Java中提供了大数字(超过16位有效位)的操作类,即`java.math.BinInteger`类和`java.math.BigDecimal`类,用于高精度计算.

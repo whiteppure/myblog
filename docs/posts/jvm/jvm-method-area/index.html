@@ -1025,7 +1025,7 @@ class Test {
 <p><img src="/myblog/posts/images/essays/Jdk1.7%E6%96%B9%E6%B3%95%E5%8C%BA%E5%8F%98%E5%8C%96.png" alt="Jdk1.7方法区变化"></p>
 <p><img src="/myblog/posts/images/essays/Jdk1.8%E6%96%B9%E6%B3%95%E5%8C%BA%E5%8F%98%E5%8C%96.png" alt="Jdk1.8方法区变化"></p>
 <h4 id="为什么永久代要被元空间替代">为什么永久代要被元空间替代</h4>
-<p>根据官方的解释：替代<code>JRockit</code>是和<code>HotSpot</code>融合后的结果，因为<code>JRockit</code>没有永久代，所以<code>hotspot</code>用元空间替代了永久代。</p>
+<p>根据官方的解释：替代是<code>JRockit</code>和<code>HotSpot</code>融合后的结果，因为<code>JRockit</code>没有永久代，所以<code>hotspot</code>用元空间替代了永久代。</p>
 <p>由于类的元数据分配在本地内存中，元空间的最大可分配空间就是系统可用内存空间，这项改动是很有必要的，原因有：</p>
 <ul>
 <li>

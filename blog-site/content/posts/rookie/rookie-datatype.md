@@ -685,15 +685,15 @@ public class SimpleClass {
 避免了相同内容的字符串的创建，节省了内存，省去了创建相同字符串的时间，同时提升了性能.
 
 ## String 类
-
-
-### 概览
 String是Java中一个比较基础的类.广泛应用 在 Java 编程中，在Java中字符串属于对象，Java 提供了 String 类来创建和操作字符串.
 
-String被声明为`final`,因此它不可被继承.(当然Integer等包装类也不能被继承)
+String被声明为`final`,因此它不可被继承(当然Integer等包装类也不能被继承)；
+
+String实现了Serializable接口：表示字符串是支持序列化的。实现了Comparable接口：表示string可以比较大小；
+
+### 为什么JDK9改变了存储结构
 
 **在 Java 8 中，String 内部使用 char 数组存储数据。**
-
 ```
 public final class String
     implements java.io.Serializable, Comparable<String>, CharSequence {
@@ -703,7 +703,6 @@ public final class String
 ```
 
 **在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 coder 来标识使用了哪种编码。**
-
 ```
 public final class String
     implements java.io.Serializable, Comparable<String>, CharSequence {
@@ -715,31 +714,56 @@ public final class String
 }
 ```
 
-**value数组被声明为`final`，这意味着value数组初始化之后就不能再引用其它数组。并且 String 内部没有改变 value 数组的方法，因此可以保证`String`不可变.**
+[那么为什么要改变内存存储结构呢？](http://openjdk.java.net/jeps/254)
+官方的解释：
+> The current implementation of the String class stores characters in a char array, using two bytes (sixteen bits) for each character. 
+Data gathered from many different applications indicates that strings are a major component of heap usage and,
+moreover, that most String objects contain only Latin-1 characters. Such characters require only one byte of storage,
+hence half of the space in the internal char arrays of such String objects is going unused.
+>
+>We propose to change the internal representation of the String class from a UTF-16 char array to a byte array plus an encoding-flag field.
+The new String class will store characters encoded either as ISO-8859-1/Latin-1 (one byte per character), 
+or as UTF-16 (two bytes per character), based upon the contents of the string. 
+The encoding flag will indicate which encoding is used.
+
+大意：String类的当前实现将字符存储在char数组中，每个字符使用两个字节(16位)。
+从许多不同的应用程序收集的数据表明，字符串是堆使用的主要组成部分，而且，大多数字符串对象只包含拉丁字符。
+这些字符只需要一个字节的存储空间，因此这些字符串对象的内部char数组中有一半的空间将不会使用。
+
+我们建议将String类的内部表示从UTF-16字符数组更改为一个字节数组加上一个编码标志字段。
+新的String类将根据字符串的内容存储编码为ISO-8859-1/Latin-1(每个字符一个字节)或UTF-16(每个字符两个字节)的字符。
+编码标志将指示所使用的编码。
+
+简单说来就是用char数组存，有些数据占不了两个字节，所以为了节约资源改成byte数组存放；
+如果存放的不是拉丁文则需要占两个字节，所以还需要加上编码标记。
+
+基于String的数据结构，`StringBuffer`和`StringBuilder`也同样做了修改
+
+### 不可变性
+**value数组被声明为`final`，这意味着value数组初始化之后就不能再引用其它数组。
+并且 String 内部没有改变 value 数组的方法，因此可以保证`String`不可变.**
 
 String是Java中一个不可变的类，所以他一旦一个string对象在内存(堆)中被创建出来，他就无法被修改。**特别要注意的是，String类的所有方法都没有改变字符串本身的值，都是返回了一个新的对象。字符串不可变的根本原因应是处于安全性考虑。**
 
-### 不可变性优点
+不可变性优点：
 
-**1. 可以缓存 hash 值**
+1. 可以缓存 hash 值
 
 因为`String`的`hash`值经常被使用,像`Set、Map`结构中的 key 值也需要用到`HashCode`来保证唯一性和一致性，因此不可变的 `HashCode` 才是安全可靠的
 
-**2. String常量池的需要**
+2. String常量池的需要
 
 字符串常量池的基础就是字符串的不可变性，如果字符串是可变的，那想一想，常量池就没必要存在了。
 如果一个 `String` 对象已经被创建过了，那么就会从`String常量池中取得引用。只有`String`是不可变的，才可能使用 String常量池。
 
-**3. 安全性**
+3. 安全性
 
 `String`经常作为参数,`String`不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果`String`是可变的，那么在网络连接过程中，`String`被改变，改变`String`对象的那一方以为现在连接的是其它主机,而实际情况却不一定是.
-
 实际项目中会用到,比如数据库连接串、账号、密码等字符串，只有不可变的连接串、用户名和密码才能保证安全性.
 
-**4. 线程安全**
+4. 线程安全
 
 字符串在 Java 中的使用频率可谓高之又高，那在高并发的情况下不可变性也使得对字符串的读写操作不用考虑多线程竞争的情况.
-
 String不可变性天生具备线程安全,可以在多个线程中安全地使用.
 
 
@@ -959,8 +983,7 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 如果你需要一个可修改的字符串，应该使用`StringBuffer` 或者 `StringBuilder`。否则会有大量时间浪费在垃圾回收上，因为每次试图修改都有新的`String`对象被创建出来.
 
 ##### 比较和使用
-
-时间比较(短-->长):
+时间比较(短->长):
 
 `StringBuilder`<`StringBuffer`<`concat`<`+`<`StringUtils.join`
 
@@ -968,13 +991,10 @@ abstract class AbstractStringBuilder implements Appendable, CharSequence {
 
 - 如果不是在**循环体中**进行字符串拼接的话,直接使用+就好了,如果在循环体内使用"+"拼接字符串对象会在每一次循环都会创建`StringBuilder`对象,导致程序效率降低.
 
-
 - 如果在并发场景中进行字符串拼接的话,要使用`StringBuffer`来代替`StringBuilder`.
 
 #### 常用方法
-
-本文是基于Java8整理的.
-如果查看其他方法请参照[Java8API官方文档](https://docs.oracle.com/javase/8/docs/api/index.html) `java.lang.String`
+基于Java8整理.如果查看其他方法请参照[Java8API官方文档](https://docs.oracle.com/javase/8/docs/api/index.html) `java.lang.String`
 
 ##### substring
 对字符串进行截取.返回一个新的字符串,它是此字符串的一个子字符串.

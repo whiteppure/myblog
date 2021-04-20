@@ -777,8 +777,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e6%a6%82%e8%a7%88">
-                    概览
+                <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88jdk9%e6%94%b9%e5%8f%98%e4%ba%86%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84">
+                    为什么JDK9改变了存储结构
                 </a>
             </li>
             
@@ -805,8 +805,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e4%b8%8d%e5%8f%af%e5%8f%98%e6%80%a7%e4%bc%98%e7%82%b9">
-                    不可变性优点
+                <a class="nav-link text-left" href="#%e4%b8%8d%e5%8f%af%e5%8f%98%e6%80%a7">
+                    不可变性
                 </a>
             </li>
             
@@ -1731,9 +1731,10 @@ Constant pool:
 <p>常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享.
 避免了相同内容的字符串的创建，节省了内存，省去了创建相同字符串的时间，同时提升了性能.</p>
 <h2 id="string-类">String 类</h2>
-<h3 id="概览">概览</h3>
 <p>String是Java中一个比较基础的类.广泛应用 在 Java 编程中，在Java中字符串属于对象，Java 提供了 String 类来创建和操作字符串.</p>
-<p>String被声明为<code>final</code>,因此它不可被继承.(当然Integer等包装类也不能被继承)</p>
+<p>String被声明为<code>final</code>,因此它不可被继承(当然Integer等包装类也不能被继承)；</p>
+<p>String实现了Serializable接口：表示字符串是支持序列化的。实现了Comparable接口：表示string可以比较大小；</p>
+<h3 id="为什么jdk9改变了存储结构">为什么JDK9改变了存储结构</h3>
 <p><strong>在 Java 8 中，String 内部使用 char 数组存储数据。</strong></p>
 <pre><code>public final class String
     implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence {
@@ -1749,20 +1750,51 @@ Constant pool:
     /** The identifier of the encoding used to encode the bytes in {@code value}. */
     private final byte coder;
 }
-</code></pre><p><strong>value数组被声明为<code>final</code>，这意味着value数组初始化之后就不能再引用其它数组。并且 String 内部没有改变 value 数组的方法，因此可以保证<code>String</code>不可变.</strong></p>
+</code></pre><p><a href="http://openjdk.java.net/jeps/254">那么为什么要改变内存存储结构呢？</a>
+官方的解释：</p>
+<blockquote>
+<p>The current implementation of the String class stores characters in a char array, using two bytes (sixteen bits) for each character.
+Data gathered from many different applications indicates that strings are a major component of heap usage and,
+moreover, that most String objects contain only Latin-1 characters. Such characters require only one byte of storage,
+hence half of the space in the internal char arrays of such String objects is going unused.</p>
+<p>We propose to change the internal representation of the String class from a UTF-16 char array to a byte array plus an encoding-flag field.
+The new String class will store characters encoded either as ISO-8859-1/Latin-1 (one byte per character),
+or as UTF-16 (two bytes per character), based upon the contents of the string.
+The encoding flag will indicate which encoding is used.</p>
+</blockquote>
+<p>大意：String类的当前实现将字符存储在char数组中，每个字符使用两个字节(16位)。
+从许多不同的应用程序收集的数据表明，字符串是堆使用的主要组成部分，而且，大多数字符串对象只包含拉丁字符。
+这些字符只需要一个字节的存储空间，因此这些字符串对象的内部char数组中有一半的空间将不会使用。</p>
+<p>我们建议将String类的内部表示从UTF-16字符数组更改为一个字节数组加上一个编码标志字段。
+新的String类将根据字符串的内容存储编码为ISO-8859-1/Latin-1(每个字符一个字节)或UTF-16(每个字符两个字节)的字符。
+编码标志将指示所使用的编码。</p>
+<p>简单说来就是用char数组存，有些数据占不了两个字节，所以为了节约资源改成byte数组存放；
+如果存放的不是拉丁文则需要占两个字节，所以还需要加上编码标记。</p>
+<p>基于String的数据结构，<code>StringBuffer</code>和<code>StringBuilder</code>也同样做了修改</p>
+<h3 id="不可变性">不可变性</h3>
+<p><strong>value数组被声明为<code>final</code>，这意味着value数组初始化之后就不能再引用其它数组。
+并且 String 内部没有改变 value 数组的方法，因此可以保证<code>String</code>不可变.</strong></p>
 <p>String是Java中一个不可变的类，所以他一旦一个string对象在内存(堆)中被创建出来，他就无法被修改。<strong>特别要注意的是，String类的所有方法都没有改变字符串本身的值，都是返回了一个新的对象。字符串不可变的根本原因应是处于安全性考虑。</strong></p>
-<h3 id="不可变性优点">不可变性优点</h3>
-<p><strong>1. 可以缓存 hash 值</strong></p>
+<p>不可变性优点：</p>
+<ol>
+<li>可以缓存 hash 值</li>
+</ol>
 <p>因为<code>String</code>的<code>hash</code>值经常被使用,像<code>Set、Map</code>结构中的 key 值也需要用到<code>HashCode</code>来保证唯一性和一致性，因此不可变的 <code>HashCode</code> 才是安全可靠的</p>
-<p><strong>2. String常量池的需要</strong></p>
+<ol start="2">
+<li>String常量池的需要</li>
+</ol>
 <p>字符串常量池的基础就是字符串的不可变性，如果字符串是可变的，那想一想，常量池就没必要存在了。
 如果一个 <code>String</code> 对象已经被创建过了，那么就会从<code>String常量池中取得引用。只有</code>String`是不可变的，才可能使用 String常量池。</p>
-<p><strong>3. 安全性</strong></p>
-<p><code>String</code>经常作为参数,<code>String</code>不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果<code>String</code>是可变的，那么在网络连接过程中，<code>String</code>被改变，改变<code>String</code>对象的那一方以为现在连接的是其它主机,而实际情况却不一定是.</p>
-<p>实际项目中会用到,比如数据库连接串、账号、密码等字符串，只有不可变的连接串、用户名和密码才能保证安全性.</p>
-<p><strong>4. 线程安全</strong></p>
-<p>字符串在 Java 中的使用频率可谓高之又高，那在高并发的情况下不可变性也使得对字符串的读写操作不用考虑多线程竞争的情况.</p>
-<p>String不可变性天生具备线程安全,可以在多个线程中安全地使用.</p>
+<ol start="3">
+<li>安全性</li>
+</ol>
+<p><code>String</code>经常作为参数,<code>String</code>不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果<code>String</code>是可变的，那么在网络连接过程中，<code>String</code>被改变，改变<code>String</code>对象的那一方以为现在连接的是其它主机,而实际情况却不一定是.
+实际项目中会用到,比如数据库连接串、账号、密码等字符串，只有不可变的连接串、用户名和密码才能保证安全性.</p>
+<ol start="4">
+<li>线程安全</li>
+</ol>
+<p>字符串在 Java 中的使用频率可谓高之又高，那在高并发的情况下不可变性也使得对字符串的读写操作不用考虑多线程竞争的情况.
+String不可变性天生具备线程安全,可以在多个线程中安全地使用.</p>
 <h3 id="使用">使用</h3>
 <h4 id="创建字符串">创建字符串</h4>
 <pre><code>// String 直接创建
@@ -1943,7 +1975,7 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
 </code></pre><p>和 String 类不同的是，<code>StringBuffer</code> 和 <code>StringBuilder</code> 类的对象能够被多次的修改，并且不产生新的未使用对象。</p>
 <p>如果你需要一个可修改的字符串，应该使用<code>StringBuffer</code> 或者 <code>StringBuilder</code>。否则会有大量时间浪费在垃圾回收上，因为每次试图修改都有新的<code>String</code>对象被创建出来.</p>
 <h5 id="比较和使用">比较和使用</h5>
-<p>时间比较(短&ndash;&gt;长):</p>
+<p>时间比较(短-&gt;长):</p>
 <p><code>StringBuilder</code>&lt;<code>StringBuffer</code>&lt;<code>concat</code>&lt;<code>+</code>&lt;<code>StringUtils.join</code></p>
 <p>使用注意:</p>
 <ul>
@@ -1955,8 +1987,7 @@ String str9 = StringUtils.join(new String[]{str, &quot;456&quot;, &quot;789&quot
 </li>
 </ul>
 <h4 id="常用方法">常用方法</h4>
-<p>本文是基于Java8整理的.
-如果查看其他方法请参照<a href="https://docs.oracle.com/javase/8/docs/api/index.html">Java8API官方文档</a> <code>java.lang.String</code></p>
+<p>基于Java8整理.如果查看其他方法请参照<a href="https://docs.oracle.com/javase/8/docs/api/index.html">Java8API官方文档</a> <code>java.lang.String</code></p>
 <h5 id="substring">substring</h5>
 <p>对字符串进行截取.返回一个新的字符串,它是此字符串的一个子字符串.</p>
 <p>源码</p>
