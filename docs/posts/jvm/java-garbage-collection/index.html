@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>垃圾回收 ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6">
+                    垃圾回收
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bb%80%e4%b9%88%e6%98%af%e5%9e%83%e5%9c%be">
+                    什么是垃圾
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6">
+                    为什么需要垃圾回收
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%97%a9%e6%9c%9f%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6">
+                    早期垃圾回收
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#java%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e6%9c%ba%e5%88%b6httpsdocsoraclecomjavase8docstechnotesguidesvmgctuningtochtml">
+                    Java垃圾回收机制
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e4%b8%bb%e8%a6%81%e5%85%b3%e6%b3%a8%e7%9a%84%e5%8c%ba%e5%9f%9f">
+                    垃圾回收主要关注的区域
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/jvm/java-garbage-collection/'>垃圾回收</a></h2>
+                        <span class="date">2021.04.21</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="垃圾回收">垃圾回收</h2>
+<p>垃圾收集，不是Java语言的伴生产物。早在1960年，第一门开始使用内存动态分配和垃圾收集技术的Lisp语言诞生。</p>
+<p>垃圾收集机制是Java的招牌能力，极大地提高了开发效率。
+如今，垃圾收集几乎成为现代语言的标配，即使经过如此长时间的发展，Java的垃圾收集机制仍然在不断的演进中，不同大小的设备、不同特征的应用场景，对垃圾收集提出了新的挑战，这当然也是面试的热点。</p>
+<h3 id="什么是垃圾">什么是垃圾</h3>
+<blockquote>
+<p>垃圾是指在运行程序中没有任何指针指向的对象，这个对象就是需要被回收的垃圾。</p>
+</blockquote>
+<p>如果不及时对内存中的垃圾进行清理，那么，这些垃圾对象所占的内存空间会一直保留到应用程序的结束，被保留的空间无法被其它对象使用，甚至可能导致<strong>内存溢出</strong>。</p>
+<h3 id="为什么需要垃圾回收">为什么需要垃圾回收</h3>
+<p>对于高级语言来说，一个基本认知是如果不进行垃圾回收，内存迟早都会被消耗完，因为不断地分配内存空间而不进行回收，就好像不停地生产生活垃圾而从来不打扫一样。</p>
+<p>除了释放没用的对象，垃圾回收也可以清除内存里的记录碎片。碎片整理将所占用的堆内存移到堆的一端，以便JVM将整理出的内存分配给新的对象。</p>
+<p>随着应用程序所应付的业务越来越庞大、复杂，用户越来越多，没有GC就不能保证应用程序的正常进行。而经常造成STW的GC又跟不上实际的需求，所以才会不断地尝试对GC进行优化。</p>
+<h3 id="早期垃圾回收">早期垃圾回收</h3>
+<p>在早期的C/C++时代，垃圾回收基本上是手工进行的。
+开发人员可以使用 <code>new</code> 关键字进行内存申请，并使用 <code>delete</code> 关键字进行内存释放。比如以下代码：</p>
+<pre><code>MibBridge *pBridge= new cmBaseGroupBridge();
+//如果注册失败，使用Delete释放该对象所占内存区域
+if(pBridge-&gt;Register (kDestroy) != NO ERROR）
+	delete pBridge;
+</code></pre><p>这种方式可以灵活控制内存释放的时间，但是会给开发人员带来频繁申请和释放内存的管理负担。</p>
+<p>倘若有一处内存区间由于程序员编码的问题忘记被回收，那么就会产生<strong>内存泄漏</strong>;
+垃圾对象永远无法被清除，随着系统运行时间的不断增长，垃圾对象所耗内存可能持续上升，直到出现内存溢出并造成应用程序崩溃。</p>
+<p>有了垃圾回收机制后，上述代码极有可能变成这样</p>
+<pre><code>MibBridge *pBridge=new cmBaseGroupBridge(); 
+pBridge-&gt;Register(kDestroy);
+</code></pre><p>现在，除了Java以外，C#、Python、Ruby等语言都使用了自动垃圾回收的思想，也是未来发展趋势，可以说这种自动化的内存分配和来及回收方式已经成为了线代开发语言必备的标准。</p>
+<h3 id="java垃圾回收机制httpsdocsoraclecomjavase8docstechnotesguidesvmgctuningtochtml"><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/toc.html">Java垃圾回收机制</a></h3>
+<p>自动内存管理，无需开发人员手动参与内存的分配与回收，这样降低<strong>内存泄漏</strong>和<strong>内存溢出</strong>的风险;
+没有垃圾回收器，java也会和c++一样，各种悬垂指针，野指针，泄露问题让你头疼不已。</p>
+<p>自动内存管理机制，将程序员从繁重的内存管理中释放出来，可以更专心地专注于业务开发.</p>
+<p>对于Java开发人员而言，自动内存管理就像是一个黑匣子，如果过度依赖于“自动”，那么这将会是一场灾难，最严重的就会弱化Java开发人员在程序出现内存溢出时定位问题和解决问题的能力。</p>
+<p>此时，了解JVM的自动内存分配和内存回收原理就显得非常重要，只有在真正了解JVM是如何管理内存后，我们才能够在遇见<code>outOfMemoryError</code>时，快速地根据错误异常日志定位问题和解决问题。</p>
+<p>当需要排查各种内存溢出、内存泄漏问题时，当垃圾收集成为系统达到更高并发量的瓶颈时，我们就必须对这些“自动化”的技术实施必要的监控和调节。</p>
+<h3 id="垃圾回收主要关注的区域">垃圾回收主要关注的区域</h3>
+<p>垃圾收集器主要对 方法区 、堆中的垃圾收集
+<img src="/myblog/posts/images/essays/GC%E4%BD%9C%E7%94%A8%E5%8C%BA%E5%9F%9F.png" alt="GC作用区域"></p>
+<p>垃圾收集器可以对年轻代回收，也可以对老年代回收，甚至是全栈和方法区的回收；
+其中，Java堆是垃圾收集器的工作重点。</p>
+<p>从次数上讲：频繁收集Young区 &gt; 较少收集old区 &raquo; 基本不收集永久区（元空间）</p>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                
+
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

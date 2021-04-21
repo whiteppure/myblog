@@ -640,9 +640,6 @@ intern是一个native方法，调用的是底层C的方法
      * All literal strings and string-valued constant expressions are
      * interned. String literals are defined in section 3.10.5 of the
      * <cite>The Java&trade; Language Specification</cite>.
-     *
-     * @return  a string that has the same contents as this string, but is
-     *          guaranteed to be from a pool of unique strings.
      */
     public native String intern();
 ```
@@ -664,7 +661,40 @@ public class MainTest {
     }
 }
 ```
-上面的示例说明了可以使用 String的``intern()``方法在程序运行过程中将字符串添加到字符串常量池中。
+上面的示例说明了可以使用 String的`intern()`方法在程序运行过程中将字符串添加到字符串常量池中。
+
+**空间效率测试**
+
+对于程序中大量使用存在的字符串时，尤其存在很多已经重复的字符串时，使用`intern()`方法能够节省内存空间。
+```
+public class MainTest {
+    static final int MAX_COUNT = 1000 * 10000;
+    static final String[] arr = new String[MAX_COUNT];
+
+    public static void main(String[] args) {
+        Integer [] data = new Integer[]{1,2,3,4,5,6,7,8,9,10};
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < MAX_COUNT; i++) {
+//            arr[i] = new String(String.valueOf(data[i%data.length])); // 花费的时间为：3074
+            arr[i] = new String(String.valueOf(data[i%data.length])).intern(); // 花费的时间为：1196
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("花费的时间为：" + (end - start));
+
+        try {
+            Thread.sleep(1000000);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        System.gc();
+    }
+}
+```
+不使用`intern`方法
+![不用intern方法测试](/myblog/posts/images/essays/不用intern方法测试.png)
+
+使用`intern`方法后
+![使用intern方法测试](/myblog/posts/images/essays/使用intern方法测试.png)
 
 
 ##### 经典案例
@@ -675,9 +705,8 @@ public class MainTest {
 - "abc" 属于字符串字面量，因此编译时期会在 String 常量池 中创建一个字符串对象，指向这个 "abc" 字符串字面量;
 - 而使用 new 的方式会在堆中创建一个字符串对象。
 
-String 构造文档注释：
 
-以下是 JDK8 中 String 构造函数的源码，代码注释大意是：
+以下是 JDK8 中 String 构造函数的源码，文档注释大意是：
 > 初始化新创建的String对象，使其表示与实参相同的字符序列;换句话说，新创建的字符串是实参字符串的副本。
 除非需要显式复制形参的值，否则没有必要使用这个构造函数，因为字符串是不可变的。
 
@@ -737,7 +766,7 @@ Constant pool:
 在 ``main`` 方法中，``0:`` 行使用 ``new #2`` 在堆中创建一个字符串对象，并且使用 ``ldc #3`` 将 String Pool 中的字符串对象作为 String 构造函数的参数。
 所以能看到使用`new String()` 的方式创建字符串是创建两个对象。
 
-**`new String("a") + new String("b")` 会创建几个对象？**
+**使用`new String("a") + new String("b")` 会创建几个对象？**
 
 答案：会创建6个对象：
 - 对象1：因为存在用"+"连接，所以从字节码角度分析会产生`new StringBuilder()`对象；
@@ -755,8 +784,11 @@ Constant pool:
 public class MainTest {
     public static void main(String[] args) {
         String s3 = new String("1") + new String("1"); // ==> new String("11"); 并不会在字符串常量池创建 "11"
-        s3.intern(); // "11"不在字符串常量池中 ，把"11"放入字符串常量池中
-        String s4 = "11"; // 获取字符串常量池的引用，因为JVM为了节省空间进行优化，在字符串常量池中的对象只保留了引用堆中对象的地址，而并不是创建了一个真正的对象；通过地址获取堆中的对象
+        // 在Jdk7及之后，JVM为了节省空间进行优化，在字符串常量池中的对象只保存了堆中对象的地址，而并不是创建了一个真正的对象；
+        // "11"不在字符串常量池中 ，把"11"放入字符串常量池中 因为堆中已经存在对象，JDK6在字符串池中保存的是一个真正的对象 JDK7保存的是一个引用地址
+        s3.intern(); 
+        // 获取字符串常量池的引用
+        String s4 = "11"; 
         System.out.println(s3 == s4); // JDK1.6: false   JDK1.7: true
     }
 }
@@ -767,6 +799,17 @@ JDK1.6创建对象被放在了永久区中的字符串常量池，并非堆中�
 在JDK1.7及之后，`new String("1)` 会在堆中创建一个对象并且会在字符串常量池中创建一个对象；
 因为在堆中已经创建了对象，JVM为了节省空间，在字符串常量池中的对象只保留了引用堆中对象的地址，而并不是创建了一个真正的对象；
 
+JDK1.6中，将这个字符串对象尝试放入串池。
+- 如果串池中有，则并不会放入。返回已有的串池中的对象的地址
+- 如果没有，会把此**对象复制一份，放入串池**，并返回串池中的对象地址
+
+![JDK6字符串常量池案例解析](/myblog/posts/images/essays/JDK6字符串常量池案例解析.png)
+
+JDK1.7起，将这个字符串对象尝试放入串池。
+- 如果串池中有，则并不会放入。返回已有的串池中的对象的地址
+- 如果没有，则会把**对象的引用地址复制一份，放入串池**，并返回串池中的引用地址
+
+![JDK78字符串常量池案例解析](/myblog/posts/images/essays/JDK78字符串常量池案例解析.png)
 
 ##### 注意
 字符串常量池是不会存储相同内容的字符串的。
