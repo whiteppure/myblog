@@ -169,3 +169,95 @@ hotspot使用的是直接访问。因为句柄访问开辟了句柄池，所以�
 直接指针是局部变量表中的引用，直接指向堆中的实例，在对象实例中有类型指针，指向的是方法区中的对象类型数据。
 
 ![直接访问](/myblog/posts/images/essays/直接访问.png)
+
+## 对象的终止机制
+Java语言提供了对象终止（`finalization`）机制来允许开发人员提供对象被销毁之前的自定义处理逻辑。
+当垃圾回收器发现没有引用指向一个对象，即：垃圾回收此对象之前，总会先调用这个对象的`finalize()`方法。
+
+`finalize()` 方法允许在子类中被重写，用于在对象被回收时进行资源释放。
+通常在这个方法中进行一些资源释放和清理的工作，比如关闭文件、套接字和数据库连接等。
+
+文档注释大意：当GC确定不再有对对象的引用时，由垃圾收集器在对象上调用。子类重写`finalize`方法来释放系统资源或执行其他清理。
+```
+   /**
+     * Called by the garbage collector on an object when garbage collection
+     * determines that there are no more references to the object.
+     * A subclass overrides the {@code finalize} method to dispose of
+     * system resources or to perform other cleanup.
+     */
+    protected void finalize() throws Throwable { }
+```
+
+**永远不要主动调用某个对象的`finalize`方法应该交给垃圾回收机制调用原因**
+
+- 在调用`finalize`方法时时可能会导致对象复活；
+- `finalize`方法的执行时间是没有保障的，它完全由GC线程决定，极端情况下，若不发生GC，则`finalize`方法将没有执行机会;
+因为优先级比较低，即使主动调用该方法，也不会因此就直接进行回收
+- 一个糟糕的`finalize`方法会严重影响GC的性能;
+
+**由于`finalize`方法的存在,虚拟机中的对象一般处于三种可能的状态**
+
+如果从所有的根节点都无法访问到某个对象，说明对象己经不再使用了。一般来说，此对象需要被回收。
+但事实上，也并非是“非死不可”的，这时候它们暂时处于“缓刑”阶段。一个无法触及的对象有可能在某一个条件下“复活”自己，如果这样，那么对它的回收就是不合理的，为此，虚拟机中定义了的对象可能的三种状态：
+- 可触及的：从根节点开始，可以到达这个对象；对象存活被使用；
+- 可复活的：对象的所有引用都被释放，但是对象有可能在`finalize`中复活；对象被复活，对象在`finalize`方法中被重新使用；
+- 不可触及的：对象的`finalize`方法被调用，并且没有复活，那么就会进入不可触及状态；对象死亡，对象没有被使用；
+
+只有在对象不可触及时才可以被回收。不可触及的对象不可能被复活，因为`finalize()`只会被调用一次。
+
+**`finalize`机制判定一个对象能否被回收过程**
+
+判定一个对象是否可回收，至少要经历两次标记过程：
+- 如果对象没有没有引用链，则进行第一次标记
+- 进行筛选，判断此对象是否有必要执行`finalize`方法
+    1. 如果对象没有重写`finalize`方法，或者`finalize`方法已经被虚拟机调用过，则虚拟机视为“没有必要执行”，对象被判定为不可触及的。
+    2. 如果对象重写了`finalize`方法，且还未执行过，那么会被插入到`F-Queue`队列中，由一个虚拟机自动创建的、低优先级的`Finalizer`线程触发其`finalize`方法执行。
+    3. `finalize`方法是对象逃脱死亡的最后机会，稍后GC会对`F-Queue`队列中的对象进行第二次标记。如果对象在`finalize`方法中与引用链上的任何一个对象建立了联系，那么在第二次标记时，该对象会被移出“即将回收”集合。
+    之后，对象会再次出现没有引用存在的情况。在这个情况下，`finalize`方法不会被再次调用，对象会直接变成不可触及的状态，也就是说，一个对象的`finalize`方法只会被调用一次。
+    
+代码演示对象能否被回收过程
+```
+public class MainTest {
+
+    public static MainTest var;
+
+    /**
+     * 此方法只能被调用一次
+     * 可对该方法进行注释，来测试finalize方法是否能复活对象
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("调用当前类重写的finalize()方法");
+        // 复活对象 让当前带回收对象重新与引用链中的对象建立联系
+        var = this;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        var = new MainTest();
+        var = null;
+        System.gc();
+        System.out.println("-----------------第一次gc操作------------");
+        // 因为Finalizer线程的优先级比较低，暂停2秒，以等待它
+        Thread.sleep(2000);
+        if (var == null) {
+            System.out.println("对象已经死了");
+            // 如果第一次对象就死亡了 就终止
+            return;
+        } else {
+            System.out.println("对象还活着");
+        }
+
+        System.out.println("-----------------第二次gc操作------------");
+        var = null;
+        System.gc();
+        // 下面代码和上面代码是一样的，但是 对象却自救失败了
+        Thread.sleep(2000);
+        if (var == null) {
+            System.out.println("对象已经死了");
+        } else {
+            System.out.println("对象还活着");
+        }
+    }
+
+}
+```
