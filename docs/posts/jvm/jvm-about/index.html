@@ -8,11 +8,11 @@
 	
 	
 	
-	<title>JVM ｜ whitepure</title>
+	<title>JVM相关概念 ｜ whitepure</title>
 	
     
     
-    <meta name="description" content="whitepure&#39;s blog of github" />
+    <meta name="description" content="" />
     
 
     
@@ -21,8 +21,6 @@
     
 
 	
-	<link rel="alternate" type="application/rss+xml" href="https://whiteppure.github.io/myblog/tags/jvm/index.xml" title="whitepure" />
-    
     
     <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
 
@@ -39,6 +37,57 @@
 </head>
 
 <body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#systemgc">
+                    System.gc()
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
     <div class="main animate__animated animate__fadeInDown" id="pdf_content">
         <div class="nav_container animated fadeInDown">
     <div class="site_nav" id="site_nav">
@@ -87,121 +136,87 @@
     </div>
 </div>
         <div class="content">
-            <div class="list_with_title">
-                
-                <div class="listing_title">2021</div>
-                <div class="listing">
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-about/">JVM相关概念</a>
-                            <div class="post_time"><span class="date">04-27</span></div>
-                        </div>
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/jvm/jvm-about/'>JVM相关概念</a></h2>
+                        <span class="date">2021.04.27</span>
                     </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/java-garbage-collection/">垃圾回收</a>
-                            <div class="post_time"><span class="date">04-21</span></div>
+                    <div class="post_content markdown"><h2 id="systemgc">System.gc()</h2>
+<p>在默认情况下，通过<code>System.gc()</code>者<code>Runtime.getRuntime().gc()</code>的调用，会显式触发FullGC，同时对老年代和新生代进行回收，尝试释放被丢弃对象占用的内存。</p>
+<p>源码调用了<code>Runtime.getRuntime().gc();</code>方法</p>
+<blockquote>
+<p>运行垃圾收集器。
+调用GC方法意味着Java虚拟机要努力回收未使用的对象，以便使它们当前占用的内存能够快速重用。当控制从方法调用中返回时，Java虚拟机已经尽了最大努力从所有丢弃的对象中回收空间。
+调用<code>System.gc()</code>有效地等同于调用:<code>Runtime.getRuntime().gc()</code></p>
+</blockquote>
+<pre><code>    /**
+     * Runs the garbage collector.
+     * &lt;p&gt;
+     * Calling the &lt;code&gt;gc&lt;/code&gt; method suggests that the Java Virtual
+     * Machine expend effort toward recycling unused objects in order to
+     * make the memory they currently occupy available for quick reuse.
+     * When control returns from the method call, the Java Virtual
+     * Machine has made a best effort to reclaim space from all discarded
+     * objects.
+     * &lt;p&gt;
+     * The call &lt;code&gt;System.gc()&lt;/code&gt; is effectively equivalent to the
+     * call:
+     * &lt;blockquote&gt;&lt;pre&gt;
+     * Runtime.getRuntime().gc()
+     * &lt;/pre&gt;&lt;/blockquote&gt;
+     *
+     * @see     java.lang.Runtime#gc()
+     */
+    public static void gc() {
+        Runtime.getRuntime().gc();
+    }
+</code></pre><p>调用<code>System.gc();</code>无法保证对垃圾收集器的调用;一般情况下，垃圾回收应该是自动进行的，无须手动触发。</p>
+<p>代码演示是否触发GC</p>
+<pre><code>// 在线程不忙的情况下，GC几乎都会执行都会调用finalize()方法 多试几次(15~30)
+public class MainTest {
+    public static void main(String[] args) {
+        new MainTest();
+
+        // 建议垃圾回收器执行垃圾收集行为 不会立即执行
+        System.gc();
+
+        // 调用System.gc();后再调用System.runFinalization(); 会强制调用失去引用对象的 finalize() 方法
+//        System.runFinalization();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        System.out.println(&quot;finalize 被调用 ...&quot;);
+    }
+}
+</code></pre></div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
+                                    
+                                </span>
+                            </div>
                         </div>
+                        
                     </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-execute-engine/">执行引擎</a>
-                            <div class="post_time"><span class="date">04-15</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-direct-memory/">直接内存</a>
-                            <div class="post_time"><span class="date">04-14</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/java-object/">Java对象</a>
-                            <div class="post_time"><span class="date">04-12</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-method-area/">方法区</a>
-                            <div class="post_time"><span class="date">04-08</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-heap/">堆</a>
-                            <div class="post_time"><span class="date">04-03</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-native-stack/">本地方法栈</a>
-                            <div class="post_time"><span class="date">04-02</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-native-interface/">本地方法接口</a>
-                            <div class="post_time"><span class="date">04-02</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-stack/">虚拟机栈</a>
-                            <div class="post_time"><span class="date">03-28</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-pc-register/">程序计数寄存器</a>
-                            <div class="post_time"><span class="date">03-27</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-start/">Jvm介绍</a>
-                            <div class="post_time"><span class="date">03-05</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-classloader/">Java类加载机制</a>
-                            <div class="post_time"><span class="date">02-05</span></div>
-                        </div>
-                    </div>
-                    
                 </div>
                 
-                <div class="listing_title">2020</div>
-                <div class="listing">
-                    
-                    <div class="listing_item">
-                        <div class="listing_post">
-                            <a href="/myblog/posts/jvm/jvm-memory-rubbish/">Jvm内存划分和垃圾回收</a>
-                            <div class="post_time"><span class="date">08-16</span></div>
-                        </div>
-                    </div>
-                    
-                </div>
+                
+                <div class="doc_comments"></div>
                 
             </div>
-            <div class="pagination"></div>
         </div>
-        <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
     </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
     <footer class="footer">
     <div class="powered_by">
         <a href="https://varkai.com">Designed by VarKai,</a>
