@@ -68,7 +68,7 @@
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#systemgc">
-                    System.gc()
+                    System.gc
                 </a>
             </li>
             
@@ -218,7 +218,7 @@
                         <h2><a href='/myblog/posts/jvm/jvm-about/'>JVM相关概念</a></h2>
                         <span class="date">2021.04.27</span>
                     </div>
-                    <div class="post_content markdown"><h2 id="systemgc">System.gc()</h2>
+                    <div class="post_content markdown"><h2 id="systemgc">System.gc</h2>
 <p>在默认情况下，通过<code>System.gc()</code>者<code>Runtime.getRuntime().gc()</code>的调用，会显式触发FullGC，同时对老年代和新生代进行回收，尝试释放被丢弃对象占用的内存。</p>
 <p>源码调用了<code>Runtime.getRuntime().gc();</code>方法</p>
 <blockquote>

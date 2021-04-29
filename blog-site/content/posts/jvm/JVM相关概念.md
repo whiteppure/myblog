@@ -6,7 +6,7 @@ tags: ["Java", "JVM"]
 slug: "jvm-about"
 ---
 
-## System.gc()
+## System.gc
 在默认情况下，通过`System.gc()`者`Runtime.getRuntime().gc()`的调用，会显式触发FullGC，同时对老年代和新生代进行回收，尝试释放被丢弃对象占用的内存。
 
 源码调用了`Runtime.getRuntime().gc();`方法
