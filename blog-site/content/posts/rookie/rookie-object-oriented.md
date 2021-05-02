@@ -3030,14 +3030,15 @@ class CGLibProxy implements MethodInterceptor {
 ```
 public class MainTest {
     public static void main(String[] args) {
+         // 产品
         RequestEntity test = new RequestEntity("test", 2000);
 
-        // 指定指责链
+        // 指定职责链
         BeforeHandler before = new BeforeHandler("before");
         AfterHandler after = new AfterHandler("after");
         PostHandler post = new PostHandler("post");
 
-        // 形成链状闭环
+        // 形成链状闭环 要确保会被责任链中的组件处理 否则会一直循环下去 ，当然也可以选择不闭环
         before.setHandler(after);
         after.setHandler(post);
         post.setHandler(before);
@@ -3152,7 +3153,7 @@ class PostHandler extends Handler {
 
 **使用场景**
 
-- 在处理消息的时候以过滤很多道。
+- 在处理消息的时候以过滤很多通道。
 - 有多个对象可以处理同一个请求，具体哪个对象处理该请求由运行时刻自动确定。
 - 在不明确指定接收者的情况下，向多个对象中的一个提交一个请求。
 - 可动态指定一组对象处理请求。
