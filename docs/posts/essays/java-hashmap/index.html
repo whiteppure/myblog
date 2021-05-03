@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>HashMap详解 ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%9b%b8%e5%85%b3%e6%a6%82%e5%bf%b5">
+                    相关概念
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%bb%93%e6%9e%84">
+                    结构
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e4%bd%bf%e7%94%a8%e7%ba%a2%e9%bb%91%e6%a0%91">
+                    为什么要使用红黑树？
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e4%b8%80%e5%bc%80%e5%a7%8b%e5%b0%b1%e7%94%a8%e7%ba%a2%e9%bb%91%e6%a0%91%e4%bb%a3%e6%9b%bf%e9%93%be%e8%a1%a8%e7%bb%93%e6%9e%84">
+                    为什么不一开始就用红黑树代替链表结构？
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e6%a0%91%e5%8c%96%e9%98%88%e5%80%bc%e4%b8%ba8">
+                    为什么树化阈值为8？
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e6%a0%91%e5%8c%96%e9%98%88%e5%80%bc%e5%92%8c%e9%93%be%e8%a1%a8%e9%98%88%e5%80%bc%e4%b8%8d%e8%ae%be%e7%bd%ae%e6%88%90%e4%b8%80%e6%a0%b7">
+                    为什么树化阈值和链表阈值不设置成一样？
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%bc%95%e5%85%a5%e7%ba%a2%e9%bb%91%e6%a0%91%e5%90%8e%e5%a6%82%e6%9e%9c%e5%8d%95%e9%93%be%e8%a1%a8%e8%8a%82%e7%82%b9%e4%b8%aa%e6%95%b0%e8%b6%85%e8%bf%878%e4%b8%aa%e6%98%af%e5%90%a6%e4%b8%80%e5%ae%9a%e4%bc%9a%e6%a0%91%e5%8c%96">
+                    引入红黑树后，如果单链表节点个数超过8个是否一定会树化？
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%89%a9%e5%ae%b9">
+                    扩容
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e8%bf%9b%e8%a1%8c%e6%89%a9%e5%ae%b9">
+                    为什么要进行扩容？
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bb%80%e4%b9%88%e6%97%b6%e6%9c%ba%e8%bf%9b%e8%a1%8c%e6%89%a9%e5%ae%b9">
+                    什么时机进行扩容？
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#17%e6%89%a9%e5%ae%b9">
+                    1.7扩容
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#18%e6%89%a9%e5%ae%b9">
+                    1.8扩容
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%ad%98%e5%82%a8">
+                    存储
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#hashmap%e5%88%9d%e5%a7%8b%e5%8c%96%e6%97%b6%e5%a6%82%e6%9e%9c%e6%8c%87%e5%ae%9a%e5%ae%b9%e9%87%8f%e5%a4%a7%e5%b0%8f%e4%b8%ba10%e9%82%a3%e4%b9%88%e5%ae%9e%e9%99%85%e5%a4%a7%e5%b0%8f%e6%98%af%e5%a4%9a%e5%b0%91">
+                    HashMap初始化时，如果指定容量大小为10，那么实际大小是多少？
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%8f%82%e8%80%83%e6%96%87%e7%ab%a0">
+                    参考文章：
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/essays/java-hashmap/'>HashMap详解</a></h2>
+                        <span class="date">2021.04.27</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="相关概念">相关概念</h2>
+<ul>
+<li><code>capacity</code>： 容量，默认16。</li>
+<li><code>loadFactor</code>： 加载因子，默认是0.75</li>
+<li><code>threshold</code>： 阈值；<code>阈值 = 容量 * 加载因子</code>。默认12。当元素数量超过阈值时便会触发扩容。</li>
+<li>hash碰撞：当插入hashmap中元素的key出现重复时，就会覆盖之前key对应的值。</li>
+</ul>
+<h2 id="结构">结构</h2>
+<p>JDK1.7：数组 + 单向链表
+JDK1.8: 数组 + 单向链表/红黑树</p>
+<p>在JDK1.8时，如果存储Map中数组元素对应的索引的每个链表超过8，就将单向链表转化为红黑树；当红黑树的节点少于6个的时候又开始使用链表。</p>
+<h3 id="为什么要使用红黑树">为什么要使用红黑树？</h3>
+<p>当有发生大量的hash冲突时，因为链表遍历效率很慢，为了提升查询的效率，所以使用了红黑树的数据结构。</p>
+<h3 id="为什么不一开始就用红黑树代替链表结构">为什么不一开始就用红黑树代替链表结构？</h3>
+<p>JDK文档注释：</p>
+<blockquote>
+<p>Because TreeNodes are about twice the size of regular nodes, we use them only when bins contain enough nodes to warrant use  (see TREEIFY_THRESHOLD).
+And when they become too small (due to removal or resizing) they are converted back to plain bins.</p>
+</blockquote>
+<p>单个 TreeNode 需要占用的空间大约是普通 Node 的两倍，所以只有当包含足够多的 Nodes 时才会转成 TreeNodes，而是否足够多就是由 TREEIFY_THRESHOLD 的值（默认值8）决定的。
+而当桶中节点数由于移除或者 resize 变少后，又会变回普通的链表的形式，以便节省空间，这个阈值是 UNTREEIFY_THRESHOLD（默认值6）。</p>
+<h3 id="为什么树化阈值为8">为什么树化阈值为8？</h3>
+<p>JDK1.8HashMap文档注释：</p>
+<blockquote>
+<p>如果 hashCode 分布良好，也就是 hash 计算的结果离散好的话，那么红黑树这种形式是很少会被用到的，因为各个值都均匀分布，很少出现链表很长的情况。
+在理想情况下，链表长度符合泊松分布，各个长度的命中概率依次递减，当长度为 8 的时候，概率仅为 0.00000006。这是一个小于千万分之一的概率，通常我们的 Map 里面是不会存储这么多的数据的，所以通常情况下，并不会发生从链表向红黑树的转换。</p>
+</blockquote>
+<p>HashMap是通过hash算法，来判断对象应该放在哪个桶里面的；
+JDK 并不能阻止我们用户实现自己的哈希算法，如果我们故意把哈希算法变得不均匀，那么每次存放对象很容易造成hash冲突。</p>
+<p>链表长度超过 8 就转为红黑树的设计，更多的是为了防止用户自己实现了不好的哈希算法时导致链表过长，从而导致查询效率低，而此时转为红黑树更多的是一种保底策略，用来保证极端情况下查询的效率。
+红黑树的引入保证了在大量hash冲突的情况下，HashMap还具有良好的查询性能。</p>
+<h3 id="为什么树化阈值和链表阈值不设置成一样">为什么树化阈值和链表阈值不设置成一样？</h3>
+<p>为了防止出现节点个数频繁在一个相同的数值来回切换。
+举个极端例子，现在单链表的节点个数是9，开始变成红黑树，然后红黑树节点个数又变成8，就又得变成单链表，然后节点个数又变成9，就又得变成红黑树，这样的情况消耗严重浪费。
+因此干脆错开两个阈值的大小，使得变成红黑树后“不那么容易”就需要变回单链表，同样，使得变成单链表后，“不那么容易”就需要变回红黑树。</p>
+<h3 id="引入红黑树后如果单链表节点个数超过8个是否一定会树化">引入红黑树后，如果单链表节点个数超过8个是否一定会树化？</h3>
+<p>不一定，在进行树化之前会进行判断<code>(n = tab.length) &lt; MIN_TREEIFY_CAPACITY)</code>是否需要扩容，如果表中数组元素小于这个阈值（默认是64），就会进行扩容。
+因为扩容不仅能增加表中的容量，还能缩短单链表的节点数，从而更长远的解决链表遍历慢问题。</p>
+<pre><code>    /**
+     * Replaces all linked nodes in bin at index for given hash unless
+     * table is too small, in which case resizes instead.
+     */
+    final void treeifyBin(Node&lt;K,V&gt;[] tab, int hash) {
+        int n, index; Node&lt;K,V&gt; e;
+        if (tab == null || (n = tab.length) &lt; MIN_TREEIFY_CAPACITY)
+            resize();
+        else if ((e = tab[index = (n - 1) &amp; hash]) != null) {
+            TreeNode&lt;K,V&gt; hd = null, tl = null;
+            do {
+                TreeNode&lt;K,V&gt; p = replacementTreeNode(e, null);
+                if (tl == null)
+                    hd = p;
+                else {
+                    p.prev = tl;
+                    tl.next = p;
+                }
+                tl = p;
+            } while ((e = e.next) != null);
+            if ((tab[index] = hd) != null)
+                hd.treeify(tab);
+        }
+    }
+</code></pre><h2 id="扩容">扩容</h2>
+<p>首次put时，先会触发扩容（算是初始化），然后存入数据，然后判断是否需要扩容；
+不是首次put，则不再初始化，直接存入数据，然后判断是否需要扩容；</p>
+<p>JDK1.7: 先扩容在添加元素。
+JDK1.8: 先添加元素在扩容。</p>
+<h3 id="为什么要进行扩容">为什么要进行扩容？</h3>
+<p>随着HashMap中的元素增加，获取元素方法的效率就会越来越低，为了保证获取元素方法的效率，所以针对HashMap中的数组进行扩容。
+扩容数组的方式只能再去开辟一个新的数组，并把之前的元素转移到新数组上。</p>
+<h3 id="什么时机进行扩容">什么时机进行扩容？</h3>
+<p>扩容条件：当元素数量超过阈值时便会触发扩容</p>
+<pre><code> if (++size &gt; threshold)
+    resize();
+</code></pre><p>HashMap的容量是有上限的，必须小于<code>1&lt;&lt;30</code>，即<code>1073741824</code>。如果容量超出了这个数，则不再增长，且阈值会被设置为<code>Integer.MAX_VALUE</code>.</p>
+<pre><code>// Java8
+if (oldCap &gt;= MAXIMUM_CAPACITY) {
+    threshold = Integer.MAX_VALUE;
+    return oldTab;
+}
+// Java7
+if (oldCapacity == MAXIMUM_CAPACITY) { 
+    threshold = Integer.MAX_VALUE;
+    return;
+}
+</code></pre><h3 id="17扩容">1.7扩容</h3>
+<ul>
+<li><code>新容量 = 旧容量 * 2</code></li>
+<li><code>新阈值 = 新容量 * 加载因子</code></li>
+</ul>
+<pre><code>void addEntry(int hash, K key, V value, int bucketIndex) {  
+    //size：The number of key-value mappings contained in this map.  
+    //threshold：The next size value at which to resize (capacity * load factor)  
+    //数组扩容条件：1.已经存在的key-value mappings的个数大于等于阈值  
+    //             2.底层数组的bucketIndex坐标处不等于null  
+    if ((size &gt;= threshold) &amp;&amp; (null != table[bucketIndex])) {  
+        resize(2 * table.length);//扩容之后，数组长度变了  
+        hash = (null != key) ? hash(key) : 0;//为什么要再次计算一下hash值呢？  
+        bucketIndex = indexFor(hash, table.length);//扩容之后，数组长度变了，在数组的下标跟数组长度有关，得重算。  
+    }  
+    createEntry(hash, key, value, bucketIndex);  
+} 
+</code></pre><pre><code>void resize(int newCapacity) {   //传入新的容量
+    Entry[] oldTable = table;    //引用扩容前的Entry数组
+    int oldCapacity = oldTable.length;
+    if (oldCapacity == MAXIMUM_CAPACITY) {  //扩容前的数组大小如果已经达到最大(2^30)了
+        threshold = Integer.MAX_VALUE; //修改阈值为int的最大值(2^31-1)，这样以后就不会扩容了
+        return;
+    }
+
+    Entry[] newTable = new Entry[newCapacity];  //初始化一个新的Entry数组
+    transfer(newTable);                         //！！将数据转移到新的Entry数组里
+    table = newTable;                           //HashMap的table属性引用新的Entry数组
+    threshold = (int) (newCapacity * loadFactor);//修改阈值
+}
+</code></pre><p>通过transfer方法将旧数组上的元素转移到扩容后的新数组上</p>
+<pre><code>void transfer(Entry[] newTable) {
+    Entry[] src = table;                   //src引用了旧的Entry数组
+    int newCapacity = newTable.length;
+    for (int j = 0; j &lt; src.length; j++) { //遍历旧的Entry数组
+        Entry&lt;K, V&gt; e = src[j];             //取得旧Entry数组的每个元素
+        if (e != null) {
+            src[j] = null;//释放旧Entry数组的对象引用（for循环后，旧的Entry数组不再引用任何对象）
+            do {
+                Entry&lt;K, V&gt; next = e.next;
+                int i = indexFor(e.hash, newCapacity); //！！重新计算每个元素在数组中的位置
+                e.next = newTable[i]; //标记[1]
+                newTable[i] = e;      //将元素放在数组上
+                e = next;             //访问下一个Entry链上的元素
+            } while (e != null);
+        }
+    }
+}
+</code></pre><h3 id="18扩容">1.8扩容</h3>
+<p>容量变为原来的2倍，阈值也变为原来的2倍。容量和阈值都变为原来的2倍时，负载因子还是不变。</p>
+<p>在1.8时做了一些优化，文档注释写的很清楚：&ldquo;元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置&rdquo;。
+也就是对比1.7的迁移到新的数组上省去了重新计算hash值的时间。</p>
+<p>这里的&quot;2次幂的位置&quot;是指长度为原来数组元素的两倍的位置;</p>
+<p>举个例子,现在容量为16，要扩容到32，要将之前的元素迁移过去，要根据hash值来判断迁移过去的位置；
+元素A：hash值：0101 0101</p>
+<pre><code>扩容之前的位置：
+  0101 0101
+&amp; 0000 1111
+————————————
+  0000 0101
+
+扩容之后的位置：
+  0101 0101
+&amp; 0001 1111
+————————————
+  0001 0101
+</code></pre><p>发现规律：扩容前的hash值和扩容后的hash值，如果元素A二进制形式第三位如果是0，扩容之后就还是原来的位置，如果是1扩容后就是原来的位置加16，而16就是扩容的大小。</p>
+<pre><code> /**
+     * Initializes or doubles table size.  If null, allocates in
+     * accord with initial capacity target held in field threshold.
+     * Otherwise, because we are using power-of-two expansion, the
+     * elements from each bin must either stay at same index, or move
+     * with a power of two offset in the new table.
+     *
+     * @return the table
+     */
+    final Node&lt;K,V&gt;[] resize() {
+        Node&lt;K,V&gt;[] oldTab = table;
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+        if (oldCap &gt; 0) {
+            if (oldCap &gt;= MAXIMUM_CAPACITY) {
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+                     oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+                newThr = oldThr &lt;&lt; 1; // double threshold
+        }
+        else if (oldThr &gt; 0) // initial capacity was placed in threshold
+            newCap = oldThr;
+        else {               // zero initial threshold signifies using defaults
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        if (newThr == 0) {
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;
+        @SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+        Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+        table = newTab;
+        if (oldTab != null) {
+            for (int j = 0; j &lt; oldCap; ++j) {
+                Node&lt;K,V&gt; e;
+                if ((e = oldTab[j]) != null) {
+                    oldTab[j] = null;
+                    if (e.next == null)
+                        newTab[e.hash &amp; (newCap - 1)] = e;
+                    else if (e instanceof TreeNode)
+                        ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
+                    else { // preserve order
+                        Node&lt;K,V&gt; loHead = null, loTail = null;
+                        Node&lt;K,V&gt; hiHead = null, hiTail = null;
+                        Node&lt;K,V&gt; next;
+                        do {
+                            next = e.next;
+                            if ((e.hash &amp; oldCap) == 0) {
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        if (loTail != null) {
+                            loTail.next = null;
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+</code></pre><h2 id="存储">存储</h2>
+<h3 id="hashmap初始化时如果指定容量大小为10那么实际大小是多少">HashMap初始化时，如果指定容量大小为10，那么实际大小是多少？</h3>
+<p>实际大小是16。其容量为不小于指定容量的2的幂数。</p>
+<p><strong>为什么容量始终是2的N次方？</strong></p>
+<p>因为2的幂-1都是1111结尾的，所以碰撞几率小。减少Hash碰撞，尽量使Hash算法的结果均匀分布。</p>
+<p>当使用put方法时，到底存入HashMap中的那个数组中？这时是通过hash算法决定的，如果某一个数组中的链表过长旧会影响查询的效率；
+那么为了避免出现hash碰撞，让hash尽可能的散列分布，就需要在hash算法上做文章。</p>
+<p>JDK1.7通过逻辑与运算，来判断这个元素该进入哪个数组；在下面的代码中length的长度始终为不小于指定容量的2的幂数。</p>
+<pre><code>static int indexFor(int h, int length) {
+    return h &amp; (length - 1);
+}
+</code></pre><p>为了更好的理解举个例子：
+假设h=2，或h=3，length=15，进行与运算，最终的结果是一致的，会造成分布不均匀，增加了碰撞的几率，减慢了查询的效率，造成空间的浪费。</p>
+<pre><code>  0000 0010
+&amp; 0000 1110 
+———————————— 
+  0000 1110
+
+  0000 0011
+&amp; 0000 1110 
+————————————
+  0000 1110
+</code></pre><p>在JDK1.8中，在<code>putVal()</code>方法中通过<code>i = (n - 1) &amp; hash</code>来计算key的散列地址</p>
+<pre><code>final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+        // 此处省略了代码
+        // i = (n - 1) &amp; hash]
+        if ((p = tab[i = (n - 1) &amp; hash]) == null)
+            
+            tab[i] = newNode(hash, key, value, null);
+        
+ 
+        else {
+            // 省略了代码
+        }
+}
+</code></pre><blockquote>
+<p>这里的 &ldquo;&amp;&rdquo; 等同于 %&quot;，但是&quot;%&ldquo;运算的速度并没有&rdquo;&amp;&ldquo;的操作速度快；
+&ldquo;&amp;&ldquo;操作能代替&rdquo;%&ldquo;运算，必须满足一定的条件，也就是<code>a%b=a&amp;(b-1)</code>仅当b是2的n次方的时候方能成立。
+这也就是为什么HashMap的容量需要保持在2的n次方了。</p>
+</blockquote>
+<p><strong>怎么保持始终为2的N次方？</strong></p>
+<p><code>HashMap</code>的<code>tableSizeFor</code>方法做了处理，能保证n永远都是2次幂</p>
+<pre><code>/**
+ * Returns a power of two size for the given target capacity.
+ */
+static final int tableSizeFor(int cap) {
+    // cap-1后，n的二进制最右一位肯定和cap的最右一位不同，即一个为0，一个为1
+    // 例如cap=17（00010001），n=cap-1=16（00010000）
+    int n = cap - 1;
+    // n = (00010000 | 00001000) = 00011000
+    n |= n &gt;&gt;&gt; 1;
+    // n = (00011000 | 00000110) = 00011110
+    n |= n &gt;&gt;&gt; 2;
+    // n = (00011110 | 00000001) = 00011111
+    n |= n &gt;&gt;&gt; 4;
+    // n = (00011111 | 00000000) = 00011111
+    n |= n &gt;&gt;&gt; 8;
+    // n = (00011111 | 00000000) = 00011111
+    n |= n &gt;&gt;&gt; 16;
+    // n = 00011111 = 31
+    // n = 31 + 1 = 32, 即最终的cap = 32 = 2 的 (n=5)次方
+    return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+}
+
+</code></pre><h2 id="参考文章">参考文章：</h2>
+<ul>
+<li><a href="https://blog.csdn.net/u010841296/article/details/82832166">https://blog.csdn.net/u010841296/article/details/82832166</a></li>
+<li><a href="https://blog.csdn.net/Elliot_Elliot/article/details/115610387">https://blog.csdn.net/Elliot_Elliot/article/details/115610387</a></li>
+<li><a href="https://blog.csdn.net/pange1991/article/details/82347284">https://blog.csdn.net/pange1991/article/details/82347284</a></li>
+<li><a href="https://blog.csdn.net/xiewenfeng520/article/details/107119970">https://blog.csdn.net/xiewenfeng520/article/details/107119970</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/114363420">https://zhuanlan.zhihu.com/p/114363420</a></li>
+<li><a href="https://www.yuque.com/renyong-jmovm/kb/vso1h5">https://www.yuque.com/renyong-jmovm/kb/vso1h5</a></li>
+<li><a href="https://juejin.cn/post/6844903554264596487">https://juejin.cn/post/6844903554264596487</a></li>
+</ul>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/%E9%9B%86%E5%90%88/">集合</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                
+
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>
