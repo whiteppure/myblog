@@ -354,7 +354,7 @@ static final int tableSizeFor(int cap) {
 ```
 
 
-## 参考文章：
+## 参考文章
 - https://blog.csdn.net/u010841296/article/details/82832166
 - https://blog.csdn.net/Elliot_Elliot/article/details/115610387
 - https://blog.csdn.net/pange1991/article/details/82347284

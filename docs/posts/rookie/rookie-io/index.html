@@ -1217,8 +1217,216 @@
             
             
             <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%ba%bf%e7%a8%8b%e6%a8%a1%e5%9e%8b%e6%bc%94%e5%8f%98">
+                    线程模型演变
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bc%a0%e7%bb%9f-io-%e6%a8%a1%e5%9e%8b">
+                    传统 IO 模型
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#reactor-%e6%a8%a1%e5%9e%8b">
+                    Reactor 模型
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#netty-%e6%a8%a1%e5%9e%8b">
+                    Netty 模型
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
                 <a class="nav-link text-left" href="#%e7%ae%80%e5%8d%95%e4%bd%bf%e7%94%a8">
                     简单使用
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bb%bb%e5%8a%a1%e9%98%9f%e5%88%97">
+                    任务队列
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%bc%82%e6%ad%a5%e6%a8%a1%e5%9e%8b">
+                    异步模型
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#netty%e6%90%ad%e5%bb%bahttp%e6%9c%8d%e5%8a%a1">
+                    Netty搭建Http服务
                 </a>
             </li>
             
@@ -2202,15 +2410,15 @@ class Singleton implements Serializable {
 </ul>
 <p>在非阻塞IO模型中，用户线程需要不断地询问内核数据是否就绪，也就说非阻塞IO不会交出CPU，而会一直占用CPU。</p>
 <h3 id="io复用模型">IO复用模型</h3>
-<p>在多路复用IO模型中，会有一个线程不断去轮询多个socket的状态，只有当socket真正有读写事件时，才真正调用实际的IO读写操作。
+<p>IO复用模型: 一个线程不断去轮询多个socket的状态，只有当socket真正有读写事件时，才真正调用实际的IO读写操作。
 在多路复用IO模型中，只需要使用一个线程就可以管理多个socket，系统不需要建立新的进程或者线程，也不必维护这些线程和进程，并且只有在真正有socket读写事件进行时，才会使用IO资源，所以它大大减少了资源占用。</p>
 <p><a href="#nio">Java NIO</a>实际上就是多路复用IO。
-通过<code>selector.select()</code>查询每个通道是否有到达事件，如果没有事件，则一直阻塞在那里，因此这种方式会导致用户线程的阻塞。
+通过<code>selector.select()</code>查询每个通道是否有到达事件，如果没有事件，则一直阻塞在那里，因此这种方式会导致用户线程的阻塞。所以，多路复用IO比较适合连接数比较多的情况。
 <img src="/myblog/posts/images/essays/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8B.png" alt="IO多路复用模型"></p>
 <p>特点：</p>
 <ul>
 <li>专一进程解决多个进程IO的阻塞问题，性能好;</li>
-<li>适用高并发服务应用开发：一个进程（线程）响应多个请求；</li>
+<li>适用高并发服务应用开发：一个进程响应多个请求；</li>
 </ul>
 <blockquote>
 <p>多路复用IO为何比非阻塞IO模型的效率高？
@@ -2830,16 +3038,133 @@ class Server {
 <p><a href="https://netty.io">Netty is an asynchronous event-driven network application framework
 for rapid development of maintainable high performance protocol servers &amp; clients.</a></p>
 </blockquote>
-<p>Netty 是一个异步的、基于事件驱动的网络应用框架，用以快速开发高性能、高可靠性的网络 IO 程序。
-Netty 主要针对在 TCP 协议下，面向 Client 端的高并发应用，或者 Peer-to-Peer 场景下的大量数据持续传输的应用。
-Netty 本质是一个 NIO 框架，适用于服务器通讯相关的多种应用场景。
-Netty 是由 JBoss 提供的一个 Java 开源框架，现为 Github 上的独立项目。</p>
+<ol>
+<li>Netty 是一个异步的、基于事件驱动的网络应用框架，用以快速开发高性能、高可靠性的网络 IO 程序。</li>
+<li>Netty 主要针对在 TCP 协议下，面向 Client 端的高并发应用，或者 Peer-to-Peer 场景下的大量数据持续传输的应用。</li>
+<li>Netty 本质是一个 NIO 框架，适用于服务器通讯相关的多种应用场景。</li>
+<li>Netty 是由 JBoss 提供的一个 Java 开源框架，现为 Github 上的独立项目。</li>
+</ol>
+<h3 id="线程模型演变">线程模型演变</h3>
+<p>目前存在的线程模型有：</p>
+<ul>
+<li>传统阻塞 I/O 服务模型</li>
+<li>Reactor 模式
+<ul>
+<li>单 Reactor 单线程</li>
+<li>单 Reactor 多线程</li>
+<li>主从 Reactor多线程</li>
+</ul>
+</li>
+</ul>
+<p>Netty 主要基于主从 Reactor 多线程模型做了一定的改进。</p>
+<h4 id="传统-io-模型">传统 IO 模型</h4>
+<p><img src="/myblog/posts/images/essays/%E4%BC%A0%E7%BB%9FIO%E6%A8%A1%E5%9E%8B.png" alt="传统IO模型"></p>
+<p>采用阻塞 IO 模式获取输入的数据，每个连接都需要独立的线程完成数据的输入，业务处理，数据返回。
+当并发数很大，就会创建大量的线程，占用很大系统资源，连接创建后，如果当前线程暂时没有数据可读，该线程会阻塞在 read 操作，造成线程资源浪费。</p>
+<h4 id="reactor-模型">Reactor 模型</h4>
+<p>基于 I/O 复用模型，多个连接共用一个阻塞对象，应用程序只需要在一个阻塞对象等待，无需阻塞等待所有连接。
+当某个连接有新的数据可以处理时，操作系统通知应用程序，线程从阻塞状态返回，开始进行业务处理。</p>
+<p><img src="/myblog/posts/images/essays/Reactor%E6%A8%A1%E5%BC%8F.png" alt="Reactor模式"></p>
+<p>为了避免浪费可以创建一个线程池，当客户端发起请求时，通过<code>DispatcherHandler</code>进行分发请求处理到线程池，线程池中在使用具体的线程进行事件处理。
+服务器端程序处理传入的多个请求,并将它们同步分派到相应的处理线程，因此 Reactor 模式也叫 Dispatcher 模式。</p>
+<p>Reactor 模式使用 IO 复用监听事件，收到事件后，分发给某个线程（进程），这点就是网络服务器高并发处理关键。</p>
+<h5 id="单-reactor-单线程">单 Reactor 单线程</h5>
+<p><img src="/myblog/posts/images/essays/%E5%8D%95Reactor%E5%8D%95%E7%BA%BF%E7%A8%8B.png" alt="单Reactor单线程"></p>
+<p>步骤：</p>
+<ul>
+<li>Reactor 对象通过 Select 监控客户端请求事件，收到事件后通过 Dispatch 进行分发</li>
+<li>如果是建立连接请求事件，则由 Acceptor 通过 Accept 处理连接请求，然后创建一个 Handler 对象处理连接完成后的后续业务处理</li>
+<li>如果不是建立连接事件，则 Reactor 会分发调用连接对应的 Handler 来响应</li>
+<li>Handler 会完成 <code>Read → 业务处理 → Send</code> 的完整业务流程</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>性能问题，只有一个线程，无法完全发挥多核 CPU 的性能</li>
+<li>如果线程意外终止，或者进入死循环，会导致整个系统通信模块不可用，不能接收和处理外部消息</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>模型简单，没有多线程、进程通信、竞争的问题，全部都在一个线程中完成</li>
+</ul>
+<p>使用场景：</p>
+<ul>
+<li>客户端的数量有限，业务处理非常快速的情况</li>
+</ul>
+<h5 id="单-reactor-多线程">单 Reactor 多线程</h5>
+<p><img src="/myblog/posts/images/essays/%E5%8D%95Reactor%E5%A4%9A%E7%BA%BF%E7%A8%8B.png" alt="单Reactor多线程"></p>
+<p>步骤：</p>
+<ul>
+<li>Reactor 对象通过对 select 监听请求事件，收到请求事件后交给 dispath 进行转发</li>
+<li>如果是建立连接请求，则通过 accept 处理连接请求，然后创建一个handler对象处理完成连接后的事件</li>
+<li>如果不是建立连接请求，则直接交给 handler 对象</li>
+<li>handler 只负责响应事件，不做具体的业务处理，通过 read 读取完后，分发给下面的 worker线程池中某个线程处理</li>
+<li>worker 线程负责处理具体业务，处理完成后会将具体的结果返回给 handler</li>
+<li>handler 线程通过send方法返回给客户端</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>多线程访问比较复杂，需要处理线程之间的竞争，资源共享</li>
+<li>Reactor 对象在处理所有事件的监听和响应都是单线程的，在高并发场景容易出现性能瓶颈</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>可以充分利用CPU资源</li>
+</ul>
+<h5 id="主从-reactor-多线程">主从 Reactor 多线程</h5>
+<p><img src="/myblog/posts/images/essays/%E4%B8%BB%E4%BB%8EReactor%E7%BA%BF%E7%A8%8B.png" alt="主从Reactor线程"></p>
+<p>Reactor 主线程可以对应多个 Reactor 子线程，即 MainRecator 可以关联多个 SubReactor，从而解决了Reactor 在单线程中运行，高并发场景下容易成为性能瓶颈。
+步骤：</p>
+<ul>
+<li>Reactor 主线程 MainReactor 对象通过 select 监听连接事件，收到事件后，通过 Acceptor 处理连接事件</li>
+<li>当 Acceptor 处理连接事件后，MainReactor 将连接分配给 SubReactor</li>
+<li>SubReactor 将连接加入到连接队列进行监听，并创建 handler 进行各种事件处理</li>
+<li>当有新事件发生时，SubReactor 就会调用对应的 handler 处理</li>
+<li>handler 只负责响应事件，不做具体的业务处理，通过 read 读取完后，分发给下面的 worker线程池中某个线程处理</li>
+<li>worker 线程负责处理具体业务，处理完成后会将具体的结果返回给 handler</li>
+<li>handler 线程通过send方法返回给客户端</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>父线程与子线程的数据交互简单，Reactor 主线程只需要把新连接传给子线程，子线程无需返回数据</li>
+<li>父线程与子线程的数据交互简单职责明确，父线程只需要接收新连接，子线程完成后续的业务处理</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>编程复杂度较高</li>
+</ul>
+<p>这种模型在许多项目中广泛使用，包括 Nginx 主从 Reactor 多进程模型，Memcached 主从多线程，Netty 主从多线程模型的支持。</p>
+<h4 id="netty-模型">Netty 模型</h4>
+<p><img src="/myblog/posts/images/essays/Netty%E6%A8%A1%E5%9E%8B.png" alt="Netty模型"></p>
+<p><img src="/myblog/posts/images/essays/netty%E7%AE%80%E6%98%93%E6%A8%A1%E5%9E%8B.png" alt="netty简易模型"></p>
+<ul>
+<li>Netty 抽象出两组线程池 BossGroup 专门负责接收客户端的连接，WorkerGroup 专门负责网络的读写；BossGroup 和 WorkerGroup 类型都是 NioEventLoopGroup</li>
+<li>NioEventLoopGroup 相当于一个事件循环组，这个组中含有多个事件循环，每一个事件循环是 NioEventLoop，每个 NioEventLoop 都有一个 Selector，用于监听绑定在其上的 socket 的网络通讯</li>
+<li>每个 BossNioEventLoop 循环执行的步骤
+<ul>
+<li>轮询 accept 事件</li>
+<li>处理 accept 事件，与 client 建立连接，生成 NioSocketChannel，并将其注册到某个 worker NioEventLoop 上的 Selector</li>
+<li>处理任务队列的任务，即 runAllTasks</li>
+</ul>
+</li>
+<li>每个 Worker NioEventLoop 循环执行的步骤
+<ul>
+<li>轮询 read，write 事件</li>
+<li>处理 I/O 事件，即 read，write 事件，在对应 NioSocketChannel 处理</li>
+<li>处理任务队列的任务，即 runAllTasks</li>
+</ul>
+</li>
+<li>每个 Worker NioEventLoop 处理业务时，会使用 pipeline（管道），pipeline 中包含了 channel(通道)，即通过 pipeline 可以获取到对应通道，管道中维护了很多的处理器</li>
+</ul>
 <h3 id="简单使用">简单使用</h3>
 <p>1.<a href="https://netty.io/downloads.html">导入依赖</a></p>
 <pre><code>&lt;dependency&gt;
     &lt;groupId&gt;io.netty&lt;/groupId&gt;
     &lt;artifactId&gt;netty-all&lt;/artifactId&gt;
     &lt;version&gt;4.1.36.Final&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
 &lt;/dependency&gt;
 </code></pre><p>2.服务器端代码演示</p>
 <pre><code>/**
@@ -2897,6 +3222,299 @@ public class MainTestClient {
                 .channel()
                 // 向服务器端发送数据
                 .writeAndFlush(&quot;hello word&quot;);
+    }
+}
+</code></pre><h3 id="任务队列">任务队列</h3>
+<ul>
+<li>用户程序自定义的普通任务</li>
+<li>用户自定义定时任务</li>
+<li>非当前 Reactor 线程调用 Channel 的各种方法 例如在推送系统的业务线程里面，根据用户的标识，找到对应的 Channel 引用，然后调用 Write 类方法向该用户推送消息，就会进入到这种场景。
+最终的 Write 会提交到任务队列中后被异步消费</li>
+</ul>
+<p>客户端</p>
+<pre><code>/**
+ * netty 客户端测试
+ */
+public class MainTestClient {
+    public static void main(String[] args) throws InterruptedException {
+        new Bootstrap()
+                .group(new NioEventLoopGroup())
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer&lt;NioSocketChannel&gt;() {
+
+                    // 初始化 在与服务器建立链接的时候 调用
+                    @Override
+                    protected void initChannel(NioSocketChannel channel) throws Exception {
+                        // 添加编码器 只有当向服务端发送请求数据时 才会执行
+                        channel.pipeline().addLast(&quot;decoder&quot;, new StringDecoder());
+                        channel.pipeline().addLast(&quot;encoder&quot;, new StringEncoder());
+                        channel.pipeline().addLast(new ChannelInboundHandlerAdapter(){
+                            @Override
+                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                                System.out.println(&quot;服务端响应数据：&quot; + msg);
+                            }
+
+                            @Override
+                            public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                                System.out.println(&quot;客户端Active .....&quot;);
+                            }
+
+                            /**
+                             * 客户端异常时触发
+                             */
+                            @Override
+                            public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+                                cause.printStackTrace();
+                                ctx.close();
+                            }
+
+                        });
+                    }
+
+                })
+                .connect(new InetSocketAddress(&quot;127.0.0.1&quot;, 8090))
+                //阻塞方法，直到与服务器端连接建立
+                .sync()
+                .channel()
+                // 向服务器端发送数据
+                .writeAndFlush(&quot;hello word&quot;);
+    }
+}
+</code></pre><p>服务端</p>
+<pre><code>/**
+ * netty 服务端测试
+ */
+public class MainTestServer {
+    public static void main(String[] args) {
+        //new 一个主线程组
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        //new 一个工作线程组
+        EventLoopGroup workGroup = new NioEventLoopGroup(200);
+        // 启动器， 负责组装netty组件 启动服务器
+        try {
+            ServerBootstrap serverBootstrap = new ServerBootstrap()
+                    // BossEventLoop WorkEventLoop 每个 EventLoop 就是 一个选择器 + 一个线程
+                    .group(bossGroup, workGroup)
+                    // 选择服务器 ServerSocketChannel 具体实现
+                    .channel(NioServerSocketChannel.class)
+                    //设置队列大小
+                    .option(ChannelOption.SO_BACKLOG, 1024)
+                    // 两小时内没有数据的通信时,TCP会自动发送一个活动探测数据报文
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
+                    // 决定了 workEventLoop 能做那些操作
+                    .childHandler(
+                            // 建立连接后会被调用； 作用： 初始化 + 添加其他的 handler
+                            new ChannelInitializer&lt;NioSocketChannel&gt;() {
+                                // 当客户端请求发过来时 才会调用
+                                @Override
+                                protected void initChannel(NioSocketChannel channel) throws Exception {
+                                    channel.pipeline().addLast(&quot;decoder&quot;, new StringDecoder(CharsetUtil.UTF_8));
+                                    channel.pipeline().addLast(&quot;encoder&quot;, new StringEncoder(CharsetUtil.UTF_8));
+                                    // 自定义handler
+                                    channel.pipeline().addLast(new ChannelInboundHandlerAdapter() {
+
+                                        /**
+                                         * 客户端连接会触发
+                                         */
+                                        @Override
+                                        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                                            System.out.println(&quot;服务端 Active......&quot;);
+                                        }
+
+                                        /**
+                                         * 客户端发消息会触发
+                                         */
+                                        @Override
+                                        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                                            System.out.println(&quot;服务器收到消息: &quot; + msg.toString());
+                                            // 比如这里我们有一个非常耗时长的业务-&gt; 应该一步执行 -&gt; 提交该对应的channel
+                                            // 将任务放在 taskQueue 中
+                                            ctx.channel().eventLoop().execute(() -&gt; {
+                                                try {
+                                                    Thread.sleep(10 * 1000);
+                                                    ctx.writeAndFlush(&quot;业务1处理完成&quot;);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            });
+                                            // 放在TaskQueue 中的任务是由一个线程来进行处理的 所以执行完上一个任务才会执行下一个任务 时间是累加的
+                                            ctx.channel().eventLoop().execute(() -&gt; {
+                                                try {
+                                                    Thread.sleep(20 * 1000);
+                                                    ctx.writeAndFlush(&quot;业务2处理完成&quot;);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            });
+                                             // 用户自定义定时任务 -》 该任务是提交到 scheduleTaskQueue中
+                                        
+                                            ctx.channel().eventLoop().schedule(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                    
+                                                    try {
+                                                        Thread.sleep(5 * 1000);
+                                                        ctx.writeAndFlush(Unpooled.copiedBuffer(&quot;hello, 客户端~(&gt;^ω^&lt;)喵4&quot;, CharsetUtil.UTF_8));
+                                                        System.out.println(&quot;channel code=&quot; + ctx.channel().hashCode());
+                                                    } catch (Exception ex) {
+                                                        System.out.println(&quot;发生异常&quot; + ex.getMessage());
+                                                    }
+                                                }
+                                            }, 5, TimeUnit.SECONDS);
+                                        }
+
+                                        /**
+                                         * 给客户端发送消息
+                                         */
+                                        @Override
+                                        public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+                                            ctx.writeAndFlush(&quot;over&quot;);
+                                        }
+
+                                        /**
+                                         * 发生异常触发
+                                         */
+                                        @Override
+                                        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+                                            cause.printStackTrace();
+                                            ctx.close();
+                                        }
+
+
+                                    });
+                                }
+                            });
+                    // 绑定监听端口
+            ChannelFuture future = serverBootstrap.bind(8090).sync();
+            // 对关闭通道进行监听
+            future.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+
+        } finally {
+            //关闭主线程组
+            bossGroup.shutdownGracefully();
+            //关闭工作线程组
+            workGroup.shutdownGracefully();
+        }
+    }
+}
+</code></pre><h3 id="异步模型">异步模型</h3>
+<p>异步的概念和同步相对。当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的组件在完成后，通过状态、通知和回调来通知调用者。
+<code>Netty</code> 中的 I/O 操作是异步的，包括 <code>Bind、Write、Connect</code> 等操作会简单的返回一个 <code>ChannelFuture</code>。
+调用者并不能立刻获得结果，而是通过 <code>Future-Listener</code> 机制，用户可以方便的主动获取或者通过通知机制获得 IO 操作结果。</p>
+<p>当 <code>Future</code> 对象刚刚创建时，处于非完成状态，调用者可以通过返回的 <code>ChannelFuture</code> 来获取操作执行的状态，注册监听函数来执行完成后的操作。</p>
+<p>常见有如下操作：</p>
+<ul>
+<li>通过 <code>isDone</code> 方法来判断当前操作是否完成；</li>
+<li>通过 <code>isSuccess</code> 方法来判断已完成的当前操作是否成功；</li>
+<li>通过 <code>getCause</code> 方法来获取已完成的当前操作失败的原因；</li>
+<li>通过 <code>isCancelled</code> 方法来判断已完成的当前操作是否被取消；</li>
+<li>通过 <code>addListener</code> 方法来注册监听器，当操作已完成（isDone方法返回完成），将会通知指定的监听器；如果 <code>Future</code> 对象已完成，则通知指定的监听器</li>
+</ul>
+<pre><code>//绑定一个端口并且同步,生成了一个ChannelFuture对象
+//启动服务器(并绑定端口)
+ChannelFuture cf = bootstrap.bind(6668).sync();
+//给cf注册监听器，监控我们关心的事件
+cf.addListener(new ChannelFutureListener() {
+   @Override
+   public void operationComplete (ChannelFuture future) throws Exception {
+      if (cf.isSuccess()) {
+         System.out.println(&quot;监听端口6668成功&quot;);
+      } else {
+         System.out.println(&quot;监听端口6668失败&quot;);
+      }
+   }
+});
+
+</code></pre><h3 id="netty搭建http服务">Netty搭建Http服务</h3>
+<p>服务端</p>
+<pre><code>public class MainTestServer {
+    public static void main(String[] args) {
+        //new 一个主线程组
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        //new 一个工作线程组
+        EventLoopGroup workGroup = new NioEventLoopGroup(200);
+        // 启动器， 负责组装netty组件 启动服务器
+        try {
+            ServerBootstrap serverBootstrap = new ServerBootstrap()
+                    // BossEventLoop WorkEventLoop 每个 EventLoop 就是 一个选择器 + 一个线程
+                    .group(bossGroup, workGroup)
+                    // 选择服务器 ServerSocketChannel 具体实现
+                    .channel(NioServerSocketChannel.class)
+                    //设置队列大小
+                    .option(ChannelOption.SO_BACKLOG, 1024)
+                    // 两小时内没有数据的通信时,TCP会自动发送一个活动探测数据报文
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
+                    // 决定了 workEventLoop 能做那些操作
+                    .childHandler(
+                            // 建立连接后会被调用； 作用： 初始化 + 添加其他的 handler
+                            new ChannelInitializer&lt;NioSocketChannel&gt;() {
+                                // 当客户端请求发过来时 才会调用
+                                @Override
+                                protected void initChannel(NioSocketChannel channel) throws Exception {
+                                    channel.pipeline().addLast(&quot;MyHttpServerCodec&quot;, new HttpServerCodec());
+                                    // 自定义handler
+                                    channel.pipeline().addLast(new SimpleChannelInboundHandler&lt;HttpObject&gt;() {
+                                        @Override
+                                        protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+                                            System.out.println(&quot;对应的channel=&quot; + ctx.channel() + &quot; pipeline=&quot; + ctx.pipeline() + &quot; 通过pipeline获取channel&quot; + ctx.pipeline().channel());
+
+                                            System.out.println(&quot;当前ctx的handler=&quot; + ctx.handler());
+
+                                            //判断 msg 是不是 httprequest请求
+                                            if (msg instanceof HttpRequest) {
+
+                                                System.out.println(&quot;ctx 类型=&quot; + ctx.getClass());
+
+                                                System.out.println(&quot;pipeline hashcode&quot; + ctx.pipeline().hashCode() + &quot; TestHttpServerHandler hash=&quot; + this.hashCode());
+
+                                                System.out.println(&quot;msg 类型=&quot; + msg.getClass());
+                                                System.out.println(&quot;客户端地址&quot; + ctx.channel().remoteAddress());
+
+                                                //获取到
+                                                HttpRequest httpRequest = (HttpRequest) msg;
+                                                //获取uri, 过滤指定的资源
+                                                URI uri = new URI(httpRequest.uri());
+                                                if (&quot;/favicon.ico&quot;.equals(uri.getPath())) {
+                                                    System.out.println(&quot;请求了 favicon.ico, 不做响应&quot;);
+                                                    return;
+                                                }
+                                                //回复信息给浏览器 [http协议]
+
+                                                ByteBuf content = Unpooled.copiedBuffer(&quot;hello, 我是服务器&quot;, CharsetUtil.UTF_8);
+
+                                                //构造一个http的相应，即 httpresponse
+                                                FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
+
+                                                response.headers().set(HttpHeaderNames.CONTENT_TYPE, &quot;text/plain&quot;);
+                                                response.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
+
+                                                //将构建好 response返回
+                                                ctx.writeAndFlush(response);
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                    // 绑定监听端口
+            ChannelFuture future = serverBootstrap.bind(8090).sync();
+            future.addListener( future1 -&gt; {
+                if (future.isSuccess()) {
+                    System.out.println(&quot;监听端口8090成功&quot;);
+                }else{
+                    System.out.println(&quot;监听端口8090失败&quot;);
+                }
+            });
+            // 对关闭通道进行监听
+            future.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+
+        } finally {
+            //关闭主线程组
+            bossGroup.shutdownGracefully();
+            //关闭工作线程组
+            workGroup.shutdownGracefully();
+        }
     }
 }
 </code></pre></div>
