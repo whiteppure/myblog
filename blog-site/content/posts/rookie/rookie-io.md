@@ -1770,7 +1770,8 @@ Reactor 主线程可以对应多个 Reactor 子线程，即 MainRecator 可以�
 #### Netty 模型 
 ![Netty模型](/myblog/posts/images/essays/Netty模型.png)
 
-![netty简易模型](/myblog/posts/images/essays/netty简易模型.png)
+![netty结构](/myblog/posts/images/essays/netty结构.png)
+
 - Netty 抽象出两组线程池 BossGroup 专门负责接收客户端的连接，WorkerGroup 专门负责网络的读写；BossGroup 和 WorkerGroup 类型都是 NioEventLoopGroup
 - NioEventLoopGroup 相当于一个事件循环组，这个组中含有多个事件循环，每一个事件循环是 NioEventLoop，每个 NioEventLoop 都有一个 Selector，用于监听绑定在其上的 socket 的网络通讯
 - 每个 BossNioEventLoop 循环执行的步骤

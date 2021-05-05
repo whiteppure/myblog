@@ -523,11 +523,14 @@
 <li><code>capacity</code>： 容量，默认16。</li>
 <li><code>loadFactor</code>： 加载因子，默认是0.75</li>
 <li><code>threshold</code>： 阈值；<code>阈值 = 容量 * 加载因子</code>。默认12。当元素数量超过阈值时便会触发扩容。</li>
-<li>hash碰撞：当插入hashmap中元素的key出现重复时，就会覆盖之前key对应的值。</li>
+<li>hash碰撞(冲突)：当插入hashmap中元素的key出现重复时，就会覆盖之前key对应的值。</li>
 </ul>
 <h2 id="结构">结构</h2>
-<p>JDK1.7：数组 + 单向链表
-JDK1.8: 数组 + 单向链表/红黑树</p>
+<p><img src="/myblog/posts/images/essays/HashMap%E7%BB%93%E6%9E%84.png" alt="HashMap结构"></p>
+<ul>
+<li>JDK1.7：数组 + 单向链表</li>
+<li>JDK1.8: 数组 + 单向链表/红黑树</li>
+</ul>
 <p>在JDK1.8时，如果存储Map中数组元素对应的索引的每个链表超过8，就将单向链表转化为红黑树；当红黑树的节点少于6个的时候又开始使用链表。</p>
 <h3 id="为什么要使用红黑树">为什么要使用红黑树？</h3>
 <p>当有发生大量的hash冲突时，因为链表遍历效率很慢，为了提升查询的效率，所以使用了红黑树的数据结构。</p>

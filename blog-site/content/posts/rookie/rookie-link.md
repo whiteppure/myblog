@@ -31,6 +31,6 @@ slug: "rookie-link"
 - 五分钟学算法: [https://www.cxyxiaowu.com](https://www.cxyxiaowu.com)
 - AlgoMooc: [https://www.algomooc.com](https://www.algomooc.com)
 
-### 文章：
+### 文章
 - 史上最全设计模式: [https://blog.csdn.net/LoveLion/article/details/17517213](https://blog.csdn.net/LoveLion/article/details/17517213)
 - 图说设计模式: [https://design-patterns.readthedocs.io/zh_CN/latest/index.html](https://design-patterns.readthedocs.io/zh_CN/latest/index.html)

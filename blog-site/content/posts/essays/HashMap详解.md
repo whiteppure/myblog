@@ -9,11 +9,13 @@ slug: "java-hashmap"
 - `capacity`： 容量，默认16。
 - `loadFactor`： 加载因子，默认是0.75
 - `threshold`： 阈值；`阈值 = 容量 * 加载因子`。默认12。当元素数量超过阈值时便会触发扩容。
-- hash碰撞：当插入hashmap中元素的key出现重复时，就会覆盖之前key对应的值。
+- hash碰撞(冲突)：当插入hashmap中元素的key出现重复时，就会覆盖之前key对应的值。
 
 ## 结构
-JDK1.7：数组 + 单向链表
-JDK1.8: 数组 + 单向链表/红黑树
+![HashMap结构](/myblog/posts/images/essays/HashMap结构.png)
+
+- JDK1.7：数组 + 单向链表
+- JDK1.8: 数组 + 单向链表/红黑树
 
 在JDK1.8时，如果存储Map中数组元素对应的索引的每个链表超过8，就将单向链表转化为红黑树；当红黑树的节点少于6个的时候又开始使用链表。
 

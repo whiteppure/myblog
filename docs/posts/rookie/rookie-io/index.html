@@ -3135,7 +3135,7 @@ for rapid development of maintainable high performance protocol servers &amp; cl
 <p>这种模型在许多项目中广泛使用，包括 Nginx 主从 Reactor 多进程模型，Memcached 主从多线程，Netty 主从多线程模型的支持。</p>
 <h4 id="netty-模型">Netty 模型</h4>
 <p><img src="/myblog/posts/images/essays/Netty%E6%A8%A1%E5%9E%8B.png" alt="Netty模型"></p>
-<p><img src="/myblog/posts/images/essays/netty%E7%AE%80%E6%98%93%E6%A8%A1%E5%9E%8B.png" alt="netty简易模型"></p>
+<p><img src="/myblog/posts/images/essays/netty%E7%BB%93%E6%9E%84.png" alt="netty结构"></p>
 <ul>
 <li>Netty 抽象出两组线程池 BossGroup 专门负责接收客户端的连接，WorkerGroup 专门负责网络的读写；BossGroup 和 WorkerGroup 类型都是 NioEventLoopGroup</li>
 <li>NioEventLoopGroup 相当于一个事件循环组，这个组中含有多个事件循环，每一个事件循环是 NioEventLoop，每个 NioEventLoop 都有一个 Selector，用于监听绑定在其上的 socket 的网络通讯</li>
