@@ -1772,17 +1772,17 @@ Reactor 主线程可以对应多个 Reactor 子线程，即 MainRecator 可以�
 
 ![netty结构](/myblog/posts/images/essays/netty结构.png)
 
-- Netty 抽象出两组线程池 BossGroup 专门负责接收客户端的连接，WorkerGroup 专门负责网络的读写；BossGroup 和 WorkerGroup 类型都是 NioEventLoopGroup
-- NioEventLoopGroup 相当于一个事件循环组，这个组中含有多个事件循环，每一个事件循环是 NioEventLoop，每个 NioEventLoop 都有一个 Selector，用于监听绑定在其上的 socket 的网络通讯
-- 每个 BossNioEventLoop 循环执行的步骤
+- Netty 抽象出两组线程池 `BossGroup` 专门负责接收客户端的连接，`WorkerGroup` 专门负责网络的读写；`BossGroup` 和 `WorkerGroup` 类型都是 `NioEventLoopGroup`
+- `NioEventLoopGroup` 相当于一个事件循环组，这个组中含有多个事件循环，每一个事件循环是 `NioEventLoop`，每个 `NioEventLoop` 都有一个 `Selector`，用于监听绑定在其上的 `socket` 的网络通讯
+- 每个 `BossNioEventLoop` 循环执行的步骤
     - 轮询 accept 事件
-    - 处理 accept 事件，与 client 建立连接，生成 NioSocketChannel，并将其注册到某个 worker NioEventLoop 上的 Selector
-    - 处理任务队列的任务，即 runAllTasks
-- 每个 Worker NioEventLoop 循环执行的步骤
-    - 轮询 read，write 事件
-    - 处理 I/O 事件，即 read，write 事件，在对应 NioSocketChannel 处理
-    - 处理任务队列的任务，即 runAllTasks
-- 每个 Worker NioEventLoop 处理业务时，会使用 pipeline（管道），pipeline 中包含了 channel(通道)，即通过 pipeline 可以获取到对应通道，管道中维护了很多的处理器
+    - 处理 `accept` 事件，与 client 建立连接，生成 `NioSocketChannel`，并将其注册到某个 `workerNioEventLoop` 上的 `Selector`
+    - 处理任务队列的任务，即 `runAllTasks`
+- 每个 Worker `NioEventLoop` 循环执行的步骤
+    - 轮询 `read，write` 事件
+    - 处理 I/O 事件，即 `read，write` 事件，在对应 `NioSocketChannel` 处理
+    - 处理任务队列的任务，即 `runAllTasks`
+- 每个 Worker `NioEventLoop` 处理业务时，会使用 `pipeline`（管道），`pipeline` 中包含了 `channel`(通道)，即通过 `pipeline` 可以获取到对应通道，管道中维护了很多的处理器
 
 
 ### 简单使用

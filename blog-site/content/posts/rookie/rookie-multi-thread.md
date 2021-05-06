@@ -6,6 +6,50 @@ tags: ["Java", "面向菜鸟编程"]
 slug: "rookie-multi-thread"
 ---
 
+## 概述
+
+## 创建线程
+
+### 继承Thread类
+
+### 实现Runnable接口
+
+### 实现Callable接口
+
+### 线程池创建
+
+## 锁
+
+### 公平锁
+
+### 非公平锁
+
+### 可重入锁
+
+### 不可重入锁
+
+### 自旋锁
+
+### 独占锁
+
+### 共享锁
+
+
+## volatile
+
+## synchronized
+
+## ReentrantLock
+
+## 并发集合不安全
+
+### List
+
+### Set
+
+### Map
+
+
 ## 线程池
 线程池做的工作主要是控制运行的线程的数量，处理过程中将任务放入队列，然后在线程创建后启动这些任务，如果线程数量超过了最大数量超出数量的线程排队等候，等其它线程执行完毕，再从队列中取出任务来执行。
 
@@ -119,6 +163,7 @@ public class MainTest {
 }
 ```
 
+### 阻塞队列
 
 ### 线程池参数
 ```
@@ -164,7 +209,7 @@ public class MainTest {
 
 **在实际开发中用哪个线程池？**
 
-一个都不用，我们生产上只能使用自定义的。
+上面的三种一个都不用，我们生产上只能使用自定义的。
 
 **Executors 中JDK已经给你提供了，为什么不用?**
 
@@ -176,7 +221,6 @@ public class MainTest {
 >说明：Executors 返回的线程池对象的弊端如下：
   1） FixedThreadPool 和 SingleThreadPool： 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。
   2） CachedThreadPool： 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。
-
 
 
 自定义线程池代码演示
