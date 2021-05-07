@@ -452,6 +452,178 @@
         
         
         
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#7%e7%a7%8d%e7%bb%8f%e5%85%b8%e7%9a%84%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e5%99%a8">
+                    7种经典的垃圾回收器
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e5%99%a8%e4%b8%8e%e5%9e%83%e5%9c%be%e5%88%86%e4%bb%a3%e4%b9%8b%e9%97%b4%e7%9a%84%e5%85%b3%e7%b3%bb">
+                    垃圾回收器与垃圾分代之间的关系
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%9e%83%e5%9c%be%e6%94%b6%e9%9b%86%e5%99%a8%e7%9a%84%e7%bb%84%e5%90%88%e5%85%b3%e7%b3%bb">
+                    垃圾收集器的组合关系
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%9f%a5%e7%9c%8b%e9%bb%98%e8%ae%a4%e5%9e%83%e5%9c%be%e6%94%b6%e9%9b%86%e5%99%a8">
+                    查看默认垃圾收集器
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#serial-gc">
+                    Serial GC
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bd%bf%e7%94%a8serial-gc">
+                    使用Serial GC
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
 
     </div>
 
@@ -604,7 +776,76 @@ API层面：Stream API、新的日期时间、Optional、String、集合框架
 <li>2019年3月，JDK12发布。增强G1，自动返回未用堆内存给操作系统。同时，引入 <code>Shenandoah GC</code>：低停顿时间的GC（Experimental）。·2019年9月，JDK13发布。增强ZGC，自动返回未用堆内存给操作系统。</li>
 <li>2020年3月，JDK14发布。删除CMS垃圾回收器。扩展zGC在 MacOS 和 Windows 上的应用</li>
 </ul>
-</div>
+<h3 id="7种经典的垃圾回收器">7种经典的垃圾回收器</h3>
+<ul>
+<li>串行回收器：<code>Serial</code>、<code>Serial old</code></li>
+<li>并行回收器：<code>ParNew</code>、<code>Parallel Scavenge</code>、<code>Parallel old</code></li>
+<li>并发回收器：<code>CMS</code>、<code>G1</code></li>
+</ul>
+<h4 id="垃圾回收器与垃圾分代之间的关系">垃圾回收器与垃圾分代之间的关系</h4>
+<p><img src="/myblog/posts/images/essays/%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%88%86%E4%BB%A3%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB.png" alt="收集器与垃圾分代之间的关系"></p>
+<ul>
+<li>新生代收集器：<code>Serial</code>、<code>ParNew</code>、<code>Parallel Scavenge</code></li>
+<li>老年代收集器：<code>Serial old</code>、<code>Parallel old</code>、<code>CMS</code></li>
+<li>整堆收集器：<code>G1</code></li>
+</ul>
+<h4 id="垃圾收集器的组合关系">垃圾收集器的组合关系</h4>
+<p><img src="/myblog/posts/images/essays/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB.png" alt="垃圾回收器组合关系"></p>
+<ul>
+<li>两个收集器间有连线，表明它们可以搭配使用
+<ul>
+<li><code>Serial/Serial old</code></li>
+<li><code>Serial/CMS</code></li>
+<li><code>ParNew/Serial old</code>、</li>
+<li><code>ParNew/CMS、Parallel</code></li>
+<li><code>Scavenge/Serial 0ld</code></li>
+<li><code>Parallel Scavenge/Parallel old</code></li>
+<li><code>G1</code></li>
+</ul>
+</li>
+<li><code>Serial old</code>和<code>CMS</code>之间的连线表示，<code>Serial old</code>作为CMS出现&quot;Concurrent Mode Failure&quot;失败的后备预案</li>
+<li>红色虚线表示，在JDK 8时将<code>Serial + CMS</code>、<code>ParNew + Serial old</code>这两个组合声明为废弃；并在JDK9中完全取消了这些组合的支持</li>
+<li>绿色虚线表示，JDK14中：弃用<code>Parallel Scavenge</code>和<code>Serial old</code> 组合</li>
+<li>青色虚线表示，在JDK14中删除CMS垃圾回收器</li>
+</ul>
+<blockquote>
+<p>PS 为什么要有很多垃圾回收器?
+因为垃圾回收器没有最好的实现，想要STW时间段的就需要吞吐量少一点；所以我们选择的只是对具体应用最合适的收集器。
+针对不同的场景，提供不同的垃圾收集器，来提高垃圾收集的性能。</p>
+</blockquote>
+<h3 id="查看默认垃圾收集器">查看默认垃圾收集器</h3>
+<p><strong>使用虚拟机参数<code>-XX:+PrintCommandLineFlags</code>：查看命令行相关参数</strong></p>
+<p>运行下列程序</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        try {
+            Thread.sleep(100000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><p>输出结果</p>
+<pre><code>-XX:InitialHeapSize=268435456 -XX:MaxHeapSize=4294967296 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseParallelGC 
+</code></pre><p><strong>使用命令行指令：jinfo -flag 垃圾回收器参数 进程ID</strong>
+<img src="/myblog/posts/images/essays/jinfo%E5%91%BD%E4%BB%A4%E6%9F%A5%E7%9C%8BGC.png" alt="jinfo命令查看GC"></p>
+<h2 id="serial-gc">Serial GC</h2>
+<p><code>Serial GC</code>由于弊端较大，只有放在单核CPU上才能充分发挥其作用，由于现在都是多核CPU已经不用串行收集器了，所以以下内容了解即可。</p>
+<p>对于交互较强的应用而言，这种垃圾收集器是不能接受的。一般在Java web应用程序中是不会采用串行垃圾收集器的。</p>
+<p><code>Serial GC</code>(串行垃圾回收回器)是最基本、历史最悠久的垃圾收集器了。JDK1.3之前回收新生代唯一的选择。</p>
+<p><code>Serial GC</code>作为<a href="https://whiteppure.github.io/myblog/posts/jvm/jvm-execute-engine/#%E5%8D%B3%E4%BD%BF%E7%BC%96%E8%AF%91%E5%99%A8%E5%88%86%E7%B1%BB">HotSpot中client模式</a>下的默认新生代垃圾收集器；
+<code>Serial GC</code>采用复制算法、串行回收和&quot;stop-the-world&quot;机制的方式执行内存回收；</p>
+<p>除了年轻代之外，<code>Serial GC</code>还提供用于执行老年代垃圾收集的<code>Serial old GC</code>;<code>Serial old GC</code>是运行在Client模式下默认的老年代的垃圾回收器;
+同样也采用了串行回收和&quot;stop the world&quot;机制，只不过内存回收算法使用的是标记-压缩算法。</p>
+<p><code>Serial GC</code>是一个单线程的收集器，但它的“单线程”的意义并不仅仅说明它只会使用一个CPU或一条收集线程去完成垃圾收集工作，更重要的是在它进行垃圾收集时，必须暂停其他所有的工作线程，直到它收集结束</p>
+<p><strong><code>Serial GC</code>优点</strong>, 简单而<strong>高效</strong>（与其他收集器的单线程比），对于限定单个CPU的环境来说，<code>Serial GC</code>由于没有线程交互的开销，专心做垃圾收集自然可以获得最高的单线程收集效率。
+是运行在client模式下的虚拟机是个不错的选择。</p>
+<h3 id="使用serial-gc">使用Serial GC</h3>
+<p>运行任意程序，设置虚拟机参数如下;当设置使用<code>Serial GC</code>时，新生代和老年代都会使用串行收集器。</p>
+<pre><code>-XX:+PrintCommandLineFlags -XX:+UseSerialGC
+</code></pre><p>输出</p>
+<pre><code>-XX:InitialHeapSize=268435456 -XX:MaxHeapSize=4294967296 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseSerialGC 
+</code></pre></div>
                     <div class="post_footer">
                         
                         <div class="meta">
