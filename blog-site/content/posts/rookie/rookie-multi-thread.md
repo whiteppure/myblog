@@ -8,6 +8,37 @@ slug: "rookie-multi-thread"
 
 ## 概述
 
+### 线程与进程
+> **进程**是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。例如，一个正在运行的程序的实例就是一个进程。
+
+> **线程**是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。
+一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。
+
+进程是操作系统资源分配的基本单位，而线程是处理器任务调度和执行的基本单位。
+一个进程至少有一个线程，一个进程可以运行多个线程，多个线程可共享数据。
+
+Java 程序是多线程程序，每启动一个Java程序至少我们知道的都会包含一个主线程和一个垃圾回收线程。
+而且启动的时候，每条线程可以并行执行不同的任务。
+
+### 并行与并发
+> 并发是指在操作系统中，是指一个时间段中有几个程序都处于已启动运行到运行完毕之间，且这几个程序都是在同一个处理机上运行。
+
+看起来是同时执行，但是实际上对于单CPU的计算机来说，同一时间是只能干一件事儿的。
+我们之所以感受到程序是同时进行的是因为，CPU不断的去通过**时间片技术**切换这些线程；由于因为CPU处理非常快，我们感觉这些任务好像是同时执行的。
+
+> 并行是指当系统有一个以上CPU时或CPU有多个核心数时，当一个CPU核心执行一个进程时，另一个CPU核心可以执行另一个进程，两个进程互不抢占CPU资源，可以同时进行，
+
+只有在多CPU或者一个CPU多核的情况中，才会发生并行。
+
+二者的区别图解
+![并行与并发区别](/myblog/posts/images/essays/并行与并发区别.png)
+
+### 同步与异步
+
+## 守护线程
+
+## 线程的状态
+
 ## 创建线程
 
 ### 继承Thread类
@@ -39,7 +70,7 @@ slug: "rookie-multi-thread"
 
 ## synchronized
 
-## ReentrantLock
+## reentrantLock
 
 ## 并发集合不安全
 
@@ -66,7 +97,8 @@ slug: "rookie-multi-thread"
 - `Executors.newFixedThreadPool(int)`：创建固定线程的线程池
 - `Executors.newCachedThreadPool()`：创建一个可缓存的线程池，线程数量随着处理业务数量变化
 
-底层代码都是用`ThreadPoolExecutor`创建的。
+这三种常用创建线程池的方式，底层代码都是用`ThreadPoolExecutor`创建的。
+
 #### SingleThreadExecutor
 - 使用`Executors.newSingleThreadExecutor()`创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序执行。
 - `newSingleThreadExecutor` 将 `corePoolSize` 和 `maximumPoolSize` 都设置为1，它使用的 `LinkedBlockingQueue`。
@@ -198,8 +230,8 @@ public class MainTest {
 如果当前运行的线程数大于 `corePoolSize`，那么这个线程就被停掉，所以线程池的所有任务完成后它最终会收缩到 `corePoolSize` 的大小
 
 ### 四种拒绝策略
-在线程池中，如果任务队列满了并且正在运行的线程个数等于允许运行的最大线程数，那么线程池会启动拒绝策略来执行，具体分为下列四种：
-- `AbortPolicy`: 默认拒绝策略；直接抛出`java.util.concurrent.RejectedExecutionException`异常，组织系统的正常运行；
+在线程池中，如果任务队列满了并且正在运行的线程个数大于等于允许运行的最大线程数，那么线程池会启动拒绝策略来执行，具体分为下列四种：
+- `AbortPolicy`: 默认拒绝策略；直接抛出`java.util.concurrent.RejectedExecutionException`异常，阻止系统的正常运行；
 - `CallerRunsPolicy`：调用这运行，一种调节机制，该策略既不会抛弃任务，也不会抛出异常，而是将某些任务回退到调用者,从而降低新任务的流量；
 - `DiscardOldestPolicy`：抛弃队列中等待最久的任务，然后把当前任务加入到队列中；
 - `DiscardPolicy`：直接丢弃任务，不给予任何处理也不会抛出异常；如果允许任务丢失，这是一种最好的解决方案；
@@ -211,16 +243,16 @@ public class MainTest {
 
 上面的三种一个都不用，我们生产上只能使用自定义的。
 
-**Executors 中JDK已经给你提供了，为什么不用?**
+**`Executors` 中JDK已经给你提供了，为什么不用?**
 
 以下内容摘自[《阿里巴巴开发手册》](https://developer.aliyun.com/topic/download?spm=a2c6h.15028928.J_5293118740.2&id=805)
 > 【强制】线程资源必须通过线程池提供，不允许在应用中自行显式创建线程。
   说明：线程池的好处是减少在创建和销毁线程上所消耗的时间以及系统资源的开销，解决资源不足的问题。 如果不使用线程池，有可能造成系统创建大量同类线程而导致消耗完内存或者“过度切换”的问题。
-  【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。
+  【强制】线程池不允许使用 `Executors` 去创建，而是通过 `ThreadPoolExecutor` 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。
   
->说明：Executors 返回的线程池对象的弊端如下：
-  1） FixedThreadPool 和 SingleThreadPool： 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。
-  2） CachedThreadPool： 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。
+>说明：`Executors` 返回的线程池对象的弊端如下：
+  1） `FixedThreadPool` 和 `SingleThreadPool`： 允许的请求队列长度为 `Integer.MAX_VALUE`，可能会堆积大量的请求，从而导致 OOM。
+  2） `CachedThreadPool`： 允许的创建线程数量为 `Integer.MAX_VALUE`，可能会创建大量的线程，从而导致 OOM。
 
 
 自定义线程池代码演示
@@ -249,7 +281,7 @@ public class MainTest {
 }
 ```
 ### 合理配置线程池参数
-可以分为以下两种情况
+合理配置线程池参数，可以分为以下两种情况
 - CPU密集型：CPU密集的意思是该任务需要大量的运算，而没有阻塞，CPU一直全速运行；
   CPU密集型任务配置尽可能少的线程数量：`参考公式：（CPU核数+1）`
 
