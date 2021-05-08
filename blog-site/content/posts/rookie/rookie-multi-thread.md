@@ -6,7 +6,7 @@ tags: ["Java", "面向菜鸟编程"]
 slug: "rookie-multi-thread"
 ---
 
-## 概述
+## 相关概念
 
 ### 线程与进程
 > **进程**是一个具有一定独立功能的程序关于某个数据集合的一次运行活动。例如，一个正在运行的程序的实例就是一个进程。
@@ -54,59 +54,23 @@ Java 程序是多线程程序，每启动一个Java程序至少我们知道的�
 | **同步** |  只能同步  | 可以同步   |
 | **异步** |  不能异步  | 可以异步  |
 
-> 「PS」 线程中的同步(synchroniezd)机制
+> PS 线程中的同步(synchronized)机制
 在多线程环境下，一旦一个方法或一段代码被synchronized修饰，也就意味着被同步了；
 在synchronized修饰的作用域中，某一段时间内只允许一个线程进行操作数据，如果有多个线程需要操作则要排队等待。
 
-
-
-## 守护线程
+### 守护线程
 
 ## 线程的状态
 
 ## 创建线程
 
-### 继承Thread类
+### Thread类
 
-### 实现Runnable接口
+### Runnable接口
 
-### 实现Callable接口
+### Callable接口
 
-### 线程池创建
-
-## 锁
-
-### 公平锁
-
-### 非公平锁
-
-### 可重入锁
-
-### 不可重入锁
-
-### 自旋锁
-
-### 独占锁
-
-### 共享锁
-
-
-## volatile
-
-## synchronized
-
-## reentrantLock
-
-## 并发集合不安全
-
-### List
-
-### Set
-
-### Map
-
-
-## 线程池
+### 线程池
 线程池做的工作主要是控制运行的线程的数量，处理过程中将任务放入队列，然后在线程创建后启动这些任务，如果线程数量超过了最大数量超出数量的线程排队等候，等其它线程执行完毕，再从队列中取出任务来执行。
 
 它的主要特点为：线程复用，控制最大并发数，管理线程。
@@ -116,7 +80,7 @@ Java 程序是多线程程序，每启动一个Java程序至少我们知道的�
 - 提高响应速度。当任务到达时，任务可以不需要的等到线程创建就能立即执行。
 - 提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
 
-### 常用方式
+#### 常用方式
 通过`Executors`线程池工具类来使用：
 - `Executors.newSingleThreadExecutor()`：创建只有一个线程的线程池
 - `Executors.newFixedThreadPool(int)`：创建固定线程的线程池
@@ -124,7 +88,7 @@ Java 程序是多线程程序，每启动一个Java程序至少我们知道的�
 
 这三种常用创建线程池的方式，底层代码都是用`ThreadPoolExecutor`创建的。
 
-#### SingleThreadExecutor
+##### SingleThreadExecutor
 - 使用`Executors.newSingleThreadExecutor()`创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序执行。
 - `newSingleThreadExecutor` 将 `corePoolSize` 和 `maximumPoolSize` 都设置为1，它使用的 `LinkedBlockingQueue`。
 
@@ -157,7 +121,7 @@ public class MainTest {
 }
 ```
 
-#### FixedThreadPool
+##### FixedThreadPool
 - 使用`Executors.newFixedThreadPool(int)`创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
 - `newFixedThreadPool` 创建的线程池 `corePoolSize` 和 `maximumPoolSize` 值是相等的，它使用的 `LinkedBlockingQueue`。
 
@@ -188,7 +152,7 @@ public class MainTest {
 }
 ```
 
-#### CachedThreadPool
+##### CachedThreadPool
 - 使用`Executors.newCachedThreadPool()`创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
 - `newCachedThreadPool` 将 `corePoolSize` 设置为0，将 `maximumPoolSize` 设置为 `Integer.MAX_VALUE`，使用的 `SynchronousQueue`，也就是说来了任务就创建线程运行，当线程空闲超过60秒，就销毁线程。
 
@@ -220,9 +184,9 @@ public class MainTest {
 }
 ```
 
-### 阻塞队列
+#### 阻塞队列
 
-### 线程池参数
+#### 线程池参数
 ```
     public ThreadPoolExecutor(int corePoolSize,
                               int maximumPoolSize,
@@ -242,7 +206,7 @@ public class MainTest {
 - `keepAliveTime`：多余的空闲线程的存活时间；如果线程池扩容后，能处理过来，而且数据量并没有那么大，用最初的线程数量就能处理过来，剩下的线程被叫做空闲线程
 - `unit`：多余的空闲线程的存活时间的单位
 
-### 线程池工作原理
+#### 线程池工作原理
 ![线程池工作原理](/myblog/posts/images/essays/线程池工作原理.png)
 
 在创建了线程池后，等待提交过来的任务请求;
@@ -254,7 +218,7 @@ public class MainTest {
 5. 随着时间的推移，业务量越来越少，线程池中出现了空闲线程，当一个线程无事可做超过一定的时间时，线程池会进行判断：
 如果当前运行的线程数大于 `corePoolSize`，那么这个线程就被停掉，所以线程池的所有任务完成后它最终会收缩到 `corePoolSize` 的大小
 
-### 四种拒绝策略
+#### 四种拒绝策略
 在线程池中，如果任务队列满了并且正在运行的线程个数大于等于允许运行的最大线程数，那么线程池会启动拒绝策略来执行，具体分为下列四种：
 - `AbortPolicy`: 默认拒绝策略；直接抛出`java.util.concurrent.RejectedExecutionException`异常，阻止系统的正常运行；
 - `CallerRunsPolicy`：调用这运行，一种调节机制，该策略既不会抛弃任务，也不会抛出异常，而是将某些任务回退到调用者,从而降低新任务的流量；
@@ -262,7 +226,7 @@ public class MainTest {
 - `DiscardPolicy`：直接丢弃任务，不给予任何处理也不会抛出异常；如果允许任务丢失，这是一种最好的解决方案；
 
 
-### 自定义线程池
+#### 自定义线程池
 
 **在实际开发中用哪个线程池？**
 
@@ -305,7 +269,7 @@ public class MainTest {
     }
 }
 ```
-### 合理配置线程池参数
+#### 合理配置线程池参数
 合理配置线程池参数，可以分为以下两种情况
 - CPU密集型：CPU密集的意思是该任务需要大量的运算，而没有阻塞，CPU一直全速运行；
   CPU密集型任务配置尽可能少的线程数量：`参考公式：（CPU核数+1）`
@@ -347,4 +311,41 @@ public class MainTest {
     }
 }
 ```
+
+## 锁
+
+### 公平锁
+
+### 非公平锁
+
+### 可重入锁
+
+### 不可重入锁
+
+### 自旋锁
+
+### 独占锁
+
+### 共享锁
+
+### 悲观锁
+
+### 乐观锁
+
+# 线程安全
+## 原子性
+## 可见性
+## 有序性
+
+## volatile
+## synchronized
+## reentrantLock
+
+## 并发集合不安全
+### List
+### Set
+### Map
+
+
+
 
