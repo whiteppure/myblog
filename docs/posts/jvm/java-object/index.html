@@ -93,8 +93,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%af%b9%e8%b1%a1%e5%88%9b%e5%bb%ba%e6%96%b9%e5%bc%8f">
-                    对象创建方式
+                <a class="nav-link text-left" href="#%e5%af%b9%e8%b1%a1%e7%9a%84%e5%88%9b%e5%bb%ba%e6%96%b9%e5%bc%8f">
+                    对象的创建方式
                 </a>
             </li>
             
@@ -121,8 +121,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1%e7%9a%84%e6%ad%a5%e9%aa%a4">
-                    创建对象的步骤
+                <a class="nav-link text-left" href="#%e5%af%b9%e8%b1%a1%e7%9a%84%e5%88%9b%e5%bb%ba%e6%ad%a5%e9%aa%a4">
+                    对象的创建步骤
                 </a>
             </li>
             
@@ -149,8 +149,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1%e7%9a%84%e8%bf%87%e7%a8%8b">
-                    创建对象的过程
+                <a class="nav-link text-left" href="#%e5%af%b9%e8%b1%a1%e7%9a%84%e5%88%9b%e5%bb%ba%e8%bf%87%e7%a8%8b">
+                    对象的创建过程
                 </a>
             </li>
             
@@ -467,7 +467,7 @@
                         <span class="date">2021.04.12</span>
                     </div>
                     <div class="post_content markdown"><h2 id="对象实例化">对象实例化</h2>
-<h3 id="对象创建方式">对象创建方式</h3>
+<h3 id="对象的创建方式">对象的创建方式</h3>
 <ul>
 <li>使用new关键字创建：最常见的方式、单例类中调用<code>getInstance</code>的静态类方法，<code>XXXFactory</code>的静态方法；</li>
 <li>使用反射方式创建：
@@ -480,7 +480,7 @@
 </li>
 <li>使用第三方库 <code>Objenesis</code>；</li>
 </ul>
-<h3 id="创建对象的步骤">创建对象的步骤</h3>
+<h3 id="对象的创建步骤">对象的创建步骤</h3>
 <p>创建对象代码演示及字节码指令</p>
 <pre><code>public class MainTest {
     public static void main(String[] args) {
@@ -497,7 +497,7 @@
 <li>设置对象头信息</li>
 <li>属性的显示初始化、代码块中初始化、构造器中初始化</li>
 </ol>
-<h3 id="创建对象的过程">创建对象的过程</h3>
+<h3 id="对象的创建过程">对象的创建过程</h3>
 <p><strong>判断对象对应的类是否加载、链接、初始化</strong></p>
 <p>虚拟机遇到一条<code>new</code>指令，首先去检查这个指令的参数能否在 <code>Metaspace</code> 的常量池中定位到一个类的符号引用，
 并且检查这个符号引用代表的类是否已经被加载，解析和初始化。（即判断类元信息是否存在）。
