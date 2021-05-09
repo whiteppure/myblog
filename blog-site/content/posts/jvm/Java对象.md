@@ -17,7 +17,7 @@ slug: "java-object"
     - 使用序列化：序列化一般用于`Socket`的网络传输；
 - 使用第三方库 `Objenesis`；
 
-### 创建对象的过程及步骤
+### 创建对象的步骤
 创建对象代码演示及字节码指令
 ```
 public class MainTest {
@@ -36,9 +36,11 @@ public class MainTest {
 5. 设置对象头信息
 6. 属性的显示初始化、代码块中初始化、构造器中初始化
 
+### 创建对象的过程
+
 **判断对象对应的类是否加载、链接、初始化**
 
-虚拟机遇到一条new指令，首先去检查这个指令的参数能否在 `Metaspace` 的常量池中定位到一个类的符号引用，
+虚拟机遇到一条`new`指令，首先去检查这个指令的参数能否在 `Metaspace` 的常量池中定位到一个类的符号引用，
 并且检查这个符号引用代表的类是否已经被加载，解析和初始化。（即判断类元信息是否存在）。
 如果没有，那么在双亲委派模式下，使用当前类加载器以 `ClassLoader + 包名 + 类名` 为key进行查找对应的 `.class `文件，
 如果没有找到文件，则抛出 `ClassNotFoundException` 异常，如果找到，则进行类加载，并生成对应的Class对象。
@@ -84,7 +86,10 @@ public class MainTest {
 初始化成员变量，执行实例化代码块，调用类的构造方法，并把堆内对象的首地址赋值给引用变量。
 因此一般来说（由字节码中跟随 `invokespecial` 指令所决定），new指令之后会接着执行方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完成创建出来。
 
-## [对象组成](http://openjdk.java.net/groups/hotspot/docs/HotSpotGlossary.html)
+## 对象组成
+![对象内存布局](/myblog/posts/images/essays/对象内存布局.png)
+
+### 查看对象的组成
 **引入依赖**
 ```
 <!-- 引入查看对象布局的依赖 -->
@@ -93,17 +98,18 @@ public class MainTest {
     <artifactId>jol-core</artifactId>
     <version>0.9</version>
 </dependency>
-
 ```
 
 **测试代码**
 ```
-@Test
-public void demo() {
-    T t = new T();//这个对象里面是空的什么都没有
-    System.out.println(ClassLayout.parseInstance(t).toPrintable());
+public class MainTest {
+    public static void main(String[] args) {
+        //这个对象里面是空的什么都没有
+        T t = new T();
+        System.out.println(ClassLayout.parseInstance(t).toPrintable());
+    }
 }
-
+class T{}
 ```
 
 **测试结果**
@@ -116,28 +122,100 @@ public void demo() {
 Instance size: 16 bytes
 Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
 ```
+在64位JVM下,通过测试的结果我们可以看到Java对象的布局对象头占12byte,因为Jvm规定内存分配的字节必须是8的倍数,否则无法分配内存，所以就出现了，4byte的对齐数据。
 
-在64位Jvm下,通过测试的结果我们可以看到Java对象的布局分为对象头,对齐数据(因为Jvm规定内存分配的字节必须是8的倍数,否则无法分配内存),
-当该类里边有变量时,还包含实例变量。
-
-![对象内存布局](/myblog/posts/images/essays/对象内存布局.png)
+通过测试发现，Java的对象布局包括：
+- 必定存在一个对象头
+- 如果分配的JVM分配的字节不是8的倍数的话，还要存在对齐数据
+- 当该类里边有变量时,还包含实例变量
 
 ### 对象头
-对象头在32位下是4个字节,64位下是12个字节(96bite)。
-对象头包含了两部分，分别是 运行时元数据和类型指针；如果是数组，还需要记录数组的长度.
+[官方文档](http://openjdk.java.net/groups/hotspot/docs/HotSpotGlossary.html)对于对象头的解释
+>object header 
+Common structure at the beginning of every GC-managed heap object.
+ (Every oop points to an object header.) Includes fundamental information about the heap object's layout, type, GC state, synchronization state, and identity hash code.
+ Consists of two words. In arrays it is immediately followed by a length field. 
+Note that both Java objects and VM-internal objects have a common object header format.
 
-运行时元数据:
+大意：每个GC管理堆对象开始处的公共结构。(每个oop都指向一个对象头。)包括关于堆对象布局、类型、GC状态、同步状态和标识散列代码的基本信息。
+**由两个词组成**。在数组中，它后面紧跟着一个长度字段。注意，Java对象和vm内部对象都有一个共同的对象头格式。
+
+其中上面的**两个词**指的是
+>mark word
+The first word of every object header. Usually a set of bitfields including synchronization state and identity hash code.
+ May also be a pointer (with characteristic low bit encoding) to synchronization related information. 
+During GC, may contain GC state bits.
+
+大意：每个对象头文件的第一个字。通常是一组位域，包括同步状态和身份散列码。也可以是一个用于同步相关信息的指针(具有特征的低位编码)。在GC期间，可能包含GC状态位。
+
+>klass pointer
+The second word of every object header. Points to another object (a metaobject) which describes the layout and behavior of the original object.
+For Java objects, the "klass" contains a C++ style "vtable".
+
+大意：每个对象头文件的第二个字。指向另一个对象(元对象)，它描述了原始对象的布局和行为。对于Java对象，“klass”包含一个c++风格的“vtable”。
+
+简单来说，对象头包含了包括两部分，分别是标志词(mark word)和类型指针(klass pointer)；如果是数组，还需要记录数组的长度。
+
+引用上面在64位虚拟机下的测试结果，对象头中的这些二进制数字代表什么呢？
+```
+ OFFSET  SIZE   TYPE DESCRIPTION                               VALUE
+      0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)
+      4     4        (object header)                           00 00 00 00 (00000000 00000000 00000000 00000000) (0)
+      8     4        (object header)                           a1 2c 01 20 (10100001 00101100 00000001 00100000) (536947873)
+```
+在`openjdk8-master`中`markOop.hpp`，有对`mark word`的描述
+```
+//  32 bits:
+//  --------
+//             hash:25 ------------>| age:4    biased_lock:1 lock:2 (normal object)
+//             JavaThread*:23 epoch:2 age:4    biased_lock:1 lock:2 (biased object)
+//             size:32 ------------------------------------------>| (CMS free block)
+//             PromotedObject*:29 ---------->| promo_bits:3 ----->| (CMS promoted object)
+//
+//  64 bits:
+//  --------
+//  unused:25 hash:31 -->| unused:1   age:4    biased_lock:1 lock:2 (normal object)
+//  JavaThread*:54 epoch:2 unused:1   age:4    biased_lock:1 lock:2 (biased object)
+//  PromotedObject*:61 --------------------->| promo_bits:3 ----->| (CMS promoted object)
+//  size:64 ----------------------------------------------------->| (CMS free block)
+```
+- 在32位虚拟机下，正常的对象对象头的mark word，从前到后的顺序，25个位表示hash值，4位表示GC分代的年龄，1位偏向锁的信息，2位锁的状态；
+- 在64位虚拟机下，正常的对象对象头的mark word，从前到后的顺序，25个未使用，31个位表示hash值，未使用1位，4位表示GC分代的年龄，1位偏向锁的信息，2位锁的状态；
+
+64位虚拟机下对象头共12个字节(96bit)，`mark word`占8字节(64位)，所以`klass pointer`占4字节(32位)；
+>有些资料上显示: `mark word`占8字节(64位)，`klass pointer`也占8字节(64位)；
+其实这种说法也正确，因为虚拟机默认开启了指针压缩，所以默认情况下`klass pointer`占4字节(32位)。
+
+**那么`mark word`64位中存放什么呢？**
+
+从上面可以看出，标志词（mark word）主要存放:
 - 哈希值
 - GC分代年龄
 - 锁状态标志
 - 线程持有的锁
-- 偏向线程ID
-- 偏向时间戳
 
-类型指针：
+`mark word`会根据对象的不同状态存放的也不相同；
+> 对象的状态
+> - 无状态：对象刚被new出来
+> - 偏向锁状态: 一个线程持有对象
+> - 轻量级锁状态
+> - 重量级锁状态
+> - 被垃圾回收器标记的状态
 
-指向类元数据`InstanceKlass`，确定该对象所属的类型。指向的其实是方法区中存放的类元信息;并不是所有的对象都有类型指针。
+![markword对象状态](/myblog/posts/images/essays/markword对象状态.png)
 
+因为对象的状态是5中，而lock却是两位，两位最多能表示4中状态，那么对象的5状态是怎么表示的？
+
+对象的状态是联合用`biased_lock: 1` 和 `lock: 2` 表示的；例如：
+- `biased_lock` ：1 `lock`： 00： 表示无状态
+- `biased_lock` ：1 `lock`： 01： 表示偏向锁状态
+- `biased_lock` ：1 `lock`： 10： 表示轻量级锁状态
+- `biased_lock` ：1 `lock`： 11： 表示重量级锁状态
+- `biased_lock` ：0 `lock`： 00： 表示被垃圾回收器标记的状态
+
+`mark word`在对象的不同状态下会有不同的表现形式，主要有三种 状态，无锁状态、加锁状态、gc标记状态。
+那么可以理解为Java当中的取锁其实可以理解是给对象上锁，也就是改变对象头的状态，如果上锁成功则进入同步代码块。
+但是Java当中的锁有分为很多种，从上图可以看出大体分为偏向锁、轻量锁、重量锁三种锁状态.
 
 ### 实例数据
 独立于方法之外的变量,在类里定义的变量无 `static` 修饰；包括从父类继承下来的变量和本身拥有的字段。

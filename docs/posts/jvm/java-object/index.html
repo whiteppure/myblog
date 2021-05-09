@@ -121,8 +121,36 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1%e7%9a%84%e8%bf%87%e7%a8%8b%e5%8f%8a%e6%ad%a5%e9%aa%a4">
-                    创建对象的过程及步骤
+                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1%e7%9a%84%e6%ad%a5%e9%aa%a4">
+                    创建对象的步骤
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1%e7%9a%84%e8%bf%87%e7%a8%8b">
+                    创建对象的过程
                 </a>
             </li>
             
@@ -147,12 +175,40 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%af%b9%e8%b1%a1%e7%bb%84%e6%88%90httpopenjdkjavanetgroupshotspotdocshotspotglossaryhtml">
+                <a class="nav-link text-left" href="#%e5%af%b9%e8%b1%a1%e7%bb%84%e6%88%90">
                     对象组成
                 </a>
             </li>
             
             
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%9f%a5%e7%9c%8b%e5%af%b9%e8%b1%a1%e7%9a%84%e7%bb%84%e6%88%90">
+                    查看对象的组成
+                </a>
+            </li>
+            
+            
+        </ul>
+        
         </ul>
         
         </ul>
@@ -424,7 +480,7 @@
 </li>
 <li>使用第三方库 <code>Objenesis</code>；</li>
 </ul>
-<h3 id="创建对象的过程及步骤">创建对象的过程及步骤</h3>
+<h3 id="创建对象的步骤">创建对象的步骤</h3>
 <p>创建对象代码演示及字节码指令</p>
 <pre><code>public class MainTest {
     public static void main(String[] args) {
@@ -441,8 +497,9 @@
 <li>设置对象头信息</li>
 <li>属性的显示初始化、代码块中初始化、构造器中初始化</li>
 </ol>
+<h3 id="创建对象的过程">创建对象的过程</h3>
 <p><strong>判断对象对应的类是否加载、链接、初始化</strong></p>
-<p>虚拟机遇到一条new指令，首先去检查这个指令的参数能否在 <code>Metaspace</code> 的常量池中定位到一个类的符号引用，
+<p>虚拟机遇到一条<code>new</code>指令，首先去检查这个指令的参数能否在 <code>Metaspace</code> 的常量池中定位到一个类的符号引用，
 并且检查这个符号引用代表的类是否已经被加载，解析和初始化。（即判断类元信息是否存在）。
 如果没有，那么在双亲委派模式下，使用当前类加载器以 <code>ClassLoader + 包名 + 类名</code> 为key进行查找对应的 <code>.class </code>文件，
 如果没有找到文件，则抛出 <code>ClassNotFoundException</code> 异常，如果找到，则进行类加载，并生成对应的Class对象。</p>
@@ -480,7 +537,9 @@
 <p><strong>执行init方法进行初始化</strong></p>
 <p>初始化成员变量，执行实例化代码块，调用类的构造方法，并把堆内对象的首地址赋值给引用变量。
 因此一般来说（由字节码中跟随 <code>invokespecial</code> 指令所决定），new指令之后会接着执行方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完成创建出来。</p>
-<h2 id="对象组成httpopenjdkjavanetgroupshotspotdocshotspotglossaryhtml"><a href="http://openjdk.java.net/groups/hotspot/docs/HotSpotGlossary.html">对象组成</a></h2>
+<h2 id="对象组成">对象组成</h2>
+<p><img src="/myblog/posts/images/essays/%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80.png" alt="对象内存布局"></p>
+<h3 id="查看对象的组成">查看对象的组成</h3>
 <p><strong>引入依赖</strong></p>
 <pre><code>&lt;!-- 引入查看对象布局的依赖 --&gt;
 &lt;dependency&gt;
@@ -488,14 +547,15 @@
     &lt;artifactId&gt;jol-core&lt;/artifactId&gt;
     &lt;version&gt;0.9&lt;/version&gt;
 &lt;/dependency&gt;
-
 </code></pre><p><strong>测试代码</strong></p>
-<pre><code>@Test
-public void demo() {
-    T t = new T();//这个对象里面是空的什么都没有
-    System.out.println(ClassLayout.parseInstance(t).toPrintable());
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        //这个对象里面是空的什么都没有
+        T t = new T();
+        System.out.println(ClassLayout.parseInstance(t).toPrintable());
+    }
 }
-
+class T{}
 </code></pre><p><strong>测试结果</strong></p>
 <pre><code> OFFSET  SIZE   TYPE DESCRIPTION                               VALUE
       0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)
@@ -504,23 +564,99 @@ public void demo() {
      12     4        (loss due to the next object alignment)
 Instance size: 16 bytes
 Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
-</code></pre><p>在64位Jvm下,通过测试的结果我们可以看到Java对象的布局分为对象头,对齐数据(因为Jvm规定内存分配的字节必须是8的倍数,否则无法分配内存),
-当该类里边有变量时,还包含实例变量。</p>
-<p><img src="/myblog/posts/images/essays/%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80.png" alt="对象内存布局"></p>
+</code></pre><p>在64位JVM下,通过测试的结果我们可以看到Java对象的布局对象头占12byte,因为Jvm规定内存分配的字节必须是8的倍数,否则无法分配内存，所以就出现了，4byte的对齐数据。</p>
+<p>通过测试发现，Java的对象布局包括：</p>
+<ul>
+<li>必定存在一个对象头</li>
+<li>如果分配的JVM分配的字节不是8的倍数的话，还要存在对齐数据</li>
+<li>当该类里边有变量时,还包含实例变量</li>
+</ul>
 <h3 id="对象头">对象头</h3>
-<p>对象头在32位下是4个字节,64位下是12个字节(96bite)。
-对象头包含了两部分，分别是 运行时元数据和类型指针；如果是数组，还需要记录数组的长度.</p>
-<p>运行时元数据:</p>
+<p><a href="http://openjdk.java.net/groups/hotspot/docs/HotSpotGlossary.html">官方文档</a>对于对象头的解释</p>
+<blockquote>
+<p>object header
+Common structure at the beginning of every GC-managed heap object.
+(Every oop points to an object header.) Includes fundamental information about the heap object&rsquo;s layout, type, GC state, synchronization state, and identity hash code.
+Consists of two words. In arrays it is immediately followed by a length field.
+Note that both Java objects and VM-internal objects have a common object header format.</p>
+</blockquote>
+<p>大意：每个GC管理堆对象开始处的公共结构。(每个oop都指向一个对象头。)包括关于堆对象布局、类型、GC状态、同步状态和标识散列代码的基本信息。
+<strong>由两个词组成</strong>。在数组中，它后面紧跟着一个长度字段。注意，Java对象和vm内部对象都有一个共同的对象头格式。</p>
+<p>其中上面的<strong>两个词</strong>指的是</p>
+<blockquote>
+<p>mark word
+The first word of every object header. Usually a set of bitfields including synchronization state and identity hash code.
+May also be a pointer (with characteristic low bit encoding) to synchronization related information.
+During GC, may contain GC state bits.</p>
+</blockquote>
+<p>大意：每个对象头文件的第一个字。通常是一组位域，包括同步状态和身份散列码。也可以是一个用于同步相关信息的指针(具有特征的低位编码)。在GC期间，可能包含GC状态位。</p>
+<blockquote>
+<p>klass pointer
+The second word of every object header. Points to another object (a metaobject) which describes the layout and behavior of the original object.
+For Java objects, the &ldquo;klass&rdquo; contains a C++ style &ldquo;vtable&rdquo;.</p>
+</blockquote>
+<p>大意：每个对象头文件的第二个字。指向另一个对象(元对象)，它描述了原始对象的布局和行为。对于Java对象，“klass”包含一个c++风格的“vtable”。</p>
+<p>简单来说，对象头包含了包括两部分，分别是标志词(mark word)和类型指针(klass pointer)；如果是数组，还需要记录数组的长度。</p>
+<p>引用上面在64位虚拟机下的测试结果，对象头中的这些二进制数字代表什么呢？</p>
+<pre><code> OFFSET  SIZE   TYPE DESCRIPTION                               VALUE
+      0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)
+      4     4        (object header)                           00 00 00 00 (00000000 00000000 00000000 00000000) (0)
+      8     4        (object header)                           a1 2c 01 20 (10100001 00101100 00000001 00100000) (536947873)
+</code></pre><p>在<code>openjdk8-master</code>中<code>markOop.hpp</code>，有对<code>mark word</code>的描述</p>
+<pre><code>//  32 bits:
+//  --------
+//             hash:25 ------------&gt;| age:4    biased_lock:1 lock:2 (normal object)
+//             JavaThread*:23 epoch:2 age:4    biased_lock:1 lock:2 (biased object)
+//             size:32 ------------------------------------------&gt;| (CMS free block)
+//             PromotedObject*:29 ----------&gt;| promo_bits:3 -----&gt;| (CMS promoted object)
+//
+//  64 bits:
+//  --------
+//  unused:25 hash:31 --&gt;| unused:1   age:4    biased_lock:1 lock:2 (normal object)
+//  JavaThread*:54 epoch:2 unused:1   age:4    biased_lock:1 lock:2 (biased object)
+//  PromotedObject*:61 ---------------------&gt;| promo_bits:3 -----&gt;| (CMS promoted object)
+//  size:64 -----------------------------------------------------&gt;| (CMS free block)
+</code></pre><ul>
+<li>在32位虚拟机下，正常的对象对象头的mark word，从前到后的顺序，25个位表示hash值，4位表示GC分代的年龄，1位偏向锁的信息，2位锁的状态；</li>
+<li>在64位虚拟机下，正常的对象对象头的mark word，从前到后的顺序，25个未使用，31个位表示hash值，未使用1位，4位表示GC分代的年龄，1位偏向锁的信息，2位锁的状态；</li>
+</ul>
+<p>64位虚拟机下对象头共12个字节(96bit)，<code>mark word</code>占8字节(64位)，所以<code>klass pointer</code>占4字节(32位)；</p>
+<blockquote>
+<p>有些资料上显示: <code>mark word</code>占8字节(64位)，<code>klass pointer</code>也占8字节(64位)；
+其实这种说法也正确，因为虚拟机默认开启了指针压缩，所以默认情况下<code>klass pointer</code>占4字节(32位)。</p>
+</blockquote>
+<p><strong>那么<code>mark word</code>64位中存放什么呢？</strong></p>
+<p>从上面可以看出，标志词（mark word）主要存放:</p>
 <ul>
 <li>哈希值</li>
 <li>GC分代年龄</li>
 <li>锁状态标志</li>
 <li>线程持有的锁</li>
-<li>偏向线程ID</li>
-<li>偏向时间戳</li>
 </ul>
-<p>类型指针：</p>
-<p>指向类元数据<code>InstanceKlass</code>，确定该对象所属的类型。指向的其实是方法区中存放的类元信息;并不是所有的对象都有类型指针。</p>
+<p><code>mark word</code>会根据对象的不同状态存放的也不相同；</p>
+<blockquote>
+<p>对象的状态</p>
+<ul>
+<li>无状态：对象刚被new出来</li>
+<li>偏向锁状态: 一个线程持有对象</li>
+<li>轻量级锁状态</li>
+<li>重量级锁状态</li>
+<li>被垃圾回收器标记的状态</li>
+</ul>
+</blockquote>
+<p><img src="/myblog/posts/images/essays/markword%E5%AF%B9%E8%B1%A1%E7%8A%B6%E6%80%81.png" alt="markword对象状态"></p>
+<p>因为对象的状态是5中，而lock却是两位，两位最多能表示4中状态，那么对象的5状态是怎么表示的？</p>
+<p>对象的状态是联合用<code>biased_lock: 1</code> 和 <code>lock: 2</code> 表示的；例如：</p>
+<ul>
+<li><code>biased_lock</code> ：1 <code>lock</code>： 00： 表示无状态</li>
+<li><code>biased_lock</code> ：1 <code>lock</code>： 01： 表示偏向锁状态</li>
+<li><code>biased_lock</code> ：1 <code>lock</code>： 10： 表示轻量级锁状态</li>
+<li><code>biased_lock</code> ：1 <code>lock</code>： 11： 表示重量级锁状态</li>
+<li><code>biased_lock</code> ：0 <code>lock</code>： 00： 表示被垃圾回收器标记的状态</li>
+</ul>
+<p><code>mark word</code>在对象的不同状态下会有不同的表现形式，主要有三种 状态，无锁状态、加锁状态、gc标记状态。
+那么可以理解为Java当中的取锁其实可以理解是给对象上锁，也就是改变对象头的状态，如果上锁成功则进入同步代码块。
+但是Java当中的锁有分为很多种，从上图可以看出大体分为偏向锁、轻量锁、重量锁三种锁状态.</p>
 <h3 id="实例数据">实例数据</h3>
 <p>独立于方法之外的变量,在类里定义的变量无 <code>static</code> 修饰；包括从父类继承下来的变量和本身拥有的字段。</p>
 <p>一些规则：</p>
