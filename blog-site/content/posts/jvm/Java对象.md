@@ -7,6 +7,7 @@ slug: "java-object"
 ---
 
 ## 对象实例化
+![对象创建步骤](/myblog/posts/images/essays/对象创建步骤.png)
 
 ### 对象的创建方式
 - 使用new关键字创建：最常见的方式、单例类中调用`getInstance`的静态类方法，`XXXFactory`的静态方法；
@@ -87,7 +88,7 @@ public class MainTest {
 因此一般来说（由字节码中跟随 `invokespecial` 指令所决定），new指令之后会接着执行方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完成创建出来。
 
 ## 对象组成
-![对象内存布局](/myblog/posts/images/essays/对象内存布局.png)
+![Java对象的布局](/myblog/posts/images/essays/Java对象的布局.png)
 
 ### 查看对象的组成
 **引入依赖**

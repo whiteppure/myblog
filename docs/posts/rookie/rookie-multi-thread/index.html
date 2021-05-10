@@ -697,6 +697,126 @@
             
             
             <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%87%aa%e6%97%8b%e9%94%81%e9%80%82%e5%ba%94%e6%80%a7%e8%87%aa%e6%97%8b%e9%94%81">
+                    自旋锁、适应性自旋锁
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e8%87%aa%e6%97%8b%e9%94%81">
+                    自旋锁
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e9%80%82%e5%ba%94%e6%80%a7%e8%87%aa%e6%97%8b%e9%94%81">
+                    适应性自旋锁
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%85%b1%e4%ba%ab%e9%94%81%e4%b8%8e%e6%8e%92%e5%ae%83%e9%94%81">
+                    共享锁与排它锁
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
                 <a class="nav-link text-left" href="#%e8%bd%bb%e9%87%8f%e7%ba%a7%e9%94%81%e4%b8%8e%e9%87%8d%e9%87%8f%e7%ba%a7%e9%94%81">
                     轻量级锁与重量级锁
                 </a>
@@ -809,64 +929,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e8%87%aa%e6%97%8b%e9%94%81">
-                    自旋锁
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
                 <a class="nav-link text-left" href="#%e7%8b%ac%e5%8d%a0%e9%94%81">
                     独占锁
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%85%b1%e4%ba%ab%e9%94%81">
-                    共享锁
                 </a>
             </li>
             
@@ -1700,13 +1764,42 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 <h3 id="公平锁与非公平锁">公平锁与非公平锁</h3>
 <h3 id="可重入锁与不可重入锁">可重入锁与不可重入锁</h3>
 <h3 id="悲观锁与乐观锁">悲观锁与乐观锁</h3>
+<h3 id="自旋锁适应性自旋锁">自旋锁、适应性自旋锁</h3>
+<p><img src="/myblog/posts/images/essays/%E8%87%AA%E6%97%8B%E9%94%81%E4%B8%8E%E9%9D%9E%E8%87%AA%E6%97%8B%E9%94%81.png" alt="自旋锁与非自旋锁"></p>
+<h4 id="自旋锁">自旋锁</h4>
+<p>当一个线程尝试获取某个锁时，如果该锁已被其他线程占用，就一直循环检测锁是否被释放，而不是进入线程挂起或睡眠状态，直到获取到某个锁。</p>
+<p>自旋锁本身是有缺点的，它不能代替阻塞。如果锁被占用的时间很长，那么自旋的线程只会白白浪费处理器资源，带来性能上的浪费。</p>
+<p>自旋锁的实现原理是<a href="">CAS</a>,例如<code>AtomicInteger</code>中<code>getAndUpdate()</code>方法</p>
+<pre><code>    public final int getAndUpdate(IntUnaryOperator updateFunction) {
+        int prev, next;
+        do {
+            prev = get();
+            next = updateFunction.applyAsInt(prev);
+        } while (!compareAndSet(prev, next));
+        return prev;
+    }
+</code></pre><p>源码中的<code>do-while</code>循环就是一个自旋操作，如果修改数值失败则通过循环来执行自旋，直至修改成功。</p>
+<p><strong>为什么要使用自旋锁？</strong></p>
+<p>在许多场景中，同步资源的锁定时间很短，为了这一小段时间去切换线程，线程挂起和恢复现场的花费可能会让系统得不偿失。
+简单来说就是，避免切换线程带来的开销。</p>
+<p>自旋等待虽然避免了线程切换的开销，但它要占用处理器时间。如果锁被占用的时间很短，自旋等待的效果就会非常好。
+反之，如果锁被占用的时间很长，那么自旋的线程只会白浪费处理器资源。
+所以，自旋等待的时间必须要有一定的限度，如果自旋超过了限定次数（默认是10次，可以使用<code>-XX:PreBlockSpin</code>来更改）没有成功获得锁，就应当挂起线程。</p>
+<p>自旋锁在JDK 1.4中引入，默认关闭，但是可以使用<code>-XX:+UseSpinning</code>开开启;在JDK1.6中默认开启,同时自旋的默认次数为10次，可以通过参数<code>-XX:PreBlockSpin</code>来调整。</p>
+<p>如果通过参数<code>-XX:PreBlockSpin</code>来调整自旋锁的自旋次数，会带来诸多不便。
+假如将参数调整为10，但是系统很多线程都是等你刚刚退出的时候就释放了锁（假如多自旋一两次就可以获取锁)。于是JDK1.6引入<strong>适应性自旋锁</strong>。</p>
+<h4 id="适应性自旋锁">适应性自旋锁</h4>
+<blockquote>
+<p>自适应意味着自旋的时间（次数）不再固定，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定。
+如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也是很有可能再次成功，进而它将允许自旋等待持续相对更长的时间。
+如果对于某个锁，自旋很少成功获得过，那在以后尝试获取这个锁时将可能省略掉自旋过程，直接阻塞线程，避免浪费处理器资源。</p>
+</blockquote>
+<h3 id="共享锁与排它锁">共享锁与排它锁</h3>
 <h3 id="轻量级锁与重量级锁">轻量级锁与重量级锁</h3>
 <h3 id="偏向锁">偏向锁</h3>
 <h3 id="读写锁">读写锁</h3>
 <h3 id="互斥锁">互斥锁</h3>
-<h3 id="自旋锁">自旋锁</h3>
 <h3 id="独占锁">独占锁</h3>
-<h3 id="共享锁">共享锁</h3>
 <h2 id="线程安全">线程安全</h2>
 <h3 id="原子性可见性有序性">原子性、可见性、有序性</h3>
 <h3 id="volatile">volatile</h3>

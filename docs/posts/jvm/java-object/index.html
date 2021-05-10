@@ -467,6 +467,7 @@
                         <span class="date">2021.04.12</span>
                     </div>
                     <div class="post_content markdown"><h2 id="对象实例化">对象实例化</h2>
+<p><img src="/myblog/posts/images/essays/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%AD%A5%E9%AA%A4.png" alt="对象创建步骤"></p>
 <h3 id="对象的创建方式">对象的创建方式</h3>
 <ul>
 <li>使用new关键字创建：最常见的方式、单例类中调用<code>getInstance</code>的静态类方法，<code>XXXFactory</code>的静态方法；</li>
@@ -538,7 +539,7 @@
 <p>初始化成员变量，执行实例化代码块，调用类的构造方法，并把堆内对象的首地址赋值给引用变量。
 因此一般来说（由字节码中跟随 <code>invokespecial</code> 指令所决定），new指令之后会接着执行方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完成创建出来。</p>
 <h2 id="对象组成">对象组成</h2>
-<p><img src="/myblog/posts/images/essays/%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80.png" alt="对象内存布局"></p>
+<p><img src="/myblog/posts/images/essays/Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%83%E5%B1%80.png" alt="Java对象的布局"></p>
 <h3 id="查看对象的组成">查看对象的组成</h3>
 <p><strong>引入依赖</strong></p>
 <pre><code>&lt;!-- 引入查看对象布局的依赖 --&gt;
