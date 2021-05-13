@@ -597,8 +597,9 @@ public class MainTest {
 原子性、可见性、有序性
 
 ### volatile
+JMM、内存屏障
 ### CAS
-CAS全称为`Compare and Swap`被译为比较并交换。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
+CAS全称为`Compare and Swap`被译为比较并交换。是一种无锁算法。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
 `java.util.concurrent.atomic` 并发包下的所有原子类都是基于 `CAS` 来实现的。
 
 以 `AtomicInteger` 原子整型类为例。

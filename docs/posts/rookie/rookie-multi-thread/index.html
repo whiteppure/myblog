@@ -1963,8 +1963,9 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 <h3 id="三大特性">三大特性</h3>
 <p>原子性、可见性、有序性</p>
 <h3 id="volatile">volatile</h3>
+<p>JMM、内存屏障</p>
 <h3 id="cas">CAS</h3>
-<p>CAS全称为<code>Compare and Swap</code>被译为比较并交换。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
+<p>CAS全称为<code>Compare and Swap</code>被译为比较并交换。是一种无锁算法。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
 <code>java.util.concurrent.atomic</code> 并发包下的所有原子类都是基于 <code>CAS</code> 来实现的。</p>
 <p>以 <code>AtomicInteger</code> 原子整型类为例。</p>
 <pre><code>public class MainTest {

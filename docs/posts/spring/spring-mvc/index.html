@@ -102,17 +102,17 @@
                     <div class="post_content markdown"><p><img src="/myblog/posts/images/application/springmvc%E5%8E%9F%E7%90%86.jpg" alt="springmvc原理图"></p>
 <p>流程描述:</p>
 <ul>
-<li>用户发送请求至前端控制器DispatcherServlet。</li>
-<li>DispatcherServlet收到请求调用HandlerMapping处理器映射器。</li>
-<li>处理器映射器找到具体的处理器(可以根据xml配置、注解进行查找)，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。</li>
-<li>DispatcherServlet调用HandlerAdapter处理器适配器。</li>
-<li>HandlerAdapter经过适配调用具体的处理器(Controller，也叫后端控制器)。</li>
-<li>Controller执行完成返回ModelAndView。</li>
-<li>HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet。</li>
-<li>DispatcherServlet将ModelAndView传给ViewReslover视图解析器。</li>
-<li>ViewReslover解析后返回具体View。</li>
-<li>DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中）。</li>
-<li>DispatcherServlet响应用户。</li>
+<li>用户发送请求至前端控制器 <code>DispatcherServlet</code>;</li>
+<li><code>DispatcherServlet</code> 收到请求调用 <code>HandlerMapping</code> 处理器映射器;</li>
+<li>处理器映射器找到具体的处理器(可以根据xml配置、注解进行查找)，生成处理器对象及处理器拦截器(如果有则生成)一并返回给 <code>DispatcherServlet</code>;</li>
+<li><code>DispatcherServlet</code> 调用 <code>HandlerAdapter</code> 处理器适配器;</li>
+<li><code>HandlerAdapter</code> 经过适配调用具体的处理器(<code>Controller</code>，也叫后端控制器);</li>
+<li><code>Controller</code> 执行完成返回 <code>ModelAndView</code>;</li>
+<li><code>HandlerAdapter</code> 将 <code>controller执行结果</code> <code>ModelAndView</code> 返回给 <code>DispatcherServlet</code>;</li>
+<li><code>DispatcherServlet</code> 将 <code>ModelAndView</code> 传给 <code>ViewReslover</code> 视图解析器;</li>
+<li><code>ViewReslover</code> 解析后返回具体 <code>View</code>;</li>
+<li><code>DispatcherServlet</code> 根据 View 进行渲染视图（即将模型数据填充至视图中）;</li>
+<li><code>DispatcherServlet</code> 响应用户;</li>
 </ul>
 </div>
                     <div class="post_footer">

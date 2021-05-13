@@ -6,7 +6,16 @@
     <description>Recent content in springboot on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 30 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 13 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SpringBoot详解</title>
+      <link>https://whiteppure.github.io/myblog/posts/spring/java-springboot/</link>
+      <pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/spring/java-springboot/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Springboot整合docker</title>
       <link>https://whiteppure.github.io/myblog/posts/spring/springboot-docker/</link>

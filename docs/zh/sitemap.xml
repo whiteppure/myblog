@@ -4,17 +4,27 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/java/</loc>
-    <lastmod>2021-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/</loc>
-    <lastmod>2021-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/springboot/</loc>
+    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/spring/java-springboot/</loc>
+    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/</loc>
-    <lastmod>2021-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -29,7 +39,7 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/</loc>
-    <lastmod>2021-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -259,11 +269,6 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/docker/</loc>
-    <lastmod>2020-08-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://whiteppure.github.io/myblog/tags/springboot/</loc>
     <lastmod>2020-08-30T00:00:00+00:00</lastmod>
   </url>
   

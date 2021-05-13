@@ -6,7 +6,16 @@
     <description>Recent content in Java on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 11 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 13 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SpringBoot详解</title>
+      <link>https://whiteppure.github.io/myblog/posts/spring/java-springboot/</link>
+      <pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/spring/java-springboot/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>面一年Java可能会被问到的问题</title>
       <link>https://whiteppure.github.io/myblog/posts/resume/interview-junior-javaer/</link>

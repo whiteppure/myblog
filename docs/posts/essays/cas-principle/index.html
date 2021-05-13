@@ -227,7 +227,7 @@
                         <span class="date">2020.04.04</span>
                     </div>
                     <div class="post_content markdown"><h2 id="cas">CAS</h2>
-<p>CAS全称为<code>Compare and Swap</code>被译为比较并交换。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
+<p>CAS全称为<code>Compare and Swap</code>被译为比较并交换。是一种无锁算法。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
 <code>java.util.concurrent.atomic</code> 并发包下的所有原子类都是基于 <code>CAS</code> 来实现的。</p>
 <p>以 <code>AtomicInteger</code> 原子整型类为例。</p>
 <pre><code>public class MainTest {
