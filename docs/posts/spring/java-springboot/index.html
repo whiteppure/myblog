@@ -1170,7 +1170,8 @@ class TestService implements ApplicationContextAware, EmbeddedValueResolverAware
         System.out.println(resolver.resolveStringValue(&quot;我是${os.name}，今年${10*2.1}岁&quot;));
     }
 }
-</code></pre><p>关于这些<code>Aware</code>都是使用<code>AwareProcessor</code>进行处理的；比如:<code>ApplicationContextAwareProcessor</code>就是处理<code>ApplicationContextAware</code>接口的。</p>
+</code></pre><p>关于这些<code>Aware</code>都是使用<code>AwareProcessor</code>进行处理的；
+比如:<code>ApplicationContextAwareProcessor</code>就是处理<code>ApplicationContextAware</code>接口的。</p>
 </div>
                     <div class="post_footer">
                         

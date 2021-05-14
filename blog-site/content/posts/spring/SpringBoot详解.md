@@ -763,5 +763,6 @@ class TestService implements ApplicationContextAware, EmbeddedValueResolverAware
 }
 ```
 
-关于这些`Aware`都是使用`AwareProcessor`进行处理的；比如:`ApplicationContextAwareProcessor`就是处理`ApplicationContextAware`接口的。
+关于这些`Aware`都是使用`AwareProcessor`进行处理的；
+比如:`ApplicationContextAwareProcessor`就是处理`ApplicationContextAware`接口的。
 

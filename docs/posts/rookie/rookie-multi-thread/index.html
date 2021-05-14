@@ -1009,12 +1009,200 @@
             
             
             <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%86%85%e5%ad%98%e6%a8%a1%e5%9e%8b">
+                    内存模型
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
                 <a class="nav-link text-left" href="#volatile">
                     volatile
                 </a>
             </li>
             
             
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bd%bf%e7%94%a8%e6%a1%88%e4%be%8b">
+                    使用案例
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%8e%9f%e7%90%86">
+                    原理
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#volatile%e4%b8%8e%e5%8f%af%e8%a7%81%e6%80%a7">
+                    volatile与可见性
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#volatile%e4%b8%8e%e5%8e%9f%e5%ad%90%e6%80%a7">
+                    volatile与原子性
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#volatile%e4%b8%8e%e6%9c%89%e5%ba%8f%e6%80%a7">
+                    volatile与有序性
+                </a>
+            </li>
+            
+            
+        </ul>
+        
         </ul>
         
         </ul>
@@ -1415,6 +1603,7 @@
 一个进程至少有一个线程，一个进程可以运行多个线程，多个线程可共享数据。</p>
 <p>Java 程序是多线程程序，每启动一个Java程序至少我们知道的都会包含一个主线程和一个垃圾回收线程。
 而且启动的时候，每条线程可以并行执行不同的任务。</p>
+<p><img src="/myblog/posts/images/essays/%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%85%B3%E7%B3%BB.jpg" alt="线程与进程的关系"></p>
 <h3 id="并行并发串行">并行、并发、串行</h3>
 <ul>
 <li>并行：前提是在多核CPU或多个CPU条件下，多个线程同时被多个CPU执行，同时执行的线程并不会抢占CPU资源。</li>
@@ -1960,10 +2149,112 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 <h3 id="互斥锁">互斥锁</h3>
 <h3 id="独占锁">独占锁</h3>
 <h2 id="线程安全">线程安全</h2>
+<p>线程不安全，在多线程并发的环境中，多个线程共同操作同一个数据，如果最后数据的值和期待值不一样，这时候就出现了线程不安全问题。</p>
+<p>线程安全，就是在多线程并发中，多个线程共同操作同一个数据，在Java中最常用的就是加锁；
+当一个线程修改某个数据的时候，其他线程不能进行访问直到该线程操作该数据结束释放锁，其他线程才可以继续操作该数据。</p>
+<p>一个对象是否安全取决于它是否被多个线程访问，要使对象线程安全，那么需要采用同步的机制来协同对对象可变状态的访问。</p>
 <h3 id="三大特性">三大特性</h3>
-<p>原子性、可见性、有序性</p>
+<p>在保证线程安全之前要先弄明白线程安全的三大特性，即原子性、可见性、有序性。</p>
+<ul>
+<li>原子性,即不可分割,完整性.当某个线程正在做某个业务时,中间不能被打断、加塞,不能被分割.需要整体完整。要么同时成功,要么同时失败.与数据库中的原子性类似。</li>
+<li>可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即获取到修改的值。</li>
+<li>有序性即程序执行的顺序按照代码的先后顺序执行。</li>
+</ul>
+<blockquote>
+<p><strong>关于有序性肯定会有人有疑问，程序执行的顺序难道不是从上到下按照顺序来执行吗？</strong></p>
+<p>在多线程环境下,Java语句可能会不按照顺序执行,所以要注意数据的依赖性。计算机在执行程序时,为了提高性能,编译器和处理器常常会做指令重排,一把分为以下两种：</p>
+<ul>
+<li>单线程环境里面确保程序最终执行结果和代码顺序执行的结果一致。处理器在进行重新排序是必须要考虑指令之间的数据依赖；</li>
+<li>多线程环境中线程交替执行,由于编译器优化重排的存在,两个线程使用的变量能否保持一致性是无法确定的,结果无法预测；</li>
+</ul>
+</blockquote>
+<h3 id="内存模型">内存模型</h3>
+<blockquote>
+<p>为了保证并发编程中可以满足原子性、可见性及有序性。内存模型定义了共享内存系统中多线程程序读写操作行为的规范。
+通过这些规则来规范对内存的读写操作，从而保证指令执行的正确性。它与处理器有关、与缓存有关、与并发有关、与编译器也有关。
+他解决了CPU多级缓存、处理器优化、指令重排等导致的内存访问问题，保证了并发场景下的一致性、原子性和有序性。</p>
+</blockquote>
+<p>内存模型解决并发问题主要采用两种方式：限制处理器优化和使用内存屏障。</p>
+<p><strong><a href="http://www.cs.umd.edu/~pugh/java/memoryModel/jsr133.pdf">Java内存模型</a></strong></p>
+<p>Java内存模型，即JMM（Java Memory Model）本身是一种抽象的概念,并不真实存在,它描述的是一组规则或规范通过规范定制了程序中各个变量(包括实例字段,静态字段和构成数组对象的元素)的访问方式。
+屏蔽了各种硬件和操作系统的访问差异的，保证了Java程序在各种平台下对内存的访问都能保证效果一致的机制及规范。</p>
+<p>JMM就作用于工作内存和主存之间数据同步过程。他规定了如何做数据同步以及什么时候做数据同步。</p>
+<p><img src="/myblog/posts/images/essays/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.jpg" alt="Java内存模型"></p>
+<p><strong>那么在Java中是如何保证原子性、可见性及有序性的呢？</strong></p>
+<ul>
+<li>
+<p>原子性；
+在Java中，为了保证原子性，提供了两个高级的字节码指令 <code>monitorenter</code> 和 <code>monitorexit</code>。对应的就是Java中的关键字 <code>synchronized</code>,在Java中只要被<code>synchronized</code>修饰就能保证原子性。</p>
+</li>
+<li>
+<p>可见性；
+在Java中，为了保证线程间的可见性，可以使用<code>volatile</code>、<code>synchronized</code>、<code>final</code>来修饰。</p>
+</li>
+<li>
+<p>有序性；
+在Java中，可以使用 <code>synchronized</code> 和 <code>volatile</code> 来保证多线程之间操作的有序性。其中，<code>volatile</code> 关键字会禁止指令重排。<code>synchronized</code> 关键字保证同一时刻只允许一条线程操作。</p>
+</li>
+</ul>
 <h3 id="volatile">volatile</h3>
-<p>JMM、内存屏障</p>
+<p><code>volatile</code>通常被比喻成轻量级的锁，也是Java并发编程中比较重要的一个关键字。</p>
+<p><code>volatile</code>特点：</p>
+<ul>
+<li>保证线程之间的可见性；</li>
+<li>禁止指令重排；</li>
+<li><strong>不保证原子性，也就是线程不安全；</strong></li>
+</ul>
+<h4 id="使用案例">使用案例</h4>
+<p>在Java中<code>volatile</code> 是一个变量修饰符，只能用来修饰变量。</p>
+<p><code>volatile</code> 典型的使用就是单例模式中的DCL双重检查锁。</p>
+<pre><code>/**
+多线程下的单例模式 DCL(double check lock)
+**/
+public SingletonDemo{
+		// volatile 此处作用 禁止指令重排
+		public static volatile SingletonDemo singleton = null;
+		private Singleton(){}
+		public SingletonDemo getInstance(){
+			if(singleton == null){
+				synchronized(SingletonDemo.class){
+						if(singleton == null){
+							singleton = new SingletonDemo();	
+						}
+				}
+			}
+		}
+}
+</code></pre><p><strong>为什么在此处要使用<code>volatile</code>修饰<code>singleton</code>？</strong></p>
+<p>多线程下的DCL单例模式,如果不加 <code>volatile</code> 修饰不是绝对安全的,因为在创建对象的时候JVM底层会进行三个步骤:</p>
+<ol>
+<li>分配对象的内存空间</li>
+<li>初始化对象</li>
+<li>设置对象指向刚刚分配的内存地址</li>
+</ol>
+<p>其中步骤2和步骤3是没有数据依赖关系的,而且无论重排前还是重排后的程序执行结果在单线程中并没有改变,因此这种重排优化是允许的。
+所以有可能先执行步骤3在执行步骤2,导致分配的对象不为 <code>null</code>,但对象没有被初始化;</p>
+<p>所以当一个线程获取对象不为 <code>null</code> 时,由于对象未必已经完成初始化,会存在线程不安全的风险。</p>
+<h4 id="原理">原理</h4>
+<p>《深入理解JVM》中对 <code>volatile</code> 的描述:</p>
+<blockquote>
+<p>一旦一个共享变量（类的成员变量、类的静态成员变量）被 <code>volatile</code> 修饰之后，那么就具备了两层语义：</p>
+<ul>
+<li>保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的；</li>
+<li>禁止进行指令重排序，即有序性；</li>
+</ul>
+<p><code>volatile</code>只提供了保证访问该变量时，每次都是从内存中读取最新值，并不会使用寄存器缓存该值——每次都会从内存中读取。
+而对该变量的修改，<code>volatile</code> 并不提供原子性(线程不安全)的保证;由于及时更新，很可能导致另一线程访问最新变量值，无法跳出循环的情况,多线程下计数器必须使用锁保护.</p>
+</blockquote>
+<p>为了提高处理器的执行速度，在处理器和内存之间增加了多级缓存来提升。但是由于引入了多级缓存，就存在缓存数据不一致问题。</p>
+<p><img src="/myblog/posts/images/essays/CPU%E5%A4%9A%E7%BA%A7%E7%BC%93%E5%AD%98.jpg" alt="CPU多级缓存"></p>
+<p>对于 <code>volatile</code> 变量，当对 <code>volatile</code> 变量进行写操作的时候，JVM会向处理器发送一条带有 <code>lock</code> 前缀的指令，将这个缓存中的变量回写到系统主存中。
+但是就算写回到内存，如果其他处理器缓存的值还是旧的，再执行计算操作就会有问题，所以在多处理器下，为了保证各个处理器的缓存是一致的，就会实现 <strong>缓存一致性协议</strong></p>
+<blockquote>
+<p>缓存一致性协议: 每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器要对这个数据进行修改操作的时候，会强制重新从系统内存里把数据读到处理器缓存里。</p>
+</blockquote>
+<p>所以，如果一个变量被 <code>volatile</code> 所修饰的话，在每次数据变化之后，其值都会被强制刷入主存。而其他处理器的缓存由于遵守了缓存一致性协议，也会把这个变量的值从主存加载到自己的缓存中。这就保证了一个 <code>volatile</code> 在并发编程中，其值在多个缓存中是可见的。</p>
+<h4 id="volatile与可见性">volatile与可见性</h4>
+<h4 id="volatile与原子性">volatile与原子性</h4>
+<h4 id="volatile与有序性">volatile与有序性</h4>
 <h3 id="cas">CAS</h3>
 <p>CAS全称为<code>Compare and Swap</code>被译为比较并交换。是一种无锁算法。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
 <code>java.util.concurrent.atomic</code> 并发包下的所有原子类都是基于 <code>CAS</code> 来实现的。</p>
@@ -2067,11 +2358,11 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 <blockquote>
 <p>CPU 处理器速度远远大于在主内存中的，为了解决速度差异，在他们之间架设了多级缓存，如 L1、L2、L3 级别的缓存，这些缓存离CPU越近就越快，将频繁操作的数据缓存到这里，加快访问速度。</p>
 </blockquote>
-<p><img src="/myblog/posts/images/essays/JMM.jpg" alt="JMM"></p>
+<p><img src="/myblog/posts/images/essays/CPU%E5%A4%9A%E7%BA%A7%E7%BC%93%E5%AD%98.jpg" alt="CPU多级缓存"></p>
 <h4 id="cas与unsafe关系">CAS与Unsafe关系</h4>
 <p>CAS的作用是比较并交换,就是先拿这个期望值,与主内存的值比较,判断主内存中该位置是否存在期望值,
 如果存在,则改为新的值,这个修改的过程是具有原子性的.
-因为CAS是cpu并发源语,并发源语体现在Java sun.misc.Unsafa类上.
+因为CAS是cpu并发源语,并发源语体现在<code>Java sun.misc.Unsafa</code>类上.
 调用Unsafe类中的CAS方法，JVM会帮我们实现CAS汇编指令。这是一种完全依赖于硬件的功能，通过他实现了原子操作。
 由于CAS是一种系统原语，原语属于操作系统用语范畴，是由若干条指令组成的，用于完成某个功能的一个过程，并且原语的执行必须是连续的，在执行过程中不允许被中断，也就是说CAS是一条CPU的原子指令，不会造成数据不一致问题。</p>
 <blockquote>
