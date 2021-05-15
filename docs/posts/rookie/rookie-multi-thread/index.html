@@ -2563,8 +2563,7 @@ Unsafe类存在于sun.misc包中，其内部方法操作可以像C的指针(内�
 Unsafe类中的所有方法都是<strong>native</strong>修饰的，也就是说Unsafe类中的方法都直接<strong>调用操作系统底层资源执行相应任务</strong>。</p>
 </blockquote>
 <h4 id="缺点">缺点</h4>
-<ol>
-<li>
+<h5 id="循环时间长开销">循环时间长开销</h5>
 <p>因为是采用自旋锁的方式来实现所以，自然有自旋锁的缺点，循环时间长开销大,例如：<code>getAndAddInt</code> 方法执行，有个<code>do while</code>循环，如果CAS失败，一直会进行尝试，如果CAS长时间不成功，可能会给CPU带来很大的开销。</p>
 <pre><code>public final int getAndAddInt(Object var1, long var2, int var4) {
         int var5;
@@ -2573,12 +2572,9 @@ Unsafe类中的所有方法都是<strong>native</strong>修饰的，也就是说
         } while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));
         return var5;
 }
-</code></pre></li>
-<li>
+</code></pre><h5 id="多个变量原子性">多个变量原子性</h5>
 <p>只能保证一个共享变量的原子操作，对多个共享变量操作时，循环CAS就无法保证操作的原子性，这个时候就可以用锁来保证原子性。</p>
-</li>
-<li>
-<p>ABA问题。</p>
+<h5 id="aba问题">ABA问题</h5>
 <p>ABA问题示例代码:</p>
 <pre><code>public class MainTest {
     static AtomicReference&lt;Integer&gt; atomicReference = new AtomicReference&lt;&gt;(100);
@@ -2588,7 +2584,7 @@ Unsafe类中的所有方法都是<strong>native</strong>修饰的，也就是说
             atomicReference.compareAndSet(100, 101);
             atomicReference.compareAndSet(101, 100);
         }, &quot;Thread 1&quot;).start();
-   
+
         new Thread(() -&gt; {
             try {
                 //保证线程1完成一次ABA操作
@@ -2609,8 +2605,8 @@ Unsafe类中的所有方法都是<strong>native</strong>修饰的，也就是说
 <p>比如，线程1从内存位置V取出A，线程2同时也从内存取出A，并且线程2进行一些操作将值改为B，然后线程2又将V位置数据改成A，这时候线程1进行CAS操作发现内存中的值依然时A，然后线程1操作成功。
 尽管线程1的CAS操作成功，但是不代表这个过程没有问题。</p>
 <p>简单说，如果一个线程改了一个值，最后又改回到初始值了，这时候CAS会认为它没有被修改过。简而言之就是只比较结果,不比较过程。</p>
-<p>3.1 <strong>ABA问题解决</strong></p>
-<p>3.1.1 利用 <code>AtomicReference</code> 类进行原子引用</p>
+<p><strong>ABA问题解决</strong></p>
+<p>利用 <code>AtomicReference</code> 类进行原子引用</p>
 <pre><code>public class AtomicRefrenceDemo {
     public static void main(String[] args) {
         User z3 = new User(&quot;张三&quot;, 22);
@@ -2621,7 +2617,7 @@ Unsafe类中的所有方法都是<strong>native</strong>修饰的，也就是说
         System.out.println(atomicReference.compareAndSet(z3, l4) + &quot;\t&quot; + atomicReference.get().toString());
     }
 }
-   
+
 @Getter
 @ToString
 @AllArgsConstructor
@@ -2632,9 +2628,9 @@ class User {
 </code></pre><pre><code>// 输出结果
 true	User(userName=李四, age=23)
 false	User(userName=李四, age=23)
-</code></pre><p>3.1.2 使用时间戳的原子引用<code>AtomicStampedReference</code>修改版本号。主要是在对象中额外再增加一个标记来标识对象是否有过变更</p>
+</code></pre><p>使用时间戳的原子引用<code>AtomicStampedReference</code>修改版本号。主要是在对象中额外再增加一个标记来标识对象是否有过变更</p>
 <pre><code>static AtomicStampedReference&lt;Integer&gt; atomicStampedReference = new AtomicStampedReference&lt;&gt;(100, 1);
-   
+
 public static void main(String[] args) {
     new Thread(() -&gt; {
             int stamp = atomicStampedReference.getStamp();
@@ -2649,7 +2645,7 @@ public static void main(String[] args) {
             atomicStampedReference.compareAndSet(101, 100, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + 1);
             System.out.println(Thread.currentThread().getName() + &quot;\t第3次版本号&quot; + atomicStampedReference.getStamp());
         }, &quot;Thread 3&quot;).start();
-   
+
         new Thread(() -&gt; {
             int stamp = atomicStampedReference.getStamp();
             System.out.println(Thread.currentThread().getName() + &quot;\t第1次版本号&quot; + stamp);
@@ -2659,7 +2655,7 @@ public static void main(String[] args) {
                 e.printStackTrace();
             }
             boolean result = atomicStampedReference.compareAndSet(100, 2019, stamp, stamp + 1);
-   
+
             System.out.println(Thread.currentThread().getName() + &quot;\t修改是否成功&quot; + result + &quot;\t当前最新实际版本号：&quot; + atomicStampedReference.getStamp());
             System.out.println(Thread.currentThread().getName() + &quot;\t当前最新实际值：&quot; + atomicStampedReference.getReference());
         }, &quot;Thread 4&quot;).start();
@@ -2670,9 +2666,7 @@ Thread 3	第2次版本号2
 Thread 3	第3次版本号3
 Thread 4	修改是否成功false	当前最新实际版本号：3
 Thread 4	当前最新实际值：100
-</code></pre></li>
-</ol>
-<h3 id="lock">lock</h3>
+</code></pre><h3 id="lock">lock</h3>
 <h3 id="aqs">AQS</h3>
 <h3 id="synchronized">synchronized</h3>
 <h2 id="线程安全的集合">线程安全的集合</h2>

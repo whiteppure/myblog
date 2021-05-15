@@ -1074,125 +1074,127 @@ Unsafe类存在于sun.misc包中，其内部方法操作可以像C的指针(内�
 Unsafe类中的所有方法都是**native**修饰的，也就是说Unsafe类中的方法都直接**调用操作系统底层资源执行相应任务**。
 
 #### 缺点
-1. 因为是采用自旋锁的方式来实现所以，自然有自旋锁的缺点，循环时间长开销大,例如：`getAndAddInt` 方法执行，有个`do while`循环，如果CAS失败，一直会进行尝试，如果CAS长时间不成功，可能会给CPU带来很大的开销。
-    ```
-    public final int getAndAddInt(Object var1, long var2, int var4) {
-            int var5;
-            do {
-                var5 = this.getIntVolatile(var1, var2);
-            } while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));
-            return var5;
-    }
-    ```
-2. 只能保证一个共享变量的原子操作，对多个共享变量操作时，循环CAS就无法保证操作的原子性，这个时候就可以用锁来保证原子性。
-3. ABA问题。
+##### 循环时间长开销
+因为是采用自旋锁的方式来实现所以，自然有自旋锁的缺点，循环时间长开销大,例如：`getAndAddInt` 方法执行，有个`do while`循环，如果CAS失败，一直会进行尝试，如果CAS长时间不成功，可能会给CPU带来很大的开销。
+```
+public final int getAndAddInt(Object var1, long var2, int var4) {
+        int var5;
+        do {
+            var5 = this.getIntVolatile(var1, var2);
+        } while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));
+        return var5;
+}
+```
+##### 多个变量原子性
+只能保证一个共享变量的原子操作，对多个共享变量操作时，循环CAS就无法保证操作的原子性，这个时候就可以用锁来保证原子性。
+##### ABA问题
 
-    ABA问题示例代码:
-    ````
-    public class MainTest {
-        static AtomicReference<Integer> atomicReference = new AtomicReference<>(100);
-        public static void main(String[] args) {
-            new Thread(() -> {
-                // 先改到101在改回来，CAS会认为value没有被修改过
-                atomicReference.compareAndSet(100, 101);
-                atomicReference.compareAndSet(101, 100);
-            }, "Thread 1").start();
-    
-            new Thread(() -> {
-                try {
-                    //保证线程1完成一次ABA操作
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(atomicReference.compareAndSet(100, 2019) + "\t" + atomicReference.get());
-            }, "Thread 2").start();
+ABA问题示例代码:
+````
+public class MainTest {
+    static AtomicReference<Integer> atomicReference = new AtomicReference<>(100);
+    public static void main(String[] args) {
+        new Thread(() -> {
+            // 先改到101在改回来，CAS会认为value没有被修改过
+            atomicReference.compareAndSet(100, 101);
+            atomicReference.compareAndSet(101, 100);
+        }, "Thread 1").start();
+
+        new Thread(() -> {
+            try {
+                //保证线程1完成一次ABA操作
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(atomicReference.compareAndSet(100, 2019) + "\t" + atomicReference.get());
+        }, "Thread 2").start();
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+````
+CAS算法实现一个重要前提是，需要去除内存中某个时刻的数据并在当下时刻比较并替换，那么在这个时间差类会导致数据的变化。
+
+比如，线程1从内存位置V取出A，线程2同时也从内存取出A，并且线程2进行一些操作将值改为B，然后线程2又将V位置数据改成A，这时候线程1进行CAS操作发现内存中的值依然时A，然后线程1操作成功。
+尽管线程1的CAS操作成功，但是不代表这个过程没有问题。
+
+简单说，如果一个线程改了一个值，最后又改回到初始值了，这时候CAS会认为它没有被修改过。简而言之就是只比较结果,不比较过程。
+
+**ABA问题解决**
+
+利用 `AtomicReference` 类进行原子引用
+````
+public class AtomicRefrenceDemo {
+    public static void main(String[] args) {
+        User z3 = new User("张三", 22);
+        User l4 = new User("李四", 23);
+        AtomicReference<User> atomicReference = new AtomicReference<>();
+        atomicReference.set(z3);
+        System.out.println(atomicReference.compareAndSet(z3, l4) + "\t" + atomicReference.get().toString());
+        System.out.println(atomicReference.compareAndSet(z3, l4) + "\t" + atomicReference.get().toString());
+    }
+}
+
+@Getter
+@ToString
+@AllArgsConstructor
+class User {
+    String userName;
+    int age;
+}
+````
+````
+// 输出结果
+true	User(userName=李四, age=23)
+false	User(userName=李四, age=23)
+````
+
+使用时间戳的原子引用`AtomicStampedReference`修改版本号。主要是在对象中额外再增加一个标记来标识对象是否有过变更
+````
+static AtomicStampedReference<Integer> atomicStampedReference = new AtomicStampedReference<>(100, 1);
+
+public static void main(String[] args) {
+    new Thread(() -> {
+            int stamp = atomicStampedReference.getStamp();
+            System.out.println(Thread.currentThread().getName() + "\t第1次版本号" + stamp);
             try {
                 TimeUnit.SECONDS.sleep(2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-    }
-    ````
-    CAS算法实现一个重要前提是，需要去除内存中某个时刻的数据并在当下时刻比较并替换，那么在这个时间差类会导致数据的变化。
-    
-    比如，线程1从内存位置V取出A，线程2同时也从内存取出A，并且线程2进行一些操作将值改为B，然后线程2又将V位置数据改成A，这时候线程1进行CAS操作发现内存中的值依然时A，然后线程1操作成功。
-    尽管线程1的CAS操作成功，但是不代表这个过程没有问题。
-    
-    简单说，如果一个线程改了一个值，最后又改回到初始值了，这时候CAS会认为它没有被修改过。简而言之就是只比较结果,不比较过程。
-    
-    3.1 **ABA问题解决**
-    
-    3.1.1 利用 `AtomicReference` 类进行原子引用
-    ````
-    public class AtomicRefrenceDemo {
-        public static void main(String[] args) {
-            User z3 = new User("张三", 22);
-            User l4 = new User("李四", 23);
-            AtomicReference<User> atomicReference = new AtomicReference<>();
-            atomicReference.set(z3);
-            System.out.println(atomicReference.compareAndSet(z3, l4) + "\t" + atomicReference.get().toString());
-            System.out.println(atomicReference.compareAndSet(z3, l4) + "\t" + atomicReference.get().toString());
-        }
-    }
-    
-    @Getter
-    @ToString
-    @AllArgsConstructor
-    class User {
-        String userName;
-        int age;
-    }
-    ````
-    ````
-    // 输出结果
-    true	User(userName=李四, age=23)
-    false	User(userName=李四, age=23)
-    ````
-    
-    3.1.2 使用时间戳的原子引用`AtomicStampedReference`修改版本号。主要是在对象中额外再增加一个标记来标识对象是否有过变更
-    ````
-    static AtomicStampedReference<Integer> atomicStampedReference = new AtomicStampedReference<>(100, 1);
-    
-    public static void main(String[] args) {
+            atomicStampedReference.compareAndSet(100, 101, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + 1);
+            System.out.println(Thread.currentThread().getName() + "\t第2次版本号" + atomicStampedReference.getStamp());
+            atomicStampedReference.compareAndSet(101, 100, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + 1);
+            System.out.println(Thread.currentThread().getName() + "\t第3次版本号" + atomicStampedReference.getStamp());
+        }, "Thread 3").start();
+
         new Thread(() -> {
-                int stamp = atomicStampedReference.getStamp();
-                System.out.println(Thread.currentThread().getName() + "\t第1次版本号" + stamp);
-                try {
-                    TimeUnit.SECONDS.sleep(2);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                atomicStampedReference.compareAndSet(100, 101, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + 1);
-                System.out.println(Thread.currentThread().getName() + "\t第2次版本号" + atomicStampedReference.getStamp());
-                atomicStampedReference.compareAndSet(101, 100, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + 1);
-                System.out.println(Thread.currentThread().getName() + "\t第3次版本号" + atomicStampedReference.getStamp());
-            }, "Thread 3").start();
-    
-            new Thread(() -> {
-                int stamp = atomicStampedReference.getStamp();
-                System.out.println(Thread.currentThread().getName() + "\t第1次版本号" + stamp);
-                try {
-                    TimeUnit.SECONDS.sleep(4);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                boolean result = atomicStampedReference.compareAndSet(100, 2019, stamp, stamp + 1);
-    
-                System.out.println(Thread.currentThread().getName() + "\t修改是否成功" + result + "\t当前最新实际版本号：" + atomicStampedReference.getStamp());
-                System.out.println(Thread.currentThread().getName() + "\t当前最新实际值：" + atomicStampedReference.getReference());
-            }, "Thread 4").start();
-    }
-    ````
-    ````
-    Thread 3	第1次版本号1
-    Thread 4	第1次版本号1
-    Thread 3	第2次版本号2
-    Thread 3	第3次版本号3
-    Thread 4	修改是否成功false	当前最新实际版本号：3
-    Thread 4	当前最新实际值：100
-    ````
+            int stamp = atomicStampedReference.getStamp();
+            System.out.println(Thread.currentThread().getName() + "\t第1次版本号" + stamp);
+            try {
+                TimeUnit.SECONDS.sleep(4);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            boolean result = atomicStampedReference.compareAndSet(100, 2019, stamp, stamp + 1);
+
+            System.out.println(Thread.currentThread().getName() + "\t修改是否成功" + result + "\t当前最新实际版本号：" + atomicStampedReference.getStamp());
+            System.out.println(Thread.currentThread().getName() + "\t当前最新实际值：" + atomicStampedReference.getReference());
+        }, "Thread 4").start();
+}
+````
+````
+Thread 3	第1次版本号1
+Thread 4	第1次版本号1
+Thread 3	第2次版本号2
+Thread 3	第3次版本号3
+Thread 4	修改是否成功false	当前最新实际版本号：3
+Thread 4	当前最新实际值：100
+````
 
 
 ### lock
