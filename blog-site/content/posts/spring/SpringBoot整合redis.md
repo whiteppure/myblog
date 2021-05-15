@@ -1,5 +1,5 @@
 ---
-title: "Springboot整合redis"
+title: "SpringBoot整合redis"
 date: 2020-03-01
 draft: false
 tags: ["springboot", "redis"]

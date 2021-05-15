@@ -296,7 +296,7 @@
     </item>
     
     <item>
-      <title>Springboot整合docker</title>
+      <title>SpringBoot整合docker</title>
       <link>https://whiteppure.github.io/myblog/posts/spring/springboot-docker/</link>
       <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
       
@@ -305,7 +305,7 @@
     </item>
     
     <item>
-      <title>Springboot整合kafka</title>
+      <title>SpringBoot整合kafka</title>
       <link>https://whiteppure.github.io/myblog/posts/spring/springboot-kafka/</link>
       <pubDate>Thu, 20 Aug 2020 00:00:00 +0000</pubDate>
       
@@ -395,7 +395,7 @@
     </item>
     
     <item>
-      <title>Springboot整合redis</title>
+      <title>SpringBoot整合redis</title>
       <link>https://whiteppure.github.io/myblog/posts/spring/springboot-redis/</link>
       <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
       
@@ -404,7 +404,7 @@
     </item>
     
     <item>
-      <title>Springboot整合elasticsearch</title>
+      <title>SpringBoot整合elasticsearch</title>
       <link>https://whiteppure.github.io/myblog/posts/spring/springboot-elasticsearch/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
       

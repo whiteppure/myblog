@@ -1349,8 +1349,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#reentrantlock">
-                    reentrantLock
+                <a class="nav-link text-left" href="#lock">
+                    lock
                 </a>
             </li>
             
@@ -2117,7 +2117,7 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 <h4 id="自旋锁">自旋锁</h4>
 <p>当一个线程尝试获取某个锁时，如果该锁已被其他线程占用，就一直循环检测锁是否被释放，而不是进入线程挂起或睡眠状态，直到获取到某个锁。</p>
 <p>自旋锁本身是有缺点的，它不能代替阻塞。如果锁被占用的时间很长，那么自旋的线程只会白白浪费处理器资源，带来性能上的浪费。</p>
-<p>自旋锁的实现原理是<a href="">CAS</a>,例如<code>AtomicInteger</code>中<code>getAndUpdate()</code>方法</p>
+<p>自旋锁的实现原理是<a href="#CAS">CAS</a>,例如<code>AtomicInteger</code>中<code>getAndUpdate()</code>方法</p>
 <pre><code>    public final int getAndUpdate(IntUnaryOperator updateFunction) {
         int prev, next;
         do {
@@ -2192,7 +2192,7 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 </li>
 <li>
 <p>有序性；
-在Java中，可以使用 <code>synchronized</code> 和 <code>volatile</code> 来保证多线程之间操作的有序性。其中，<code>volatile</code> 关键字会禁止指令重排。<code>synchronized</code> 关键字保证同一时刻只允许一条线程操作。</p>
+在Java中，可以使用 <code>synchronized</code> 和 <code>volatile</code> 来保证多线程之间操作的有序性。其中，<code>volatile</code> 关键字会禁止指令重排。<code>synchronized</code> 关键字保证同一时刻只允许一条线程操作，而不能禁止指令重排。</p>
 </li>
 </ul>
 <h3 id="volatile">volatile</h3>
@@ -2209,19 +2209,25 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 <pre><code>/**
 多线程下的单例模式 DCL(double check lock)
 **/
-public SingletonDemo{
-		// volatile 此处作用 禁止指令重排
-		public static volatile SingletonDemo singleton = null;
-		private Singleton(){}
-		public SingletonDemo getInstance(){
-			if(singleton == null){
-				synchronized(SingletonDemo.class){
-						if(singleton == null){
-							singleton = new SingletonDemo();	
-						}
-				}
-			}
-		}
+class SingletonDemo {
+
+    // volatile 此处作用 禁止指令重排
+    public static volatile SingletonDemo singleton = null;
+
+    private SingletonDemo() {
+    }
+
+    public static SingletonDemo getInstance() {
+        if (singleton == null) {
+            synchronized (SingletonDemo.class) {
+                if (singleton == null) {
+                    singleton = new SingletonDemo();
+                }
+            }
+        }
+        return singleton;
+    }
+
 }
 </code></pre><p><strong>为什么在此处要使用<code>volatile</code>修饰<code>singleton</code>？</strong></p>
 <p>多线程下的DCL单例模式,如果不加 <code>volatile</code> 修饰不是绝对安全的,因为在创建对象的时候JVM底层会进行三个步骤:</p>
@@ -2244,17 +2250,201 @@ public SingletonDemo{
 <p><code>volatile</code>只提供了保证访问该变量时，每次都是从内存中读取最新值，并不会使用寄存器缓存该值——每次都会从内存中读取。
 而对该变量的修改，<code>volatile</code> 并不提供原子性(线程不安全)的保证;由于及时更新，很可能导致另一线程访问最新变量值，无法跳出循环的情况,多线程下计数器必须使用锁保护.</p>
 </blockquote>
-<p>为了提高处理器的执行速度，在处理器和内存之间增加了多级缓存来提升。但是由于引入了多级缓存，就存在缓存数据不一致问题。</p>
-<p><img src="/myblog/posts/images/essays/CPU%E5%A4%9A%E7%BA%A7%E7%BC%93%E5%AD%98.jpg" alt="CPU多级缓存"></p>
-<p>对于 <code>volatile</code> 变量，当对 <code>volatile</code> 变量进行写操作的时候，JVM会向处理器发送一条带有 <code>lock</code> 前缀的指令，将这个缓存中的变量回写到系统主存中。
+<p>将<a href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B">上面的代码</a>用<code>javap -v SingletonDemo.class &gt;test.txt</code>命令执行，将反编译后的字节码指令写入到test文件中,可以看到<code>ACC_VOLATILE</code></p>
+<pre><code>  public static volatile content.posts.rookie.SingletonDemo singleton;
+    descriptor: Lcontent/posts/rookie/SingletonDemo;
+    flags: ACC_PUBLIC, ACC_STATIC, ACC_VOLATILE
+</code></pre><p><code>volatile</code> 在字节码层面，就是使用访问标志：<code>ACC_VOLATILE</code> 来表示，供后续操作此变量时判断访问标志是否为 <code>ACC_VOLATILE</code>，来决定是否遵循 <code>volatile</code> 的语义处理。</p>
+<p>可以从<code>openjdk8</code>中找到对应的源码文件</p>
+<pre><code>路径：openjdk8/hotspot/src/share/vm/interpreter/bytecodeInterpreter.cpp
+</code></pre><p><img src="/myblog/posts/images/essays/volitile%E5%AD%97%E8%8A%82%E7%A0%81.png" alt="volitile字节码"></p>
+<p>重点是<code>cache-&gt;is_volatile()</code>方法，调用栈</p>
+<pre><code>bytecodeInterpreter.cpp&gt;is_volatile() 
+==&gt; accessFlags.hpp&gt;is_volatile 
+==&gt; bytecodeInterpreter.cpprelease_byte_field_put
+==&gt; oop.inline.hpp&gt;(oopDesc::byte_field_acquire、oopDesc::release_byte_field_put)
+==&gt; orderAccess.hpp
+&gt;&gt; orderAccess_linux_x86.inline.hpp.OrderAccess::release_store
+</code></pre><p>最终调用了<code>OrderAccess::release_store</code></p>
+<pre><code>inline void     OrderAccess::release_store(volatile jbyte*   p, jbyte   v) { *p = v; }
+inline void     OrderAccess::release_store(volatile jshort*  p, jshort  v) { *p = v; }
+</code></pre><p>可以从上面看到，到C++的实现层面，又使用C++中的 <code>volatile</code> 关键字，用来修饰变量，通常用于建立语言级别的内存屏障<code>memory barrier</code>。
+在《C++ Programming Language》一书中对 <code>volatile</code> 修饰词的解释：</p>
+<blockquote>
+<p>A volatile specifier is a hint to a compiler that an object may change its value in ways not specified by the language so that aggressive optimizations must be avoided.</p>
+</blockquote>
+<ul>
+<li><code>volatile</code> 修饰的类型变量表示可以被某些编译器未知的因素更改;</li>
+<li>使用 <code>volatile</code> 变量时，避免激进的优化; 系统总是重新从内存读取数据，即使它前面的指令刚从内存中读取被缓存，防止出现未知更改和主内存中不一致。</li>
+</ul>
+<p>其在64位系统的实现<code>orderAccess_linux_x86.inline.hpp.OrderAccess::release_store</code></p>
+<pre><code>inline void OrderAccess::fence() {
+  if (os::is_MP()) {
+    // always use locked addl since mfence is sometimes expensive
+#ifdef AMD64
+    __asm__ volatile (&quot;lock; addl $0,0(%%rsp)&quot; : : : &quot;cc&quot;, &quot;memory&quot;);
+#else
+    __asm__ volatile (&quot;lock; addl $0,0(%%esp)&quot; : : : &quot;cc&quot;, &quot;memory&quot;);
+#endif
+  }
+}
+</code></pre><p>代码<code>lock; addl $0,0(%%rsp)</code>就是lock前缀；</p>
+<blockquote>
+<p>lock前缀，会保证某个处理器对共享内存的独占使用。
+它将本处理器缓存写入内存，该写入操作会引起其他处理器或内核对应的缓存失效。
+通过独占内存、使其他处理器缓存失效，达到了“指令重排序无法越过内存屏障”的作用。</p>
+</blockquote>
+<p>对于 <code>volatile</code>修饰的变量，当对 <code>volatile</code> 修饰的变量进行写操作的时候，JVM会向处理器发送一条带有 <code>lock</code> 前缀的指令，将这个缓存中的变量回写到系统主存中。
 但是就算写回到内存，如果其他处理器缓存的值还是旧的，再执行计算操作就会有问题，所以在多处理器下，为了保证各个处理器的缓存是一致的，就会实现 <strong>缓存一致性协议</strong></p>
 <blockquote>
 <p>缓存一致性协议: 每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器要对这个数据进行修改操作的时候，会强制重新从系统内存里把数据读到处理器缓存里。</p>
 </blockquote>
+<p>为了提高CPU处理器的执行速度，在处理器和内存之间增加了多级缓存来提升。但是由于引入了多级缓存，就存在缓存数据不一致问题。</p>
+<p><img src="/myblog/posts/images/essays/CPU%E5%A4%9A%E7%BA%A7%E7%BC%93%E5%AD%98.jpg" alt="CPU多级缓存"></p>
 <p>所以，如果一个变量被 <code>volatile</code> 所修饰的话，在每次数据变化之后，其值都会被强制刷入主存。而其他处理器的缓存由于遵守了缓存一致性协议，也会把这个变量的值从主存加载到自己的缓存中。这就保证了一个 <code>volatile</code> 在并发编程中，其值在多个缓存中是可见的。</p>
 <h4 id="volatile与可见性">volatile与可见性</h4>
-<h4 id="volatile与原子性">volatile与原子性</h4>
+<p>各个线程对主内存中共享变量的操作，都是各个线程各自拷贝到自己的工作内存操作后再写回主内存中的。
+这就可能存在一个线程AAA修改了共享变量X的值还未写回主内存中时 ,另外一个线程BBB又对内存中的一个共享变量X进行操作,但此时A线程工作内存中的共享比那里X对线程B来说并不不可见。
+这种工作内存与主内存同步延迟现象就造成了可见性问题。</p>
+<p>这种变量的可见性问题可以用<code>volatile</code>来解决。<code>volatile</code>的作用简单来说就是当一个线程修改了数据,并且写回主物理内存,其他线程都会得到通知获取最新的数据。</p>
+<p><code>volatile</code>可见性，代码演示</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        A a = new A();
+        // thread1
+        new Thread(() -&gt; {
+            System.out.println(Thread.currentThread().getName() + &quot; is come in&quot;);
+            try {
+                // 模拟执行其他业务
+                Thread.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // 用该线程改变A类中 number 变量的值
+            a.numberTo100();
+        }, &quot;thread1&quot;).start();
+        
+        // 如果number 等于0，则其他线程会一直等待 则证明 volatile 没有保证变量的可见性；相反则保证了变量的可见性
+        while (a.number == 0) {
+        }
+        System.out.println(Thread.currentThread().getName() + &quot; thread is over&quot;);
+    }
+}
+class A {
+    // 注意: 此时变量要加 volatile 关键字修饰； 可以去掉 volatile 来进行对比测试
+    volatile int number = 0;
+
+    public void numberTo100() {
+        System.out.println(Thread.currentThread().getName() + &quot; update number&quot;);
+        this.number = 100;
+    }
+}
+</code></pre><h4 id="volatile与原子性">volatile与原子性</h4>
+<p><code>volatile</code>原子性，代码演示</p>
+<pre><code>public class MainTest {
+
+    public static void main(String[] args) {
+        A a = new A();
+        /**
+         * 创建20个线程 每个线程让 number++ 1000次；
+         * number 变量用 volatile 修饰
+         * 如果 volatile 保证变量的原子性，则最后结果为 20 * 1000，反之则不保证。
+         * 当然不排除偶然事件，建议反复多试几次。
+         */
+        for (int i = 0; i &lt; 20; i++) {
+            new Thread(() -&gt; {
+                for (int j = 0; j &lt; 1000; j++) {
+                    a.addPlusplus();
+                }
+            }, String.valueOf(i)).start();
+        }
+        // 如果当前存活线程大于 2 个(包括main线程) 礼让线程继续执行上边的线程
+        while (Thread.activeCount() &gt; 2) {
+            Thread.yield();
+        }
+        System.out.println(Thread.currentThread().getName() + &quot; Thread is over\t&quot; + a.number);
+
+    }
+
+}
+
+class A {
+    volatile int number = 0;
+
+    public void addPlusplus() {
+        this.number++;
+    }
+}
+</code></pre><p><strong>不保证原子性的原因</strong></p>
+<p>由于各个线程之间都是复制主内存的数据到自己的工作空间里边修改数据,CPU的轮询反复切换线程,会导致数据丢失。
+即某个线程修改了数据,准备回主内存,此时CPU切换到另一个线程修改了数据,并且写回到了主内存,此时其他的线程不知道主内存的数据已经被更改,还会执行将之前从主内存复制的数据修改后的,写到主内存,这就导致了数据被覆盖,丢失。</p>
+<p><strong>解决</strong></p>
+<p>如果要解决原子性的问题,在Java中只能控制线程，在修改的时候不能被中断，即加锁。
+上面的例子可以使用<a href="#CAS">CAS</a>的实现<code>AtomicInteger</code>来解决。</p>
+<pre><code>public class MainTest {
+
+    public static void main(String[] args) {
+        A a = new A();
+        /**
+         * 创建20个线程 每个线程让 number++ 1000次；
+         * number 变量用 volatile 修饰
+         * 如果 volatile 保证变量的原子性，则最后结果为 20 * 1000，反之则不保证。
+         * 当然不排除偶然事件，建议反复多试几次。
+         */
+        for (int i = 0; i &lt; 20; i++) {
+            new Thread(() -&gt; {
+                for (int j = 0; j &lt; 1000; j++) {
+                    a.addPlusplus();
+                }
+            }, String.valueOf(i)).start();
+        }
+        // 如果当前存活线程大于 2 个(包括main线程) 礼让线程继续执行上边的线程
+        while (Thread.activeCount() &gt; 2) {
+            Thread.yield();
+        }
+        System.out.println(Thread.currentThread().getName() + &quot; Thread is over\t&quot; + a.number);
+
+    }
+
+}
+
+class A {
+
+    int number = 0;
+
+    /**
+     * 如果要解决原子性的问题可以用synchronized 关键字(这种太浪费性能)
+     * 可用JUC下的 AtomicInteger 来解决
+     **/
+    AtomicInteger atomicInteger = new AtomicInteger(number);
+
+    public void addPlusplus() {
+        number = atomicInteger.incrementAndGet();
+    }
+}
+</code></pre><p>对于<code>AtomicInteger.incrementAndGet</code>方法来说，原理就是<code>volatile</code> + <code>do...while()</code> + <code>CAS</code>;</p>
+<p><code>AtomicInteger.incrementAndGet</code>源码</p>
+<pre><code>public final int incrementAndGet() {
+    return unsafe.getAndAddInt(this, valueOffset, 1) + 1;
+}
+//=========================
+public final int getAndAddInt(Object var1, long var2, int var4) {
+    int var5;
+    do {
+        var5 = this.getIntVolatile(var1, var2);
+    } while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));
+
+    return var5;
+}
+</code></pre><p>用<code>volatile</code>修饰该变量，保证该变量被某个线程修改时，保证其他线程中的这个变量的可见性；
+在多线程环境下，CPU轮流切换线程执行，有可能某个线程修改了数据,准备回主内存,此时CPU切换到另一个线程修改了数据,并且写回到了主内存，此时就导致数据的不准确；
+<code>do...while()</code> + <code>CAS</code>的作用就是，当某个线程工作内存中的值与主内存中的值，如果不相同就会一直<code>while</code>循环下去,之所以用<code>do..while</code>是考虑到做自增操作。</p>
 <h4 id="volatile与有序性">volatile与有序性</h4>
+<p>有序性，指的就是代码按照顺序执行，这个就是对比指令重排来说的；计算机在执行程序时,为了提高性能,编译器和处理器常常会做指令重排。</p>
+<p>在上面的<a href="#%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B">使用案例</a>中的代码，DCL就是一个使用禁止指令重排的案例。</p>
+<p><strong><code>volatile</code> 禁止指令重排原因</strong></p>
+<p>由于编译器和处理器都能执行指令重排的优化,如果在指令键加入一条内存屏障(<code>Memory barrier</code>),就会告诉编译器和CPU不管什么指令都不能和这条加入<code>Memory barrier</code>指令键重新排序,也就是说<strong>通过内存屏障禁止在内存屏障前后的指令重新排序优化</strong>。
+内存屏障的另一个作用就是强制刷出各种CPU缓存数据,因此任何CPU上的线程都能读取到这些数据的最新值，即可见性。</p>
 <h3 id="cas">CAS</h3>
 <p>CAS全称为<code>Compare and Swap</code>被译为比较并交换。是一种无锁算法。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
 <code>java.util.concurrent.atomic</code> 并发包下的所有原子类都是基于 <code>CAS</code> 来实现的。</p>
@@ -2308,7 +2498,7 @@ public SingletonDemo{
     
     // ...
 }
-</code></pre><p>上面的三个方法可以对应去查看 <code>openjdk</code> 的 <code>hotspot</code>源码：<code>src/share/vm/prims/unsafe.cpp</code></p>
+</code></pre><p>上面的三个方法的原理，可以对应去查看 <code>openjdk</code> 的 <code>hotspot</code>源码：<code>src/share/vm/prims/unsafe.cpp</code></p>
 <pre><code>#define FN_PTR(f) CAST_FROM_FN_PTR(void*, &amp;f)
 
 {CC&quot;compareAndSwapObject&quot;, CC&quot;(&quot;OBJ&quot;J&quot;OBJ&quot;&quot;OBJ&quot;)Z&quot;,  FN_PTR(Unsafe_CompareAndSwapObject)},
@@ -2344,7 +2534,8 @@ public SingletonDemo{
          return cur_as_bytes[offset];
 }
 </code></pre><p>从上述源码可以看出CAS的原理就是调用了汇编指令 <code>cmpxchg</code> ,最终其实也就调用了CPU的某些指令。</p>
-<p>CAS作用也一目了然，在多线程环境中，就是比较当前线程工作内存中的值和主内存中的值，如果相同则执行规定操作，否则继续比较，直到主内存和工作内存中的值一直为止。例如代码：</p>
+<p>CAS作用也一目了然，在多线程环境中，就是比较当前线程工作内存中的值和主内存中的值，如果相同则执行规定操作，否则继续比较，直到主内存和当前线程工作内存中的值一致为止。</p>
+<p>例如代码：</p>
 <pre><code>public final int getAndAddInt(Object var1, long var2, int var4) {
         int var5;
         do {
@@ -2353,7 +2544,7 @@ public SingletonDemo{
         return var5;
 }
 </code></pre><h4 id="如何保证数据一致性">如何保证数据一致性</h4>
-<p>从源码可以看出，是通过CPU指令进行调用,当CPU中某个处理器对缓存中的共享变量进行了操作，其他处理器会有个嗅探机制，将其他处理器的该共享变量的缓存失效，待其他线程读取时会重新从主内存中读取最新的数据，基于 <code>MESI</code> 缓存一致性协议来实现的。</p>
+<p>从源码可以看出，CAS是通过<code>Unsafe</code>调用CPU指令,当CPU中某个处理器对缓存中的共享变量进行了操作，其他处理器会有个嗅探机制，将其他处理器的该共享变量的缓存失效，待其他线程读取时会重新从主内存中读取最新的数据，基于 <code>MESI</code> 缓存一致性协议来实现的。</p>
 <p>简述，就是通过CPU的缓存一致性协议来保证线程之间的数据一致性的。</p>
 <blockquote>
 <p>CPU 处理器速度远远大于在主内存中的，为了解决速度差异，在他们之间架设了多级缓存，如 L1、L2、L3 级别的缓存，这些缓存离CPU越近就越快，将频繁操作的数据缓存到这里，加快访问速度。</p>
@@ -2481,7 +2672,7 @@ Thread 4	修改是否成功false	当前最新实际版本号：3
 Thread 4	当前最新实际值：100
 </code></pre></li>
 </ol>
-<h3 id="reentrantlock">reentrantLock</h3>
+<h3 id="lock">lock</h3>
 <h3 id="aqs">AQS</h3>
 <h3 id="synchronized">synchronized</h3>
 <h2 id="线程安全的集合">线程安全的集合</h2>

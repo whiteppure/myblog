@@ -1,5 +1,5 @@
 ---
-title: "Springboot整合kafka"
+title: "SpringBoot整合kafka"
 date: 2020-08-20
 draft: false
 tags: ["springboot", "MQ"]
