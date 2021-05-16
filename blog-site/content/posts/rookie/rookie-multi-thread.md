@@ -1203,11 +1203,561 @@ Thread 4	当前最新实际值：100
 ### synchronized
 
 
-## 线程安全的集合
-### List
-### Set
-### Map
+## 常用的线程安全的集合
+| 线程不安全 | 线程不安全解决方案                                           |
+| ---------- | ------------------------------------------------------------ |
+| ArrayList  | 使用Vector、Collections.synchronizedArrayList、CopyOnWriteArrayList |
+| HashSet    | 使用Collections.synchronizedSet、CopyOnWriteArraySet         |
+| HashMap    | 使用HashTable、Collections.synchronizedMap、ConcurrentHashMap |
 
+### ArrayList线程不安全
+`ArrayList`线程不安全代码演示
+```
+public class MainTest {
+    public static void main(String[] args) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for(int i=0; i< 10; i++) {
+            new Thread(() -> {
+                arrayList.add(UUID.randomUUID().toString());
+                System.out.println(arrayList);
+            },String.valueOf(i)).start();
+        }
+    }
+}
+```
+为避免偶然事件，请重复多试几次上面的代码,很大情况会出现`ConcurrentModificationException`"同步修改异常"
+```
+java.util.ConcurrentModificationException
+```
+出现该异常的原因是，当某个线程正在执行 `add()`方法时,被某个线程打断,添加到一半被打断,没有被添加完。
+
+#### 解决ArrayList线程不安全问题
+- 可以使用 `Vector` 来代替 `ArrayList`,`Vector` 是线程安全的 `ArrayList`,但是由于,并发量太小,被淘汰;
+- 使用 `Collections.synchronizedArrayList()` 来创建 `ArrayList`；使用 `Collections` 工具类来创建 `ArrayList` 的思路是,在 `ArrayList` 的外边套了一个`synchronized`外壳,来使 `ArrayList` 线程安全;
+- 使用 `CopyOnWriteArrayList()`来保证 `ArrayList` 线程安全；
+
+下面详细说明`CopyOnWriteArrayList()`；使用`CopyOnWriteArrayList`演示代码
+```
+public class MainTest {
+    public static void main(String[] args) {
+        CopyOnWriteArrayList<String> arrayList = new CopyOnWriteArrayList<>();
+        for(int i=0; i< 10; i++) {
+            new Thread(() -> {
+                arrayList.add(UUID.randomUUID().toString());
+                System.out.println(arrayList);
+            },String.valueOf(i)).start();
+        }
+    }
+}
+```
+#### CopyWriteArrayList原理
+`CopyWriteArrayList` 字面意思就是在写的时候复制,思想就是读写分离的思想。以下是 `CopyOnWriteArrayList` 的 `add()` 方法源码
+```
+/** The array, accessed only via getArray/setArray. */
+    private transient volatile Object[] array;
+
+/** The lock protecting all mutators */
+    final transient ReentrantLock lock = new ReentrantLock();
+
+  /**
+     * Gets the array.  Non-private so as to also be accessible
+     * from CopyOnWriteArraySet class.
+     */
+    final Object[] getArray() {
+        return array;
+    }
+
+/**
+     * Appends the specified element to the end of this list.
+     *
+     * @param e element to be appended to this list
+     * @return {@code true} (as specified by {@link Collection#add})
+     */
+    public boolean add(E e) {
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            Object[] elements = getArray();
+            int len = elements.length;
+            Object[] newElements = Arrays.copyOf(elements, len + 1);
+            newElements[len] = e;
+            setArray(newElements);
+            return true;
+        } finally {
+            lock.unlock();
+        }
+    }
+```
+`CopyWriteArrayList`之所以线程安全的原因是在源码里面使用 `ReentrantLock`，所以保证了某个线程在写的时候不会被打断；
+可以看到源码开始先是复制了一份数组(因为同一时刻只有一个线程写,其余的线程会读),在复制的数组上边进行写操作,写好以后在返回 `true`。
+这样写的就把读写进行了分离.写好以后因为 `array` 加了 `volatile` 关键字,所以该数组是对于其他的线程是可见的,就会读取到最新的值.
+
+
+### HashSet
+`HashSet` 和 `ArrayList` 类似,也是线程不安全的集合类。代码演示线程不安全示例，与`ArrayList`类似
+```
+public class MainTest {
+    public static void main(String[] args) {
+        HashSet<String> set = new HashSet<>();
+        for(int i=0; i< 10; i++) {
+            new Thread(() -> {
+                set.add(UUID.randomUUID().toString());
+                System.out.println(set);
+            },String.valueOf(i)).start();
+        }
+    }
+}
+```
+也会报 `java.util.ConcurrentModificationException` 异常。
+
+参照`ArrayList`解决方案,`HashSet`有两种解决方案：
+- `Collections.synchronizedSet()`使用集合工具类解决;
+- 使用 `CopyOnWriteArraySet()`来保证集合线程安全;
+
+使用 `CopyOnWriteArraySet()`代码演示
+```
+public class MainTest {
+    public static void main(String[] args) {
+        CopyOnWriteArraySet<String> set = new CopyOnWriteArraySet<>();
+        for(int i=0; i< 10; i++) {
+            new Thread(() -> {
+                set.add(UUID.randomUUID().toString());
+                System.out.println(set);
+            },String.valueOf(i)).start();
+        }
+    }
+}
+```
+
+`CopyOnWriteArraySet`底层调用的就是`CopyOnWriteArrayList`。
+```
+private final CopyOnWriteArrayList<E> al;
+/**
+ * Creates an empty set.
+ */
+public CopyOnWriteArraySet() {
+    al = new CopyOnWriteArrayList<E>();
+}
+```
+参照[CopyWriteArrayList原理。](#CopyWriteArrayList原理)
+
+### HashMap
+`HashMap` 也是线程不安全的集合类;
+在多线程环境下使用同样会出现`java.util.ConcurrentModificationException`。
+```
+public class MainTest {
+    public static void main(String[] args) {
+        HashMap<String,Object> map = new HashMap<>();
+        for(int i=0; i< 10; i++) {
+            new Thread(() -> {
+                map.put(UUID.randomUUID().toString(),Thread.currentThread().getName());
+                System.out.println(map);
+            },String.valueOf(i)).start();
+        }
+    }
+}
+```
+再多线程环境下`HashMap`不仅会出现`ConcurrentModificationException`问题；
+更严重的是，当多个线程中的 `HashMap` 同时扩容时，再使用put方法添加元素，如果hash值相同，可能出现同时在同一数组下用链表表示，造成闭环，导致在get时会出现死循环，CPU飙升到100%。
+
+解决方案：
+- 使用 `HashTable`来保证线程安全;
+- `Collections.synchronizedMap()` 使用集合工具类;
+- `ConcurrentHashMap<>()` 来保证线程安全;
+
+上面的`HashTable`、`Collections.synchronizedMap()`因为性能的原因，在多线程环境下很少使用，一般都会使用`ConcurrentHashMap<>()`。
+
+`HashTable`性能低的原因，就是直接加了`synchronized`修饰；
+当使用put方法时，通过hash算法判断应该分配到哪一个数组上，如果分配到同一个数组上，即发生hash冲突，这个时候加锁是没问题的；但是一旦不发生hash冲突，再去加锁，性能就不太好了。
+
+可理解为`HashTable`性能不好的原因就是锁的粒度太粗了。
+
+`HashTable`put方法源码
+```
+public synchronized V put(K key, V value) {
+        // Make sure the value is not null
+        if (value == null) {
+            throw new NullPointerException();
+        }
+
+        // Makes sure the key is not already in the hashtable.
+        Entry<?,?> tab[] = table;
+        int hash = key.hashCode();
+        int index = (hash & 0x7FFFFFFF) % tab.length;
+        @SuppressWarnings("unchecked")
+        Entry<K,V> entry = (Entry<K,V>)tab[index];
+        for(; entry != null ; entry = entry.next) {
+            if ((entry.hash == hash) && entry.key.equals(key)) {
+                V old = entry.value;
+                entry.value = value;
+                return old;
+            }
+        }
+
+        addEntry(hash, key, value, index);
+        return null;
+    }
+```
+
+#### ConcurrentHashMap原理
+`ConcurrentHashMap`原理简单理解为：`HashMap` + 分段锁。
+
+因为`HashMap`在jdk1.7与jdk1.8结构上做了调整，所以`ConcurrentHashMap`在jdk1.7与jdk1.8结构上也有所不同。
+
+在阅读之前建议掌握`HashMap`基本原理、CAS、`synchronized`、lock以及对多线程并发有一定了解。
+
+##### jdk1.7ConcurrentHashMap
+JDK1.7采用`segment`的分段锁机制实现线程安全，其中`segment`类继承自`ReentrantLock`。用`ReentrantLock`、CAS来保证线程安全。
+
+![jdk1.7ConcurrentHashMap](/myblog/posts/images/essays/jdk1.7ConcurrentHashMap.png)
+
+jdk1.7的`ConcurrentHashMap`结构：
+- `segment`: 每一个`segment`数组就相当于一个`HashMap`；
+- `HashEntry`: 等同于`HashMap`中`Entry`,用于存放K,V键值对；
+- 节点：每个节点对应`ConcurrentHashMap`存放的值；
+
+jdk1.7`ConcurrentHashMap`之所以能够保证线程安全，主要原因是在每个`segment`数组上加了锁，俗称分段锁，细化了锁的粒度。
+
+jdk1.7`ConcurrentHashMap.put`方法源码
+```
+    public V put(K key, V value) {
+        Segment<K,V> s;
+        if (value == null)
+            throw new NullPointerException();
+        int hash = hash(key.hashCode());
+        int j = (hash >>> segmentShift) & segmentMask;
+        if ((s = (Segment<K,V>)UNSAFE.getObject          // nonvolatile; recheck
+             (segments, (j << SSHIFT) + SBASE)) == null) //  in ensureSegment
+            s = ensureSegment(j);
+        return s.put(key, hash, value, false);
+    }
+```
+首先判空，计算hash值，计算put进来的元素分配到哪个`segment`数组上，判断当前`segments`数组上的元素是否为空，如果为空就会使用`ensureSegment`方法创建`segment`对象；
+最后调用`Segment.put`方法，存放到对应的节点中。
+
+`Segment.ensureSegment`方法源码
+```
+/**
+ * Returns the segment for the given index, creating it and
+ * recording in segment table (via CAS) if not already present.
+ *
+ * @param k the index
+ * @return the segment
+ */
+private Segment<K,V> ensureSegment(int k) {
+        final Segment<K,V>[] ss = this.segments;
+        long u = (k << SSHIFT) + SBASE; // raw offset
+        Segment<K,V> seg;
+        if ((seg = (Segment<K,V>)UNSAFE.getObjectVolatile(ss, u)) == null) {
+            Segment<K,V> proto = ss[0]; // use segment 0 as prototype
+            int cap = proto.table.length;
+            float lf = proto.loadFactor;
+            int threshold = (int)(cap * lf);
+            HashEntry<K,V>[] tab = (HashEntry<K,V>[])new HashEntry[cap];
+            if ((seg = (Segment<K,V>)UNSAFE.getObjectVolatile(ss, u))
+                == null) { // recheck
+                Segment<K,V> s = new Segment<K,V>(lf, threshold, tab);
+                while ((seg = (Segment<K,V>)UNSAFE.getObjectVolatile(ss, u))
+                       == null) {
+                    if (UNSAFE.compareAndSwapObject(ss, u, null, seg = s))
+                        break;
+                }
+            }
+        }
+        return seg;
+    }
+```
+通过文档注释可以看到`ensureSegment`方法作用
+> 返回指定索引的segment对象，通过CAS判断，如果还没有则创建它并记录在segment表中。
+
+当多个线程同时执行该方法，同时通过`ensureSegment`方法创建`segment`对象时,只有一个线程能够创建成功；
+其中创建的新`segment`对象中的加载因子、存放位置、扩容阈值与`segment[0]`元素保持一致。这样做性能更高，因为不用在计算了。
+
+为了保证线程安全，在`ensureSegment`方法中用`Unsafe`类中的一些方法做了三次判断，其中最后一次也就是该方法保证线程安全的关键，用到了CAS操作;
+
+当多个线程并发执行下面的代码，先执行CAS的线程，判断`segment`数组中某个位置是空的，然后就把这个线程自己创建的`segment`数组赋值给seg，即`seg = s`;然后`break`跳出循环；
+后执行的线程会再次判断seg是否为空，因先执行的线程已经`seg = s`不为空了，所以循环条件不成立，也就不再执行了。
+```
+while ((seg = (Segment<K,V>)UNSAFE.getObjectVolatile(ss, u))
+       == null) {
+    if (UNSAFE.compareAndSwapObject(ss, u, null, seg = s))
+        break;
+}
+```
+
+
+`Segment.put`方法源码；为了保证线程安全，执行put方法要保证要加到锁，如果没加到锁就会执行`scanAndLockForPut`方法；
+这个方法就会保证一定要加到锁；
+```
+final V put(K key, int hash, V value, boolean onlyIfAbsent) {
+    HashEntry<K,V> node = tryLock() ? null :
+        scanAndLockForPut(key, hash, value);
+    // ... 插入节点操作 最后释放锁
+}
+```
+`scanAndLockForPut`方法的主要作用就是加锁，如果没有获取锁，就会一致遍历`segment`数组，直到遍历到最后一个元素；
+每次遍历完都会尝试获取锁，如果还是获取不到锁，就会重试，最大次数为`MAX_SCAN_RETRIES`在CPU多核下为64次，如果大于64次就会强制加锁。
+```
+private HashEntry<K,V> scanAndLockForPut(K key, int hash, V value) {
+    HashEntry<K,V> first = entryForHash(this, hash);
+    HashEntry<K,V> e = first;
+    HashEntry<K,V> node = null;
+    int retries = -1; // negative while locating node
+    while (!tryLock()) {
+        HashEntry<K,V> f; // to recheck first below
+        if (retries < 0) {
+            if (e == null) {
+                if (node == null) // speculatively create node
+                    node = new HashEntry<K,V>(hash, key, value, null);
+                retries = 0;
+            }
+            else if (key.equals(e.key))
+                retries = 0;
+            else
+                e = e.next;
+        }
+        else if (++retries > MAX_SCAN_RETRIES) {
+            lock();
+            break;
+        }
+        else if ((retries & 1) == 0 &&
+                 (f = entryForHash(this, hash)) != first) {
+            e = first = f; // re-traverse if entry changed
+            retries = -1;
+        }
+    }
+    return node;
+}
+
+static final int MAX_SCAN_RETRIES =
+            Runtime.getRuntime().availableProcessors() > 1 ? 64 : 1;
+
+```
+
+##### jdk1.8ConcurrentHashMap
+JDK1.8的实现已经摒弃了 `Segment` 的概念，而是直接用 `Node数组+链表/红黑树`的数据结构来实现，并发控制使用 `synchronized` 和CAS来操作，整个看起来就像是优化过且线程安全的`HashMap`;
+虽然在JDK1.8中还能看到 `Segment` 的数据结构，但是已经简化了属性，只是为了兼容旧版本。
+
+JDK1.8中彻底放弃了`Segment`转而采用的是`Node`,其设计思想也不再是JDK1.7中的分段锁思想；
+JDK1.8版本的`ConcurrentHashMap`的数据结构已经接近`HashMap`，相对而言，`ConcurrentHashMap` 只是增加了同步操作来控制并发。
+
+![jdk1.8ConcurrentHashMap](/myblog/posts/images/essays/jdk1.8ConcurrentHashMap.png)
+
+相关概念：
+- `sizeCtl` ：默认为0，用来控制`table`的初始化和扩容操作;用`volatile`修饰，保证了其可见性；
+
+
+JDK1.8`ConcurrentHashMap.put`方法源码;
+```
+final V putVal(K key, V value, boolean onlyIfAbsent) {
+    if (key == null || value == null) throw new NullPointerException();
+    int hash = spread(key.hashCode());
+    int binCount = 0;
+    for (Node<K,V>[] tab = table;;) {
+        Node<K,V> f; int n, i, fh;
+        if (tab == null || (n = tab.length) == 0)
+            tab = initTable();
+        else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
+            if (casTabAt(tab, i, null,
+                         new Node<K,V>(hash, key, value, null)))
+                break;                   // no lock when adding to empty bin
+        }
+        else if ((fh = f.hash) == MOVED)
+            tab = helpTransfer(tab, f);
+        else {
+            V oldVal = null;
+            synchronized (f) {
+                if (tabAt(tab, i) == f) {
+                    if (fh >= 0) {
+                        binCount = 1;
+                        for (Node<K,V> e = f;; ++binCount) {
+                            K ek;
+                            if (e.hash == hash &&
+                                ((ek = e.key) == key ||
+                                 (ek != null && key.equals(ek)))) {
+                                oldVal = e.val;
+                                if (!onlyIfAbsent)
+                                    e.val = value;
+                                break;
+                            }
+                            Node<K,V> pred = e;
+                            if ((e = e.next) == null) {
+                                pred.next = new Node<K,V>(hash, key,
+                                                          value, null);
+                                break;
+                            }
+                        }
+                    }
+                    else if (f instanceof TreeBin) {
+                        Node<K,V> p;
+                        binCount = 2;
+                        if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
+                                                       value)) != null) {
+                            oldVal = p.val;
+                            if (!onlyIfAbsent)
+                                p.val = value;
+                        }
+                    }
+                }
+            }
+            if (binCount != 0) {
+                if (binCount >= TREEIFY_THRESHOLD)
+                    treeifyBin(tab, i);
+                if (oldVal != null)
+                    return oldVal;
+                break;
+            }
+        }
+    }
+    addCount(1L, binCount);
+    return null;
+}
+```
+首先调用`Node.initTable()`方法，初始化table;`sizeCtl` 默认为0，如果`ConcurrentHashMap`实例化时有传参数，`sizeCtl` 会是一个2的幂次方的值。
+所以执行第一次put方法时操作的线程会执行`Unsafe.compareAndSwapInt`方法修改`sizeCtl=-1`，只有一个线程能够修改成功，其它线程通过`Thread.yield()`礼让线程让出CPU时间片，等待`table`初始化完成。
+
+```
+private final Node<K,V>[] initTable() {
+    Node<K,V>[] tab; int sc;
+    while ((tab = table) == null || tab.length == 0) {
+        if ((sc = sizeCtl) < 0)
+            Thread.yield(); // lost initialization race; just spin
+        else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
+            try {
+                if ((tab = table) == null || tab.length == 0) {
+                    int n = (sc > 0) ? sc : DEFAULT_CAPACITY;
+                    @SuppressWarnings("unchecked")
+                    Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n];
+                    table = tab = nt;
+                    sc = n - (n >>> 2);
+                }
+            } finally {
+                sizeCtl = sc;
+            }
+            break;
+        }
+    }
+    return tab;
+}
+```
+调用put方法，通过hash算法计算，将要存放数组中的位置`(n - 1) & hash`，如果该节点为空就通过CAS判断，创建一个Node放到该位置上。
+```
+int hash = spread(key.hashCode());
+
+// hash算法，计算存放在map中的位置；要保证尽可能的均匀分散，避免hash冲突
+static final int HASH_BITS = 0x7fffffff;
+static final int spread(int h) {
+    // 等同于： key.hashCode() ^ (key.hashCode() >>> 16) & 0x7fffffff
+    return (h ^ (h >>> 16)) & HASH_BITS;
+}
+```
+如果该位置不为空就会继续判断当前线程的`ConcurrentHashMap`是否进行扩容
+```
+// MOVED = -1
+if ((fh = f.hash) == MOVED)
+tab = helpTransfer(tab, f);
+```
+插入之前，再次利用`tabAt(tab, i) == f`判断，防止被其它线程修改;
+之后就会对这个将要添加到该位置的元素加锁，判断是链表还是树节点，做不同的操作;
+- 如果`f.hash >= 0`，说明f是链表结构的头结点，遍历链表，如果找到对应的`node`节点，则修改`value`，否则在链表尾部加入节点。
+- 如果f是`TreeBin`类型节点，说明f是红黑树根节点，则在树结构上遍历元素，更新或增加节点。
+- 如果链表中节点数`binCount >= TREEIFY_THRESHOLD(默认是8)`，则把链表转化为红黑树结构。
+
+```
+V oldVal = null;
+synchronized (f) {
+    if (tabAt(tab, i) == f) {
+        if (fh >= 0) {
+            binCount = 1;
+            for (Node<K,V> e = f;; ++binCount) {
+                K ek;
+                if (e.hash == hash &&
+                    ((ek = e.key) == key ||
+                     (ek != null && key.equals(ek)))) {
+                    oldVal = e.val;
+                    if (!onlyIfAbsent)
+                        e.val = value;
+                    break;
+                }
+                Node<K,V> pred = e;
+                if ((e = e.next) == null) {
+                    pred.next = new Node<K,V>(hash, key,
+                                              value, null);
+                    break;
+                }
+            }
+        }
+        else if (f instanceof TreeBin) {
+            Node<K,V> p;
+            binCount = 2;
+            if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
+                                           value)) != null) {
+                oldVal = p.val;
+                if (!onlyIfAbsent)
+                    p.val = value;
+            }
+        }
+    }
+}
+if (binCount != 0) {
+    if (binCount >= TREEIFY_THRESHOLD)
+        treeifyBin(tab, i);
+    if (oldVal != null)
+        return oldVal;
+    break;
+}
+```
+最后则进行扩容操作
+```
+//相当于size++
+addCount(1L, binCount);
+```
+```
+private final void addCount(long x, int check) {
+    CounterCell[] as; long b, s;
+    if ((as = counterCells) != null ||
+        !U.compareAndSwapLong(this, BASECOUNT, b = baseCount, s = b + x)) {
+        CounterCell a; long v; int m;
+        boolean uncontended = true;
+        if (as == null || (m = as.length - 1) < 0 ||
+            (a = as[ThreadLocalRandom.getProbe() & m]) == null ||
+            !(uncontended =
+              U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {
+            fullAddCount(x, uncontended);
+            return;
+        }
+        if (check <= 1)
+            return;
+        s = sumCount();
+    }
+    if (check >= 0) {
+        Node<K,V>[] tab, nt; int n, sc;
+        while (s >= (long)(sc = sizeCtl) && (tab = table) != null &&
+               (n = tab.length) < MAXIMUM_CAPACITY) {
+            int rs = resizeStamp(n);
+            if (sc < 0) {
+                if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
+                    sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
+                    transferIndex <= 0)
+                    break;
+                if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
+                    transfer(tab, nt);
+            }
+            else if (U.compareAndSwapInt(this, SIZECTL, sc,
+                                         (rs << RESIZE_STAMP_SHIFT) + 2))
+                transfer(tab, null);
+            s = sumCount();
+        }
+    }
+}
+```
+节点从`table`移动到`nextTable`，大体思想是遍历、复制的过程。
+通过`Unsafe.compareAndSwapInt`修改`sizeCtl`值，保证只有一个线程能够初始化`nextTable`，扩容后的数组长度为原来的两倍，但是容量是原来的1.5。
+
+- 首先根据运算得到需要遍历的次数i，然后利用`tabAt`方法获得i位置的元素f，初始化一个`forwardNode`实例fwd。
+- 如果`f == null`，则在`table`中的i位置放入fwd，这个过程是采用`Unsafe.compareAndSwapObjectf`方法实现的，实现了节点的并发移动。
+- 如果f是链表的头节点，就构造一个反序链表，把他们分别放在`nextTable`的i和i+n的位置上，移动完成，采用`Unsafe.putObjectVolatile`方法给`table`原位置赋值fwd。
+- 如果f是`TreeBin`节点，也做一个反序处理，并判断是否需要`untreeify`，把处理的结果分别放在nextTable的i和i+n的位置上，移动完成，同样采用`Unsafe.putObjectVolatile`方法给`table`原位置赋值fwd。
 
 
 
