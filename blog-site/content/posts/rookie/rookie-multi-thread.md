@@ -529,6 +529,7 @@ public class MainTest {
 
 ### 公平锁与非公平锁
 
+
 ### 可重入锁与不可重入锁
 
 ### 悲观锁与乐观锁
@@ -584,14 +585,12 @@ public class MainTest {
 如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也是很有可能再次成功，进而它将允许自旋等待持续相对更长的时间。
 如果对于某个锁，自旋很少成功获得过，那在以后尝试获取这个锁时将可能省略掉自旋过程，直接阻塞线程，避免浪费处理器资源。
 
-
-### 共享锁与排它锁
+### 共享锁与独占锁
 ### 轻量级锁与重量级锁
 
 ### 偏向锁
 ### 读写锁
 ### 互斥锁
-### 独占锁
 
 
 ## 线程安全
@@ -640,7 +639,8 @@ JMM就作用于工作内存和主存之间数据同步过程。他规定了如�
 在Java中，为了保证线程间的可见性，可以使用`volatile`、`synchronized`、`final`来修饰。
 
 - 有序性；
-在Java中，可以使用 `synchronized` 和 `volatile` 来保证多线程之间操作的有序性。其中，`volatile` 关键字会禁止指令重排。`synchronized` 关键字保证同一时刻只允许一条线程操作，而不能禁止指令重排。
+在Java中，可以使用 `synchronized` 和 `volatile` 来保证多线程之间操作的有序性。其中，`volatile` 关键字会禁止编译器指令重排，来保证；
+`synchronized` 关键字保证同一时刻只允许一条线程操作，而不能禁止指令重排，指令重排并不会影响单线程的顺序，它影响的是多线程并发执行的顺序性，从而保证了有序性。
 
 ### volatile
 `volatile`通常被比喻成轻量级的锁，也是Java并发编程中比较重要的一个关键字。
@@ -1087,6 +1087,8 @@ public final int getAndAddInt(Object var1, long var2, int var4) {
 ```
 ##### 多个变量原子性
 只能保证一个共享变量的原子操作，对多个共享变量操作时，循环CAS就无法保证操作的原子性，这个时候就可以用锁来保证原子性。
+但是Java从1.5开始JDK提供了`AtomicReference`类来保证引用对象之间的原子性，可以把多个变量放在一个对象里来进行CAS操作。
+
 ##### ABA问题
 
 ABA问题示例代码:
@@ -1197,11 +1199,417 @@ Thread 4	当前最新实际值：100
 ````
 
 
-### lock
+### Lock
+#### 使用
+#### 原理
+#### trylock、lock
 ### AQS
 
 ### synchronized
+`synchronized`是Java提供的关键字，可译为同步。可用来给对象、方法或者代码块加锁，当它锁定一个方法或者一个代码块的时候，同一时刻最多只有一个线程执行这段代码。
 
+> `synchronized`关键字在需要原子性、可见性和有序性这三种特性的时候都可以作为其中一种解决方案，看起来是“万能”的。的确，大部分并发控制操作都能使用`synchronized`来完成。
+
+#### 使用
+| 修饰的对象       | 作用范围     | 作用对象           |
+| ---------------- | ------------ | ------------------ |
+| 同步一个实例方法     | 整个实例方法     | 调用此方法的对象   |
+| 同步一个静态方法 | 整个静态方法 | 此类的所有对象     |
+| 同步代码块-对象  | 整个代码块   | 调用此代码块的对象 |
+| 同步代码块-类   | 整个代码块   | 此类的所有对象     |
+
+##### 同步一个方法
+
+代码演示
+```
+public class MainTest {
+
+    //共享资源
+    static int i = 0;
+
+    public static void main(String[] args) throws InterruptedException {
+        MainTest mainTest = new MainTest();
+        Thread thread1 = new Thread(() -> {
+            for (int j = 0; j < 1000000; j++) {
+                mainTest.increase();
+            }
+        }, "线程1");
+        Thread thread2 = new Thread(() -> {
+            for (int j = 0; j < 1000000; j++) {
+                mainTest.increase();
+            }
+        }, "线程2");
+
+        thread1.start();
+        thread2.start();
+
+        // join方法的作用是调用线程等待该线程完成后，才能继续用下运行。
+        thread1.join();
+        thread2.join();
+        System.out.println(i);
+    }
+
+    public synchronized void increase() {
+        i++;
+    }
+
+    // 通过是否使用synchronized来体会
+//    public  void increase() {
+//        i++;
+//    }
+}
+```
+对于上面的代码如果加上`synchronized`最后输出的结果为2000000；
+如果没有加，最后的结果很大程度上是小于2000000的，当然不排除偶然情况，所以这里不是肯定句。
+
+由此可见，当某个线程运行到这个方法时,都要检查有没有其它线程正在用这个方法(或者该类的其他同步方法)，有的话要等待正在使用 `synchronized` 方法的线程运行完这个方法后再运行此线程,没有的话,锁定调用者,然后直接运行。
+
+##### 同步一个静态方法
+当 `synchronized` 作用于静态方法时，其锁就是当前类的class对象锁。由于静态成员不专属于任何一个实例对象，是类成员，因此通过class对象锁可以控制静态 成员的并发操作。
+
+需要注意的是如果一个线程A调用一个实例对象的非`static synchronized`方法，而线程B需要调用这个实例对象所属类的静态 `synchronized` 方法，是允许的，不会发生互斥现象;
+因为访问静态 `synchronized` 方法占用的锁是当前类的class对象，而访问非静态 `synchronized` 方法占用的锁是当前实例对象锁。
+
+代码演示
+```
+public class MainTest {
+
+    //共享资源
+    static int i = 0;
+
+    public static void main(String[] args) throws InterruptedException {
+        MainTest mainTest = new MainTest();
+        Thread thread1 = new Thread(() -> {
+            for (int j = 0; j < 1000000; j++) {
+//                increase();
+                mainTest.increaseNoneStatic();
+            }
+        }, "线程1");
+        Thread thread2 = new Thread(() -> {
+            for (int j = 0; j < 1000000; j++) {
+//                increase();
+//                mainTest.increaseNoneStatic();
+            }
+        }, "线程2");
+
+        thread1.start();
+        thread2.start();
+
+        // join方法的作用是调用线程等待该线程完成后，才能继续用下运行。
+        thread1.join();
+        thread2.join();
+        System.out.println(i);
+    }
+
+    // static修饰 锁住的是类对象
+    public static synchronized void increase() {
+        i++;
+    }
+
+    // 无static修饰 锁住的是调用该方法的 当前对象
+    public synchronized void increaseNoneStatic() {
+        i++;
+    }
+}
+```
+同步一个静态方法，作用于当前类对象加锁，进入同步代码前要获得当前类对象的锁。也就是给当前类加锁，会作用于类的所有对象实例，因为静态成员不属于任何一个实例对象，是类成员（static表明这是该类的一个静态资源，不管new了多少个对象，只有一份，所以对该类的所有对象都加了锁）。
+所以如果一个线程A调用一个实例对象的非静态`synchronized`方法，而线程B需要调用这个实例对象所属类的静态`synchronized`方法，是允许的，不会发生互斥现象，因为访问静态`synchronized`方法占用的锁是当前类的锁，而访问非静态`synchronized`方法占用的锁是当前实例对象锁。
+
+##### 同步代码块
+在某些情况下，我们编写的方法体可能比较大，同时存在一些比较耗时的操作，而需要同步的代码又只有一小部分，如果直接对整个方法进行同步操作,这样做就有点浪费；
+此时我们可以使用同步代码块的方式对需要同步的代码进行包裹。
+
+代码演示
+```
+public class MainTest {
+
+    //共享资源
+    static int i = 0;
+
+    public static void main(String[] args) throws InterruptedException {
+        MainTest mainTest = new MainTest();
+        Thread thread1 = new Thread(() -> {
+            for (int j = 0; j < 1000000; j++) {
+                mainTest.increase();
+            }
+        }, "线程1");
+        Thread thread2 = new Thread(() -> {
+            for (int j = 0; j < 1000000; j++) {
+                mainTest.increase();
+            }
+        }, "线程2");
+
+        thread1.start();
+        thread2.start();
+
+        // join方法的作用是调用线程等待该线程完成后，才能继续用下运行。
+        thread1.join();
+        thread2.join();
+        System.out.println(i);
+    }
+
+    public  void increase() {
+        synchronized (this){
+            i++;
+        }
+    }
+
+//    public  void increase() {
+//        i++;
+//    }
+
+}
+```
+除了使用`synchronized (this)`锁定，当然静态方法是没有this对象的；也可以使用`class`对象,和程序中创建的一些对象来做为锁。
+```
+// class类对象锁
+synchronized(MainTest.class){
+    // ...
+}
+
+// 
+```
+当没有明确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的对象来充当锁;
+```
+private byte[] lock = new byte[0];
+public void method(){
+  synchronized(lock) {
+     // .....
+  }
+}
+```
+零长度的`byte`数组对象创建起来将比任何对象都经济――查看编译后的字节码：生成零长度的`byte[]`对象只需3条操作码，而`Object lock = new Object()`则需要7行操作码。
+
+当一个线程访问对象的一个`synchronized(this)`同步代码块时，另一个线程仍然可以访问该对象中的非`synchronized(this)`同步代码块。 
+```
+public class MainTest {
+    public static void main(String[] args) {
+        Counter counter = new Counter();
+        Thread thread1 = new Thread(counter, "A");
+        Thread thread2 = new Thread(counter, "B");
+        thread1.start();
+        thread2.start();
+    }
+}
+
+class Counter implements Runnable{
+    private int count;
+
+    public Counter() {
+        count = 0;
+    }
+
+    public void countAdd() {
+        synchronized(this) {
+            for (int i = 0; i < 5; i ++) {
+                try {
+                    System.out.println(Thread.currentThread().getName() + ":" + (count++));
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //非synchronized代码块，未对count进行读写操作，所以可以不用synchronized
+    public void printCount() {
+        for (int i = 0; i < 5; i ++) {
+            try {
+                System.out.println(Thread.currentThread().getName() + " count:" + count);
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        String threadName = Thread.currentThread().getName();
+        if (threadName.equals("A")) {
+            countAdd();
+        } else if (threadName.equals("B")) {
+            printCount();
+        }
+    }
+}
+```
+
+#### 原理
+参考：
+- https://www.hollischuang.com/archives/2030
+- https://blog.csdn.net/javazejian/article/details/72828483
+- https://blog.csdn.net/luoweifu/article/details/46613015
+
+通过上面的使用，可以体会到被`synchronized`修饰的代码块及方法，在同一时间，只能被单个线程访问。
+
+用`javap -v MainTest.class` 命令反编译下面代码，我们就能了解到JVM对`synchronized`是怎么处理的了。
+```
+public class MainTest {
+
+    synchronized void demo01() {
+        System.out.println("demo 01");
+    }
+
+    void demo02() {
+        synchronized (MainTest.class) {
+            System.out.println("demo 02");
+        }
+    }
+
+}
+```
+```
+  synchronized void demo01();
+    descriptor: ()V
+    flags: ACC_SYNCHRONIZED
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: ldc           #3                  // String demo 01
+         5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+         8: return
+// ...
+void demo02();
+    descriptor: ()V
+    flags:
+    Code:
+      stack=2, locals=3, args_size=1
+         0: ldc           #5                  // class content/posts/rookie/MainTest
+         2: dup
+         3: astore_1
+         4: monitorenter
+         5: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         8: ldc           #6                  // String demo 02
+        10: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        13: aload_1
+        14: monitorexit
+        15: goto          23
+        18: astore_2
+        19: aload_1
+        20: monitorexit
+        21: aload_2
+        22: athrow
+        23: return
+// ...
+```
+通过反编译后代码可以看出：
+- 对于同步方法，JVM采用`ACC_SYNCHRONIZED`标记符来实现同步；
+- 对于同步代码块，JVM采用`monitorenter`、`monitorexit`两个指令来实现同步;
+
+其中同步代码块，有两个`monitorexit`指令的原因是,为了保证抛异常的情况下也能释放锁，所以`javac`为同步代码块添加了一个隐式的`try-finally`，在`finally`中会调用`monitorexit`命令释放锁。
+
+[官方文档](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.11.10)中关于同步方法和同步代码块的实现原理描述
+> 方法级的同步是隐式的。同步方法的常量池中会有一个 `ACC_SYNCHRONIZED` 标志。当某个线程要访问某个方法的时候，会检查是否有 `ACC_SYNCHRONIZED`，如果有设置，则需要先获得监视器锁，然后开始执行方法，方法执行之后再释放监视器锁。这时如果其他线程来请求执行方法，会因为无法获得监视器锁而被阻断住。值得注意的是，如果在方法执行过程中，发生了异常，并且方法内部并没有处理该异常，那么在异常被抛到方法外面之前监视器锁会被自动释放。
+
+> 同步代码块使用 `monitorenter` 和 `monitorexit` 两个指令实现。可以把执行 `monitorenter` 指令理解为加锁，执行 `monitorexit` 理解为释放锁。 每个对象维护着一个记录着被锁次数的计数器。未被锁定的对象的该计数器为0，当一个线程获得锁（执行 `monitorenter`）后，该计数器自增变为 1 ，当同一个线程再次获得该对象的锁的时候，计数器再次自增。当同一个线程释放锁（执行 `monitorexit` 指令）的时候，计数器再自减。当计数器为0的时候。锁将被释放，其他线程便可以获得锁。
+
+其实无论是`ACC_SYNCHRONIZED`还是`monitorenter`、`monitorexit`都是基于`Monitor`实现的，每一个锁都对应一个`monitor`对象;
+在Java虚拟机(HotSpot)中，`Monitor` 是基于C++实现的，由`ObjectMonitor`实现。
+
+在`/hotspot/src/share/vm/runtime/objectMonitor.hpp`中有`ObjectMonitor`的实现
+```
+// initialize the monitor, exception the semaphore, all other fields
+// are simple integers or pointers
+ObjectMonitor() {
+    _header       = NULL;
+    _count        = 0; //记录个数
+    _waiters      = 0,
+    _recursions   = 0;
+    _object       = NULL;
+    _owner        = NULL;
+    _WaitSet      = NULL; //处于wait状态的线程，会被加入到_WaitSet
+    _WaitSetLock  = 0 ;
+    _Responsible  = NULL ;
+    _succ         = NULL ;
+    _cxq          = NULL ;
+    FreeNext      = NULL ;
+    _EntryList    = NULL ; //处于等待锁block状态的线程，会被加入到该列表
+    _SpinFreq     = 0 ;
+    _SpinClock    = 0 ;
+    OwnerIsThread = 0 ;
+  }
+```
+>- `_owner`：指向持有`ObjectMonitor`对象的线程
+>- `_WaitSet`：存放处于`wait`状态的线程队列
+>-`_EntryList`：存放处于等待锁`block`状态的线程队列
+>- `_recursions`：锁的重入次数
+>-`_count`：用来记录该线程获取锁的次数
+
+若持有`monitor`的线程调用`wait()`方法，将释放当前持有的`monitor`，`_owner`变量恢复为null，`_count`自减1，同时该线程进入`_WaitSet`集合中等待被唤醒。若当前线程执行完毕也将释放`monitor`(锁)并复位变量的值，以便其他线程进入获取`monitor`(锁)。
+
+当多个线程同时访问一段同步代码时，首先会进入`_EntryList`队列中，当某个线程获取到对象的`monitor`后进入_Owner区域并把`monitor`中的`_owner`变量设置为当前线程，同时`monitor`中的计数器`_count`加1。即获得对象锁。
+
+`ObjectMonitor`中方法
+```
+  bool      try_enter (TRAPS) ;
+  void      enter(TRAPS);
+  void      exit(bool not_suspended, TRAPS);
+  void      wait(jlong millis, bool interruptable, TRAPS);
+  void      notify(TRAPS);
+  void      notifyAll(TRAPS);
+```
+`sychronized`加锁的时候，会调用`objectMonitor`的`enter`方法，解锁的时候会调用`exit`方法。
+在JDK1.6之前，`synchronized` 的实现才会直接调用 `ObjectMonitor`的`enter`和`exit`，这种锁被称之为重量级锁。
+
+> 重量级锁:
+> Java的线程是映射到操作系统原生线程之上的，如果要阻塞或唤醒一个线程就需要操作系统的帮忙，这就要从用户态转换到核心态，因此状态转换需要花费很多的处理器时间;
+对于代码简单的同步块（如被`synchronized`修饰的`get`、`set`方法）状态转换消耗的时间有可能比用户代码执行的时间还要长，所以说`synchronized`是java语言中一个重量级的操纵。
+
+所以，在JDK1.6中出现对锁进行了很多的优化，进而出现轻量级锁，偏向锁，锁消除，适应性自旋锁，锁粗化。
+
+#### 锁的升级
+阅读之前了解[Java对象头](http://localhost:1313/myblog/posts/jvm/java-object/#对象头)效果更佳哦。
+
+
+
+
+#### [synchronized与可见性](http://hollischuang.gitee.io/tobetopjavaer/#/basics/concurrent-coding/synchronized?id=synchronized与可见性)
+可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。
+
+Java内存模型规定了所有的变量都存储在主内存中，每条线程还有自己的工作内存，线程的工作内存中保存了该线程中是用到的变量的主内存副本拷贝，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存。
+不同的线程之间也无法直接访问对方工作内存中的变量，线程间变量的传递均需要自己的工作内存和主存之间进行数据同步进行。所以，就可能出现线程1改了某个变量的值，但是线程2不可见的情况。
+被`synchronized`修饰的代码，在开始执行时会加锁，执行完成后会进行解锁。而为了保证可见性，有一条规则是这样的：对一个变量解锁之前，必须先把此变量同步回主存中。这样解锁后，后续线程就可以访问到被修改后的值。
+
+所以，`synchronized`关键字锁住的对象，其值是具有可见性的.
+
+
+#### [synchronized与原子性](http://hollischuang.gitee.io/tobetopjavaer/#/basics/concurrent-coding/synchronized?id=synchronized与原子性)
+原子性是指一个操作是不可中断的，要全部执行完成，要不就都不执行。
+
+线程是CPU调度的基本单位。CPU有时间片的概念，会根据不同的调度算法进行线程调度。当一个线程获得时间片之后开始执行，在时间片耗尽之后，就会失去CPU使用权。所以在多线程场景下，由于时间片在线程间轮换，就会发生原子性问题。
+
+在Java中，为了保证原子性，提供了两个高级的字节码指令``monitorenter``和``monitorexit``。
+这两个字节码指令，在Java中对应的关键字就是``synchronized``。
+
+通过下``monitorexit``和``monitorexit``指令，可以保证被``synchronized``修饰的代码在同一时间只能被一个线程访问，在锁未释放之前，无法被其他线程访问到。因此，在Java中可以使用``synchronized``来保证方法和代码块内的操作是原子性的。
+
+>例如： 线程1在执行``monitorenter``指令的时候，会对Monitor进行加锁，加锁后其他线程无法获得锁，除非线程1主动解锁。
+即使在执行过程中，由于某种原因，比如CPU时间片用完，线程1放弃了CPU，但是，他并没有进行解锁。
+而由于``synchronized``的锁是可重入的，下一个时间片还是只能被他自己获取到，还是会继续执行代码。直到所有代码执行完。这就保证了原子性。
+
+
+#### [synchronized与有序性](http://hollischuang.gitee.io/tobetopjavaer/#/basics/concurrent-coding/synchronized?id=synchronized与有序性)
+有序性即程序执行的顺序按照代码的先后顺序执行。
+
+除了引入了时间片以外，由于处理器优化和指令重排等，CPU还可能对输入代码进行乱序执行，比如``load->add->save`` 有可能被优化成``load->save->add``这就是可能存在有序性问题。
+
+这里需要注意的是，``synchronized``是无法禁止指令重排和处理器优化的。也就是说，``synchronized``无法避免上述提到的问题。
+
+那么，为什么还说``synchronized``也提供了有序性保证呢？
+
+这就要再把有序性的概念扩展一下了。Java程序中天然的有序性可以总结为一句话,《深入理解Java虚拟机》:
+> 如果在本线程内观察，所有操作都是天然有序的。如果在一个线程中观察另一个线程，所有操作都是无序的。
+
+以上这句话也是，但是怎么理解呢？简单扩展一下，这其实和``as-if-serial``语义有关。
+
+``as-if-serial``语义的意思指：不管怎么重排序（编译器和处理器为了提高并行度），单线程程序的执行结果都不能被改变。
+编译器和处理器无论如何优化，都必须遵守``as-if-serial``语义。
+
+这里不对``as-if-serial``语义详细展开了，简单说就是``as-if-serial``语义保证了单线程中，指令重排是有一定的限制的，而只要编译器和处理器都遵守了这个语义，那么就可以认为单线程程序是按照顺序执行的。当然，实际上还是有重排的，只不过我们无须关心这种重排的干扰。
+
+所以呢，由于``synchronized``修饰的代码，同一时间只能被同一线程访问。那么也就是单线程执行的。所以，可以保证其有序性。
 
 ## 常用的线程安全的集合
 | 线程不安全 | 线程不安全解决方案                                           |
@@ -1534,7 +1942,7 @@ static final int MAX_SCAN_RETRIES =
 
 ```
 
-##### jdk1.8ConcurrentHashMap
+##### [jdk1.8ConcurrentHashMap](https://www.jianshu.com/p/c0642afe03e0)
 JDK1.8的实现已经摒弃了 `Segment` 的概念，而是直接用 `Node数组+链表/红黑树`的数据结构来实现，并发控制使用 `synchronized` 和CAS来操作，整个看起来就像是优化过且线程安全的`HashMap`;
 虽然在JDK1.8中还能看到 `Segment` 的数据结构，但是已经简化了属性，只是为了兼容旧版本。
 
