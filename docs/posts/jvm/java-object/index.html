@@ -598,6 +598,9 @@ For Java objects, the &ldquo;klass&rdquo; contains a C++ style &ldquo;vtable&rdq
 </blockquote>
 <p>大意：每个对象头文件的第二个字。指向另一个对象(元对象)，它描述了原始对象的布局和行为。对于Java对象，“klass”包含一个c++风格的“vtable”。</p>
 <p>简单来说，对象头包含了包括两部分，分别是标志词(mark word)和类型指针(klass pointer)；如果是数组，还需要记录数组的长度。</p>
+<blockquote>
+<p>类型指针，是对象指向它的类元数据的指针，虚拟机通过这个指针来确定这个对象是哪个类的实例。</p>
+</blockquote>
 <p>引用上面在64位虚拟机下的测试结果，对象头中的这些二进制数字代表什么呢？</p>
 <pre><code> OFFSET  SIZE   TYPE DESCRIPTION                               VALUE
       0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)
@@ -618,8 +621,8 @@ For Java objects, the &ldquo;klass&rdquo; contains a C++ style &ldquo;vtable&rdq
 //  PromotedObject*:61 ---------------------&gt;| promo_bits:3 -----&gt;| (CMS promoted object)
 //  size:64 -----------------------------------------------------&gt;| (CMS free block)
 </code></pre><ul>
-<li>在32位虚拟机下，正常的对象对象头的mark word，从前到后的顺序，25个位表示hash值，4位表示GC分代的年龄，1位偏向锁的信息，2位锁的状态；</li>
-<li>在64位虚拟机下，正常的对象对象头的mark word，从前到后的顺序，25个未使用，31个位表示hash值，未使用1位，4位表示GC分代的年龄，1位偏向锁的信息，2位锁的状态；</li>
+<li>在32位虚拟机下，正常的对象对象头的<code>mark word</code>，从前到后的顺序，25个位表示hash值，4位表示GC分代的年龄，1位偏向锁的信息，2位锁的状态；</li>
+<li>在64位虚拟机下，正常的对象对象头的<code>mark word</code>，从前到后的顺序，25个未使用，31个位表示hash值，未使用1位，4位表示GC分代的年龄，1位偏向锁的信息，2位锁的状态；</li>
 </ul>
 <p>64位虚拟机下对象头共12个字节(96bit)，<code>mark word</code>占8字节(64位)，所以<code>klass pointer</code>占4字节(32位)；</p>
 <blockquote>
@@ -631,10 +634,11 @@ For Java objects, the &ldquo;klass&rdquo; contains a C++ style &ldquo;vtable&rdq
 <ul>
 <li>哈希值</li>
 <li>GC分代年龄</li>
-<li>锁状态标志</li>
-<li>线程持有的锁</li>
+<li>锁标志位</li>
+<li>分代年龄</li>
+<li>线程ID</li>
 </ul>
-<p><code>mark word</code>会根据对象的不同状态存放的也不相同；</p>
+<p>当然<code>mark word</code>会根据对象的不同状态存放的也不相同；</p>
 <blockquote>
 <p>对象的状态</p>
 <ul>
@@ -645,19 +649,63 @@ For Java objects, the &ldquo;klass&rdquo; contains a C++ style &ldquo;vtable&rdq
 <li>被垃圾回收器标记的状态</li>
 </ul>
 </blockquote>
-<p><img src="/myblog/posts/images/essays/markword%E5%AF%B9%E8%B1%A1%E7%8A%B6%E6%80%81.png" alt="markword对象状态"></p>
-<p>因为对象的状态是5中，而lock却是两位，两位最多能表示4中状态，那么对象的5状态是怎么表示的？</p>
-<p>对象的状态是联合用<code>biased_lock: 1</code> 和 <code>lock: 2</code> 表示的；例如：</p>
+<p>目前32位虚拟机已经几乎没人用了，所以只介绍64位JVM</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">对象状态</th>
+<th>对象头-markword</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">无锁状态状态</td>
+<td>unused:25｜hash:31｜ unused:1 ｜age:4 ｜ biased_lock:1｜lock:2</td>
+</tr>
+<tr>
+<td style="text-align:center">偏向锁状态</td>
+<td>JavaThread:54｜ epoch:2｜ unused:1 ｜  age:4｜ biased_lock:1｜lock:2</td>
+</tr>
+<tr>
+<td style="text-align:center">轻量级锁状态</td>
+<td>ptr_to_lock_record:62(指向栈中锁记录的指针)｜lock：2</td>
+</tr>
+<tr>
+<td style="text-align:center">重量级锁状态</td>
+<td>Ptr_to_heavyweight_monitor:62（指向重量级锁的指针）｜lock：2</td>
+</tr>
+<tr>
+<td style="text-align:center">被GC标记状态</td>
+<td>lock：2</td>
+</tr>
+</tbody>
+</table>
+<p>对象的状态是5种，但是在<code>markword</code>中表示对象状态的<code>lock</code>却是2bit，2bit最多能表示4种状态，那么对象的5种状态是怎么表示的？</p>
+<blockquote>
+<p>2bit 排列组合：00、11、01、10，最多四种</p>
+</blockquote>
+<p>对象锁的状态是联合用<code>biased_lock: 1</code> 和 <code>lock: 2</code> 表示的：</p>
 <ul>
-<li><code>biased_lock</code> ：1 <code>lock</code>： 00： 表示无状态</li>
+<li><code>biased_lock</code> ：0 <code>lock</code>： 01： 表示无锁状态</li>
 <li><code>biased_lock</code> ：1 <code>lock</code>： 01： 表示偏向锁状态</li>
-<li><code>biased_lock</code> ：1 <code>lock</code>： 10： 表示轻量级锁状态</li>
-<li><code>biased_lock</code> ：1 <code>lock</code>： 11： 表示重量级锁状态</li>
-<li><code>biased_lock</code> ：0 <code>lock</code>： 00： 表示被垃圾回收器标记的状态</li>
+<li><code>lock</code>： 00： 表示轻量级锁状态</li>
+<li><code>lock</code>： 10： 表示重量级锁状态</li>
+<li><code>lock</code>： 11： 表示被垃圾回收器标记的状态</li>
 </ul>
-<p><code>mark word</code>在对象的不同状态下会有不同的表现形式，主要有三种 状态，无锁状态、加锁状态、gc标记状态。
-那么可以理解为Java当中的取锁其实可以理解是给对象上锁，也就是改变对象头的状态，如果上锁成功则进入同步代码块。
-但是Java当中的锁有分为很多种，从上图可以看出大体分为偏向锁、轻量锁、重量锁三种锁状态.</p>
+<p><code>markword</code>中存储的内容：</p>
+<ul>
+<li><code>lock</code>：锁标志位;区分锁状态，11时表示对象待GC回收状态, 只有最后2位锁标识(11)有效。</li>
+<li><code>biased_lock</code>：是否偏向锁；由于正常锁和偏向锁的锁标识都是 01，没办法区分，这里引入一位的偏向锁标识位。</li>
+<li><code>age</code>：分代年龄；表示对象被GC的次数，当该次数到达阈值的时候，对象就会转移到老年代。</li>
+<li><code>hash</code>: 对象的 <code>hashcode</code> ;运行期间调用<code>System.identityHashCode()</code>来计算，延迟计算，并把结果赋值到这里。当对象加锁后，计算的结果31位不够表示，在偏向锁，轻量锁，重量锁，<code>hashcode</code>会被转移到<code>Monitor</code>中。</li>
+<li><code>JavaThread</code>：偏向锁的线程ID，偏向模式的时候，当某个线程持有对象的时候，对象这里就会被置为该线程的ID。 在后面的操作中，就无需再进行尝试获取锁的动作。</li>
+<li><code>epoch</code>：时间戳，代表偏向锁的有效性；偏向锁在CAS锁操作过程中，偏向性标识，表示对象更偏向哪个锁。</li>
+<li><code>ptr_to_lock_record</code>：轻量级锁状态下，指向栈中锁记录的指针。当锁获取是无竞争的时，JVM使用原子操作而不是OS互斥。这种技术称为轻量级锁定。在轻量级锁定的情况下，JVM通过CAS操作在对象的标题字中设置指向锁记录的指针。</li>
+<li><code>ptr_to_heavyweight_monitor</code>：重量级锁状态下，指向对象监视器<code>Monitor</code>的指针。如果两个不同的线程同时在同一个对象上竞争，则必须将轻量级锁定升级到Monitor以管理等待的线程。在重量级锁定的情况下，JVM在对象的<code>ptr_to_heavyweight_monitor</code>设置指向<code>Monitor</code>的指针。</li>
+</ul>
+<p><code>mark word</code>在对象的不同状态下会有不同的表现形式，主要有三种状态，无锁状态、加锁状态、GC标记状态。</p>
+<p>那么可以理解为Java当中的取锁其实可以理解是给对象上锁，也就是改变对象头中<code>markword&gt;lock</code>的状态，如果上锁成功则进入同步代码块。
+但是Java当中的锁有分为很多种，从上面可以看出大体分为偏向锁、轻量锁、重量锁三种锁状态.</p>
 <h3 id="实例数据">实例数据</h3>
 <p>独立于方法之外的变量,在类里定义的变量无 <code>static</code> 修饰；包括从父类继承下来的变量和本身拥有的字段。</p>
 <p>一些规则：</p>

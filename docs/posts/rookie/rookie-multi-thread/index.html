@@ -2493,14 +2493,13 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 <p>如果通过参数<code>-XX:PreBlockSpin</code>来调整自旋锁的自旋次数，会带来诸多不便。
 假如将参数调整为10，但是系统很多线程都是等你刚刚退出的时候就释放了锁（假如多自旋一两次就可以获取锁)。于是JDK1.6引入<strong>适应性自旋锁</strong>。</p>
 <h4 id="适应性自旋锁">适应性自旋锁</h4>
-<blockquote>
-<p>自适应意味着自旋的时间（次数）不再固定，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定。
-如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也是很有可能再次成功，进而它将允许自旋等待持续相对更长的时间。
+<p>适应性自旋锁是对自旋的升级、优化，自旋的时间不再固定，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态决定。</p>
+<p>如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也是很有可能再次成功，进而它将允许自旋等待持续相对更长的时间。
 如果对于某个锁，自旋很少成功获得过，那在以后尝试获取这个锁时将可能省略掉自旋过程，直接阻塞线程，避免浪费处理器资源。</p>
-</blockquote>
 <h3 id="共享锁与独占锁">共享锁与独占锁</h3>
 <h3 id="轻量级锁与重量级锁">轻量级锁与重量级锁</h3>
 <h3 id="偏向锁">偏向锁</h3>
+<p>引入偏向锁的目的是在没有多线程竞争的前提下，进一步减少线程同步的性能消耗。</p>
 <h3 id="读写锁">读写锁</h3>
 <h3 id="互斥锁">互斥锁</h3>
 <h2 id="线程安全">线程安全</h2>
@@ -3263,11 +3262,14 @@ class Counter implements Runnable{
     }
 }
 </code></pre><h4 id="原理-2">原理</h4>
+<p>阅读前建议先了解<a href="http://localhost:1313/myblog/posts/jvm/java-object/#%E5%AF%B9%E8%B1%A1%E5%A4%B4">Java对象头</a>。
+如果你对对象头有了解，你就知道在Java中<code>synchronized</code>锁对象时，其实就是改变对象中的对象头的<code>markword</code>的锁的标志位来实现的。</p>
 <p>参考：</p>
 <ul>
 <li><a href="https://www.hollischuang.com/archives/2030">https://www.hollischuang.com/archives/2030</a></li>
 <li><a href="https://blog.csdn.net/javazejian/article/details/72828483">https://blog.csdn.net/javazejian/article/details/72828483</a></li>
 <li><a href="https://blog.csdn.net/luoweifu/article/details/46613015">https://blog.csdn.net/luoweifu/article/details/46613015</a></li>
+<li><a href="https://www.artima.com/insidejvm/ed2/threadsynch.html">https://www.artima.com/insidejvm/ed2/threadsynch.html</a></li>
 </ul>
 <p>通过上面的使用，可以体会到被<code>synchronized</code>修饰的代码块及方法，在同一时间，只能被单个线程访问。</p>
 <p>用<code>javap -v MainTest.class</code> 命令反编译下面代码，我们就能了解到JVM对<code>synchronized</code>是怎么处理的了。</p>
@@ -3361,9 +3363,10 @@ ObjectMonitor() {
 -<code>_count</code>：用来记录该线程获取锁的次数</li>
 </ul>
 </blockquote>
-<p>若持有<code>monitor</code>的线程调用<code>wait()</code>方法，将释放当前持有的<code>monitor</code>，<code>_owner</code>变量恢复为null，<code>_count</code>自减1，同时该线程进入<code>_WaitSet</code>集合中等待被唤醒。若当前线程执行完毕也将释放<code>monitor</code>(锁)并复位变量的值，以便其他线程进入获取<code>monitor</code>(锁)。</p>
+<p>若持有<code>monitor</code>的线程调用<code>wait()</code>方法，将释放当前对象持有的<code>monitor</code>，<code>_owner</code>变量恢复为null，<code>_count</code>自减1，同时该线程进入<code>_WaitSet</code>集合中等待被唤醒。若当前线程执行完毕也将释放<code>monitor</code>并复位变量的值，以便其他线程进入获取<code>monitor</code>。</p>
 <p>当多个线程同时访问一段同步代码时，首先会进入<code>_EntryList</code>队列中，当某个线程获取到对象的<code>monitor</code>后进入_Owner区域并把<code>monitor</code>中的<code>_owner</code>变量设置为当前线程，同时<code>monitor</code>中的计数器<code>_count</code>加1。即获得对象锁。</p>
-<p><code>ObjectMonitor</code>中方法</p>
+<p>由此看来，<code>monitor</code>对象存在于每个Java对象的对象头中(存储的是指针)，<code>synchronized</code>锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为锁的原因。</p>
+<p><code>ObjectMonitor</code>中其他方法：</p>
 <pre><code>  bool      try_enter (TRAPS) ;
   void      enter(TRAPS);
   void      exit(bool not_suspended, TRAPS);
@@ -3373,13 +3376,61 @@ ObjectMonitor() {
 </code></pre><p><code>sychronized</code>加锁的时候，会调用<code>objectMonitor</code>的<code>enter</code>方法，解锁的时候会调用<code>exit</code>方法。
 在JDK1.6之前，<code>synchronized</code> 的实现才会直接调用 <code>ObjectMonitor</code>的<code>enter</code>和<code>exit</code>，这种锁被称之为重量级锁。</p>
 <blockquote>
-<p>重量级锁:
-Java的线程是映射到操作系统原生线程之上的，如果要阻塞或唤醒一个线程就需要操作系统的帮忙，这就要从用户态转换到核心态，因此状态转换需要花费很多的处理器时间;
-对于代码简单的同步块（如被<code>synchronized</code>修饰的<code>get</code>、<code>set</code>方法）状态转换消耗的时间有可能比用户代码执行的时间还要长，所以说<code>synchronized</code>是java语言中一个重量级的操纵。</p>
+<p>早期的<code>synchronized</code>效率低的原因：
+Java的线程是映射到操作系统原生线程之上的，如果要阻塞或唤醒一个线程就需要操作系统的帮忙，监视器锁<code>monitor</code>是依赖于底层的操作系统的<code>Mutex Lock</code>来实现的，而操作系统实现线程之间的切换时需要从用户态转换到核心态。因此状态转换需要花费很多的处理器时间。
+对于代码简单的同步块（如被<code>synchronized</code>修饰的<code>get</code>、<code>set</code>方法）状态转换消耗的时间有可能比用户代码执行的时间还要长，所以说<code>synchronized</code>是java语言中一个重量级的操作。也是为什么早期的<code>synchronized</code>效率低的原因。</p>
 </blockquote>
 <p>所以，在JDK1.6中出现对锁进行了很多的优化，进而出现轻量级锁，偏向锁，锁消除，适应性自旋锁，锁粗化。</p>
 <h4 id="锁的升级">锁的升级</h4>
-<p>阅读之前了解<a href="http://localhost:1313/myblog/posts/jvm/java-object/#%E5%AF%B9%E8%B1%A1%E5%A4%B4">Java对象头</a>效果更佳哦。</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/290991898">https://zhuanlan.zhihu.com/p/290991898</a></li>
+<li><a href="https://blog.csdn.net/choukekai/article/details/63688332">https://blog.csdn.net/choukekai/article/details/63688332</a></li>
+</ul>
+<p>在JDK1.6之前，使用<code>synchronized</code>被称作重量级锁，重量级锁的实现是基于底层操作系统的<code>mutex</code>互斥原语的，这个开销是很大的。所以在JDK1.6时JVM对<code>synchronized</code>做了优化。</p>
+<p><code>markword</code>锁状态的表示</p>
+<blockquote>
+<ul>
+<li><code>biased_lock</code> ：0 <code>lock</code>： 01： 表示无锁状态</li>
+<li><code>biased_lock</code> ：1 <code>lock</code>： 01： 表示偏向锁状态</li>
+<li><code>lock</code>： 00： 表示轻量级锁状态</li>
+<li><code>lock</code>： 10： 表示重量级锁状态</li>
+<li><code>lock</code>： 11： 表示被垃圾回收器标记的状态</li>
+</ul>
+</blockquote>
+<p>对象的锁状态，可以分为4种，级别从低到高依次是：无锁状态、<a href="">偏向锁状态</a>、<a href="">轻量级锁状态</a>和<a href="">重量级锁状态</a>。
+其中这几个锁只有重量级锁是需要使用操作系统底层<code>mutex</code>互斥原语来实现，其他的锁都是使用对象头来实现的。
+随着锁的竞争，锁可以从偏向锁升级到轻量级锁，再升级的重量级锁。需要注意锁可以升级，但是不可以降级。</p>
+<blockquote>
+<p>ps:有的观点认为 Java 不会进行锁降级。
+实际上，锁降级确实是会发生的，当 JVM 进入<a href="https://whiteppure.github.io/myblog/posts/jvm/jvm-about/#%E5%AE%89%E5%85%A8%E7%82%B9">安全点</a>（<code>SafePoint</code>）的时候，会检查是否有闲置的 <code>Monitor</code>，然后试图进行降级。</p>
+</blockquote>
+<p>锁升级过程：</p>
+<ul>
+<li>无锁状态：<code>markword</code>锁的标志位0，偏向锁的标志位为1；例如：刚被创建出来的对象；</li>
+<li>偏向锁：如果一个线程获取了锁，此时<code>markword</code>的结构变为偏向锁结构，当这个线程再次请求锁时，无需再做任何同步操作，直接可以获取锁。
+省去了大量有关锁申请的操作，从而也就提供程序的性能。</li>
+<li>轻量级锁：轻量级锁是相对于重量级锁而言的，本意是在没有多线程竞争的前提下，减少传统的重量级锁使用操作系统互斥量产生的性能消耗。</li>
+<li>重量级锁：直接调用操作系统底层，开销是很大;例如：<code>synchronized</code>;</li>
+</ul>
+<p>无锁状态升级为偏向锁：</p>
+<ul>
+<li>一个对象刚开始实例化的时候，没有任何线程来访问它的时候。它是可偏向的，意味着，它现在认为只可能有一个线程来访问它，所以当第一个线程来访问它的时候，它会偏向这个线程，此时，对象持有偏向锁。
+偏向第一个线程，这个线程在修改对象头成为偏向锁的时候使用CAS操作，并将对象头中的 <code>ThreadID</code> 改成自己的ID，之后再次访问这个对象时，只需要对比ID，不需要再使用CAS在进行操作。</li>
+</ul>
+<p>偏向锁升级为轻量级锁：</p>
+<ul>
+<li>一旦有第二个线程访问这个对象，因为偏向锁不会主动释放，所以第二个线程可以看到对象的偏向状态；
+这时表明在这个对象上已经存在竞争了，JVM会检查原来持有该对象锁的线程是否依然存活，如果不存活，则可以将对象变为无锁状态，然后重新偏向新的线程，如果原来的线程依然存活，则马上执行那个线程的操作栈，检查该对象的使用情况，如果仍然需要持有偏向锁，则偏向锁升级为轻量级锁。
+如果不存在使用了，则可以将对象回复成无锁状态，然后重新偏向。</li>
+</ul>
+<p>轻量级锁升级为重量级锁：</p>
+<ul>
+<li>轻量级锁认为竞争存在，但是竞争的程度很轻，一般两个线程对于同一个锁的操作都会错开，或者说稍微等待一下（自旋），另一个线程就会释放锁。
+但是当自旋超过一定的次数，或者一个线程在持有锁，一个在自旋，又有第三个来访时，轻量级锁膨胀为重量级锁，重量级锁使除了拥有锁的线程以外的线程都阻塞，防止CPU空转。</li>
+</ul>
+<p>在所有的锁都启用的情况下线程进入临界区时会先去获取偏向锁，如果已经存在偏向锁了，则会尝试获取轻量级锁，启用自旋锁，如果自旋也没有获取到锁，则使用重量级锁，没有获取到锁的线程阻塞挂起，直到持有锁的线程执行完同步块唤醒他们；</p>
+<p>偏向锁是在无锁争用的情况下使用的，也就是同步代码块在当前线程没有执行完之前，没有其它线程会执行该同步块，一旦有了第二个线程的争用，偏向锁就会升级为轻量级锁，如果轻量级锁自旋到达阈值后，没有获取到锁，就会升级为重量级锁；</p>
 <h4 id="synchronized与可见性httphollischuanggiteeiotobetopjavaerbasicsconcurrent-codingsynchronizedidsynchronized与可见性"><a href="http://hollischuang.gitee.io/tobetopjavaer/#/basics/concurrent-coding/synchronized?id=synchronized%E4%B8%8E%E5%8F%AF%E8%A7%81%E6%80%A7">synchronized与可见性</a></h4>
 <p>可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。</p>
 <p>Java内存模型规定了所有的变量都存储在主内存中，每条线程还有自己的工作内存，线程的工作内存中保存了该线程中是用到的变量的主内存副本拷贝，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存。
@@ -3402,14 +3453,14 @@ Java的线程是映射到操作系统原生线程之上的，如果要阻塞或�
 <p>除了引入了时间片以外，由于处理器优化和指令重排等，CPU还可能对输入代码进行乱序执行，比如<code>load-&gt;add-&gt;save</code> 有可能被优化成<code>load-&gt;save-&gt;add</code>这就是可能存在有序性问题。</p>
 <p>这里需要注意的是，<code>synchronized</code>是无法禁止指令重排和处理器优化的。也就是说，<code>synchronized</code>无法避免上述提到的问题。</p>
 <p>那么，为什么还说<code>synchronized</code>也提供了有序性保证呢？</p>
-<p>这就要再把有序性的概念扩展一下了。Java程序中天然的有序性可以总结为一句话,《深入理解Java虚拟机》:</p>
 <blockquote>
 <p>如果在本线程内观察，所有操作都是天然有序的。如果在一个线程中观察另一个线程，所有操作都是无序的。</p>
 </blockquote>
 <p>以上这句话也是，但是怎么理解呢？简单扩展一下，这其实和<code>as-if-serial</code>语义有关。</p>
 <p><code>as-if-serial</code>语义的意思指：不管怎么重排序（编译器和处理器为了提高并行度），单线程程序的执行结果都不能被改变。
 编译器和处理器无论如何优化，都必须遵守<code>as-if-serial</code>语义。</p>
-<p>这里不对<code>as-if-serial</code>语义详细展开了，简单说就是<code>as-if-serial</code>语义保证了单线程中，指令重排是有一定的限制的，而只要编译器和处理器都遵守了这个语义，那么就可以认为单线程程序是按照顺序执行的。当然，实际上还是有重排的，只不过我们无须关心这种重排的干扰。</p>
+<p>这里不对<code>as-if-serial</code>语义详细展开了，简单说就是<code>as-if-serial</code>语义保证了单线程中，指令重排是有一定的限制的，而只要编译器和处理器都遵守了这个语义，那么就可以认为单线程程序是按照顺序执行的。
+当然，实际上还是有重排的，只不过我们无须关心这种重排的干扰。</p>
 <p>所以呢，由于<code>synchronized</code>修饰的代码，同一时间只能被同一线程访问。那么也就是单线程执行的。所以，可以保证其有序性。</p>
 <h2 id="常用的线程安全的集合">常用的线程安全的集合</h2>
 <table>
