@@ -669,6 +669,34 @@
             
             
             <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%85%b1%e4%ba%ab%e9%94%81%e4%b8%8e%e7%8b%ac%e5%8d%a0%e9%94%81">
+                    共享锁与独占锁
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
                 <a class="nav-link text-left" href="#%e6%82%b2%e8%a7%82%e9%94%81%e4%b8%8e%e4%b9%90%e8%a7%82%e9%94%81">
                     悲观锁与乐观锁
                 </a>
@@ -789,62 +817,6 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%85%b1%e4%ba%ab%e9%94%81%e4%b8%8e%e7%8b%ac%e5%8d%a0%e9%94%81">
-                    共享锁与独占锁
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#%e8%bd%bb%e9%87%8f%e7%ba%a7%e9%94%81%e4%b8%8e%e9%87%8d%e9%87%8f%e7%ba%a7%e9%94%81">
-                    轻量级锁与重量级锁
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
                 <a class="nav-link text-left" href="#%e5%81%8f%e5%90%91%e9%94%81">
                     偏向锁
                 </a>
@@ -873,8 +845,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e8%af%bb%e5%86%99%e9%94%81">
-                    读写锁
+                <a class="nav-link text-left" href="#%e8%bd%bb%e9%87%8f%e7%ba%a7%e9%94%81%e4%b8%8e%e9%87%8d%e9%87%8f%e7%ba%a7%e9%94%81">
+                    轻量级锁与重量级锁
                 </a>
             </li>
             
@@ -1567,7 +1539,7 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e9%94%81%e7%9a%84%e5%8d%87%e7%ba%a7">
+                <a class="nav-link text-left" href="#%e9%94%81%e7%9a%84%e5%8d%87%e7%ba%a7httpsossstupidzhangcomimgblog%e9%94%81%e5%8d%87%e7%ba%a7%e8%bf%87%e7%a8%8bpng">
                     锁的升级
                 </a>
             </li>
@@ -2459,7 +2431,56 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 }
 </code></pre><h2 id="锁">锁</h2>
 <h3 id="公平锁与非公平锁">公平锁与非公平锁</h3>
-<h3 id="可重入锁与不可重入锁">可重入锁与不可重入锁</h3>
+<p>公平锁：多个线程按照申请锁的顺序来获取锁，线程直接进入队列中排队，队列中的第一个线程才能获得锁。</p>
+<ul>
+<li>优点是等待锁的线程不会饿死；</li>
+<li>缺点是整体吞吐效率相对非公平锁要低，等待队列中除第一个线程以外的所有线程都会阻塞，CPU唤醒阻塞线程的开销比非公平锁大；</li>
+</ul>
+<p>非公平锁：多个线程加锁时直接尝试获取锁，获取不到才会到等待队列的队尾等待。但如果此时锁刚好可用，那么这个线程可以无需阻塞直接获取到锁，所以非公平锁有可能出现后申请锁的线程先获取锁的场景。</p>
+<ul>
+<li>优点是可以减少唤起线程的开销，整体的吞吐效率高，因为线程有几率不阻塞直接获得锁，CPU不必唤醒所有线程。</li>
+<li>缺点是处于等待队列中的线程可能会饿死，或者等很久才会获得锁。</li>
+</ul>
+<p>相对来说，非公平锁会有更好的性能，因为它的吞吐量比较大。
+当然，非公平锁让获取锁的时间变得更加不确定，可能会导致在阻塞队列中的线程长期处于饥饿状态。</p>
+<p>在Java中公平锁和非公平锁的实现为<code>ReentrantLock</code>、<code>synchronized</code>。
+其中<code>synchronized</code>是非公平锁;<code>ReentrantLock</code>默认是非公平锁,但是可以指定<code>ReentrantLock</code>的构造函数创建公平锁。</p>
+<pre><code>/**
+ * Creates an instance of {@code ReentrantLock}.
+ * This is equivalent to using {@code ReentrantLock(false)}.
+ */
+public ReentrantLock() {
+    sync = new NonfairSync();
+}
+
+/**
+ * Creates an instance of {@code ReentrantLock} with the
+ * given fairness policy.
+ *
+ * @param fair {@code true} if this lock should use a fair ordering policy
+ */
+public ReentrantLock(boolean fair) {
+    sync = fair ? new FairSync() : new NonfairSync();
+}
+</code></pre><h3 id="可重入锁与不可重入锁">可重入锁与不可重入锁</h3>
+<p>可重入锁：在同一个线程在外层方法获取锁的时候，再进入该线程的内层方法会自动获取锁（前提锁对象得是同一个对象或者class）不会因为之前已经获取过还没释放而阻塞。
+所以可重入锁又叫做递归锁，就是因为能获取到加锁方法里面的加锁方法的锁。</p>
+<ul>
+<li>可重入锁最大的作用就是避免死锁</li>
+</ul>
+<p>不可重入锁：所谓不可重入锁，就是与可冲入锁作用相悖；即当前线程执行某个方法已经获取了该锁，那么在该方法中尝试再次获取加锁的方法时，就会获取不到被阻塞。</p>
+<blockquote>
+<p>举个栗子: 当你进入你家时门外会有锁,进入房间后厨房卫生间都可以随便进出,这个叫可重入锁；
+当你进入房间时,发现厨房,卫生间都有上锁.这个叫不可重入锁。</p>
+</blockquote>
+<p>在Java中<code>ReentrantLock</code>和<code>synchronized</code>都是可重入锁。</p>
+<h3 id="共享锁与独占锁">共享锁与独占锁</h3>
+<ul>
+<li>独占锁: 又称排它锁，指该锁一次只能被一个线程独占；</li>
+<li>共享锁：指该锁可被多个线程所持有；</li>
+</ul>
+<p>在Java中，对于 <code>ReentrantLock</code> 和 <code>synchronized</code> 都是独占锁；对与 <code>ReentrantReadWriteLock</code> 其读锁是共享锁而写锁是独占锁。
+读锁的共享可保证并发读是非常高效的。</p>
 <h3 id="悲观锁与乐观锁">悲观锁与乐观锁</h3>
 <p>乐观锁与悲观锁是一种广义上的概念，可以理解为一种标准类似于Java中的接口。</p>
 <p>对于多线程并发操作，加了悲观锁的线程认为每一次修改数据时都会有其他线程来跟它一起修改数据，所以在修改数据之前先会加锁，确保其他线程不会修改该数据。
@@ -2496,12 +2517,52 @@ CPU密集型任务配置尽可能少的线程数量：<code>参考公式：（CP
 <p>适应性自旋锁是对自旋的升级、优化，自旋的时间不再固定，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态决定。</p>
 <p>如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也是很有可能再次成功，进而它将允许自旋等待持续相对更长的时间。
 如果对于某个锁，自旋很少成功获得过，那在以后尝试获取这个锁时将可能省略掉自旋过程，直接阻塞线程，避免浪费处理器资源。</p>
-<h3 id="共享锁与独占锁">共享锁与独占锁</h3>
-<h3 id="轻量级锁与重量级锁">轻量级锁与重量级锁</h3>
 <h3 id="偏向锁">偏向锁</h3>
 <p>引入偏向锁的目的是在没有多线程竞争的前提下，进一步减少线程同步的性能消耗。</p>
-<h3 id="读写锁">读写锁</h3>
+<blockquote>
+<p>《深入理解Java虚拟机》对偏向锁的解释：
+<code>Hotspot</code> 的作者经过以往的研究发现大多数情况下锁不仅不存在多线程竞争，而且总是由同一线程多次获得，为了让线程获得锁的代价更低而引入
+了偏向锁。当一个线程访问同步块并获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程 ID，以后该线程在进入和退出同步块时不需要花费
+CAS操作来加锁和解锁，而只需简单的测试一下对象头的 <code>MarkWord</code> 里是否存储着指向当前线程的偏向锁，如果测试成功，表示线程已经获得了锁，
+如果测试失败，则需要再测试下 <code>MarkWord</code> 中偏向锁的标识是否设置成 1（表示当前是偏向锁），如果没有设置，则使用 CAS 竞争锁，如果设置了，
+则尝试使用 CAS 将对象头的偏向锁指向当前线程。</p>
+</blockquote>
+<p>之所以叫偏向锁是因为偏向于第一个获取到他的线程，如果在程序执行中该锁没有被其他的线程获取，则持有偏向锁的线程将永远不需要再进行同步。
+但是如果线程间存在锁竞争，会带来额外的锁撤销（CAS）的消耗。</p>
+<p>个人理解，偏向锁就是对做了一个缓存，在没有多线程竞争的前提下，这样做会大幅度提升程序性能。</p>
+<h3 id="轻量级锁与重量级锁">轻量级锁与重量级锁</h3>
+<p>重量级锁：传统的重量级锁，使用的是系统互斥量实现的；重量级锁会导致线程堵塞；
+轻量级锁：相对于重量级锁而言的；他的出现并不是代替重量级锁，而是在没有多线程竞争的前提下，减少系统互斥量操作产生的性能消耗；是重量级锁的优化。</p>
+<p>在Java中轻量级锁的经典实现是CAS中的自旋锁，所以优点缺点就很明显了。</p>
+<ul>
+<li>优点：竞争的线程不会阻塞，提高了程序的响应速度；</li>
+<li>缺点：如果始终得不到锁竞争的线程，使用自旋会消耗CPU；</li>
+</ul>
+<p>所以适合，追求响应时间，同步块执行速度非常快的场景。</p>
+<p>重量级锁优缺点：</p>
+<ul>
+<li>优点：线程竞争不使用自旋，不会消耗CPU；</li>
+<li>缺点：线程阻塞，响应时间慢；</li>
+</ul>
+<p>适合追求吞吐量、同步块执行时间较长也就是线程竞争激烈的场景。</p>
+<p>轻量级锁不是在任何情况下都比重量级锁快的，要看同步块执行期间有没有多个线程抢占资源的情况。
+如果有，那么轻量级线程要承担 CAS + 互斥锁的性能消耗，就会比重量锁执行的更慢。</p>
 <h3 id="互斥锁">互斥锁</h3>
+<blockquote>
+<p>在编程中，引入了对象互斥锁的概念，来保证共享数据操作的完整性。
+每个对象都对应于一个可称为&quot; 互斥锁&quot; 的标记，这个标记用来保证在任一时刻，只能有一个线程访问该对象。</p>
+</blockquote>
+<p>互斥锁：在访问共享资源之前对对象进行加锁操作，在访问完成之后进行解锁操作。
+加锁后，任何其他试图再次加锁的线程会被阻塞，直到当前线程解锁其他线程才能访问公共资源。</p>
+<p>如果解锁时有一个以上的线程阻塞，那么所有该锁上的线程都变为就绪状态，第一个变为就绪状态的线程又执行加锁操作，其他的线程又会进入等待。
+在这种方式下，只有一个线程能够访问被互斥锁保护的资源。</p>
+<p>在Java里最基本的互斥手段就是使用<code>synchronized</code>关键字。</p>
+<blockquote>
+<p>Linux中提供一把互斥锁<code>mutex</code>也称之为互斥量。每个线程在对资源操作前都尝试先加锁，成功加锁才能操作，操作结束解锁。
+要注意，同一时刻，只能有一个线程持有该锁。
+所以，互斥锁实质上是操作系统提供的一把“建议锁”（又称“协同锁”），建议程序中有多线程访问共享资源的时候使用该机制。但，并没有强制限定。
+因此，即使有了<code>mutex</code>，如果有线程不按规则来访问数据，依然会造成数据混乱。</p>
+</blockquote>
 <h2 id="线程安全">线程安全</h2>
 <p>线程不安全，在多线程并发的环境中，多个线程共同操作同一个数据，如果最后数据的值和期待值不一样，这时候就出现了线程不安全问题。</p>
 <p>线程安全，就是在多线程并发中，多个线程共同操作同一个数据，在Java中最常用的就是加锁；
@@ -3381,11 +3442,12 @@ Java的线程是映射到操作系统原生线程之上的，如果要阻塞或�
 对于代码简单的同步块（如被<code>synchronized</code>修饰的<code>get</code>、<code>set</code>方法）状态转换消耗的时间有可能比用户代码执行的时间还要长，所以说<code>synchronized</code>是java语言中一个重量级的操作。也是为什么早期的<code>synchronized</code>效率低的原因。</p>
 </blockquote>
 <p>所以，在JDK1.6中出现对锁进行了很多的优化，进而出现轻量级锁，偏向锁，锁消除，适应性自旋锁，锁粗化。</p>
-<h4 id="锁的升级">锁的升级</h4>
+<h4 id="锁的升级httpsossstupidzhangcomimgblog锁升级过程png"><a href="https://oss.stupidzhang.com/img/blog/%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B.png">锁的升级</a></h4>
 <p>参考：</p>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/290991898">https://zhuanlan.zhihu.com/p/290991898</a></li>
 <li><a href="https://blog.csdn.net/choukekai/article/details/63688332">https://blog.csdn.net/choukekai/article/details/63688332</a></li>
+<li><a href="https://blog.csdn.net/zqz_zqz/article/details/70233767?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control">https://blog.csdn.net/zqz_zqz/article/details/70233767?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control</a></li>
 </ul>
 <p>在JDK1.6之前，使用<code>synchronized</code>被称作重量级锁，重量级锁的实现是基于底层操作系统的<code>mutex</code>互斥原语的，这个开销是很大的。所以在JDK1.6时JVM对<code>synchronized</code>做了优化。</p>
 <p><code>markword</code>锁状态的表示</p>
@@ -3400,18 +3462,14 @@ Java的线程是映射到操作系统原生线程之上的，如果要阻塞或�
 </blockquote>
 <p>对象的锁状态，可以分为4种，级别从低到高依次是：无锁状态、<a href="">偏向锁状态</a>、<a href="">轻量级锁状态</a>和<a href="">重量级锁状态</a>。
 其中这几个锁只有重量级锁是需要使用操作系统底层<code>mutex</code>互斥原语来实现，其他的锁都是使用对象头来实现的。
-随着锁的竞争，锁可以从偏向锁升级到轻量级锁，再升级的重量级锁。需要注意锁可以升级，但是不可以降级。</p>
-<blockquote>
-<p>ps:有的观点认为 Java 不会进行锁降级。
-实际上，锁降级确实是会发生的，当 JVM 进入<a href="https://whiteppure.github.io/myblog/posts/jvm/jvm-about/#%E5%AE%89%E5%85%A8%E7%82%B9">安全点</a>（<code>SafePoint</code>）的时候，会检查是否有闲置的 <code>Monitor</code>，然后试图进行降级。</p>
-</blockquote>
+随着锁的竞争，锁可以从偏向锁升级到轻量级锁，再升级的重量级锁。</p>
 <p>锁升级过程：</p>
 <ul>
 <li>无锁状态：<code>markword</code>锁的标志位0，偏向锁的标志位为1；例如：刚被创建出来的对象；</li>
 <li>偏向锁：如果一个线程获取了锁，此时<code>markword</code>的结构变为偏向锁结构，当这个线程再次请求锁时，无需再做任何同步操作，直接可以获取锁。
 省去了大量有关锁申请的操作，从而也就提供程序的性能。</li>
-<li>轻量级锁：轻量级锁是相对于重量级锁而言的，本意是在没有多线程竞争的前提下，减少传统的重量级锁使用操作系统互斥量产生的性能消耗。</li>
-<li>重量级锁：直接调用操作系统底层，开销是很大;例如：<code>synchronized</code>;</li>
+<li>轻量级锁：当锁是偏向锁的时候，被另外的线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，不会阻塞，从而提高性能；</li>
+<li>重量级锁：升级为重量级锁时，锁标志的状态值变为“10”，此时<code>MarkWord</code>中存储的是指向重量级锁的指针，此时等待锁的线程都会进入阻塞状态。所以开销是很大;</li>
 </ul>
 <p>无锁状态升级为偏向锁：</p>
 <ul>
@@ -3431,6 +3489,11 @@ Java的线程是映射到操作系统原生线程之上的，如果要阻塞或�
 </ul>
 <p>在所有的锁都启用的情况下线程进入临界区时会先去获取偏向锁，如果已经存在偏向锁了，则会尝试获取轻量级锁，启用自旋锁，如果自旋也没有获取到锁，则使用重量级锁，没有获取到锁的线程阻塞挂起，直到持有锁的线程执行完同步块唤醒他们；</p>
 <p>偏向锁是在无锁争用的情况下使用的，也就是同步代码块在当前线程没有执行完之前，没有其它线程会执行该同步块，一旦有了第二个线程的争用，偏向锁就会升级为轻量级锁，如果轻量级锁自旋到达阈值后，没有获取到锁，就会升级为重量级锁；</p>
+<p>锁可以升级，但是不可以降级。</p>
+<blockquote>
+<p>ps:有的观点认为 Java 不会进行锁降级。
+实际上，锁降级确实是会发生的，当 JVM 进入<a href="https://whiteppure.github.io/myblog/posts/jvm/jvm-about/#%E5%AE%89%E5%85%A8%E7%82%B9">安全点</a>（<code>SafePoint</code>）的时候，会检查是否有闲置的 <code>Monitor</code>，然后试图进行降级。</p>
+</blockquote>
 <h4 id="synchronized与可见性httphollischuanggiteeiotobetopjavaerbasicsconcurrent-codingsynchronizedidsynchronized与可见性"><a href="http://hollischuang.gitee.io/tobetopjavaer/#/basics/concurrent-coding/synchronized?id=synchronized%E4%B8%8E%E5%8F%AF%E8%A7%81%E6%80%A7">synchronized与可见性</a></h4>
 <p>可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。</p>
 <p>Java内存模型规定了所有的变量都存储在主内存中，每条线程还有自己的工作内存，线程的工作内存中保存了该线程中是用到的变量的主内存副本拷贝，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存。
