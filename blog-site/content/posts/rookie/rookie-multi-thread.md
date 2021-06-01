@@ -526,6 +526,9 @@ public class MainTest {
 ```
 
 ## 锁
+在Java中根据锁的特性来区分可以分为很多，在程序中"锁"的作用无非就是保证线程安全，线程安全的目的就是保证程序正常执行。
+
+在Java中具体"锁"的实现，无非就三种：使用`synchronized`关键字、调用`Lock`相关接口、使用`CAS`思想。
 
 ### 公平锁与非公平锁
 公平锁：多个线程按照申请锁的顺序来获取锁，线程直接进入队列中排队，队列中的第一个线程才能获得锁。
@@ -667,6 +670,13 @@ public ReentrantLock(boolean fair) {
 轻量级锁不是在任何情况下都比重量级锁快的，要看同步块执行期间有没有多个线程抢占资源的情况。
 如果有，那么轻量级线程要承担 CAS + 互斥锁的性能消耗，就会比重量锁执行的更慢。
 
+### 可中断锁
+顾名思义，就是可以相应中断的锁。
+
+如果某一线程A正在执行锁中的代码，另一线程B正在等待获取该锁，可能由于等待时间过长，线程B不想等待了，想先处理其他事情，我们可以让它中断自己或者在别的线程中中断它，这种就是可中断锁。
+
+在Java中`synchronized`就是不可中断锁，`Lock`是可中断锁。
+
 ### 互斥锁
 >在编程中，引入了对象互斥锁的概念，来保证共享数据操作的完整性。
 每个对象都对应于一个可称为" 互斥锁" 的标记，这个标记用来保证在任一时刻，只能有一个线程访问该对象。
@@ -677,7 +687,7 @@ public ReentrantLock(boolean fair) {
 如果解锁时有一个以上的线程阻塞，那么所有该锁上的线程都变为就绪状态，第一个变为就绪状态的线程又执行加锁操作，其他的线程又会进入等待。
 在这种方式下，只有一个线程能够访问被互斥锁保护的资源。
 
-在Java里最基本的互斥手段就是使用`synchronized`关键字。
+在Java里最基本的互斥手段就是使用`synchronized`关键字、`ReentrantLock`。
 
 >Linux中提供一把互斥锁`mutex`也称之为互斥量。每个线程在对资源操作前都尝试先加锁，成功加锁才能操作，操作结束解锁。
  要注意，同一时刻，只能有一个线程持有该锁。
@@ -1289,11 +1299,248 @@ Thread 4	修改是否成功false	当前最新实际版本号：3
 Thread 4	当前最新实际值：100
 ````
 
-### Lock
+### juc.locks
+参考：
+- https://www.cnblogs.com/myseries/p/10784076.html
+
+`java.util.concurrent.locks`包下常用的类与接口是`jdk1.5`后新增的。`lock`的出现是为了弥补`synchronized`关键字解决不了的一些问题。
+
+例如：当一个代码块被`synchronized`修饰了，一个线程获取了对应的锁，并执行该代码块时，其他线程只能一直等待，等待获取锁的线程释放锁,如果这个线程因为某些原因被堵塞了，没有释放锁，那么其他线程只能一直等待下去。导致效率很低。
+
+因此就需要有一种机制可以不让等待的线程一直无期限地等待下去（比如只等待一定的时间或者能够响应中断），通过Lock就可以办到。
+
+`lock`与`synchronized`最大的区别就是`lock`能够手动控制锁，而`synchronized`是JVM控制的。所以`lock`更加灵活。`lock`锁的粒度要优于`synchronized`。
+在实际使用中，自然是能够替代`synchronized`关键字的。
 #### 使用
+在实际使用过程中，`lock`也是比较简单的。
+`Lock`和`ReadWriteLock`是两大锁的根接口，`Lock`代表实现类是`ReentrantLock`（可重入锁），`ReadWriteLock`（读写锁）的代表实现类是`ReentrantReadWriteLock`。
+![juc.locks](/myblog/posts/images/essays/juc.locks.png)
+
+##### Lock
+
+**lock()**
+
+`lock()`方法是平常使用得最多的一个方法，就是用来获取锁。如果锁已被其他线程获取，则进行等待。
+如果采用`Lock`，必须主动去释放锁，并且在发生异常时，不会自动释放锁。
+因此，一般来说，使用`Lock`必须在`try…catch…`块中进行，并且将释放锁的操作放在`finally`块中进行，以保证锁一定被被释放，防止死锁的发生。
+```
+  Lock l = ...;
+  l.lock();
+  try {
+    // access the resource protected by this lock
+  } finally {
+    l.unlock();
+  }
+```
+
+**trylock()**
+
+尝试获取锁，如果锁可用则返回true，不可用则返回false。也就是说，这个方法无论如何都会立即返回，在拿不到锁时不会一直在那等待。
+
+> `tryLock(long time, TimeUnit unit)`方法和`tryLock()`方法是类似的，只不过区别在于这个方法在拿不到锁时会等待一定的时间，在时间期限之内如果还拿不到锁，就返回false，同时可以响应中断。
+如果一开始拿到锁或者在等待期间内拿到了锁，则返回true。
+```
+  Lock lock = ...;
+  if (lock.tryLock()) {
+    try {
+      // manipulate protected state
+    } finally {
+      lock.unlock();
+    }
+  } else {
+    // perform alternative actions
+  }
+```
+
+**lockInterruptibly()**
+
+当通过这个方法去获取锁时，如果线程正在等待获取锁，则这个线程能够响应中断，即中断线程的等待状态。
+例如，当两个线程同时通过`lock.lockInterruptibly()`想获取某个锁时，假若此时线程A获取到了锁，而线程B只有在等待，那么对线程B调用`threadB.interrupt()`能够中断线程B的等待过程。
+
+注意，当一个线程获取了锁之后，是不会被`interrupt()`方法中断的。因为`interrupt()`方法只能中断阻塞过程中的线程而不能中断正在运行过程中的线程。因此，当通过 `lockInterruptibly()` 方法获取某个锁时，如果不能获取到，那么只有进行等待的情况下，才可以响应中断的。
+与 `synchronized` 相比，当一个线程处于等待某个锁的状态，是无法被中断的，只有一直等待下去。
+
+由于`lockInterruptibly()`的声明中抛出了异常，所以`lock.lockInterruptibly()`必须放在try块中或者在调用`lockInterruptibly()`的方法外声明抛出 `InterruptedException`
+```
+public void method() throws InterruptedException {
+    lock.lockInterruptibly();
+    try {  
+     //.....
+    }
+    finally {
+        lock.unlock();
+    }  
+}
+```
+**newCondition**
+
+`Lock`接口提供了方法`Condition newCondition();`，`Condition`也是一个接口，可以理解为`synchronized`锁的监视器的概念；
+对于`synchronized`是借助于锁与监视器，从而进行线程的同步与通信协作;而`Lock`接口也提供了`synchronized`的语意，对于监视器的概念，则借助于`Condition`。
+
+在`lock`中可以定义多个`Condition`，也就是一个锁，可以对应多个监视器，可以更加细粒度的进行同步协作的处理。
+
+##### ReadWriteLock
+该接口有两个方法：
+```
+//返回用于读取操作的锁    
+Lock readLock()   
+//返回用于写入操作的锁  
+Lock writeLock() 
+```
+
+`ReadWriteLock`管理一组锁，一个是只读的锁，一个是写锁。[共享锁与独占锁](#共享锁与独占锁)的实现是读写锁。
+Java并发库中`ReetrantReadWriteLock`实现了`ReadWriteLock`接口并添加了可重入的特性。
+
+对于`ReetrantReadWriteLock`其读锁是共享锁而写锁是独占锁，读锁的共享可保证并发读是非常高效的；
+需要注意的是，**读写、写读和写写的过程是互斥的，只有读读不是互斥的**。
+
+读写锁使用示例
+```
+public class MainTest {
+
+    public static void main(String[] args) {
+        MyCache myCache = new MyCache();
+        for (int i = 0; i < 10; i++) {
+            int finalI = i;
+            new Thread(() -> {
+                myCache.put(finalI + "", finalI + "");
+            }, String.valueOf(i)).start();
+        }
+
+        System.out.println("---------------");
+
+        for (int i = 0; i < 10; i++) {
+            int finalI = i;
+            new Thread(() -> {
+                myCache.get(finalI + "");
+            }, String.valueOf(i)).start();
+        }
+    }
+}
+
+class MyCache {
+
+    private volatile Map<String, Object> map = new HashMap<>();
+
+    private ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
+
+    // 写操作
+    public void put(String key, Object value) {
+        rwLock.writeLock().lock();
+        try {
+            System.out.println("开始 写入 ..." + key);
+            map.put(key, value);
+            System.out.println("写入完成 ...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            rwLock.writeLock().unlock();
+        }
+
+    }
+
+    // 读操作
+    public Object get(String key) {
+        Object obj = null;
+        rwLock.readLock().lock();
+        try {
+            System.out.println("开始读取 ..." + key);
+            obj = map.get(key);
+            System.out.println("读取完成 ..." + obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            rwLock.readLock().unlock();
+        }
+        return obj;
+    }
+
+}
+```
+
 #### 原理
-#### trylock、lock
+
+### LockSupport
+`LockSupport`是`java.util.concurrent.locks`包下的一个工具类。
+`LockSupport`类使用了一种名为`Permit`(许可）的概念来做到阻塞和唤醒线程的功能，每个线程都有一个许可(permit),`permit`只有两个值1和零，默认是零。
+
+
+官网解释:`LockSupport`是用来创建锁和其他同步类的基本线程阻塞原语;
+
+其中有两个重要的方法，通过`park()`和`unpark()`方法来实现阻塞和唤醒线程的操作；可以理解为`wait()`和`notify`的加强版。
+
+`LockSupport`对比传统等待唤醒机制：
+1. 使用`Object`中的`wait()`方法让线程等待,使用`Object`中的`notify`方法唤醒线程
+2. 使用JUC包中`Condition`的`await()`方法让线程等待,使用`signal()`方法唤醒线程
+
+弊端：
+- `wait`和`notify`/`await()`和`signal()`方法必须要在同步块或同步方法里且成对出现使用,如果没有在`synchronized`代码块使用则抛出`java.lang.IllegalMonitorStateException`;
+- 必须先`wait`/`await()`后`notify`/`signal()`，如果先`notify`后`wait`会出现另一个线程一直处于等待状态；
+
+使用
+```
+public class LockSupportDemo {
+    public static void main(String[] args) {
+
+        Thread t1=new Thread(()->{
+            System.out.println(Thread.currentThread().getName()+"\t"+"coming....");
+            LockSupport.park();
+            /*
+            如果这里有两个LockSupport.park(),因为permit的值为1,上一行已经使用了permit
+            所以下一行被注释的打开会导致程序处于一直等待的状态
+            * */
+            //LockSupport.park();
+            System.out.println(Thread.currentThread().getName()+"\t"+"被B唤醒了");
+            },"A");
+        t1.start();
+
+        //下面代码注释是为了A线程先执行
+        //try { TimeUnit.SECONDS.sleep(3);  } catch (InterruptedException e) {e.printStackTrace();}
+
+        Thread t2=new Thread(()->{
+            System.out.println(Thread.currentThread().getName()+"\t"+"唤醒A线程");
+            //有两个LockSupport.unpark(t1),由于permit的值最大为1,所以只能给park一个通行证
+            LockSupport.unpark(t1);
+            //LockSupport.unpark(t1);
+        },"B");
+        t2.start();
+    }
+}
+```
+
+`LockSupport`原理是调用的`Unsafe`中的`native`代码。
+```
+    public static void unpark(Thread thread) {
+        if (thread != null)
+            UNSAFE.unpark(thread);
+    }
+
+    public static void park(Object blocker) {
+        Thread t = Thread.currentThread();
+        setBlocker(t, blocker);
+        UNSAFE.park(false, 0L);
+        setBlocker(t, null);
+    }
+```
+理解：
+- 线程堵塞需要消耗凭证，这个凭证最多只有一个。
+- 当调用`park`方法时，如果有凭证则会直接消耗这张凭证然后退出；如果没有凭证就必须堵塞等待凭证可用；
+- `unpark`方法则相反，调用该方法会增加一个凭证，连续调用两次`unpark()`和调用一次一样，只会增加一个凭证。
+
+**为什么可以先唤醒线程后阻塞线程?**
+
+因为`unpark`获得了一个凭证，之后再调用`park`方法，就可以名正言顺的凭证消费，所以不会阻塞。
+
+**为什么唤醒两次后阻塞两次，但最终结果还会阻塞线程?**
+
+因为凭证的数量最多为1，连续调用两次`unpark`和调用一次`unpark`效果一样，只会增加一个凭证;
+而调用两次park却需要消费两个凭证，证不够，不能放行。
+
+
 ### AQS
+AQS是指`ava.util.concurrent.locks`包下的一个抽象类`AbstractQueuedSynchronizer`译为：抽象的队列同步器。
+
+
 
 ### synchronized
 `synchronized`是Java提供的关键字，可译为同步。可用来给对象、方法或者代码块加锁，当它锁定一个方法或者一个代码块的时候，同一时刻最多只有一个线程执行这段代码。
