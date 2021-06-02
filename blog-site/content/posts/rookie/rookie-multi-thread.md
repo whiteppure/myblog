@@ -1299,7 +1299,7 @@ Thread 4	修改是否成功false	当前最新实际版本号：3
 Thread 4	当前最新实际值：100
 ````
 
-### juc.locks
+### JUC.locks
 参考：
 - https://www.cnblogs.com/myseries/p/10784076.html
 
@@ -1314,6 +1314,7 @@ Thread 4	当前最新实际值：100
 #### 使用
 在实际使用过程中，`lock`也是比较简单的。
 `Lock`和`ReadWriteLock`是两大锁的根接口，`Lock`代表实现类是`ReentrantLock`（可重入锁），`ReadWriteLock`（读写锁）的代表实现类是`ReentrantReadWriteLock`。
+
 ![juc.locks](/myblog/posts/images/essays/juc.locks.png)
 
 ##### Lock
@@ -1458,18 +1459,16 @@ class MyCache {
 }
 ```
 
-#### 原理
 
-### LockSupport
+#### LockSupport
 `LockSupport`是`java.util.concurrent.locks`包下的一个工具类。
 `LockSupport`类使用了一种名为`Permit`(许可）的概念来做到阻塞和唤醒线程的功能，每个线程都有一个许可(permit),`permit`只有两个值1和零，默认是零。
-
 
 官网解释:`LockSupport`是用来创建锁和其他同步类的基本线程阻塞原语;
 
 其中有两个重要的方法，通过`park()`和`unpark()`方法来实现阻塞和唤醒线程的操作；可以理解为`wait()`和`notify`的加强版。
 
-`LockSupport`对比传统等待唤醒机制：
+传统等待唤醒机制：
 1. 使用`Object`中的`wait()`方法让线程等待,使用`Object`中的`notify`方法唤醒线程
 2. 使用JUC包中`Condition`的`await()`方法让线程等待,使用`signal()`方法唤醒线程
 
@@ -1477,12 +1476,13 @@ class MyCache {
 - `wait`和`notify`/`await()`和`signal()`方法必须要在同步块或同步方法里且成对出现使用,如果没有在`synchronized`代码块使用则抛出`java.lang.IllegalMonitorStateException`;
 - 必须先`wait`/`await()`后`notify`/`signal()`，如果先`notify`后`wait`会出现另一个线程一直处于等待状态；
 
-使用
+`LockSupport`对比传统等待唤醒机制，能够解决上面的弊端：
 ```
-public class LockSupportDemo {
+public class MainTest {
     public static void main(String[] args) {
 
         Thread t1=new Thread(()->{
+//            try { TimeUnit.SECONDS.sleep(3);  } catch (InterruptedException e) {e.printStackTrace();}
             System.out.println(Thread.currentThread().getName()+"\t"+"coming....");
             LockSupport.park();
             /*
@@ -1491,11 +1491,8 @@ public class LockSupportDemo {
             * */
             //LockSupport.park();
             System.out.println(Thread.currentThread().getName()+"\t"+"被B唤醒了");
-            },"A");
+        },"A");
         t1.start();
-
-        //下面代码注释是为了A线程先执行
-        //try { TimeUnit.SECONDS.sleep(3);  } catch (InterruptedException e) {e.printStackTrace();}
 
         Thread t2=new Thread(()->{
             System.out.println(Thread.currentThread().getName()+"\t"+"唤醒A线程");
@@ -1508,7 +1505,7 @@ public class LockSupportDemo {
 }
 ```
 
-`LockSupport`原理是调用的`Unsafe`中的`native`代码。
+`LockSupport`原理是调用的`Unsafe`中的`native`代码。以`unpark、park`为例：
 ```
     public static void unpark(Thread thread) {
         if (thread != null)
@@ -1537,9 +1534,37 @@ public class LockSupportDemo {
 而调用两次park却需要消费两个凭证，证不够，不能放行。
 
 
-### AQS
+#### [AQS](https://www.bilibili.com/video/BV1xt411S7xy?p=159)
 AQS是指`ava.util.concurrent.locks`包下的一个抽象类`AbstractQueuedSynchronizer`译为：抽象的队列同步器。
 
+在JUC包下，能够看到有许多类都继承了AQS，例如，`ReentrantLock 、CountDownLatch 、 ReentrantReadWriteLock 、 Semaphore `；
+所以AQS是JUC内容中重要的基础。
+
+![JUC.locks包UML](/myblog/posts/images/essays/JUC.locks包UML.png)
+
+> 同步、同步器？
+> 同步，面向锁的使用者，定义了程序员和锁交互的使用层API；
+> 同步器，面向锁的实现者，统一规范，实现锁 自定义等待唤醒机制等等；
+
+AQS是用来构建锁或者其它同步器组件的重量级基础框架及整个JUC体系的基石，通过内置的CLH(FIFO)队列的变种来完成资源获取线程的排队工作；
+将每条将要去抢占资源的线程封装成一个Node节点来实现锁的分配，有一个int类变量表示持有锁的状态,通过CAS完成对status值的修改。
+
+![AQS](/myblog/posts/images/essays/AQS.png)
+
+在多线程并发环境下，使用lock加锁，当处在加锁与解锁之间的代码，只能有一个线程来执行；这时候其他线程不能够获取锁，如果不处理线程就会造成了堵塞；
+在AQS框架中，会将暂时获取不到锁的线程加入到队列里，这个队列就是AQS的抽象表现。它会将这些线程封装成队列的结点，通过CAS、自旋以及`LockSuport.park()`的方式，维护`state`变量的状态，使并发达到同步的效果。
+
+AQS中的队列，是指CLH队列（Craig, Landin, and Hagerste[三个人名组成]）锁队列的变体，是一个双向队列。
+队列中的元素即Node结点，每个Node中包含：头结点、尾结点、等待状态、存放的线程等；Node遵循从尾部入队，从头部出队的规则，即先进先出原则。
+> 详细可查看 java.util.concurrent.locks; 包下 AbstractQueuedSynchronizer 类。
+
+AQS可以理解为一个框架，因为它定义了一些JUC包下常用"锁"的标准。
+AQS简单来说，包含一个`status`和一个队列；`status`保存线程持有锁的状态，用于判断该线程获没获取到锁，没获取到锁就去队列中排队。
+队列是由Node结点构成，每个Node结点里面主要包含一个`waitStatus`和保存的线程。
+
+![AQS简单理解](/myblog/posts/images/essays/AQS简单理解.png)
+
+#### ReentrantLock原理
 
 
 ### synchronized
