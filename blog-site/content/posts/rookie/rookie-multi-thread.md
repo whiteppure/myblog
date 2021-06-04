@@ -1565,6 +1565,318 @@ AQS简单来说，包含一个`status`和一个队列；`status`保存线程持�
 ![AQS简单理解](/myblog/posts/images/essays/AQS简单理解.png)
 
 #### ReentrantLock原理
+`ReentrantLock`译为，可重入锁，它的原理用到了AQS。
+
+> AQS里面有个变量叫State，它的值有3种状态：没占用是0，占用了是1，大于1是可重入锁
+> 如果A、B两个线程进来了以后，请问这个总共有多少个Node节点？答案是3个,其中队列的第一个是傀儡节点(哨兵节点)
+
+`ReentrantLock`原理说简单一点，就是加锁解锁的过程。
+
+在多线程并发环境下，某个线程持有锁，将`state`由0设置为1，如果在有其他线程再次进入，线程则会经过一系列判断，然后构建Node结点，最终形成双向链表结构。
+最后在执行`LockSupport.park()`方法，将等待的线程挂起，如果当前持有锁的线程释放了锁，则将`state`变量设置为0，调用`LockSpoort.unpark()`方法指定唤醒等待队列中的某个线程。
+
+`ReentrantLock`使用
+```
+public class AQSDemo {
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
+        new Thread(() -> {
+                lock.lock();
+                try{
+                    System.out.println("-----A thread come in");
+
+                    try { TimeUnit.MINUTES.sleep(20); }catch (Exception e) {e.printStackTrace();}
+                }finally {
+                    lock.unlock();
+                }
+        },"A").start();
+
+        new Thread(() -> {
+            lock.lock();
+            try{
+                System.out.println("-----B thread come in");
+            }finally {
+                lock.unlock();
+            }
+        },"B").start();
+
+        new Thread(() -> {
+            lock.lock();
+            try{
+                System.out.println("-----C thread come in");
+            }finally {
+                lock.unlock();
+            }
+        },"C").start();
+    }
+}
+```
+**ReentrantLock加锁**
+
+`ReentrantLock`原理用到了AQS，而AQS包括一个线程队列和一个state变量；所以`ReentrantLock`加锁过程，可以简单理解为`state`变量的变化。
+如果在多线程并发的环境下，还要有其他线程被保存到AQS的队列中。
+加锁过程，如图所示：
+![reentrantLock加锁](/myblog/posts/images/essays/reentrantLock加锁.png)
+
+`ReentrantLock`加锁，有两种形式，默认是[非公平锁](#公平锁与非公平锁)，但可以通过构造方法来指定为[公平锁](#公平锁与非公平锁)。
+```
+    public static void main(String[] args) {
+        ReentrantLock reentrantLock = new ReentrantLock(true);
+    }
+    //⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇
+    /**
+     * Creates an instance of {@code ReentrantLock} with the
+     * given fairness policy.
+     *
+     * @param fair {@code true} if this lock should use a fair ordering policy
+     */
+    public ReentrantLock(boolean fair) {
+        sync = fair ? new FairSync() : new NonfairSync();
+    }
+```
+无论是公平锁还是非公平锁，由于用到了AQS框架，所以底层实现的逻辑大致是差不多的，`ReentrantLock`加锁方法调用栈：
+```
+lock() --> acquire() --> tryAcquire() --> addWaiter() --> acquireQueued() --> selfInterrupt()
+```
+
+虽然大致逻辑差不多，但是区别总是有的，总的来说非公平锁比非公平锁在代码里面多了几行判断；
+```
+// ===========重写 lock 方法对比===========
+    // 公平锁
+    final void lock() {
+        acquire(1);
+    }
+
+    // 非公平锁
+    final void lock() {
+        if (compareAndSetState(0, 1))
+            setExclusiveOwnerThread(Thread.currentThread());
+        else
+            acquire(1);
+    }
+```
+
+```
+// ===========重写 tryAcquire 方法对比===========
+
+    // 公平锁
+    protected final boolean tryAcquire(int acquires) {
+        final Thread current = Thread.currentThread();
+        int c = getState();
+        if (c == 0) {
+            if (!hasQueuedPredecessors() &&
+                compareAndSetState(0, acquires)) {
+                setExclusiveOwnerThread(current);
+                return true;
+            }
+        }
+        else if (current == getExclusiveOwnerThread()) {
+            int nextc = c + acquires;
+            if (nextc < 0)
+                throw new Error("Maximum lock count exceeded");
+            setState(nextc);
+            return true;
+        }
+        return false;
+    }
+
+    // 非公平锁
+    protected final boolean tryAcquire(int acquires) {
+        return nonfairTryAcquire(acquires);
+    }
+
+    final boolean nonfairTryAcquire(int acquires) {
+        final Thread current = Thread.currentThread();
+        int c = getState();
+        if (c == 0) {
+            if (compareAndSetState(0, acquires)) {
+                setExclusiveOwnerThread(current);
+                return true;
+            }
+        }
+        else if (current == getExclusiveOwnerThread()) {
+            int nextc = c + acquires;
+            if (nextc < 0) // overflow
+                throw new Error("Maximum lock count exceeded");
+            setState(nextc);
+            return true;
+        }
+        return false;
+    }
+```
+在重写的`tryAcquire`方法里，公平锁在获取同步状态时多了一个限制条件:`hasQueuedPredecessors()` ;
+该方法作用：保证等待队列中的线程按照从头到尾的顺序排队获取锁。
+
+举个例子，目前队列中有两个线程A、B，线程A，在线程B的前面；在当前线程释放锁的时候，线程B获取到了锁，该方法会判断当前头结点的下一个结点中存放的线程如果跟当前线程相不相同；
+在这里头结点的下一个结点存放的线程是傀儡结点线程为null，而当前线程是线程B，所以返回true，回到上一个方法true取反就是false，则获取锁失败。
+```
+    public final boolean hasQueuedPredecessors() {
+        // The correctness of this depends on head being initialized
+        // before tail and on head.next being accurate if the current
+        // thread is first in queue.
+        Node t = tail; // Read fields in reverse initialization order
+        Node h = head;
+        Node s;
+        return h != t &&
+            ((s = h.next) == null || s.thread != Thread.currentThread());
+    }
+```
+在执行完`tryAcquire`方法之后就会执行`addWaiter`方法。
+
+`addWaiter`方法作用；当第一次将等待的线程添加到队列时，先会调用enq方法；如果不是第一次调用，即尾结点不为空,队列中已经有了其他线程结点，则会直接将当前线程的前结点指向尾结点，即队列中最后一个线程结点;
+然后用CAS将前一个结点的下一个结点指向当前结点，最后返回添加到队列中的结点。
+```
+    private Node addWaiter(Node mode) {
+        Node node = new Node(Thread.currentThread(), mode);
+        // Try the fast path of enq; backup to full enq on failure
+        Node pred = tail;
+        if (pred != null) {
+            node.prev = pred;
+            if (compareAndSetTail(pred, node)) {
+                pred.next = node;
+                return node;
+            }
+        }
+        enq(node);
+        return node;
+    }
+```
+enq方法作用是，将等待获取锁的线程封装成Node结点，并将Node结点串联起来，形成双向链表结构；简而言之就是将线程添加到等待队列中去。                                                                   
+
+该方法运用自旋机制，如果添加的结点为第一个结点，则会在第一个实际结点之前，先生成一个“傀儡结点”；
+头结点指向指向傀儡结点，傀儡结点的后结点则指向添加的第一个结点；添加的第一个结点的前结点指向傀儡结点，尾结点指向实际结点。然后将处理好的实际结点返回。
+```
+    private Node enq(final Node node) {
+        for (;;) {
+            Node t = tail;
+            if (t == null) { // Must initialize
+                if (compareAndSetHead(new Node()))
+                    tail = head;
+            } else {
+                node.prev = t;
+                if (compareAndSetTail(t, node)) {
+                    t.next = node;
+                    return t;
+                }
+            }
+        }
+    }
+```
+
+之后在执行`acquireQueued`方法。该方法用到了自旋机制；首先先判断当前结点是否为头结点，如果是头结点，就让头结点中的线程尝试获取锁，之后执行异常结点的操作。
+如果不是头结点，就会尝试让当前线程挂起，直到持有锁的线程释放锁，唤醒等待的线程，之后再去尝试获取锁。
+```
+    final boolean acquireQueued(final Node node, int arg) {
+        boolean failed = true;
+        try {
+            boolean interrupted = false;
+            for (;;) {
+                final Node p = node.predecessor();
+                if (p == head && tryAcquire(arg)) {
+                    setHead(node);
+                    p.next = null; // help GC
+                    failed = false;
+                    return interrupted;
+                }
+                if (shouldParkAfterFailedAcquire(p, node) &&
+                    parkAndCheckInterrupt())
+                    interrupted = true;
+            }
+        } finally {
+            if (failed)
+                cancelAcquire(node);
+        }
+    }
+```
+如果不是头结点，则会执行`shouldParkAfterFailedAcquire`方法：
+```
+    private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+        int ws = pred.waitStatus;
+        if (ws == Node.SIGNAL)
+            return true;
+        if (ws > 0) {
+            do {
+                node.prev = pred = pred.prev;
+            } while (pred.waitStatus > 0);
+            pred.next = node;
+        } else {
+            compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+        }
+        return false;
+    }
+```
+执行该方法，首先判断上一个结点的`waitStatus`；
+如果该队列只有一个结点，则上一个结点为头结点，此时头结点的`waitStatus=0`，经过该方法会将上一个结点的`waitStatus`通过CAS，设置为-1；
+因为最外部是一个自旋机制，会一直循环，当第二次进入该方法，则会直接返回true。返回true，则意味着当前线程将进入堵塞状态，会执行`parkAndCheckInterrupt()`方法。
+
+```
+    private final boolean parkAndCheckInterrupt() {
+        LockSupport.park(this);
+        return Thread.interrupted();
+    }
+```
+调用`LockSupport.park()`方法让线程挂起，直到持有锁的线程将它们唤醒。
+
+**ReentrantLock解锁**
+![reentrantLock解锁](/myblog/posts/images/essays/reentrantLock解锁.png)
+
+`ReentrantLock`释放锁调用栈：
+```
+unlock() --> release() --> tryRelease() --> unparkSuccessor()
+```
+`release`方法,如果`tryRelease`方法返回true，则判队列中的头结点中的`waitStatus`，如果不等于0则，执行`unparkSuccessor`方法，按唤醒队列中等待的线程。
+
+核心就是调用`tryRelease`方法和`unparkSuccessor`方法:
+```
+    public final boolean release(int arg) {
+        if (tryRelease(arg)) {
+            Node h = head;
+            if (h != null && h.waitStatus != 0)
+                unparkSuccessor(h);
+            return true;
+        }
+        return false;
+    }
+```
+
+`tryRelease`方法作用是尝试释放锁；首先获取当前持有锁线程的`state`，并使其减1;
+如果减一后的`state`值等于0，则认为该线程马上要释放锁，将当前持有锁的线程为null，将0设置为`state`的新值，返回true。
+```
+    protected final boolean tryRelease(int releases) {
+        int c = getState() - releases;
+        if (Thread.currentThread() != getExclusiveOwnerThread())
+            throw new IllegalMonitorStateException();
+        boolean free = false;
+        if (c == 0) {
+            free = true;
+            setExclusiveOwnerThread(null);
+        }
+        setState(c);
+        return free;
+    }
+```
+
+由于之前加锁等待队列中是自旋机制，由于持有锁的线程唤醒队列中排队的线程，队列中的线程则会尝试再次获取锁。
+
+首先，将头结点从前向后移动一个结点，随后清空该结点的线程对象、该结点的前结点、后结点，即将该结点设置成新的傀儡结点(哨兵结点)，最后结束循环。
+```
+private void unparkSuccessor(Node node) {
+    int ws = node.waitStatus;
+    if (ws < 0)
+        compareAndSetWaitStatus(node, ws, 0);
+
+    Node s = node.next;
+    if (s == null || s.waitStatus > 0) {
+        s = null;
+        for (Node t = tail; t != null && t != node; t = t.prev)
+            if (t.waitStatus <= 0)
+                s = t;
+    }
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
+```
+
 
 
 ### synchronized
