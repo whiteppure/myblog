@@ -1875,8 +1875,7 @@ private void unparkSuccessor(Node node) {
     if (s != null)
         LockSupport.unpark(s.thread);
 }
-```
-
+``` 
 
 
 ### synchronized
