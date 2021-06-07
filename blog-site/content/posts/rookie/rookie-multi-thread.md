@@ -537,6 +537,10 @@ public class MainTest {
 ```
 
 ## 锁
+参考文章：
+- https://tech.meituan.com/2018/11/15/java-lock.html
+- https://www.cnblogs.com/aspirant/p/11470858.html
+
 在Java中根据锁的特性来区分可以分为很多，在程序中"锁"的作用无非就是保证线程安全，线程安全的目的就是保证程序正常执行。
 
 在Java中具体"锁"的实现，无非就三种：使用`synchronized`关键字、调用`juc.locks`包下相关接口、使用`CAS`思想。
@@ -705,9 +709,6 @@ public ReentrantLock(boolean fair) {
 >所以，互斥锁实质上是操作系统提供的一把“建议锁”（又称“协同锁”），建议程序中有多线程访问共享资源的时候使用该机制。但，并没有强制限定。
  因此，即使有了`mutex`，如果有线程不按规则来访问数据，依然会造成数据混乱。
 
-### 参考文章
-- https://tech.meituan.com/2018/11/15/java-lock.html
-- https://www.cnblogs.com/aspirant/p/11470858.html
 
 ## 线程安全
 线程不安全，在多线程并发的环境中，多个线程共同操作同一个数据，如果最后数据的值和期待值不一样，这时候就出现了线程不安全问题。
@@ -1052,7 +1053,8 @@ public final int getAndAddInt(Object var1, long var2, int var4) {
 CAS全称为`Compare and Swap`被译为比较并交换。是一种无锁算法。在不使用锁（没有线程被阻塞）的情况下实现多线程之间的变量同步。
 `java.util.concurrent.atomic` 并发包下的所有原子类都是基于 `CAS` 来实现的。
 
-以 `AtomicInteger` 原子整型类为例。
+#### 原理
+以 `AtomicInteger` 原子整型类为例,来看一下CAS实现原理。
 ```
 public class MainTest {
     public static void main(String[] args) {
@@ -2388,6 +2390,299 @@ Java 提供了两种锁机制来控制多个线程对共享资源的互斥访问
 并且使用 `synchronized` 不用担心没有释放锁而导致死锁问题，因为 JVM 会确保锁的释放。
 
 ### ThreadLocal
+参考文章：
+- http://www.threadlocal.cn
+- https://blog.csdn.net/lufeng20/article/details/24314381
+- https://blog.csdn.net/qq_35190492/article/details/116431270
+- https://www.cnblogs.com/dolphin0520/p/3920407.html
+
+`ThreadLocal`文档注释：
+> This class provides thread-local variables.  These variables differ from
+  their normal counterparts in that each thread that accesses one (via its
+  {@code get} or {@code set} method) has its own, independently initialized
+  copy of the variable.  
+
+大意：这个类提供线程局部变量。这些变量与普通变量的不同之处在于，每个访问它们的线程(通过其get方法或set方法)都有自己的独立初始化的变量副本。
+
+如文档注释所说，`ThraedLocal`为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。
+> 从线程的角度看，目标变量就象是线程的本地变量，这也是类名中“Local”所要表达的意思。
+
+说白了`ThreadLocal`就是存放线程的局部变量的。
+
+#### 使用
+在JDK5.0中，`ThreadLocal`已经支持泛型，该类的类名已经变为`ThreadLocal<T>`。API方法也相应进行了调整，新版本的API方法分别是`void set(T value)、T get()`以及`T initialValue()`。
+>关于Object和T的区别：Object是个基类，是个真实存在的类；T是个占位符，表示某个具体的类，仅在编译器有效，最终会被擦除用Object代替。
+
+主要方法：
+```
+// 返回该线程局部变量的初始值，该方法是一个protected的方法，显然是为了让子类覆盖而设计的。
+// 如果有人心急则吃不了热豆腐，在还没有set的情况下，调用get则返回null。
+protected T initialValue()
+
+// 该方法返回当前线程所对应的线程局部变量
+public T get()
+
+// 设置当前线程的线程局部变量的值
+public void set(T value)
+
+// 将当前线程局部变量的值删除，目的是为了减少内存的占用
+public void remove()
+```
+
+`ThreadLocal`里设置的值，只有当前线程自己看得见:
+```
+public class MainTest {
+
+    private static ThreadLocal<Integer> localInt = new ThreadLocal<>();
+
+    public static void main(String[] args) {
+        localInt.set(100);
+
+        new Thread(() -> {
+            localInt.set(200);
+            System.out.println("-----thead1-----");
+            System.out.println(context0());
+            System.out.println(context1());
+            System.out.println(context2());
+        },"thread1").start();
+
+        System.out.println("-----main-----");
+        System.out.println(context0());
+        System.out.println(context1());
+        System.out.println(context2());
+    }
+
+
+    static int context0() {
+        return localInt.get();
+    }
+
+    static int context1(){
+        return localInt.get();
+    }
+
+    static int context2(){
+        return localInt.get();
+    }
+}
+```
+
+由于T`hreadLocal`里设置的值，只有当前线程自己看得见，这意味着你不可能通过其他线程为它初始化值。
+为了弥补这一点，`ThreadLocal`提供了一个`withInitial()`方法统一初始化所有线程的`ThreadLocal`的值：
+```
+public class MainTest {
+
+    private static final ThreadLocal<Integer> localInt = ThreadLocal.withInitial(() -> 300);
+
+    public static void main(String[] args) {
+
+        new Thread(() -> {
+            System.out.println("-----thead1-----");
+            System.out.println(context0());
+            System.out.println(context1());
+            System.out.println(context2());
+        },"thread1").start();
+
+        System.out.println("-----main-----");
+        System.out.println(context0());
+        System.out.println(context1());
+        System.out.println(context2());
+    }
+
+
+    static int context0() {
+        return localInt.get();
+    }
+
+    static int context1(){
+        return localInt.get();
+    }
+
+    static int context2(){
+        return localInt.get();
+    }
+
+}
+```
+
+通过上面的代码，可以发现`ThreadLocal`是跨越几个方法的。为了在几个函数之间共用一个变量，所以才出现：线程变量，这种变量在Java中就是`ThreadLocal`变量。
+
+`ThreadLocal`是跨函数的，虽然全局变量也是跨函数的，但是跨所有的函数，而且不是动态的。
+`ThreadLocal`是跨函数的，跨哪些函数是由线程来定的，所以更灵活。
+
+总之，`ThreadLocal`类是修饰变量的，是在控制它的作用域，是为了增加变量的种类而已，这才是`ThreadLocal`类诞生的初衷，它的初衷可不是解决线程冲突的。
+
+#### 与同步机制
+`ThreadLocal`类是修饰变量的，重点是在控制变量的作用域，初衷可不是为了解决线程并发和线程冲突的，而是为了让变量的种类变的更多更丰富，方便人们使用罢了。
+很多开发语言在语言级别都提供这种作用域的变量类型。
+
+> 要保证线程安全，并不一定就是要进行同步，两者没有因果关系。同步只是保证共享数据争用时的正确性的手段。
+如果一个方法本来就不涉及共享数据，那它自然就无需任何同步措施去保证正确性。
+
+总之，线程安全，并不一定就是要进行同步，`ThreadLocal`目的是线程安全，但不是同步手段。
+
+`ThreadLocal`和线程同步机制都可以解决多线程中共享变量的访问冲突问题。
+在同步机制中，通过对象的锁机制保证同一时间只有一个线程访问变量。使用同步机制要求程序慎密地分析什么时候对变量进行读写，什么时候需要锁定某个对象，什么时候释放对象锁等繁杂的问题，程序设计和编写难度相对较大。
+而`ThreadLocal` 则从另一个角度来解决多线程的并发访问。`ThreadLocal` 会为每一个线程提供一个独立的变量副本，从而隔离了多个线程对数据的访问冲突。因为每一个线程都拥有自己的变量副本，从而也就没有必要对该变量进行同步了。
+`ThreadLocal` 提供了线程安全的共享对象，在编写多线程代码时，可以把不安全的变量封装进 `ThreadLocal`。
+
+虽然`ThreadLocal`能够保证多线程访问数据安全，但是由于在每个线程中都创建了副本，所以要考虑它对资源的消耗，比如内存的占用会比不使用 `ThreadLocal` 要大。
+
+对于多线程资源共享的问题，同步机制采用了“以时间换空间”的方式，而`ThreadLocal`采用了“以空间换时间”的方式。
+前者仅提供一份变量，让不同的线程排队访问，而后者为每一个线程都提供了一份变量，因此可以同时访问而互不影响。
+
+#### 原理
+```
+    public T get() {
+        // 获取当前线程
+        Thread t = Thread.currentThread();
+        // 每个线程 都有一个自己的ThreadLocalMap，
+        // ThreadLocalMap里就保存着所有的ThreadLocal变量
+        ThreadLocalMap map = getMap(t);
+        if (map != null) {
+            //ThreadLocalMap的key就是当前ThreadLocal对象实例，
+            //多个ThreadLocal变量都是放在这个map中的
+            ThreadLocalMap.Entry e = map.getEntry(this);
+            if (e != null) {
+                @SuppressWarnings("unchecked")
+                //从map里取出来的值就是我们需要的这个ThreadLocal变量
+                T result = (T)e.value;
+                return result;
+            }
+        }
+        // 如果map没有初始化，那么在这里初始化一下
+        return setInitialValue();
+    }
+
+
+    public void set(T value) {
+        // 获取当前线程
+        Thread t = Thread.currentThread();
+        // 每个线程 都有一个自己的ThreadLocalMap
+        // ThreadLocalMap 里就保存着所有的ThreadLocal变量
+        ThreadLocalMap map = getMap(t);
+        if (map != null)
+            // 向map里添加值
+            map.set(this, value);
+        else
+            // map为null，创建一个 ThreadLocalMap
+            createMap(t, value);
+    }
+
+
+    // 全局定义的localMap
+   ThreadLocal.ThreadLocalMap threadLocals = null;
+
+    // 获取当前线程所持有的localMap
+    ThreadLocalMap getMap(Thread t) {
+        return t.threadLocals;
+    }
+    
+    // 创建，初始化 localMap 
+    void createMap(Thread t, T firstValue) {
+        t.threadLocals = new ThreadLocalMap(this, firstValue);
+    }
+```
+
+`ThreadLocal`,`get()、set()`源码中可以看出，所谓的`ThreadLocal`变量就是保存在每个线程的map中的。这个map就是`Thread`对象中的`threadLocals`字段。
+```
+ThreadLocal.ThreadLocalMap threadLocals = null;
+```
+
+首先，在每个线程 `Thread` 内部有一个 `ThreadLocal`.`ThreadLocalMap` 类型的成员变量 `threadLocals`，这个 `threadLocals` 就是用来存储实际的变量副本的，键值为当前 `ThreadLocal` 变量，value为变量副本,即T类型的变量。
+
+初始时，在Thread里面，`threadLocals`为空，当通过`ThreadLocal`变量调用`get()`方法或者`set()`方法，就会对`Thread`类中的`threadLocals`进行初始化，并且以当前`ThreadLoca`变量为键值，以`ThreadLocal`要保存的副本变量为`value`，存到`threadLocals`。
+
+`ThreadLocal.ThreadLocalMap`是一个比较特殊的Map，它的每个`Entry的key`都是一个弱引用：
+```
+static class Entry extends WeakReference<ThreadLocal<?>> {
+    /** The value associated with this ThreadLocal. */
+    Object value;
+    //key就是一个弱引用
+    Entry(ThreadLocal<?> k, Object v) {
+        super(k);
+        value = v;
+    }
+}
+```
+这样设计的好处是，如果这个变量不再被其他对象使用时，可以自动回收这个`ThreadLoca`l对象，避免可能的[内存泄露](https://whiteppure.github.io/myblog/posts/jvm/jvm-about/#内存泄漏)。
+
+#### 内存泄漏问题
+虽然`ThreadLocalMap`中的key是弱引用，当不存在外部强引用的时候，就会自动被回收，但是`Entry`中的`value`依然是强引用。这个`value`的引用链条如下：
+```
+Thrad --> ThreadLocalMap --> Entry --> value
+```
+
+只有当`Thread`被回收时，这个`value`才有被回收的机会，否则，只要线程不退出，`value`总是会存在一个强引用。
+但是，要求每个Thread都会退出，是一个极其苛刻的要求，对于线程池来说，大部分线程会一直存在在系统的整个生命周期内，那样的话，就会造成value对象出现泄漏的可能。
+处理的方法是，在`ThreadLocalMap`进行`set()`,`get()`,`remove()`的时候，都会进行清理：
+
+以`remove()`方法为例：
+```
+// public remove
+ public void remove() {
+     ThreadLocalMap m = getMap(Thread.currentThread());
+     if (m != null)
+         m.remove(this);
+ }
+
+// private remove
+private void remove(ThreadLocal<?> key) {
+    Entry[] tab = table;
+    int len = tab.length;
+    int i = key.threadLocalHashCode & (len-1);
+    for (Entry e = tab[i];
+         e != null;
+         e = tab[i = nextIndex(i, len)]) {
+        if (e.get() == key) {
+            e.clear();
+            expungeStaleEntry(i);
+            return;
+        }
+    }
+}
+// 核心方法
+private int expungeStaleEntry(int staleSlot) {
+    Entry[] tab = table;
+    int len = tab.length;
+
+    // expunge entry at staleSlot
+    tab[staleSlot].value = null;
+    tab[staleSlot] = null;
+    size--;
+
+    // Rehash until we encounter null
+    Entry e;
+    int i;
+    for (i = nextIndex(staleSlot, len);
+         (e = tab[i]) != null;
+         i = nextIndex(i, len)) {
+        ThreadLocal<?> k = e.get();
+        if (k == null) {
+            // 将 value 赋值为 null； help gc
+            e.value = null;
+            tab[i] = null;
+            size--;
+        } else {
+            int h = k.threadLocalHashCode & (len - 1);
+            if (h != i) {
+                tab[i] = null;
+
+                // Unlike Knuth 6.4 Algorithm R, we must scan until
+                // null because multiple entries could have been stale.
+                while (tab[h] != null)
+                    h = nextIndex(h, len);
+                tab[h] = e;
+            }
+        }
+    }
+    return i;
+}
+```
+虽然`ThreadLocal`为了避免内存泄露，花了一番大心思,但是并不能100%保证不发生内存泄漏。
+
+比如，你的get()方法总是访问固定几个一直存在的`ThreadLocal`，那么清理动作就不会执行，如果你没有机会调用`set()`和`remove()`，那么这个内存泄漏依然会发生。
+所以，当你不需要这个`ThreadLoca`变量时，主动调用`remove()`，这样是能够避免内存泄漏的。
 
 
 
