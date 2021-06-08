@@ -1316,9 +1316,11 @@ Thread 4	修改是否成功false	当前最新实际版本号：3
 Thread 4	当前最新实际值：100
 ````
 
-### JUC.locks
-参考：
+### J.U.C.
+参考文章：
 - https://www.cnblogs.com/myseries/p/10784076.html
+- http://www.blogjava.net/zhanglongsr/articles/356782.html
+
 
 `java.util.concurrent.locks`包下常用的类与接口是`jdk1.5`后新增的。`lock`的出现是为了弥补`synchronized`关键字解决不了的一些问题。
 
@@ -1896,8 +1898,6 @@ private void unparkSuccessor(Node node) {
 
 **总结**
 
-- http://www.blogjava.net/zhanglongsr/articles/356782.html
-
 `ReentrantLock` 在采用非公平锁构造时，首先检查锁状态，如果锁可用，直接通过CAS设置成持有状态，且把当前线程设置为锁的拥有者。
 如果当前锁已经被持有，那么接下来进行可重入检查，如果可重入，需要为锁状态加上请求数。如果不属于上面两种情况，那么说明锁是被其他线程持有，
 当前线程应该放入等待队列。
@@ -1909,6 +1909,251 @@ private void unparkSuccessor(Node node) {
 如果当前节点之前的节点的等待状态小于1，说明当前节点之前的线程处于等待状态(挂起)，那么当前节点的线程也应处于等待状态(挂起)。
 挂起的工作是由 `LockSupport` 类支持的，`LockSupport` 通过JNI调用本地操作系统来完成挂起的任务。
 在当前等待的线程，被唤起后，检查中断状态，如果处于中断状态，那么需要中断当前线程。
+
+
+#### CountDownLatch
+`count down latch`直译为：倒计时门闩，也可以叫做闭锁。
+> 门闩，汉语词汇。拼音：mén shuān 释义：指门关上后，插在门内使门推不开的滑动插销。
+
+`CountDownLatch`JDK文档注释：
+> A synchronization aid that allows one or more threads to wait until
+>a set of operations being performed in other threads completes.
+
+大意：一种同步辅助工具，允许一个或多个线程等待，直到在其他线程中执行的一组操作完成。
+
+举个例子，晚上教室关门，要同学都离开之后，再关门：
+```
+public class MainTest {
+    public static void main(String[] args) throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(7);
+        for (int i = 0; i < 7; i++){
+            new Thread(() -> {
+                System.out.println("同学"+Thread.currentThread().getName() + "\t 离开");
+                countDownLatch.countDown();
+            },String.valueOf(i)).start();
+        }
+        countDownLatch.await();
+        System.out.println("关门...");
+    }
+}
+```
+再比如，跑步比赛，裁判的发令枪一响，参赛者就开始跑步：
+```
+public class MainTest {
+    public static void main(String[] args) throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        for (int i = 0; i < 5; i++) {
+            new Thread(() -> {
+                try {
+                    //准备完毕……运动员都阻塞在这，等待号令
+                    countDownLatch.await();
+                    String parter = "【" + Thread.currentThread().getName() + "】";
+                    System.out.println(parter + "开始执行……");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+        Thread.sleep(2000);// 裁判准备发令
+        countDownLatch.countDown();// 发令枪：执行发令
+    }
+}
+```
+`CountDownLatch`是通过一个计数器来实现的，计数器的初始值为线程的数量；
+可以通过`CountDownLatch`的构造函数，可以指定，不能小于0：
+```
+    public CountDownLatch(int count) {
+        if (count < 0) throw new IllegalArgumentException("count < 0");
+        this.sync = new Sync(count);
+    }
+```
+每次调用`countDown()`方法可以让计数器减1，底层是[AQS](#AQS)框架，这里就不写了。
+调用了`await()`进行阻塞等待的线程，当计数器减到0后，再执行`await()`之后的代码。
+
+#### CyclicBarrier
+参考文章：
+- https://developer.51cto.com/art/202104/656540.htm
+- https://blog.csdn.net/qq_38293564/article/details/80558157
+
+`Cyclic Barrier`直译为：循环屏障，是Java中关于线程的计数器，也可以叫它栅栏。
+
+它与`CountDownLatch`的作用是相反的，`CountDownLatch`是定义一个次数，然后减，直到减到0，在去执行一些任务；
+而`CyclicBarrier`是定义一个上限次数，然后从零开始加，直到加到定义的上限次数，在去执行一些任务。
+
+`CyclicBarrier`JDK文档注释：
+>A synchronization aid that allows a set of threads to all wait for
+each other to reach a common barrier point.  CyclicBarriers are
+useful in programs involving a fixed sized party of threads that
+must occasionally wait for each other. The barrier is called
+<em>cyclic</em> because it can be re-used after the waiting threads
+are released.
+
+大意：一种同步辅助工具，允许一组线程相互等待到达一个共同的障碍点。`cyclicbarrier`在包含固定大小的线程组的程序中非常有用，这些线程必须偶尔相互等待。
+这个屏障被称为`cyclic·`，因为它可以在等待的线程被释放后被重用。
+
+它要做的事情是，让一组线程达到一个屏障（同步点）时被阻塞，直到最后一个线程达到屏障时，所有被屏障拦截的线程才会继续干活线程进入屏障通过`CyclicBarrier.await()`方法。
+ 
+简单说就是让一组线程相互等待，当达到一个共同点时，所有之前等待的线程再继续执行，且 `CyclicBarrier` 功能可重复使用。
+
+![CyclicBarrier](/myblog/posts/images/essays/CyclicBarrier.gif)
+
+例如，凑齐七颗龙珠召唤神龙：
+```
+public class MainTest {
+    public static void main(String[] args) {
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(7,() -> {
+            System.out.println("凑齐七颗龙珠，召唤神龙！");
+        });
+        for (int i = 1; i <= 7;i++){
+            new Thread(() -> {
+                System.out.println("拿到"+Thread.currentThread().getName() + "星龙珠");
+                try {
+                    cyclicBarrier.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    e.printStackTrace();
+                }
+            },String.valueOf(i)).start();
+        }
+    }
+}
+```
+`CyclicBarrier`原理简单说明：
+
+`CyclicBarrier` 是基于 [ReentrantLock](#ReentrantLock原理) 实现的，其底层也是基于 [AQS](#AQS) 的。
+
+在 `CyclicBarrier` 类的内部有一个计数器 `count`，当 `count` 不为 0 时，每个线程在到达屏障点会先调用 `await` 方法将自己阻塞，此时计数器会减 1，直到计数器减为 0 的时候，所有因调用 `await` 方法而被阻塞的线程就会被唤醒继续执行。
+当 `count` 计数器变成 0 之后，就会进入下一轮阻塞，此时 `parties`(`parties` 是在 `new CyclicBarrier(parties)` 时设置的值)会将它的值赋值给 `count` 从而实现复用。
+
+
+`CyclicBarrier`内部使用了`ReentrantLock`和`Condition`两个类。它有两个构造函数：
+```
+public CyclicBarrier(int parties) {
+    this(parties, null);
+}
+ 
+public CyclicBarrier(int parties, Runnable barrierAction) {
+    if (parties <= 0) throw new IllegalArgumentException();
+    this.parties = parties;
+    this.count = parties;
+    this.barrierCommand = barrierAction;
+}
+```
+调用`await`方法的线程告诉`CyclicBarrier`已经到达同步点，然后当前线程被阻塞。
+直到达到定义上限个数的线程都到达了屏障；
+
+参与线程调用了`await`方法，`CyclicBarrier`同样提供带超时时间的`await`和不带超时时间的await方法：
+```
+public int await() throws InterruptedException, BrokenBarrierException {
+    try {
+        // 不超时等待
+        return dowait(false, 0L);
+    } catch (TimeoutException toe) {
+        throw new Error(toe); // cannot happen
+    }
+}
+
+public int await(long timeout, TimeUnit unit)
+    throws InterruptedException,
+            BrokenBarrierException,
+            TimeoutException {
+    return dowait(true, unit.toNanos(timeout));
+}
+
+```
+这两个方法最终都会调用`dowait(boolean, long)`方法，它也是`CyclicBarrier`的核心方法：
+```
+private int dowait(boolean timed, long nanos)
+    throws InterruptedException, BrokenBarrierException,
+            TimeoutException {
+    // 获取独占锁
+    final ReentrantLock lock = this.lock;
+    lock.lock();
+    try {
+        // 当前代
+        final Generation g = generation;
+        // 如果这代损坏了，抛出异常
+        if (g.broken)
+            throw new BrokenBarrierException();
+ 
+        // 如果线程中断了，抛出异常
+        if (Thread.interrupted()) {
+            // 将损坏状态设置为true
+            // 并通知其他阻塞在此栅栏上的线程
+            breakBarrier();
+            throw new InterruptedException();
+        }
+ 
+        // 获取下标
+        int index = --count;
+        // 如果是 0，说明最后一个线程调用了该方法
+        if (index == 0) {  // tripped
+            boolean ranAction = false;
+            try {
+                final Runnable command = barrierCommand;
+                // 执行栅栏任务
+                if (command != null)
+                    command.run();
+                ranAction = true;
+                // 更新一代，将count重置，将generation重置
+                // 唤醒之前等待的线程
+                nextGeneration();
+                return 0;
+            } finally {
+                // 如果执行栅栏任务的时候失败了，就将损坏状态设置为true
+                if (!ranAction)
+                    breakBarrier();
+            }
+        }
+ 
+        // loop until tripped, broken, interrupted, or timed out
+        for (;;) {
+            try {
+                 // 如果没有时间限制，则直接等待，直到被唤醒
+                if (!timed)
+                    trip.await();
+                // 如果有时间限制，则等待指定时间
+                else if (nanos > 0L)
+                    nanos = trip.awaitNanos(nanos);
+            } catch (InterruptedException ie) {
+                // 当前代没有损坏
+                if (g == generation && ! g.broken) {
+                    // 让栅栏失效
+                    breakBarrier();
+                    throw ie;
+                } else {
+                    // 上面条件不满足，说明这个线程不是这代的
+                    // 就不会影响当前这代栅栏的执行，所以，就打个中断标记
+                    Thread.currentThread().interrupt();
+                }
+            }
+ 
+            // 当有任何一个线程中断了，就会调用breakBarrier方法
+            // 就会唤醒其他的线程，其他线程醒来后，也要抛出异常
+            if (g.broken)
+                throw new BrokenBarrierException();
+ 
+            // g != generation表示正常换代了，返回当前线程所在栅栏的下标
+            // 如果 g == generation，说明还没有换代，那为什么会醒了？
+            // 因为一个线程可以使用多个栅栏，当别的栅栏唤醒了这个线程，就会走到这里，所以需要判断是否是当前代。
+            // 正是因为这个原因，才需要generation来保证正确。
+            if (g != generation)
+                return index;
+            
+            // 如果有时间限制，且时间小于等于0，销毁栅栏并抛出异常
+            if (timed && nanos <= 0L) {
+                breakBarrier();
+                throw new TimeoutException();
+            }
+        }
+    } finally {
+        // 释放独占锁
+        lock.unlock();
+    }
+}
+```
+
+
+#### Semaphore
 
 
 ### synchronized
@@ -2507,8 +2752,7 @@ public class MainTest {
 
 通过上面的代码，可以发现`ThreadLocal`是跨越几个方法的。为了在几个函数之间共用一个变量，所以才出现：线程变量，这种变量在Java中就是`ThreadLocal`变量。
 
-`ThreadLocal`是跨函数的，虽然全局变量也是跨函数的，但是跨所有的函数，而且不是动态的。
-`ThreadLocal`是跨函数的，跨哪些函数是由线程来定的，所以更灵活。
+`ThreadLocal`是跨函数的，虽然全局变量也是跨函数的，但是跨所有的函数，而且不是动态的。跨哪些函数是由线程来定的，所以更灵活。
 
 总之，`ThreadLocal`类是修饰变量的，是在控制它的作用域，是为了增加变量的种类而已，这才是`ThreadLocal`类诞生的初衷，它的初衷可不是解决线程冲突的。
 
@@ -2522,7 +2766,9 @@ public class MainTest {
 总之，线程安全，并不一定就是要进行同步，`ThreadLocal`目的是线程安全，但不是同步手段。
 
 `ThreadLocal`和线程同步机制都可以解决多线程中共享变量的访问冲突问题。
+
 在同步机制中，通过对象的锁机制保证同一时间只有一个线程访问变量。使用同步机制要求程序慎密地分析什么时候对变量进行读写，什么时候需要锁定某个对象，什么时候释放对象锁等繁杂的问题，程序设计和编写难度相对较大。
+
 而`ThreadLocal` 则从另一个角度来解决多线程的并发访问。`ThreadLocal` 会为每一个线程提供一个独立的变量副本，从而隔离了多个线程对数据的访问冲突。因为每一个线程都拥有自己的变量副本，从而也就没有必要对该变量进行同步了。
 `ThreadLocal` 提供了线程安全的共享对象，在编写多线程代码时，可以把不安全的变量封装进 `ThreadLocal`。
 
@@ -2694,7 +2940,7 @@ private int expungeStaleEntry(int staleSlot) {
 | HashMap    | 使用HashTable、Collections.synchronizedMap、ConcurrentHashMap |
 
 ### ArrayList线程不安全
-`ArrayList`线程不安全代码演示
+`ArrayList`线程不安全代码演示        
 ```
 public class MainTest {
     public static void main(String[] args) {
