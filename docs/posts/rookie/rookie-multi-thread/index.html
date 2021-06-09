@@ -2465,7 +2465,7 @@ class ThreadDemo extends Thread {
 }
 </code></pre><h3 id="callable接口">Callable接口</h3>
 <p>通过实现 <code>Callable</code>接口，来创建一个带有返回值的线程。</p>
-<p>在Callable执行完之前的这段时间，主线程可以先去做一些其他的事情，事情都做完之后，再获取Callable的返回结果。可以通过isDone()来判断子线程是否执行完。</p>
+<p><code>在Callable</code> 执行完之前的这段时间，主线程可以先去做一些其他的事情，事情都做完之后，再获取 <code>Callable</code> 的返回结果。可以通过<code>isDone()</code>来判断子线程是否执行完。</p>
 <pre><code>public class MainTest {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         FutureTask&lt;String&gt; futureTask = new FutureTask&lt;&gt;(() -&gt; {
@@ -2941,7 +2941,7 @@ CAS操作来加锁和解锁，而只需简单的测试一下对象头的 <code>M
 <p>轻量级锁不是在任何情况下都比重量级锁快的，要看同步块执行期间有没有多个线程抢占资源的情况。
 如果有，那么轻量级线程要承担 CAS + 互斥锁的性能消耗，就会比重量锁执行的更慢。</p>
 <h3 id="可中断锁">可中断锁</h3>
-<p>顾名思义，就是可以相应中断的锁。</p>
+<p>顾名思义，就是可以中断的锁。</p>
 <p>如果某一线程A正在执行锁中的代码，另一线程B正在等待获取该锁，可能由于等待时间过长，线程B不想等待了，想先处理其他事情，我们可以让它中断自己或者在别的线程中中断它，这种就是可中断锁。</p>
 <p>在Java中<code>synchronized</code>就是不可中断锁，<code>Lock</code>是可中断锁。</p>
 <h3 id="互斥锁">互斥锁</h3>
@@ -3624,7 +3624,7 @@ class MyCache {
 <li>使用<code>Object</code>中的<code>wait()</code>方法让线程等待,使用<code>Object</code>中的<code>notify</code>方法唤醒线程</li>
 <li>使用JUC包中<code>Condition</code>的<code>await()</code>方法让线程等待,使用<code>signal()</code>方法唤醒线程</li>
 </ol>
-<p>弊端：</p>
+<p>传统等待唤醒机制的弊端：</p>
 <ul>
 <li><code>wait</code>和<code>notify</code>/<code>await()</code>和<code>signal()</code>方法必须要在同步块或同步方法里且成对出现使用,如果没有在<code>synchronized</code>代码块使用则抛出<code>java.lang.IllegalMonitorStateException</code>;</li>
 <li>必须先<code>wait</code>/<code>await()</code>后<code>notify</code>/<code>signal()</code>，如果先<code>notify</code>后<code>wait</code>会出现另一个线程一直处于等待状态；</li>
@@ -3688,19 +3688,19 @@ class MyCache {
 同步，面向锁的使用者，定义了程序员和锁交互的使用层API；
 同步器，面向锁的实现者，统一规范，实现锁 自定义等待唤醒机制等等；</p>
 </blockquote>
-<p>AQS是用来构建锁或者其它同步器组件的重量级基础框架及整个JUC体系的基石，通过内置的CLH(FIFO)队列的变种来完成资源获取线程的排队工作；
-将每条将要去抢占资源的线程封装成一个Node节点来实现锁的分配，有一个int类变量表示持有锁的状态,通过CAS完成对status值的修改。</p>
+<p>AQS是用来构建锁或者其它同步器组件的重量级基础框架及整个JUC体系的基石，通过内置的<code>CLH(FIFO)</code>队列的变种来完成资源获取线程的排队工作；
+将每条将要去抢占资源的线程封装成一个<code>Node</code>节点来实现锁的分配，有一个<code>int</code>类变量表示持有锁的状态,通过CAS完成对<code>status</code>值的修改。</p>
 <p><img src="/myblog/posts/images/essays/AQS.png" alt="AQS"></p>
 <p>在多线程并发环境下，使用lock加锁，当处在加锁与解锁之间的代码，只能有一个线程来执行；这时候其他线程不能够获取锁，如果不处理线程就会造成了堵塞；
 在AQS框架中，会将暂时获取不到锁的线程加入到队列里，这个队列就是AQS的抽象表现。它会将这些线程封装成队列的结点，通过CAS、自旋以及<code>LockSuport.park()</code>的方式，维护<code>state</code>变量的状态，使并发达到同步的效果。</p>
 <p>AQS中的队列，是指CLH队列（Craig, Landin, and Hagerste[三个人名组成]）锁队列的变体，是一个双向队列。
-队列中的元素即Node结点，每个Node中包含：头结点、尾结点、等待状态、存放的线程等；Node遵循从尾部入队，从头部出队的规则，即先进先出原则。</p>
+队列中的元素即<code>Node</code>结点，每个<code>Node</code>中包含：头结点、尾结点、等待状态、存放的线程等；<code>Node</code>遵循从尾部入队，从头部出队的规则，即先进先出原则。</p>
 <blockquote>
 <p>详细可查看 java.util.concurrent.locks; 包下 AbstractQueuedSynchronizer 类。</p>
 </blockquote>
 <p>AQS可以理解为一个框架，因为它定义了一些JUC包下常用&quot;锁&quot;的标准。
 AQS简单来说，包含一个<code>status</code>和一个队列；<code>status</code>保存线程持有锁的状态，用于判断该线程获没获取到锁，没获取到锁就去队列中排队。
-队列是由Node结点构成，每个Node结点里面主要包含一个<code>waitStatus</code>和保存的线程。</p>
+队列是由<code>Node</code>结点构成，每个<code>Node</code>结点里面主要包含一个<code>waitStatus</code>和保存的线程。</p>
 <p><img src="/myblog/posts/images/essays/AQS%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3.png" alt="AQS简单理解"></p>
 <h4 id="reentrantlock原理">ReentrantLock原理</h4>
 <p><code>ReentrantLock</code>译为，可重入锁，它的原理用到了AQS。</p>
@@ -3829,7 +3829,7 @@ AQS简单来说，包含一个<code>status</code>和一个队列；<code>status<
 </code></pre><p>在重写的<code>tryAcquire</code>方法里，公平锁在获取同步状态时多了一个限制条件:<code>hasQueuedPredecessors()</code> ;
 该方法作用：保证等待队列中的线程按照从头到尾的顺序排队获取锁。</p>
 <p>举个例子，目前队列中有两个线程A、B，线程A，在线程B的前面；在当前线程释放锁的时候，线程B获取到了锁，该方法会判断当前头结点的下一个结点中存放的线程如果跟当前线程相不相同；
-在这里头结点的下一个结点存放的线程是傀儡结点线程为null，而当前线程是线程B，所以返回true，回到上一个方法true取反就是false，则获取锁失败。</p>
+在这里头结点的下一个结点存放的线程是傀儡结点线程为<code>null</code>，而当前线程是线程B，所以返回<code>true</code>，回到上一个方法<code>true</code>取反就是<code>false</code>，则获取锁失败。</p>
 <pre><code>    public final boolean hasQueuedPredecessors() {
         // The correctness of this depends on head being initialized
         // before tail and on head.next being accurate if the current
@@ -4039,6 +4039,9 @@ a set of operations being performed in other threads completes.</p>
 <p><code>Cyclic Barrier</code>直译为：循环屏障，是Java中关于线程的计数器，也可以叫它栅栏。</p>
 <p>它与<code>CountDownLatch</code>的作用是相反的，<code>CountDownLatch</code>是定义一个次数，然后减，直到减到0，在去执行一些任务；
 而<code>CyclicBarrier</code>是定义一个上限次数，然后从零开始加，直到加到定义的上限次数，在去执行一些任务。</p>
+<blockquote>
+<p>CyclicBarrier与CountDownLatch作用是相反的，CountDownLatch的计数器只能使用一次，而CyclicBarrier的计数器可以使用reset()方法重置，可以使用多次，所以CyclicBarrier能够处理更为复杂的场景。</p>
+</blockquote>
 <p><code>CyclicBarrier</code>JDK文档注释：</p>
 <blockquote>
 <p>A synchronization aid that allows a set of threads to all wait for
@@ -4088,7 +4091,7 @@ public CyclicBarrier(int parties, Runnable barrierAction) {
 }
 </code></pre><p>调用<code>await</code>方法的线程告诉<code>CyclicBarrier</code>已经到达同步点，然后当前线程被阻塞。
 直到达到定义上限个数的线程都到达了屏障；</p>
-<p>参与线程调用了<code>await</code>方法，<code>CyclicBarrier</code>同样提供带超时时间的<code>await</code>和不带超时时间的await方法：</p>
+<p>参与线程调用了<code>await</code>方法，<code>CyclicBarrier</code>同样提供带超时时间的<code>await</code>和不带超时时间的<code>await</code>方法：</p>
 <pre><code>public int await() throws InterruptedException, BrokenBarrierException {
     try {
         // 不超时等待
@@ -4194,7 +4197,82 @@ public int await(long timeout, TimeUnit unit)
         lock.unlock();
     }
 }
-</code></pre><h4 id="semaphore">Semaphore</h4>
+</code></pre><p><code>dowait</code>方法作用，如果该线程不是最后一个调用<code>await</code>方法的线程，则它会一直处于等待状态，除非发生以下情况：</p>
+<ul>
+<li>最后一个线程到达，即<code>index == 0</code>;</li>
+<li>某个参与线程等待超时;</li>
+<li>某个参与线程被中断;</li>
+<li>调用了<code>CyclicBarrier的reset()</code>方法。该方法会将屏障重置为初始状态;</li>
+</ul>
+<h4 id="semaphore">Semaphore</h4>
+<p>参考文章：</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/98593407">https://zhuanlan.zhihu.com/p/98593407</a></li>
+<li><a href="https://blog.csdn.net/zbc1090549839/article/details/53389602">https://blog.csdn.net/zbc1090549839/article/details/53389602</a></li>
+</ul>
+<p><code>Semaphore</code>译为信号量,有时被称为信号灯。可以用来控制同时访问特定资源的线程数量，通过协调各个线程，以保证合理的使用资源。</p>
+<blockquote>
+<p>信号量主要用于两个目的，一个是用于多个共享资源的互斥使用，另一个用于并发线程数量的控制。</p>
+</blockquote>
+<p><code>Semaphore</code>JDK文档注释：</p>
+<blockquote>
+<p>A counting semaphore.  Conceptually, a semaphore maintains a set of permits.<br>
+Each {@link #acquire} blocks if necessary until a permit is available, and then takes it.<br>
+Each {@link #release} adds a permit, potentially releasing a blocking acquirer.</p>
+</blockquote>
+<p>大意：计数信号量。从概念上讲，信号量维护一组许可。如果需要，每个<code>{@link #acquire}</code>块，直到有一个许可可用，然后获取它。
+每个<code>{@link #release}</code>添加一个许可，可能释放一个阻塞的获取者。
+但是，没有实际的permit对象被使用;<code>{@code Semaphore}</code>只保留可用数量的计数，并相应地执行操作。</p>
+<p>简单理解，使用<code>acquire</code>方法获取一个令牌(许可)，进入堵塞状态，使用<code>release</code>方法则释放一个令牌(许可)唤醒一个堵塞的线程。</p>
+<p>举个例子，抢车位，九辆车抢三个车位,车位满了之后只有等里面的车离开停车场外面的车才可以进入:</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        
+        Semaphore semaphore = new Semaphore(3);
+        
+        for (int i = 1; i &lt;= 9; i++) {
+            new Thread(() -&gt; {
+                try {
+                    semaphore.acquire();
+                    System.out.println(&quot;第&quot; + Thread.currentThread().getName() + &quot;辆车，抢到车位&quot;);
+                    Thread.sleep(2000);
+                    System.out.println(&quot;停车结束.&quot;);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }finally {
+                    semaphore.release();
+                }
+            }, String.valueOf(i)).start();
+        }
+        
+    }
+}
+</code></pre><p><code>Semaphore</code>有两个构造方法，可以通过其中一个构造方法来指定锁的类型，是公平锁还是非公平锁：</p>
+<pre><code>    // 设置令牌（许可）数量
+    public Semaphore(int permits) {
+        sync = new NonfairSync(permits);
+    }
+
+    // 可以设置锁的类型，是否是公平锁
+    public Semaphore(int permits, boolean fair) {
+        sync = fair ? new FairSync(permits) : new NonfairSync(permits);
+    }
+</code></pre><p><code>Semaphore</code>的底层也用到了<a href="#AQS">AQS</a>。</p>
+<p><code>Semaphore</code> 是用来保护一个或者多个共享资源的访问，<code>Semaphore</code> 内部维护了一个计数器，其值为可以访问的共享资源的个数。
+一个线程要访问共享资源，先获得信号量，如果信号量的计数器值大于1，意味着有共享资源可以访问，则使其计数器值减去1，再访问共享资源。</p>
+<p>如果计数器值为0,线程进入休眠。当某个线程使用完共享资源后，释放信号量，并将信号量内部的计数器加1，之前进入休眠的线程将被唤醒并再次试图获得信号量。</p>
+<p>当调用<code>semaphore.acquire()</code>方法时:</p>
+<ul>
+<li>当前线程会尝试去同步队列获取一个令牌，获取令牌的过程也就是使用原子操作去修改同步队列的<code>state</code> ,获取一个令牌则修改为<code>state=state-1</code>;</li>
+<li>当计算出来的<code>state&lt;0</code>，则代表令牌数量不足，此时会创建一个<code>Node</code>节点加入阻塞队列，挂起当前线程;</li>
+<li>当计算出来的<code>state&gt;=0</code>，则代表获取令牌成功;</li>
+</ul>
+<p>当调用<code>semaphore.release()</code>方法时:</p>
+<ul>
+<li>线程会尝试释放一个令牌，释放令牌的过程也就是把同步队列的<code>state</code>修改为<code>state=state+1</code>的过程;</li>
+<li>释放令牌成功之后，同时会唤醒同步队列中的一个线程;</li>
+<li>被唤醒的节点会重新尝试去修改<code>state=state-1</code>的操作，如果<code>state&gt;=0</code>则获取令牌成功，否则重新进入阻塞队列，挂起线程;</li>
+</ul>
 <h3 id="synchronized">synchronized</h3>
 <p><code>synchronized</code>是Java提供的关键字，可译为同步。可用来给对象、方法或者代码块加锁，当它锁定一个方法或者一个代码块的时候，同一时刻最多只有一个线程执行这段代码。</p>
 <blockquote>
@@ -4549,11 +4627,11 @@ Java的线程是映射到操作系统原生线程之上的，如果要阻塞或�
 </blockquote>
 <p>所以，在JDK1.6中出现对锁进行了很多的优化，进而出现轻量级锁，偏向锁，锁消除，适应性自旋锁，锁粗化。</p>
 <h4 id="锁的升级httpsossstupidzhangcomimgblog锁升级过程png"><a href="https://oss.stupidzhang.com/img/blog/%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B.png">锁的升级</a></h4>
-<p>参考：</p>
+<p>参考文章：</p>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/290991898">https://zhuanlan.zhihu.com/p/290991898</a></li>
 <li><a href="https://blog.csdn.net/choukekai/article/details/63688332">https://blog.csdn.net/choukekai/article/details/63688332</a></li>
-<li><a href="https://blog.csdn.net/zqz_zqz/article/details/70233767?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control">https://blog.csdn.net/zqz_zqz/article/details/70233767?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control</a></li>
+<li><a href="https://blog.csdn.net/zqz_zqz/article/details/70233767">https://blog.csdn.net/zqz_zqz/article/details/70233767</a></li>
 </ul>
 <p>在JDK1.6之前，使用<code>synchronized</code>被称作重量级锁，重量级锁的实现是基于底层操作系统的<code>mutex</code>互斥原语的，这个开销是很大的。所以在JDK1.6时JVM对<code>synchronized</code>做了优化。</p>
 <p>对象头中<code>markword</code>锁状态的表示：</p>
