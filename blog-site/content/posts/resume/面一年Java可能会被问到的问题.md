@@ -10,9 +10,7 @@ slug: "Interview-Junior-Javaer"
 
 ## Spring中@Autowired、@Resource和@Qualify
 
-## Spring中AOP
-
-## Spring中IOC
+## Spring中AOP、IOC
 
 ## 为什么项目中要用MQ
 
@@ -22,12 +20,12 @@ slug: "Interview-Junior-Javaer"
 
 ## Redis如何保证持久化
 
-## 结合具体项目提问
-
 ## SQL优化思路
 
 ## 工厂、单例、代理、模板、适配器、策略设计模式
 
 ## 简述一下JVM内存模型
+
+## 结合简历上的项目提问
 
 

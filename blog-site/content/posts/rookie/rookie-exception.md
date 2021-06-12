@@ -408,3 +408,4 @@ try {
 在上面的例子中，如果`someMethod()`抛出一个异常，并且在`finally`块中，`cleanUp()`也抛出一个异常，那么初始的`exception`(正确的错误异常)将永远丢失。
 
 但是，如果你不想处理`someMethod()`中的异常，但是仍然需要做一些清理工作，那么在`finally`块中进行清理。不要使用`catch`块。
+

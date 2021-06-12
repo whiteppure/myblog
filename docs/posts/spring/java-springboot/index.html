@@ -91,8 +91,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#springbootapplication">
-                    @SpringBootApplication
+                <a class="nav-link text-left" href="#springbootapplication%e5%8e%9f%e7%90%86">
+                    @SpringBootApplication原理
                 </a>
             </li>
             
@@ -199,8 +199,8 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e8%87%aa%e5%8a%a8%e8%a3%85%e9%85%8d">
-                    自动装配
+                <a class="nav-link text-left" href="#bean%e7%9a%84%e8%87%aa%e5%8a%a8%e8%a3%85%e9%85%8d">
+                    Bean的自动装配
                 </a>
             </li>
             
@@ -392,6 +392,174 @@
         
         
         
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#bean%e7%9a%84%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f">
+                    Bean的生命周期
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%b3%a8%e5%85%a5bean">
+                    注入Bean
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#initializingbeandisposablebean">
+                    InitializingBean、DisposableBean
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#postconstructpredestroy">
+                    @PostConstruct、@PreDestroy
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#beanpostprocessor">
+                    BeanPostProcessor
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e5%8e%9f%e7%90%86-1">
+                    原理
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
 
     </div>
 
@@ -465,40 +633,28 @@
 <code>maven</code> 或者 <code>gradle</code> 项目导入相应依赖即可使用 <code>SpringBoot</code>，而无需自行管理这些类库的版本。</p>
 <p>特点：</p>
 <ul>
-<li>
-<p>独立运行的 <code>Spring</code> 项目<br>
-<code>SpringBoot</code> 可以以 jar 包的形式独立运行，运行一个 <code>SpringBoot</code> 项目只需通过 <code>java–jar xx.jar</code> 来运行。</p>
-</li>
-<li>
-<p>内嵌 Servlet 容器<br>
-<code>SpringBoot</code> 可选择内嵌 <code>Tomcat</code>、<code>Jetty</code> 或者 <code>Undertow</code>，这样我们无须以 <code>war</code> 包形式部署项目。</p>
-</li>
-<li>
-<p>提供 <code>starter</code> 简化 <code>Maven</code> 配置<br>
-<code>Spring</code> 提供了一系列的 <code>starter</code> pom 来简化 <code>Maven</code> 的依赖加载，例如，当你使用了<code>spring-boot-starter-web</code> 时，会自动加入依赖包。</p>
-</li>
-<li>
-<p>自动配置 <code>Spring</code><br>
-<code>SpringBoot</code> 会根据在类路径中的 jar 包、类，为 jar 包里的类自动配置 Bean，这样会极大地减少我们要使用的配置。当然，<code>SpringBoot</code> 只是考虑了大多数的开发场景，并不是所有的场景，若在实际开发中我们需要自动配置 <code>Bean</code>，而 <code>SpringBoot</code> 没有提供支持，则可以自定义自动配置。</p>
-</li>
-<li>
-<p>准生产的应用监控<br>
-<code>SpringBoot</code> 提供基于 <code>http、ssh、telnet</code> 对运行时的项目进行监控。</p>
-</li>
-<li>
-<p>无代码生成和 xml 配置<br>
-<code>SpringBoot</code> 的神奇的不是借助于代码生成来实现的，而是通过条件注解来实现的，这是 <code>Spring 4.x</code> 提供的新特性。<code>Spring 4.x</code> 提倡使用 Java 配置和注解配置组合，而 <code>SpringBoot</code> 不需要任何 xml 配置即可实现 <code>Spring</code> 的所有配置。</p>
-</li>
+<li>独立运行的 <code>Spring</code> 项目：<br>
+<code>SpringBoot</code> 可以以 jar 包的形式独立运行，运行一个 <code>SpringBoot</code> 项目只需通过 <code>java–jar xx.jar</code> 来运行。</li>
+<li>内嵌 <code>Servlet</code> 容器：<br>
+<code>SpringBoot</code> 可选择内嵌 <code>Tomcat</code>、<code>Jetty</code> 或者 <code>Undertow</code>，这样我们无须以 <code>war</code> 包形式部署项目。</li>
+<li>提供 <code>starter</code> 简化 <code>Maven</code> 配置：<br>
+<code>Spring</code> 提供了一系列的 <code>starter</code> pom 来简化 <code>Maven</code> 的依赖加载，例如，当你使用了<code>spring-boot-starter-web</code> 时，会自动加入依赖包。</li>
+<li>自动配置 <code>Spring</code>：<br>
+<code>SpringBoot</code> 会根据在类路径中的 jar 包、类，为 jar 包里的类自动配置 Bean，这样会极大地减少我们要使用的配置。当然，<code>SpringBoot</code> 只是考虑了大多数的开发场景，并不是所有的场景，若在实际开发中我们需要自动配置 <code>Bean</code>，而 <code>SpringBoot</code> 没有提供支持，则可以自定义自动配置。</li>
+<li>准生产的应用监控：<br>
+<code>SpringBoot</code> 提供基于 <code>http、ssh、telnet</code> 对运行时的项目进行监控。</li>
+<li>无代码生成和 xml 配置：<br>
+<code>SpringBoot</code> 的神奇的不是借助于代码生成来实现的，而是通过条件注解来实现的，这是 <code>Spring 4.x</code> 提供的新特性。<code>Spring 4.x</code> 提倡使用 Java 配置和注解配置组合，而 <code>SpringBoot</code> 不需要任何 xml 配置即可实现 <code>Spring</code> 的所有配置。</li>
 </ul>
-<h2 id="springbootapplication">@SpringBootApplication</h2>
-<p>这个注解在启动类上</p>
+<h2 id="springbootapplication原理">@SpringBootApplication原理</h2>
+<p><code>@SpringBootApplication</code>这个注解通常标注在启动类上：</p>
 <pre><code>@SpringBootApplication
 public class SpringBootExampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootExampleApplication.class, args);
     }
 }
-</code></pre><p><code>@SpringBootApplication</code>是一个复合注解，由其他注解构成。核心注解是<code>@SpringBootConfiguration</code>和<code>@EnableAutoConfiguration</code></p>
+</code></pre><p><code>@SpringBootApplication</code>是一个复合注解，即由其他注解构成。核心注解是<code>@SpringBootConfiguration</code>和<code>@EnableAutoConfiguration</code></p>
 <pre><code>@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -613,14 +769,14 @@ public @interface EnableAutoConfiguration {
 public class SpringApplicationAdminJmxAutoConfiguration 
 </code></pre><h3 id="总结">总结</h3>
 <p><img src="/myblog/posts/images/essays/@SpringbootApplication%E5%8E%9F%E7%90%86.png" alt="@SpringbootApplication原理"></p>
-<p>当Springboot启动的时候，会执行<code>AutoConfigurationImportSelector</code>这个类中的<code>getCandidateConfigurations</code>方法，这个方法会帮我们加载<code>META-INF/spring.factories</code>文件里面的当<code>@ConditionXXX</code>注解条件满足的类。</p>
-<h2 id="自动装配">自动装配</h2>
+<p>当 <code>Springboot</code> 启动的时候，会执行<code>AutoConfigurationImportSelector</code>这个类中的<code>getCandidateConfigurations</code>方法，这个方法会帮我们加载<code>META-INF/spring.factories</code>文件里面的当<code>@ConditionXXX</code>注解条件满足的类。</p>
+<h2 id="bean的自动装配">Bean的自动装配</h2>
 <p><code>Spring</code>利用依赖注入（DI），完成对IOC容器中各个组件的依赖关系赋值。</p>
-<p>Spring提供三种装配方式：</p>
+<p><code>Spring</code>提供三种装配方式：</p>
 <ul>
 <li>基于注解的自动装配</li>
-<li>基于XML配置的显式装配</li>
-<li>基于Java配置的显式装配</li>
+<li>基于 XML 配置的显式装配</li>
+<li>基于 Java 配置的显式装配</li>
 </ul>
 <p>详细本篇博客，详细介绍基于注解的自动装配</p>
 <table>
@@ -1172,6 +1328,223 @@ class TestService implements ApplicationContextAware, EmbeddedValueResolverAware
 }
 </code></pre><p>关于这些<code>Aware</code>都是使用<code>AwareProcessor</code>进行处理的；
 比如:<code>ApplicationContextAwareProcessor</code>就是处理<code>ApplicationContextAware</code>接口的。</p>
+<h2 id="bean的生命周期">Bean的生命周期</h2>
+<p><code>Bean</code>的生命周期，即<code>Bean</code>的创建-&gt;初始化-&gt;销毁的过程。</p>
+<h3 id="注入bean">注入Bean</h3>
+<p>我们可以使用 xml 配置的方式来指定，<code>bean</code> 在初始化、销毁的时候调用对应的方法：</p>
+<pre><code>&lt;bean id=&quot;getDemoEntity&quot; class=&quot;com.my.demo&quot; init-method=&quot;init&quot; destroy-method=&quot;destroy&quot; /&gt;
+</code></pre><p>也可以使用注解的方式，来调用bean在初始化、销毁的时候调用对应的方法：</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        // 获取Spring IOC容器
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(DemoConfiguration.class);
+        System.out.println(&quot;容器初始化完成...&quot;);
+
+        annotationConfigApplicationContext.close();
+        System.out.println(&quot;容器销毁了...&quot;);
+    }
+}
+
+@Configuration
+class DemoConfiguration {
+    @Bean(initMethod = &quot;init&quot;, destroyMethod = &quot;destroy&quot;)
+    public DemoEntity getDemoEntity() {
+        return new DemoEntity();
+    }
+}
+
+class DemoEntity {
+    public DemoEntity(){
+        System.out.println(&quot;调用了构造器...&quot;);
+    }
+
+    public void init(){
+        System.out.println(&quot;调用了初始化方法...&quot;);
+    }
+
+    public void destroy(){
+        System.out.println(&quot;调用了销毁方法...&quot;);
+    }
+}
+</code></pre><p>需要注意的是，上面演示的是单实例 <code>bean</code>，如果是多实例 <code>bean</code>，初始化和销毁会不一样。</p>
+<p>单实例 <code>bean</code>：</p>
+<ul>
+<li>在容器启动的时候创建对象；</li>
+<li>在容器关闭的时候销毁；</li>
+</ul>
+<p>多实例 <code>bean</code>：</p>
+<ul>
+<li>在每次获取bean的时候创建对象；</li>
+<li>容器不会自动帮你处理，需要手动销毁 <code>bean</code>；</li>
+</ul>
+<p>多实例注解代码：</p>
+<pre><code>@Scope(&quot;prototype&quot;)
+@Bean(initMethod=&quot;init&quot;,destroyMethod=&quot;destroy&quot;)
+public Test test（）{}
+</code></pre><h3 id="initializingbeandisposablebean">InitializingBean、DisposableBean</h3>
+<p>通过让<code>Bean</code>实现 <code>InitializingBean</code>(定义初始化逻辑)和实现<code>DisposableBean</code>(销毁逻辑)实现初始化<code>bean</code>和销毁<code>bean</code>:</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        // 获取Spring IOC容器
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(DemoEntity.class);
+        System.out.println(&quot;容器初始化完成...&quot;);
+
+        annotationConfigApplicationContext.close();
+        System.out.println(&quot;容器销毁了...&quot;);
+    }
+}
+
+@Component
+class DemoEntity implements InitializingBean, DisposableBean {
+    public DemoEntity(){
+        System.out.println(&quot;调用了构造器...&quot;);
+    }
+
+    @Override
+    public void destroy(){
+        System.out.println(&quot;调用了销毁方法...&quot;);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println(&quot;调用了初始化方法...&quot;);
+    }
+}
+</code></pre><h3 id="postconstructpredestroy">@PostConstruct、@PreDestroy</h3>
+<p>Java提供了对应的注解，也可以调用<code>Bean</code>的初始化方法和销毁方法：</p>
+<ul>
+<li><code>@PostConstruct</code> 标注该注解的方法，在<code>bean</code>创建完成并且属性赋值完成 来执行初始化方法;</li>
+<li><code>@PreDestroy</code>， 在容器销毁<code>bean</code>之前通知我们进行<code>bean</code>的清理工作;</li>
+</ul>
+<p>这两个注解不是<code>spring</code>的注解是<code>JSR250</code>JDK带的注解。</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        // 获取Spring IOC容器
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(DemoEntity.class);
+        System.out.println(&quot;容器初始化完成...&quot;);
+
+        annotationConfigApplicationContext.close();
+        System.out.println(&quot;容器销毁了...&quot;);
+    }
+}
+
+@Component
+class DemoEntity  {
+    public DemoEntity(){
+        System.out.println(&quot;调用了构造器...&quot;);
+    }
+
+    // 销毁之前调用
+    @PreDestroy
+    public void destroy(){
+        System.out.println(&quot;调用了销毁方法...&quot;);
+    }
+
+    // 对象创建并赋值之后调用
+    @PostConstruct
+    public void init() {
+        System.out.println(&quot;调用了初始化方法...&quot;);
+    }
+}
+</code></pre><h3 id="beanpostprocessor">BeanPostProcessor</h3>
+<p>除了上面的几种方法，也可以使用<code>BeanPostProcessor</code>,<code>Bean</code>的后置处理器，在初始化前后进行处理工作。</p>
+<p><code>postProcessBeforeInitialization</code>：会在初始化完成之前调用
+<code>postProcessAfterInitialization</code>：会在初始化完成之后调用</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        // 获取Spring IOC容器
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(DemoConfiguration.class);
+        System.out.println(&quot;容器初始化完成...&quot;);
+
+        annotationConfigApplicationContext.close();
+        System.out.println(&quot;容器销毁了...&quot;);
+    }
+}
+
+@Configuration
+class DemoConfiguration implements BeanPostProcessor {
+
+    @Bean(initMethod = &quot;init&quot;, destroyMethod = &quot;destroy&quot;)
+    public DemoEntity getDemoEntity(){
+       return new DemoEntity();
+    }
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println(&quot;调用了 postProcessBeforeInitialization&quot;);
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println(&quot;调用了 postProcessAfterInitialization&quot;);
+        return bean;
+    }
+}
+
+@Component
+class DemoEntity  {
+    public DemoEntity(){
+        System.out.println(&quot;调用了构造器...&quot;);
+    }
+
+    public void destroy(){
+        System.out.println(&quot;调用了销毁方法...&quot;);
+    }
+
+    public void init() {
+        System.out.println(&quot;调用了初始化方法...&quot;);
+    }
+}
+</code></pre><p>调用顺序：</p>
+<blockquote>
+<p>创建对象 &ndash;&gt; postProcessBeforeInitialization &ndash;&gt; 初始化 &ndash;&gt; postProcessAfterInitialization &ndash;&gt; 销毁</p>
+</blockquote>
+<h4 id="原理-1">原理</h4>
+<p>通过打断点，可以看到，在创建<code>bean</code>的时候会，会调用<code>AbstractAutowireCapableBeanFactory</code>类的<code>doCreateBean</code>方法，这也是创建<code>bean</code>的核心方法。</p>
+<pre><code>    try {
+        populateBean(beanName, mbd, instanceWrapper);
+        exposedObject = initializeBean(beanName, exposedObject, mbd);
+    }
+
+    // ======= initializeBean  =======
+    if (mbd == null || !mbd.isSynthetic()) {
+        wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
+    }
+
+    try {
+        invokeInitMethods(beanName, wrappedBean, mbd);
+    }
+    catch (Throwable ex) {
+        throw new BeanCreationException(
+                (mbd != null ? mbd.getResourceDescription() : null),
+                beanName, &quot;Invocation of init method failed&quot;, ex);
+    }
+    if (mbd == null || !mbd.isSynthetic()) {
+        wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
+    }
+</code></pre><p>调用栈大致如下：</p>
+<pre><code>populateBean()
+{
+    applyBeanPostProcessorsBeforeInitialization() -&gt; invokeInitMethods() -&gt; applyBeanPostProcessorsAfterInitialization()
+}
+</code></pre><p>在初始化之前调用<code>populateBean()</code>方法,给<code>bean</code>进行属性赋值,之后在调用<code>applyBeanPostProcessorsBeforeInitialization</code>方法；</p>
+<p><code>applyBeanPostProcessorsBeforeInitialization</code>源码：</p>
+<pre><code>	public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
+			throws BeansException {
+
+		Object result = existingBean;
+		for (BeanPostProcessor processor : getBeanPostProcessors()) {
+			Object current = processor.postProcessBeforeInitialization(result, beanName);
+			if (current == null) {
+				return result;
+			}
+			result = current;
+		}
+		return result;
+	}
+</code></pre><p>该方法作用，遍历容器中所有的<code>BeanPostProcessor</code>挨个执行<code>postProcessBeforeInitialization</code>方法，一旦返回<code>null</code>，将不会执行后面<code>bean</code>的<code>postProcessBeforeInitialization</code>方法。</p>
+<p>之后在调用<code>invokeInitMethods</code>方法，进行<code>bean</code>的初始化，最后在执行<code>applyBeanPostProcessorsAfterInitialization</code>方法，执行一些初始化之后的工作。</p>
 </div>
                     <div class="post_footer">
                         

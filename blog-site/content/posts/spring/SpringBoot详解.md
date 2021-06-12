@@ -16,26 +16,21 @@ slug: "java-springboot"
 `maven` 或者 `gradle` 项目导入相应依赖即可使用 `SpringBoot`，而无需自行管理这些类库的版本。
 
 特点：
-- 独立运行的 `Spring` 项目<br>
+- 独立运行的 `Spring` 项目：<br>
 `SpringBoot` 可以以 jar 包的形式独立运行，运行一个 `SpringBoot` 项目只需通过 `java–jar xx.jar` 来运行。
-
-- 内嵌 Servlet 容器<br>
+- 内嵌 `Servlet` 容器：<br>
 `SpringBoot` 可选择内嵌 `Tomcat`、`Jetty` 或者 `Undertow`，这样我们无须以 `war` 包形式部署项目。
-
-- 提供 `starter` 简化 `Maven` 配置<br>
+- 提供 `starter` 简化 `Maven` 配置：<br>
 `Spring` 提供了一系列的 `starter` pom 来简化 `Maven` 的依赖加载，例如，当你使用了`spring-boot-starter-web` 时，会自动加入依赖包。
-
-- 自动配置 `Spring`<br>
+- 自动配置 `Spring`：<br>
 `SpringBoot` 会根据在类路径中的 jar 包、类，为 jar 包里的类自动配置 Bean，这样会极大地减少我们要使用的配置。当然，`SpringBoot` 只是考虑了大多数的开发场景，并不是所有的场景，若在实际开发中我们需要自动配置 `Bean`，而 `SpringBoot` 没有提供支持，则可以自定义自动配置。
-
-- 准生产的应用监控<br>
+- 准生产的应用监控：<br>
 `SpringBoot` 提供基于 `http、ssh、telnet` 对运行时的项目进行监控。
-
-- 无代码生成和 xml 配置<br>
+- 无代码生成和 xml 配置：<br>
 `SpringBoot` 的神奇的不是借助于代码生成来实现的，而是通过条件注解来实现的，这是 `Spring 4.x` 提供的新特性。`Spring 4.x` 提倡使用 Java 配置和注解配置组合，而 `SpringBoot` 不需要任何 xml 配置即可实现 `Spring` 的所有配置。
 
-## @SpringBootApplication
-这个注解在启动类上
+## @SpringBootApplication原理
+`@SpringBootApplication`这个注解通常标注在启动类上：
 ```
 @SpringBootApplication
 public class SpringBootExampleApplication {
@@ -44,7 +39,7 @@ public class SpringBootExampleApplication {
     }
 }
 ```
-`@SpringBootApplication`是一个复合注解，由其他注解构成。核心注解是`@SpringBootConfiguration`和`@EnableAutoConfiguration`
+`@SpringBootApplication`是一个复合注解，即由其他注解构成。核心注解是`@SpringBootConfiguration`和`@EnableAutoConfiguration`
 ```
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -180,15 +175,15 @@ public class SpringApplicationAdminJmxAutoConfiguration
 ### 总结
 ![@SpringbootApplication原理](/myblog/posts/images/essays/@SpringbootApplication原理.png)
 
-当Springboot启动的时候，会执行`AutoConfigurationImportSelector`这个类中的`getCandidateConfigurations`方法，这个方法会帮我们加载`META-INF/spring.factories`文件里面的当`@ConditionXXX`注解条件满足的类。
+当 `Springboot` 启动的时候，会执行`AutoConfigurationImportSelector`这个类中的`getCandidateConfigurations`方法，这个方法会帮我们加载`META-INF/spring.factories`文件里面的当`@ConditionXXX`注解条件满足的类。
 
-## 自动装配
+## Bean的自动装配
 `Spring`利用依赖注入（DI），完成对IOC容器中各个组件的依赖关系赋值。
 
-Spring提供三种装配方式：
+`Spring`提供三种装配方式：
 - 基于注解的自动装配
-- 基于XML配置的显式装配
-- 基于Java配置的显式装配
+- 基于 XML 配置的显式装配
+- 基于 Java 配置的显式装配
 
 详细本篇博客，详细介绍基于注解的自动装配
 | 自动装配   | 来源                          | 支持@Primary | springboot支持属性 |
@@ -766,3 +761,243 @@ class TestService implements ApplicationContextAware, EmbeddedValueResolverAware
 关于这些`Aware`都是使用`AwareProcessor`进行处理的；
 比如:`ApplicationContextAwareProcessor`就是处理`ApplicationContextAware`接口的。
 
+## Bean的生命周期
+`Bean`的生命周期，即`Bean`的创建->初始化->销毁的过程。
+
+### 注入Bean
+我们可以使用 xml 配置的方式来指定，`bean` 在初始化、销毁的时候调用对应的方法：
+```
+<bean id="getDemoEntity" class="com.my.demo" init-method="init" destroy-method="destroy" />
+```
+也可以使用注解的方式，来调用bean在初始化、销毁的时候调用对应的方法：
+```
+public class MainTest {
+    public static void main(String[] args) {
+        // 获取Spring IOC容器
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(DemoConfiguration.class);
+        System.out.println("容器初始化完成...");
+
+        annotationConfigApplicationContext.close();
+        System.out.println("容器销毁了...");
+    }
+}
+
+@Configuration
+class DemoConfiguration {
+    @Bean(initMethod = "init", destroyMethod = "destroy")
+    public DemoEntity getDemoEntity() {
+        return new DemoEntity();
+    }
+}
+
+class DemoEntity {
+    public DemoEntity(){
+        System.out.println("调用了构造器...");
+    }
+
+    public void init(){
+        System.out.println("调用了初始化方法...");
+    }
+
+    public void destroy(){
+        System.out.println("调用了销毁方法...");
+    }
+}
+```
+需要注意的是，上面演示的是单实例 `bean`，如果是多实例 `bean`，初始化和销毁会不一样。
+
+单实例 `bean`：
+- 在容器启动的时候创建对象；
+- 在容器关闭的时候销毁；
+
+多实例 `bean`：
+- 在每次获取bean的时候创建对象；
+- 容器不会自动帮你处理，需要手动销毁 `bean`；
+
+多实例注解代码：
+```
+@Scope("prototype")
+@Bean(initMethod="init",destroyMethod="destroy")
+public Test test（）{}
+```
+
+### InitializingBean、DisposableBean
+通过让`Bean`实现 `InitializingBean`(定义初始化逻辑)和实现`DisposableBean`(销毁逻辑)实现初始化`bean`和销毁`bean`:
+
+```
+public class MainTest {
+    public static void main(String[] args) {
+        // 获取Spring IOC容器
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(DemoEntity.class);
+        System.out.println("容器初始化完成...");
+
+        annotationConfigApplicationContext.close();
+        System.out.println("容器销毁了...");
+    }
+}
+
+@Component
+class DemoEntity implements InitializingBean, DisposableBean {
+    public DemoEntity(){
+        System.out.println("调用了构造器...");
+    }
+
+    @Override
+    public void destroy(){
+        System.out.println("调用了销毁方法...");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("调用了初始化方法...");
+    }
+}
+```
+### @PostConstruct、@PreDestroy
+Java提供了对应的注解，也可以调用`Bean`的初始化方法和销毁方法：
+- `@PostConstruct` 标注该注解的方法，在`bean`创建完成并且属性赋值完成 来执行初始化方法;
+- `@PreDestroy`， 在容器销毁`bean`之前通知我们进行`bean`的清理工作;
+
+这两个注解不是`spring`的注解是`JSR250`JDK带的注解。
+```
+public class MainTest {
+    public static void main(String[] args) {
+        // 获取Spring IOC容器
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(DemoEntity.class);
+        System.out.println("容器初始化完成...");
+
+        annotationConfigApplicationContext.close();
+        System.out.println("容器销毁了...");
+    }
+}
+
+@Component
+class DemoEntity  {
+    public DemoEntity(){
+        System.out.println("调用了构造器...");
+    }
+
+    // 销毁之前调用
+    @PreDestroy
+    public void destroy(){
+        System.out.println("调用了销毁方法...");
+    }
+
+    // 对象创建并赋值之后调用
+    @PostConstruct
+    public void init() {
+        System.out.println("调用了初始化方法...");
+    }
+}
+```
+
+### BeanPostProcessor
+除了上面的几种方法，也可以使用`BeanPostProcessor`,`Bean`的后置处理器，在初始化前后进行处理工作。
+
+`postProcessBeforeInitialization`：会在初始化完成之前调用
+`postProcessAfterInitialization`：会在初始化完成之后调用
+```
+public class MainTest {
+    public static void main(String[] args) {
+        // 获取Spring IOC容器
+        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(DemoConfiguration.class);
+        System.out.println("容器初始化完成...");
+
+        annotationConfigApplicationContext.close();
+        System.out.println("容器销毁了...");
+    }
+}
+
+@Configuration
+class DemoConfiguration implements BeanPostProcessor {
+
+    @Bean(initMethod = "init", destroyMethod = "destroy")
+    public DemoEntity getDemoEntity(){
+       return new DemoEntity();
+    }
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("调用了 postProcessBeforeInitialization");
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("调用了 postProcessAfterInitialization");
+        return bean;
+    }
+}
+
+@Component
+class DemoEntity  {
+    public DemoEntity(){
+        System.out.println("调用了构造器...");
+    }
+
+    public void destroy(){
+        System.out.println("调用了销毁方法...");
+    }
+
+    public void init() {
+        System.out.println("调用了初始化方法...");
+    }
+}
+```
+调用顺序：
+>创建对象 --> postProcessBeforeInitialization --> 初始化 --> postProcessAfterInitialization --> 销毁
+
+#### 原理
+通过打断点，可以看到，在创建`bean`的时候会，会调用`AbstractAutowireCapableBeanFactory`类的`doCreateBean`方法，这也是创建`bean`的核心方法。
+```
+    try {
+        populateBean(beanName, mbd, instanceWrapper);
+        exposedObject = initializeBean(beanName, exposedObject, mbd);
+    }
+
+    // ======= initializeBean  =======
+    if (mbd == null || !mbd.isSynthetic()) {
+        wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
+    }
+
+    try {
+        invokeInitMethods(beanName, wrappedBean, mbd);
+    }
+    catch (Throwable ex) {
+        throw new BeanCreationException(
+                (mbd != null ? mbd.getResourceDescription() : null),
+                beanName, "Invocation of init method failed", ex);
+    }
+    if (mbd == null || !mbd.isSynthetic()) {
+        wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
+    }
+```
+
+调用栈大致如下：
+```
+populateBean()
+{
+    applyBeanPostProcessorsBeforeInitialization() -> invokeInitMethods() -> applyBeanPostProcessorsAfterInitialization()
+}
+```
+在初始化之前调用`populateBean()`方法,给`bean`进行属性赋值,之后在调用`applyBeanPostProcessorsBeforeInitialization`方法；
+
+`applyBeanPostProcessorsBeforeInitialization`源码：
+```
+	public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
+			throws BeansException {
+
+		Object result = existingBean;
+		for (BeanPostProcessor processor : getBeanPostProcessors()) {
+			Object current = processor.postProcessBeforeInitialization(result, beanName);
+			if (current == null) {
+				return result;
+			}
+			result = current;
+		}
+		return result;
+	}
+```
+该方法作用，遍历容器中所有的`BeanPostProcessor`挨个执行`postProcessBeforeInitialization`方法，一旦返回`null`，将不会执行后面`bean`的`postProcessBeforeInitialization`方法。
+
+之后在调用`invokeInitMethods`方法，进行`bean`的初始化，最后在执行`applyBeanPostProcessorsAfterInitialization`方法，执行一些初始化之后的工作。
