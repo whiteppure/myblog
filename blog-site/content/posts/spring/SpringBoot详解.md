@@ -1016,7 +1016,7 @@ AOP,全称：`Aspect-Oriented Programming`，译为面向切面编程 。AOP可�
 - 采用代理机制组装起来运行，在不改变原程序的基础上对代码段进行增强处理，增加新的功能。
 
 ### 动态代理
-动态代理，可以说是AOP的核心了。在`Spring`中主要分为两种[动态代理](https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/#动态代理)：
+动态代理，可以说是AOP的核心了。在`Spring`中主要使用了两种[动态代理](https://whiteppure.github.io/myblog/posts/rookie/rookie-object-oriented/#动态代理)：
 - JDK 动态代理技术
 - CGLib 动态代理技术
 
@@ -1167,16 +1167,19 @@ class AspectJAutoProxyRegistrar implements ImportBeanDefinitionRegistrar {
 	}
 }
 ```
-通过打断点可以看到
+**`AspectJAutoProxyRegistrar`组件何时注册？**
+
+通过对下面代码打断点
 ```
 AopConfigUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(registry);
 ```
-该方法给容器中注册了一个`AnnotationAwareAspectJAutoProxyCreator`组件
+可以看到该方法是给容器中注册了一个`AnnotationAwareAspectJAutoProxyCreator`组件，实际上是注册`AnnotationAwareAspectJAutoProxyCreator`组件。
 
 ![AOP核心组件1](/myblog/posts/images/essays/AOP核心组件.png)
 
 可以看出`@EnableAspectJAutoProxy`注解最主要的作用实际上就是通过`@Import`注解把`AnnotationAwareAspectJAutoProxyCreator`这个对象注入到`spring`容器中。
-现在只要把`AnnotationAwareAspectJAutoProxyCreator`组件搞懂，AOP的原理也就明白了。
+
+现在只要把`AnnotationAwareAspectJAutoProxyCreator`组件何时注册搞懂，`AspectJAutoProxyRegistrar`组件何时注册也就明白了。
 
 `AnnotationAwareAspectJAutoProxyCreator`继承关系：
 ```
@@ -1187,7 +1190,7 @@ AnnotationAwareAspectJAutoProxyCreator
                 extends ProxyProcessorSupport implements SmartInstantiationAwareBeanPostProcessor,BeanFactoryAware
                     extends ProxyConfig implements Ordered, BeanClassLoaderAware, AopInfrastructureBean 
 ```
-可以看到`AbstractAutoProxyCreator`这个父类实现了`SmartInstantiationAwareBeanPostProcessor`接口，该接口是一个后置处理器接口；同样实现了`BeanFactoryAware`接口，这意味着，该类可以自动装配`BeanFactory`。
+可以看到其中的一个父类`AbstractAutoProxyCreator`这个父类实现了`SmartInstantiationAwareBeanPostProcessor`接口，该接口是一个后置处理器接口；同样实现了`BeanFactoryAware`接口，这意味着，该类可以通过接口中的方法进行自动装配`BeanFactory`。
 
 这两个接口的在AOP体系中具体的实现方法：
 ```
@@ -1208,7 +1211,7 @@ BeanFactoryAware重写：
 - AnnotationAwareAspectJAutoProxyCreator.initBeanFactory
 ```
 
-AOP的后置处理器方法调用流程：
+在上面的任何方法搭上断点即可看到类似下面的方法调用栈：
 ```
 AnnotationConfigApplicationContext.AnnotationConfigApplicationContext()
     ->AbstractApplicationContext.refresh() //刷新容器，给容器初始化bean
@@ -1223,9 +1226,11 @@ AnnotationConfigApplicationContext.AnnotationConfigApplicationContext()
                                         ->AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation()
                                             ->调用AOP相关的后置处理器
 ```
-其中`AbstractApplicationContext.refresh()`方法，调用了`registerBeanPostProcessors()`，用来注册后置处理器，用于拦截`bean`的创建。
 
-也是在这个方法中完成了`AnnotationAwareAspectJAutoProxyCreator`的注册。
+其中 `AbstractApplicationContext.refresh()` 方法，调用了 `registerBeanPostProcessors()`方法 ，它是用来注册后置处理器，以拦截 `bean` 的创建。也是在这个方法中完成了对 `AnnotationAwareAspectJAutoProxyCreator` 的注册。
+在下面详细的展开。
+
+注册完 `BeanPostProcessor` 后，还调用了方法 `finishBeanFactoryInitialization()` ，完成 `BeanFactory` 初始化工作，并创建剩下的单实例 `bean`。
 ```
 @Override
 public void refresh() throws BeansException, IllegalStateException {
@@ -1244,17 +1249,19 @@ public void refresh() throws BeansException, IllegalStateException {
 
 }
 ```
-`registerBeanPostProcessors`方法中注册了所有的`BeanPostProcessor`，注册的顺序是：
-1. 注册实现了`PriorityOrdered`接口的`BeanPostProcessor `;
-2. 注册实现了 `Ordered` 接口的 `BeanPostProcessor` ;
-3. 注册常规的 `BeanPostProcessor` ，也就是没有实现优先级接口的 `BeanPostProcessor`;
+#### registerBeanPostProcessors
+
+`registerBeanPostProcessors`方法中注册了所有的`BeanPostProcessor`;注册顺序是：
+1. 注册实现了`PriorityOrdered`接口的`BeanPostProcessor`;
+2. 注册实现了 `Ordered` 接口的 `BeanPostProcessor`;
+3. 注册常规的 `BeanPostProcessor` ,也就是没有实现优先级接口的 `BeanPostProcessor`;
 4. 注册 `Spring` 内部 `BeanPostProcessor`;
 
 由于`AnnotationAwareAspectJAutoProxyCreator`类间接实现了`Ordered`接口。所以它是在注册实现`Ordered`接口的`BeanPostProcessor`中完成注册。
 
-继续调用`AbstractBeanFactory.getBean() -> AbstractBeanFactory.doGetBean()`创建`bean`.
+注册时会调用`AbstractBeanFactory.getBean() -> AbstractBeanFactory.doGetBean()`创建`bean`。
 
-`doGetBean`方法作用：
+`doGetBean()`方法作用：
 - 创建`bean`：`createBeanInstance()`;
 - 给`bean`中的属性赋值：`populateBean()`;
 - 初始化`bean`：`initializeBean()`;
@@ -1273,7 +1280,8 @@ protected Object initializeBean(final String beanName, final Object bean, RootBe
         wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
     }
     try {
-        invokeInitMethods(beanName, wrappedBean, mbd);  //执行自定义的初始化方法
+        // 执行自定义的初始化方法，也就是在这执行 setBeanFactory方法
+        invokeInitMethods(beanName, wrappedBean, mbd);  
     }
 
     // ...
@@ -1284,6 +1292,15 @@ protected Object initializeBean(final String beanName, final Object bean, RootBe
     }
     return wrappedBean;
 }
+
+// ...invokeAwareMethods方法简要 ...
+private void invokeAwareMethods(String beanName, Object bean) {
+    if (bean instanceof Aware) {
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) bean).setBeanFactory(AbstractAutowireCapableBeanFactory.this);
+        }
+    }
+}
 ```
 `initializeBean`作用：
 - 处理 `Aware` 接口的方法回调：`invokeAwareMethods()`;
@@ -1291,7 +1308,153 @@ protected Object initializeBean(final String beanName, final Object bean, RootBe
 - 执行自定义的初始化方法：`invokeInitMethods()`;
 - 执行后置处理器的`postProcessAfterInitialization()`方法;
 
+`initializeBean`方法执行成功，`AnnotationAwareAspectJAutoProxyCreator`组件才会注册和初始化成功。
 
-`initializeBean`方法执行成功，`AnnotationAwareAspectJAutoProxyCreator`类才会注册和初始化成功。
+#### finishBeanFactoryInitialization
+除了弄懂`AnnotationAwareAspectJAutoProxyCreator`组件何时注册，也需要知道它什么时候被调用，这就涉及到`finishBeanFactoryInitialization`方法。
+
+继续看方法的调用：
+```
+AnnotationConfigApplicationContext.AnnotationConfigApplicationContext()
+    ->AbstractApplicationContext.refresh() // 刷新容器，给容器初始化bean
+        ->AbstractApplicationContext.finishBeanFactoryInitialization() // 从这继续
+            ->DefaultListableBeanFactory.preInstantiateSingletons()
+                ->AbstractBeanFactory.getBean()
+                    ->AbstractBeanFactory.doGetBean()
+                        ->DefaultSingletonBeanRegistry.getSingleton()
+                            ->AbstractBeanFactory.createBean()
+                                ->AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation()
+                                    ->AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation()
+                                        ->AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation()
+                                            ->调用AOP相关的后置处理器
+```
+
+`finishBeanFactoryInitialization`源码简要：
+```
+protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
+
+    // ...
+    
+    // 注释大意： 实例化所有剩余的(非lazy-init)单例。
+    // Instantiate all remaining (non-lazy-init) singletons.
+    beanFactory.preInstantiateSingletons(); // 断点停在这里
+}
+```
+
+`finishBeanFactoryInitialization` 方法也需要注册`Bean`。它会调用 `preInstantiateSingletons()` 方法遍历获取容器中所有的 `Bean`，实例化所有剩余的非懒加载初始化单例 `Bean`。
+
+`preInstantiateSingletons()`方法源码简要：
+```
+	@Override
+	public void preInstantiateSingletons() throws BeansException {
+
+		// Iterate over a copy to allow for init methods which in turn register new bean definitions.
+		// While this may not be part of the regular factory bootstrap, it does otherwise work fine.
+		List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
+
+		// Trigger initialization of all non-lazy singleton beans...
+		for (String beanName : beanNames) {
+			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
+            // 获取，非抽象、单例、非懒加载Bean
+			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
+                // 是否 是FactoryBean类型
+				if (isFactoryBean(beanName)) {
+                    // ...
+				}
+				else {
+					getBean(beanName); // 断点停在这
+				}
+			}
+		}
+
+        // ...
+	}
+```
+`preInstantiateSingletons()` 调用 `getBean()` 方法，获取`Bean`实例，执行过程`getBean()->doGetBean()->getSingleton()->createBean()`，又回到了上面注册`Bean`的步骤。
+
+这里要注意`createBean()`方法中的`resolveBeforeInstantiation()`方法，这里可以理解为缓存`Bean`,如果被创建了就拿来直接用，如果没有则创建`Bean`。
+```
+protected Object createBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)
+        throws BeanCreationException {
+
+    // ...
+
+    try {
+        // 注释大意：给 BeanPostProcessors 一个返回代理而不是目标bean实例的机会。
+        // Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
+        Object bean = resolveBeforeInstantiation(beanName, mbdToUse); // 断点停在这里
+        if (bean != null) {
+            return bean;
+        }
+    }
+
+    // ...
+
+    try {
+        Object beanInstance = doCreateBean(beanName, mbdToUse, args);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Finished creating instance of bean '" + beanName + "'");
+        }
+        return beanInstance;
+    }
+
+    // ...
+}
+```
+
+`resolveBeforeInstantiation()`、`applyBeanPostProcessorsBeforeInstantiation()`方法源码：
+````
+protected Object resolveBeforeInstantiation(String beanName, RootBeanDefinition mbd) {
+    Object bean = null;
+    if (!Boolean.FALSE.equals(mbd.beforeInstantiationResolved)) {
+        // Make sure bean class is actually resolved at this point.
+        if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
+            Class<?> targetType = determineTargetType(beanName, mbd);
+            if (targetType != null) {
+                // 调用 applyBeanPostProcessorsBeforeInstantiation 方法
+                bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName); // 断点停在这
+                if (bean != null) {
+                    bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+                }
+            }
+        }
+        mbd.beforeInstantiationResolved = (bean != null);
+    }
+    return bean;
+}
+
+// ... 上面代码调用的方法 ...
+
+protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
+    // 遍历所有的 BeanPostProcessor
+    for (BeanPostProcessor bp : getBeanPostProcessors()) {
+
+        // //如果是 InstantiationAwareBeanPostProcessor 类型
+        if (bp instanceof InstantiationAwareBeanPostProcessor) {
+            InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
+
+            // 调用 postProcessBeforeInstantiation 方法
+            Object result = ibp.postProcessBeforeInstantiation(beanClass, beanName); // 断点停在这
+            if (result != null) {
+                return result;
+            }
+        }
+    }
+    return null;
+}
+````
+到了这里在回过头来看一下`AnnotationAwareAspectJAutoProxyCreator`组件实现的`SmartInstantiationAwareBeanPostProcessor`接口，继承关系：
+```
+SmartInstantiationAwareBeanPostProcessor 
+    ->extends InstantiationAwareBeanPostProcessor
+        ->extends BeanPostProcessor
+```
+到这就跟前边对上了，AOP相关的后置处理器也就是在这被调用的。
+
+回头在看上面的`createBean()`方法，刚才看到的是`resolveBeforeInstantiation()`方法的调用栈，所以从层次结构上看`AnnotationAwareAspectJAutoProxyCreator`组件的调用
+是在创建 `Bean`实例之前先尝试用后置处理器返回对象的。
+
+![AOP@EnableAspectJAutoProxy原理](/myblog/posts/images/essays/AOP@EnableAspectJAutoProxy原理.png)
+
 
 
