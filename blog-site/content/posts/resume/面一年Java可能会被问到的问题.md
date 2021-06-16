@@ -8,15 +8,17 @@ slug: "Interview-Junior-Javaer"
 
 ## Springboot自动配置原理
 
-## Spring中@Autowired、@Resource和@Qualify
+## Spring自动注入
 
-## Spring中AOP、IOC
+## Spring AOP
 
 ## 为什么项目中要用MQ
 
 ## MQ如何保证消息一定被消费
 
-## 为什么项目中要用Redis
+## 线程安全
+
+## 分布式锁
 
 ## Redis如何保证持久化
 
