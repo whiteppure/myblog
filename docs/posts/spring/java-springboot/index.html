@@ -805,17 +805,17 @@
 <code>maven</code> 或者 <code>gradle</code> 项目导入相应依赖即可使用 <code>SpringBoot</code>，而无需自行管理这些类库的版本。</p>
 <p>特点：</p>
 <ul>
-<li>独立运行的 <code>Spring</code> 项目：<br>
+<li>独立运行的 <code>Spring</code> 项目：
 <code>SpringBoot</code> 可以以 jar 包的形式独立运行，运行一个 <code>SpringBoot</code> 项目只需通过 <code>java–jar xx.jar</code> 来运行。</li>
-<li>内嵌 <code>Servlet</code> 容器：<br>
+<li>内嵌 <code>Servlet</code> 容器：
 <code>SpringBoot</code> 可选择内嵌 <code>Tomcat</code>、<code>Jetty</code> 或者 <code>Undertow</code>，这样我们无须以 <code>war</code> 包形式部署项目。</li>
-<li>提供 <code>starter</code> 简化 <code>Maven</code> 配置：<br>
+<li>提供 <code>starter</code> 简化 <code>Maven</code> 配置：
 <code>Spring</code> 提供了一系列的 <code>starter</code> pom 来简化 <code>Maven</code> 的依赖加载，例如，当你使用了<code>spring-boot-starter-web</code> 时，会自动加入依赖包。</li>
-<li>自动配置 <code>Spring</code>：<br>
+<li>自动配置 <code>Spring</code>：
 <code>SpringBoot</code> 会根据在类路径中的 jar 包、类，为 jar 包里的类自动配置 Bean，这样会极大地减少我们要使用的配置。当然，<code>SpringBoot</code> 只是考虑了大多数的开发场景，并不是所有的场景，若在实际开发中我们需要自动配置 <code>Bean</code>，而 <code>SpringBoot</code> 没有提供支持，则可以自定义自动配置。</li>
-<li>准生产的应用监控：<br>
+<li>准生产的应用监控：
 <code>SpringBoot</code> 提供基于 <code>http、ssh、telnet</code> 对运行时的项目进行监控。</li>
-<li>无代码生成和 xml 配置：<br>
+<li>无代码生成和 xml 配置：
 <code>SpringBoot</code> 的神奇的不是借助于代码生成来实现的，而是通过条件注解来实现的，这是 <code>Spring 4.x</code> 提供的新特性。<code>Spring 4.x</code> 提倡使用 Java 配置和注解配置组合，而 <code>SpringBoot</code> 不需要任何 xml 配置即可实现 <code>Spring</code> 的所有配置。</li>
 </ul>
 <h2 id="springbootapplication原理">@SpringBootApplication原理</h2>
@@ -950,7 +950,7 @@ public class SpringApplicationAdminJmxAutoConfiguration
 <li>基于 XML 配置的显式装配</li>
 <li>基于 Java 配置的显式装配</li>
 </ul>
-<p>详细本篇博客，详细介绍基于注解的自动装配</p>
+<p>本篇博客，详细介绍基于注解的自动装配</p>
 <table>
 <thead>
 <tr>
@@ -997,8 +997,7 @@ public @interface Autowired {
 
 }
 </code></pre><h4 id="加在属性上">加在属性上</h4>
-<p>使用<code>@Autowired</code>注解通常将其加载属性上或者构造器上，让其自动注入；
-默认是按照类型去容器中寻找对应的组件，例如：</p>
+<p>使用<code>@Autowired</code>注解通常将其加载属性上或者构造器上，让其自动注入；默认是按照类型去容器中寻找对应的组件，例如：</p>
 <pre><code>
 public class SpringBootExampleApplication {
 
@@ -1211,8 +1210,8 @@ class TestService {
         this.testDao = testDao;
     }
 }
-</code></pre><p>在Spring创建对象的时候会默认调用组件的无参构造方法，如果只有一个有参构造，如果想要创建对象，则必须调用该有参构造；
-所以当一个组件只有一个有参构造时，则可以不用写<code>@Autowirea</code>注解。</p>
+</code></pre><p>在<code>Spring</code>创建对象的时候会默认调用组件的无参构造方法，如果只有一个有参构造，如果想要创建对象，则必须调用该有参构造；
+所以当一个组件只有一个有参构造时，则可以不用写<code>@Autowired</code>注解。</p>
 <pre><code>@ToString
 @Service
 class TestService {
@@ -1443,7 +1442,7 @@ class TestDao{
     private String name = &quot;我是默认的TestDao&quot;;
 
 }
-</code></pre><p>使用<code>@Inject</code>注解需要导入</p>
+</code></pre><p>使用<code>@Inject</code>注解需要导入:</p>
 <pre><code>&lt;dependency&gt;
     &lt;groupId&gt;javax.inject&lt;/groupId&gt;
     &lt;artifactId&gt;javax.inject&lt;/artifactId&gt;
@@ -1496,8 +1495,7 @@ class TestService implements ApplicationContextAware, EmbeddedValueResolverAware
         System.out.println(resolver.resolveStringValue(&quot;我是${os.name}，今年${10*2.1}岁&quot;));
     }
 }
-</code></pre><p>关于这些<code>Aware</code>都是使用<code>AwareProcessor</code>进行处理的；
-比如:<code>ApplicationContextAwareProcessor</code>就是处理<code>ApplicationContextAware</code>接口的。</p>
+</code></pre><p>关于这些<code>Aware</code>都是使用<code>AwareProcessor</code>进行处理的,比如:<code>ApplicationContextAwareProcessor</code>就是处理<code>ApplicationContextAware</code>接口的。</p>
 <h2 id="bean的生命周期">Bean的生命周期</h2>
 <p><code>Bean</code>的生命周期，即<code>Bean</code>的创建-&gt;初始化-&gt;销毁的过程。</p>
 <h3 id="注入bean">注入Bean</h3>

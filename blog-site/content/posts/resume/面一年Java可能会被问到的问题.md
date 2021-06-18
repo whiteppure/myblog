@@ -6,7 +6,7 @@ tags: ["Java", "面试"]
 slug: "Interview-Junior-Javaer"
 ---
 
-## Springboot自动配置原理
+## SpringBoot自动配置原理
 
 ## Spring自动注入
 
@@ -18,9 +18,11 @@ slug: "Interview-Junior-Javaer"
 
 ## 线程安全
 
-## 分布式锁
+## Redis分布式锁
 
-## Redis如何保证持久化
+## Redis持久化
+
+## Redis过期淘汰策略
 
 ## SQL优化思路
 

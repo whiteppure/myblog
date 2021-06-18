@@ -1,12 +1,12 @@
 ---
-title: "Jvm介绍"
+title: "JVM介绍"
 date: 2021-03-05
 draft: false
-tags: ["Java","Jvm", "使用介绍"]
+tags: ["Java","JVM", "使用介绍"]
 slug: "jvm-start"
 ---
 
-## 为什么要学习Jvm
+## 为什么要学习JVM
 大部分Java开发人员，除了会在项目中使用到与Java平台相关的各种高精尖技术，对于Java技术的核心Java虚拟机了解甚少。
 一些有一定工作经验的开发人员，打心眼儿里觉得SSM、微服务等上层技术才是重点，基础技术并不重要，
 这其实是一种本末倒置的“病态”。
@@ -36,7 +36,7 @@ slug: "jvm-start"
 - Java技术的核心就是Java虚拟机（JVM，Java Virtual Machine），因为所有的Java程序都运行在Java虚拟机内部。
 - Java虚拟机就是二进制字节码的运行环境，负责装载字节码到其内部，解释/编译为对应平台上的机器指令执行。每一条Java指令，Java虚拟机规范中都有详细定义，如怎么取操作数，怎么处理操作数，处理结果放在哪里。
 
-## Jvm整体结构
+## JVM整体结构
 HotSpot VM是目前市面上高性能虚拟机的代表作之一。下图就是 HotSport 虚拟机结构图
 ![Jvm内存模型](/myblog/posts/images/essays/Jvm内存模型.png)
 
@@ -48,7 +48,7 @@ HotSpot VM是目前市面上高性能虚拟机的代表作之一。下图就是 
 Java代码通过编译器生成字节码文件，字节码通过Java虚拟机跟操作系统交互。
 ![Java代码执行流程](/myblog/posts/images/essays/Java代码执行流程.png)
 
-## Jvm架构模型
+## JVM架构模型
 Java编译器输入的指令流基本上是一种 **基于栈的指令集架构** ，另外一种指令集架构则是 **基于寄存器的指令集架构** 。
 Hotsport 是基于栈的指令集架构。
 
@@ -65,7 +65,7 @@ Hotsport 是基于栈的指令集架构。
 - 花费更少的指令去完成一项操作
 - 在大部分情况下，基于寄存器架构的指令集往往都以一地址指令、二地址指令和三地址指令为主，而基于栈式架构的指令集却是以零地址指令为主
 
-## Jvm生命周期
+## JVM生命周期
 
 启动 --> 执行 --> 退出
 
@@ -84,7 +84,7 @@ Hotsport 是基于栈的指令集架构。
 - 某线程调用Runtime类或System类的exit()方法，或Runtime类的halt()方法，并且Java安全管理器也允许这次exit()或halt()操作。
 - 除此之外，JNI（Java Native Interface）规范描述了用JNI Invocation API来加载或卸载 Java虚拟机时，Java虚拟机的退出情况。
 
-## Jvm发展历程
+## JVM发展历程
 Hotspot VM、JRockit、J9 是目前主要流行的Java虚拟机。所有虚拟机的原则：一次编译，到处运行。
 
 具体JVM的内存结构，其实取决于其实现，不同厂商的JVM，或者同一厂商发布的不同版本，都有可能存在一定差异。

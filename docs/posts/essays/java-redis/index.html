@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>Redis详解 ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#redis%e4%bb%8b%e7%bb%8d">
+                    Redis介绍
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#redis%e4%b8%8e%e7%bc%93%e5%ad%98">
+                    Redis与缓存
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#redis%e4%b8%8e%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97">
+                    Redis与消息队列
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#redis%e5%88%86%e5%b8%83%e5%bc%8f%e9%94%81">
+                    Redis分布式锁
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#redis%e5%88%86%e5%b8%83%e5%bc%8f%e9%94%81%e6%bc%94%e8%bf%9b">
+                    Redis分布式锁演进
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e5%bc%8f%e4%b8%80">
+                    方式一
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e5%bc%8f%e4%ba%8c">
+                    方式二
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e5%bc%8f%e4%b8%89">
+                    方式三
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e5%bc%8f%e5%9b%9b">
+                    方式四
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e5%bc%8f%e4%ba%94">
+                    方式五
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e5%bc%8f%e5%85%ad">
+                    方式六
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%96%b9%e5%bc%8f%e4%b8%83">
+                    方式七
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#redis%e8%bf%87%e6%9c%9f%e6%b7%98%e6%b1%b0%e7%ad%96%e7%95%a5">
+                    Redis过期淘汰策略
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#redis%e6%8c%81%e4%b9%85%e5%8c%96">
+                    Redis持久化
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/essays/java-redis/'>Redis详解</a></h2>
+                        <span class="date">2021.06.17</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="redis介绍">Redis介绍</h2>
+<h2 id="redis与缓存">Redis与缓存</h2>
+<h2 id="redis与消息队列">Redis与消息队列</h2>
+<h2 id="redis分布式锁">Redis分布式锁</h2>
+<p>在代码里面我们常用<code>ReetrantLock、synchronized</code>保证线程安全。通过上面的锁，在某个时刻只有一个保证线程能够执行锁作用域内的代码。</p>
+<p>类似这样：</p>
+<pre><code>public class MainTest {
+
+    private static final  ReentrantLock lock = new ReentrantLock();
+    
+    public static void main(String[] args) {
+        lock.lock();
+        try {
+            System.out.println(&quot;hello world&quot;);
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+</code></pre><p>但是，当项目采用分布式部署方式之后，再使用<code>ReetrantLock、synchronized</code>就不能保证数据的准确性，可能会出现严重bug。
+<img src="/myblog/posts/images/essays/%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2%E7%BB%93%E6%9E%84.png" alt="基本的分布式部署结构"></p>
+<p>举个例子，当很多个请求过来的时候，会先经过<code>Nginx</code>,然后<code>Nginx</code>在根据算法分发请求，到哪些服务器的程序上。
+此时商品的库存为一件，有两个请求，到达不同服务器上的不同程序的相同代码，先后执行了查询SQL，查出来的数据是相同的，然后依次执行库存减一操作，此时库存会变成-1件。这就造成了超卖问题。</p>
+<p>针对超卖问题，我们可以使用Redis分布式锁来解决。当然也有其他分布式锁，这里不做介绍。</p>
+<h3 id="redis分布式锁演进">Redis分布式锁演进</h3>
+<h4 id="方式一">方式一</h4>
+<p>使用Redis，<code>setnx</code>：</p>
+<blockquote>
+<p>SETNX 是SET IF NOT EXISTS的简写.日常命令格式是SETNX key value，如果 key不存在，则SETNX成功返回1，如果这个key已经存在了，则返回0。</p>
+</blockquote>
+<pre><code>    @Autowired
+    private RedisTemplate redisTemplate;
+
+    // 保证value值唯一,这里是伪代码
+    final String value = &quot;&quot;;
+    final String REDIS_LOCK = &quot;redis_lock_demo&quot;;
+    public void context(){
+        try {
+            Boolean flag =  redisTemplate.opsForValue().setIfAbsent(REDIS_LOCK,value);
+            if (!flag) {
+                System.out.println(&quot;抢锁失败！&quot;);
+            }
+            String redisKey =  redisTemplate.opsForvalue().get(&quot;redis_key&quot;);
+            int num0 = redisKey == null ? 0 : Integer.parseInt(redisKey);
+    
+            if (num0 &lt;= 0){
+                System.out.println(&quot;商品已售完！&quot;);
+                return;
+            }
+    
+            // 卖出商品，存入Redis中
+            int num1  = num0 - 1;
+            redisTemplate.opsForvalue().set(&quot;redis_key&quot;,num1);
+        }finally {
+            redisTemplate.delete(REDIS_LOCK);
+        }
+    }
+</code></pre><p>需要注意的是<code>redisTemplate.delete()</code>方法要加在<code>finally</code>中是为了程序出现异常不释放锁。</p>
+<p>但是这种写法会有一个问题，如果Redis服务器宕机了，或Redis服务被其他人kill掉了，此时恰好没有执行<code>finally</code>中的代码，就会造成Redis中永远都会存在这把锁，不会释放。</p>
+<h4 id="方式二">方式二</h4>
+<p>针对上面Redis宕机的问题，我们可以对这个key加一个过期时间，来解决：</p>
+<pre><code>    @Autowired
+    private RedisTemplate redisTemplate;
+
+    // 保证value值唯一,这里是伪代码
+    final String value = &quot;&quot;;
+    final String REDIS_LOCK = &quot;redis_lock_demo&quot;;
+    public void context(){
+        try {   
+            // 加锁
+            Boolean flag =  redisTemplate.opsForValue().setIfAbsent(REDIS_LOCK,value);
+            // 设置过期时间，假设为10s
+            redisTemplate.expire(REDIS_LOCK,10, TimeUnit.SECONDS);
+    
+            if (!flag) {
+                System.out.println(&quot;抢锁失败！&quot;);
+            }
+            String redisKey =  redisTemplate.opsForvalue().get(&quot;redis_key&quot;);
+            int num0 = redisKey == null ? 0 : Integer.parseInt(redisKey);
+    
+            if (num0 &lt;= 0){
+                System.out.println(&quot;商品已售完！&quot;);
+                return;
+            }
+    
+            // 卖出商品，存入Redis中
+            int num1  = num0 - 1;
+            redisTemplate.opsForvalue().set(&quot;redis_key&quot;,num1);
+        }finally {
+            redisTemplate.delete(REDIS_LOCK);
+        }
+    }
+</code></pre><p>上面的代码虽然解决了Redis宕机的问题，但是也带来了一个新的问题：设置过期时间和加锁并不再一行，即是非原子操作。</p>
+<p>举个例子，如果执行完<code>setnx</code>加锁，正要执行<code>expire</code>设置过期时间时，进程要重启维护了，那么这个锁就“长生不老”了，别的线程永远获取不到锁了。</p>
+<h4 id="方式三">方式三</h4>
+<p>针对上面加锁和设置过期时间的问题，我们可以使用Redis提供的一个方法，使其具备原子性：</p>
+<pre><code>    @Autowired
+    private RedisTemplate redisTemplate;
+
+    // 保证value值唯一,这里是伪代码
+    final String value = &quot;&quot;;
+    final String REDIS_LOCK = &quot;redis_lock_demo&quot;;
+    public void context(){
+        try {
+            Boolean flag =  redisTemplate.opsForValue().setIfAbsent(REDIS_LOCK,value, 10, TimeUnit.SECONDS);
+
+            if (!flag) {
+                System.out.println(&quot;抢锁失败！&quot;);
+            }
+            String redisKey =  redisTemplate.opsForvalue().get(&quot;redis_key&quot;);
+            int num0 = redisKey == null ? 0 : Integer.parseInt(redisKey);
+
+            if (num0 &lt;= 0){
+                System.out.println(&quot;商品已售完！&quot;);
+                return;
+            }
+
+            // 卖出商品，存入Redis中
+            int num1  = num0 - 1;
+            redisTemplate.opsForvalue().set(&quot;redis_key&quot;,num1);
+        }finally {
+            redisTemplate.delete(REDIS_LOCK);
+        }
+    }
+</code></pre><p>加过期时间释放锁的这种方式会带来另一个问题，某个线程加锁，然后执行业务代码，业务代码执行的时间超过了限定时间，此时Redis会释放锁，然后第二个请求就进来了，此时第一个线程业务代码执行完毕，执行释放锁步骤。这就造成误删除其他线程的锁。</p>
+<p>简单说就是，张冠李戴，删除了其他线程的锁。</p>
+<h4 id="方式四">方式四</h4>
+<p>针对方式三带来的问题，需要加一个判断，来避免误删除其他线程的锁：</p>
+<pre><code>    @Autowired
+    private RedisTemplate redisTemplate;;
+
+    final String REDIS_LOCK = &quot;redis_lock_demo&quot;;
+    // 保证value值唯一,这里是伪代码
+    final String value = &quot;&quot;;
+    public void context(){
+        try {
+            Boolean flag =  redisTemplate.opsForValue().setIfAbsent(REDIS_LOCK,value, 10, TimeUnit.SECONDS);
+
+            if (!flag) {
+                System.out.println(&quot;抢锁失败！&quot;);
+            }
+            String redisKey =  redisTemplate.opsForvalue().get(&quot;redis_key&quot;);
+            int num0 = redisKey == null ? 0 : Integer.parseInt(redisKey);
+
+            if (num0 &lt;= 0){
+                System.out.println(&quot;商品已售完！&quot;);
+                return;
+            }
+
+            // 卖出商品，存入Redis中
+            int num1  = num0 - 1;
+            redisTemplate.opsForvalue().set(&quot;redis_key&quot;,num1);
+        }finally {
+            // 判断是否是当前线程，如果是当前线程则允许释放锁
+            if (redisTemplate.opsForvalue().get(REDIS_LOCK).equalsIgnoreCase(value)){
+                redisTemplate.delete(REDIS_LOCK);
+            }
+        }
+    }
+</code></pre><p>实际上这种方式判断和删除的操作不是原子的，不是原子性的就会出现问题。即该锁没有保存持有者的唯一标识，可能被别的客户端解锁。</p>
+<h4 id="方式五">方式五</h4>
+<p>针对方式四的问题，Redis官网有推荐的解决方法，即，<a href="http://www.redis.cn/commands/set">解锁Lua脚本</a>：</p>
+<pre><code>if redis.call('setnx',KEYS[1],ARGV[1]) == 1 then
+   redis.call('expire',KEYS[1],ARGV[2])
+else
+   return 0
+end;
+</code></pre><pre><code>    @Autowired
+    private RedisTemplate redisTemplate;;
+
+    final String REDIS_LOCK = &quot;redis_lock_demo&quot;;
+    // 保证value值唯一,这里是伪代码
+    final String value = &quot;&quot;;
+    public void context(){
+        try {
+            Boolean flag =  redisTemplate.opsForValue().setIfAbsent(REDIS_LOCK,value, 10, TimeUnit.SECONDS);
+
+            if (!flag) {
+                System.out.println(&quot;抢锁失败！&quot;);
+            }
+            String redisKey =  redisTemplate.opsForvalue().get(&quot;redis_key&quot;);
+            int num0 = redisKey == null ? 0 : Integer.parseInt(redisKey);
+
+            if (num0 &lt;= 0){
+                System.out.println(&quot;商品已售完！&quot;);
+                return;
+            }
+
+            // 卖出商品，存入Redis中
+            int num1  = num0 - 1;
+            redisTemplate.opsForvalue().set(&quot;redis_key&quot;,num1);
+        }finally {
+            // 伪代码
+            JRedis = jedis = JRedisUtils.getJRedis();
+
+            String lua_scripts =
+                    &quot;if redis.call('setnx',KEYS[1],ARGV[1]) == 1 then\n&quot; +
+                    &quot;   redis.call('expire',KEYS[1],ARGV[2])\n&quot; +
+                    &quot;else\n&quot; +
+                    &quot;   return 0\n&quot; +
+                    &quot;end;&quot;;
+            Object result = jedis.eval(lua_scripts, Collections.singletonList(REDIS_LOCK), Collections.singletonList(value))
+            if (result.equals(&quot;1&quot;)) {
+                System.out.println(&quot;删除key成功&quot;);
+            }
+                    
+            if (jedis != null) {
+                jedis.close();
+            }
+
+            if (redisTemplate.opsForvalue().get(REDIS_LOCK).equalsIgnoreCase(value)){
+                redisTemplate.delete(REDIS_LOCK);
+            }
+        }
+    }
+</code></pre><p>除了用这中方式，也可以用Redis事务来处理方式四带来的问题。</p>
+<p>对于上面的解决方法，其实并没有真正的解决缓存续期的问题，还是会带来能存在锁过期释放，业务没执行完的问题。</p>
+<h4 id="方式六">方式六</h4>
+<p>针对缓存续期的问题，我们可以开一个守护线程，每隔一段时间检查锁是否还存在，存在则对锁的过期时间延长，防止锁过期提前释放。</p>
+<p><code>Redisson</code>框架解决了这个问题：</p>
+<pre><code>    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private Redisson redisson;
+
+    final String REDIS_LOCK = &quot;redis_lock_demo&quot;;
+    // 保证value值唯一,这里是伪代码
+    final String value = &quot;&quot;;
+    public void context(){
+        try {
+            RLock lock = redisson.getLock(REDIS_LOCK);
+            lock.lock(REDIS_LOCK);
+
+            String redisKey =  redisTemplate.opsForvalue().get(&quot;redis_key&quot;);
+            int num0 = redisKey == null ? 0 : Integer.parseInt(redisKey);
+
+            if (num0 &lt;= 0){
+                System.out.println(&quot;商品已售完！&quot;);
+                return;
+            }
+
+            // 卖出商品，存入Redis中
+            int num1  = num0 - 1;
+            redisTemplate.opsForvalue().set(&quot;redis_key&quot;,num1);
+        }finally {
+            lock.unlock();
+        }
+    }
+</code></pre><p><code>Redisson</code>大致工作原理：
+只要线程一加锁成功，就会启动一个<code>watch dog</code>看门狗，它是一个后台线程，会每隔10秒检查一下，如果线程1还持有锁，那么就会不断的延长锁key的生存时间。
+因此，<code>Redisson</code>就是使用<code>Redisson</code>解决了锁过期释放，业务没执行完问题。
+<img src="/myblog/posts/images/essays/Redisson%E5%8E%9F%E7%90%86%E5%9B%BE.png" alt="Redisson原理图"></p>
+<p>看似完美的解决方案，但是在高并发下偶尔也会出现下面的异常：</p>
+<pre><code>Caused by: java.lang.IllegalMonitorStateException: attempt to unlock lock, not locked by current thread by node id: 32caba49-5799-491b-aa7b-47d789dbca93 thread-id: 1
+</code></pre><p>异常出现的原因，加锁和解锁的线程不是同一个。</p>
+<h4 id="方式七">方式七</h4>
+<p>针对上面的异常，需要判断当前线程是否持有锁，如果还持有，则释放，如果未持有，则说明已被释放:</p>
+<pre><code>    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private Redisson redisson;
+
+    final String REDIS_LOCK = &quot;redis_lock_demo&quot;;
+    // 保证value值唯一,这里是伪代码
+    final String value = &quot;&quot;;
+    public void context(){
+        try {
+            RLock lock = redisson.getLock(REDIS_LOCK);
+            lock.lock(REDIS_LOCK);
+
+            String redisKey =  redisTemplate.opsForvalue().get(&quot;redis_key&quot;);
+            int num0 = redisKey == null ? 0 : Integer.parseInt(redisKey);
+
+            if (num0 &lt;= 0){
+                System.out.println(&quot;商品已售完！&quot;);
+                return;
+            }
+
+            // 卖出商品，存入Redis中
+            int num1  = num0 - 1;
+            redisTemplate.opsForvalue().set(&quot;redis_key&quot;,num1);
+        }finally {
+            // 查询当前线程是否持有此锁
+            if (lock.isLocked() &amp;&amp; lock.isHeldByCurrentThread()) {
+                lock.unlock();
+            }
+        }
+    }
+</code></pre><p>这样写，程序的健壮性会更好，代码会更加严谨。</p>
+<h2 id="redis过期淘汰策略">Redis过期淘汰策略</h2>
+<p>因为Redis内存会打满，之后报OOM，为了避免出现类似的情况所以要设置Redis过期淘汰策略。</p>
+<h2 id="redis持久化">Redis持久化</h2>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/redis/">Redis</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                
+
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

@@ -8,7 +8,7 @@
 	
 	
 	
-	<title>Jvm介绍 ｜ whitepure</title>
+	<title>JVM介绍 ｜ whitepure</title>
 	
     
     
@@ -68,7 +68,7 @@
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%ad%a6%e4%b9%a0jvm">
-                    为什么要学习Jvm
+                    为什么要学习JVM
                 </a>
             </li>
             
@@ -144,7 +144,7 @@
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#jvm%e6%95%b4%e4%bd%93%e7%bb%93%e6%9e%84">
-                    Jvm整体结构
+                    JVM整体结构
                 </a>
             </li>
             
@@ -192,7 +192,7 @@
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#jvm%e6%9e%b6%e6%9e%84%e6%a8%a1%e5%9e%8b">
-                    Jvm架构模型
+                    JVM架构模型
                 </a>
             </li>
             
@@ -216,7 +216,7 @@
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#jvm%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f">
-                    Jvm生命周期
+                    JVM生命周期
                 </a>
             </li>
             
@@ -240,7 +240,7 @@
             
             <li class="nav-item">
                 <a class="nav-link text-left" href="#jvm%e5%8f%91%e5%b1%95%e5%8e%86%e7%a8%8b">
-                    Jvm发展历程
+                    JVM发展历程
                 </a>
             </li>
             
@@ -647,10 +647,10 @@
             <div class="post_page">
                 <div class="post animate__animated animate__fadeInDown">
                     <div class="post_title post_detail_title">
-                        <h2><a href='/myblog/posts/jvm/jvm-start/'>Jvm介绍</a></h2>
+                        <h2><a href='/myblog/posts/jvm/jvm-start/'>JVM介绍</a></h2>
                         <span class="date">2021.03.05</span>
                     </div>
-                    <div class="post_content markdown"><h2 id="为什么要学习jvm">为什么要学习Jvm</h2>
+                    <div class="post_content markdown"><h2 id="为什么要学习jvm">为什么要学习JVM</h2>
 <p>大部分Java开发人员，除了会在项目中使用到与Java平台相关的各种高精尖技术，对于Java技术的核心Java虚拟机了解甚少。
 一些有一定工作经验的开发人员，打心眼儿里觉得SSM、微服务等上层技术才是重点，基础技术并不重要，
 这其实是一种本末倒置的“病态”。
@@ -680,7 +680,7 @@
 <li>Java技术的核心就是Java虚拟机（JVM，Java Virtual Machine），因为所有的Java程序都运行在Java虚拟机内部。</li>
 <li>Java虚拟机就是二进制字节码的运行环境，负责装载字节码到其内部，解释/编译为对应平台上的机器指令执行。每一条Java指令，Java虚拟机规范中都有详细定义，如怎么取操作数，怎么处理操作数，处理结果放在哪里。</li>
 </ul>
-<h2 id="jvm整体结构">Jvm整体结构</h2>
+<h2 id="jvm整体结构">JVM整体结构</h2>
 <p>HotSpot VM是目前市面上高性能虚拟机的代表作之一。下图就是 HotSport 虚拟机结构图
 <img src="/myblog/posts/images/essays/Jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png" alt="Jvm内存模型"></p>
 <ul>
@@ -691,7 +691,7 @@
 <h2 id="java代码执行流程">Java代码执行流程</h2>
 <p>Java代码通过编译器生成字节码文件，字节码通过Java虚拟机跟操作系统交互。
 <img src="/myblog/posts/images/essays/Java%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png" alt="Java代码执行流程"></p>
-<h2 id="jvm架构模型">Jvm架构模型</h2>
+<h2 id="jvm架构模型">JVM架构模型</h2>
 <p>Java编译器输入的指令流基本上是一种 <strong>基于栈的指令集架构</strong> ，另外一种指令集架构则是 <strong>基于寄存器的指令集架构</strong> 。
 Hotsport 是基于栈的指令集架构。</p>
 <p><strong>基于栈式架构的特点</strong></p>
@@ -709,7 +709,7 @@ Hotsport 是基于栈的指令集架构。</p>
 <li>花费更少的指令去完成一项操作</li>
 <li>在大部分情况下，基于寄存器架构的指令集往往都以一地址指令、二地址指令和三地址指令为主，而基于栈式架构的指令集却是以零地址指令为主</li>
 </ul>
-<h2 id="jvm生命周期">Jvm生命周期</h2>
+<h2 id="jvm生命周期">JVM生命周期</h2>
 <p>启动 &ndash;&gt; 执行 &ndash;&gt; 退出</p>
 <p><strong>虚拟机的启动</strong></p>
 <ul>
@@ -729,7 +729,7 @@ Hotsport 是基于栈的指令集架构。</p>
 <li>某线程调用Runtime类或System类的exit()方法，或Runtime类的halt()方法，并且Java安全管理器也允许这次exit()或halt()操作。</li>
 <li>除此之外，JNI（Java Native Interface）规范描述了用JNI Invocation API来加载或卸载 Java虚拟机时，Java虚拟机的退出情况。</li>
 </ul>
-<h2 id="jvm发展历程">Jvm发展历程</h2>
+<h2 id="jvm发展历程">JVM发展历程</h2>
 <p>Hotspot VM、JRockit、J9 是目前主要流行的Java虚拟机。所有虚拟机的原则：一次编译，到处运行。</p>
 <p>具体JVM的内存结构，其实取决于其实现，不同厂商的JVM，或者同一厂商发布的不同版本，都有可能存在一定差异。
 主要以oracle HotSpot VM为默认虚拟机。</p>
@@ -840,7 +840,7 @@ Android 5.0使用支持提前编译（Ahead of Time Compilation，AoT）的ART V
                                     
                                     <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
                                     
-                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">Jvm</a>
+                                    <a href="https://whiteppure.github.io/myblog/tags/jvm/">JVM</a>
                                     
                                     <a href="https://whiteppure.github.io/myblog/tags/%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/">使用介绍</a>
                                     

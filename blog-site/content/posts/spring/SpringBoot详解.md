@@ -16,17 +16,17 @@ slug: "java-springboot"
 `maven` 或者 `gradle` 项目导入相应依赖即可使用 `SpringBoot`，而无需自行管理这些类库的版本。
 
 特点：
-- 独立运行的 `Spring` 项目：<br>
+- 独立运行的 `Spring` 项目：
 `SpringBoot` 可以以 jar 包的形式独立运行，运行一个 `SpringBoot` 项目只需通过 `java–jar xx.jar` 来运行。
-- 内嵌 `Servlet` 容器：<br>
+- 内嵌 `Servlet` 容器：
 `SpringBoot` 可选择内嵌 `Tomcat`、`Jetty` 或者 `Undertow`，这样我们无须以 `war` 包形式部署项目。
-- 提供 `starter` 简化 `Maven` 配置：<br>
+- 提供 `starter` 简化 `Maven` 配置：
 `Spring` 提供了一系列的 `starter` pom 来简化 `Maven` 的依赖加载，例如，当你使用了`spring-boot-starter-web` 时，会自动加入依赖包。
-- 自动配置 `Spring`：<br>
+- 自动配置 `Spring`：
 `SpringBoot` 会根据在类路径中的 jar 包、类，为 jar 包里的类自动配置 Bean，这样会极大地减少我们要使用的配置。当然，`SpringBoot` 只是考虑了大多数的开发场景，并不是所有的场景，若在实际开发中我们需要自动配置 `Bean`，而 `SpringBoot` 没有提供支持，则可以自定义自动配置。
-- 准生产的应用监控：<br>
+- 准生产的应用监控：
 `SpringBoot` 提供基于 `http、ssh、telnet` 对运行时的项目进行监控。
-- 无代码生成和 xml 配置：<br>
+- 无代码生成和 xml 配置：
 `SpringBoot` 的神奇的不是借助于代码生成来实现的，而是通过条件注解来实现的，这是 `Spring 4.x` 提供的新特性。`Spring 4.x` 提倡使用 Java 配置和注解配置组合，而 `SpringBoot` 不需要任何 xml 配置即可实现 `Spring` 的所有配置。
 
 ## @SpringBootApplication原理
@@ -185,7 +185,7 @@ public class SpringApplicationAdminJmxAutoConfiguration
 - 基于 XML 配置的显式装配
 - 基于 Java 配置的显式装配
 
-详细本篇博客，详细介绍基于注解的自动装配
+本篇博客，详细介绍基于注解的自动装配
 | 自动装配   | 来源                          | 支持@Primary | springboot支持属性 |
 | ---------- | ----------------------------- | ------------ | ------------------ |
 | @Autowired | Springboot原生                | 支持         | boolean required   |
@@ -211,8 +211,7 @@ public @interface Autowired {
 }
 ```
 #### 加在属性上
-使用`@Autowired`注解通常将其加载属性上或者构造器上，让其自动注入；
-默认是按照类型去容器中寻找对应的组件，例如：
+使用`@Autowired`注解通常将其加载属性上或者构造器上，让其自动注入；默认是按照类型去容器中寻找对应的组件，例如：
 ```
 
 public class SpringBootExampleApplication {
@@ -442,8 +441,8 @@ class TestService {
     }
 }
 ```
-在Spring创建对象的时候会默认调用组件的无参构造方法，如果只有一个有参构造，如果想要创建对象，则必须调用该有参构造；
-所以当一个组件只有一个有参构造时，则可以不用写`@Autowirea`注解。
+在`Spring`创建对象的时候会默认调用组件的无参构造方法，如果只有一个有参构造，如果想要创建对象，则必须调用该有参构造；
+所以当一个组件只有一个有参构造时，则可以不用写`@Autowired`注解。
 ```
 @ToString
 @Service
@@ -697,7 +696,7 @@ class TestDao{
 }
 ```
 
-使用`@Inject`注解需要导入
+使用`@Inject`注解需要导入:
 ```
 <dependency>
     <groupId>javax.inject</groupId>
@@ -762,8 +761,7 @@ class TestService implements ApplicationContextAware, EmbeddedValueResolverAware
 }
 ```
 
-关于这些`Aware`都是使用`AwareProcessor`进行处理的；
-比如:`ApplicationContextAwareProcessor`就是处理`ApplicationContextAware`接口的。
+关于这些`Aware`都是使用`AwareProcessor`进行处理的,比如:`ApplicationContextAwareProcessor`就是处理`ApplicationContextAware`接口的。
 
 ## Bean的生命周期
 `Bean`的生命周期，即`Bean`的创建->初始化->销毁的过程。

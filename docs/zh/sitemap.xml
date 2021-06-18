@@ -4,27 +4,27 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/java/</loc>
-    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/</loc>
-    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/tags/springboot/</loc>
-    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+    <loc>https://whiteppure.github.io/myblog/tags/redis/</loc>
+    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/posts/spring/java-springboot/</loc>
-    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/java-redis/</loc>
+    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/</loc>
-    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -39,7 +39,7 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/</loc>
-    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -50,6 +50,16 @@
                 hreflang="zh"
                 href="https://whiteppure.github.io/myblog/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/springboot/</loc>
+    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/spring/java-springboot/</loc>
+    <lastmod>2021-05-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -345,11 +355,6 @@
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/essays/java-collection/</loc>
     <lastmod>2020-03-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://whiteppure.github.io/myblog/tags/redis/</loc>
-    <lastmod>2020-03-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
