@@ -6,7 +6,25 @@
     <description>Recent content on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 17 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CPU过高定位分析</title>
+      <link>https://whiteppure.github.io/myblog/posts/essays/cpu-usage-too-high/</link>
+      <pubDate>Mon, 21 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/essays/cpu-usage-too-high/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>微服务架构说明</title>
+      <link>https://whiteppure.github.io/myblog/posts/spring/java-small-service/</link>
+      <pubDate>Mon, 21 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/spring/java-small-service/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Redis详解</title>
       <link>https://whiteppure.github.io/myblog/posts/essays/java-redis/</link>

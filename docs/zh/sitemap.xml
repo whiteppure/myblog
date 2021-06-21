@@ -3,28 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/cpu-usage-too-high/</loc>
+    <lastmod>2021-06-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://whiteppure.github.io/myblog/tags/java/</loc>
-    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/linux/</loc>
+    <lastmod>2021-06-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/posts/</loc>
-    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://whiteppure.github.io/myblog/tags/redis/</loc>
-    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://whiteppure.github.io/myblog/posts/essays/java-redis/</loc>
-    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
+    <loc>https://whiteppure.github.io/myblog/tags/small-service/</loc>
+    <lastmod>2021-06-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://whiteppure.github.io/myblog/tags/</loc>
-    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-21T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -39,7 +44,7 @@
   
   <url>
     <loc>https://whiteppure.github.io/myblog/</loc>
-    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-21T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -50,6 +55,21 @@
                 hreflang="zh"
                 href="https://whiteppure.github.io/myblog/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/spring/java-small-service/</loc>
+    <lastmod>2021-06-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/tags/redis/</loc>
+    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://whiteppure.github.io/myblog/posts/essays/java-redis/</loc>
+    <lastmod>2021-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
