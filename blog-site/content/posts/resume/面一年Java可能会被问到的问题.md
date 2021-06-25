@@ -8,9 +8,7 @@ slug: "Interview-Junior-Javaer"
 
 ## SpringBoot自动配置原理
 
-## Spring自动注入
-
-## Spring AOP
+## Spring自动注入、AOP、IOC
 
 ## 为什么项目中要用MQ
 
@@ -22,7 +20,7 @@ slug: "Interview-Junior-Javaer"
 
 ## Redis持久化
 
-## Redis过期淘汰策略
+## Redis内存淘汰策略
 
 ## SQL优化思路
 

@@ -2310,7 +2310,6 @@
 <li>串行：前提是在单核CPU条件下，单线程程序执行，不能同时执行，也不能去切换执行。也就是在同一时间段只能做一件事。</li>
 <li>并发：前提是多线程条件下，多个线程抢占一个CPU资源，多个线程被交替执行。因为CPU运算速度很快，所以用户感觉不到线程切换的卡顿。</li>
 </ul>
-<p>无论并行、并发，都可以有多个线程执行，如果是多个线程抢占一个CPU就成了并发，多个CPU同时执行多个线程就是并行。</p>
 <table>
 <thead>
 <tr>
@@ -2332,7 +2331,8 @@
 </tr>
 </tbody>
 </table>
-<p>对于单CPU的计算机来说，同一时间是只能干一件事儿的，如果是单线程线程就是串行；如果是多个线程就是并发。
+<p>无论并行、并发，都可以有多个线程执行，如果是多个线程抢占一个CPU就成了并发，多个CPU同时执行多个线程就是并行。</p>
+<p>对于单CPU的计算机来说，同一时间是只能干一件事儿的，如果是单线程就是串行；如果是多个线程就是并发。
 而对于多CPU的计算机说，同一时间能干多个事，如果多个CPU同时执行多个线程就是并行；如果一个CPU同时执行多个线程就是并行。</p>
 <p>并行与并发区别图解
 <img src="/myblog/posts/images/essays/%E5%B9%B6%E8%A1%8C%E4%B8%8E%E5%B9%B6%E5%8F%91%E5%8C%BA%E5%88%AB.png" alt="并行与并发区别"></p>
@@ -2922,7 +2922,7 @@ CAS操作来加锁和解锁，而只需简单的测试一下对象头的 <code>M
 </blockquote>
 <p>之所以叫偏向锁是因为偏向于第一个获取到他的线程，如果在程序执行中该锁没有被其他的线程获取，则持有偏向锁的线程将永远不需要再进行同步。
 但是如果线程间存在锁竞争，会带来额外的锁撤销（CAS）的消耗。</p>
-<p>个人理解，偏向锁就是对做了一个缓存，在没有多线程竞争的前提下，这样做会大幅度提升程序性能。</p>
+<p>个人理解，偏向锁就是对锁的标志位做了一个缓存，在没有多线程竞争的前提下，这样做会大幅度提升程序性能。</p>
 <h3 id="轻量级锁与重量级锁">轻量级锁与重量级锁</h3>
 <p>重量级锁：传统的重量级锁，使用的是系统互斥量实现的；重量级锁会导致线程堵塞；
 轻量级锁：相对于重量级锁而言的；他的出现并不是代替重量级锁，而是在没有多线程竞争的前提下，减少系统互斥量操作产生的性能消耗；是重量级锁的优化。</p>
@@ -2995,17 +2995,13 @@ CAS操作来加锁和解锁，而只需简单的测试一下对象头的 <code>M
 <p><strong>那么在Java中是如何保证原子性、可见性及有序性的呢？</strong></p>
 <ul>
 <li>
-<p>原子性；
-在Java中，为了保证原子性，提供了两个高级的字节码指令 <code>monitorenter</code> 和 <code>monitorexit</code>。对应的就是Java中的关键字 <code>synchronized</code>,在Java中只要被<code>synchronized</code>修饰就能保证原子性。</p>
+<p>原子性：在Java中，为了保证原子性，提供了两个高级的字节码指令 <code>monitorenter</code> 和 <code>monitorexit</code>。对应的就是Java中的关键字 <code>synchronized</code>,在Java中只要被<code>synchronized</code>修饰就能保证原子性。</p>
 </li>
 <li>
-<p>可见性；
-在Java中，为了保证线程间的可见性，可以使用<code>volatile</code>、<code>synchronized</code>、<code>final</code>来修饰。</p>
+<p>可见性：在Java中，为了保证线程间的可见性，可以使用<code>volatile</code>、<code>synchronized</code>、<code>final</code>来修饰。</p>
 </li>
 <li>
-<p>有序性；
-在Java中，可以使用 <code>synchronized</code> 和 <code>volatile</code> 来保证多线程之间操作的有序性。其中，<code>volatile</code> 关键字会禁止编译器指令重排，来保证；
-<code>synchronized</code> 关键字保证同一时刻只允许一条线程操作，而不能禁止指令重排，指令重排并不会影响单线程的顺序，它影响的是多线程并发执行的顺序性，从而保证了有序性。</p>
+<p>有序性：在Java中，可以使用 <code>synchronized</code> 和 <code>volatile</code> 来保证多线程之间操作的有序性。其中，<code>volatile</code> 关键字会禁止编译器指令重排，来保证；<code>synchronized</code> 关键字保证同一时刻只允许一条线程操作，而不能禁止指令重排，指令重排并不会影响单线程的顺序，它影响的是多线程并发执行的顺序性，从而保证了有序性。</p>
 </li>
 </ul>
 <h3 id="volatile">volatile</h3>

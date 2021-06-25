@@ -16,7 +16,7 @@ slug: "rookie-exception"
 
 - 受检异常 ：需要用`` try...catch... ``语句捕获并进行处理，并且可以从异常中恢复；
   ```
-  public void test() throw new Exception{ }
+  public void test() throws MyException{}
   ```
   Java编译器对检查性异常会要求我们进行`catch`，必须得进行捕获，否则编译不过去。Java认为检查性异常都可以被处理，所以必须显示的处理 `checked` 异常。
   常见的检查性异常有`IOException`，`SqlException`。
@@ -28,7 +28,6 @@ slug: "rookie-exception"
         int b = a/0;
     }
     ```
-
     这种异常⼀般可以理解为是代码原因导致的。 
     ⽐如发⽣空指针、 数组越界等。 所以， 只要代码写的没问题， 这些异常都是可以避免的。
     也就不需要我们显⽰的进⾏处理.

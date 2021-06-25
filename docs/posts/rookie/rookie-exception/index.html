@@ -660,15 +660,13 @@
 <p>其中 <code>Error</code> 用来表示Java程序无法处理的错误；这类错误一般与硬件有关，与程序本身无关，通常由系统进行处理，程序本身无法捕获和处理。是不可控制的。</p>
 <p><code>Exception</code> 分为两种：运行时异常和检查型异常。</p>
 <ul>
-<li>
-<p>受检异常 ：需要用<code>try...catch...</code>语句捕获并进行处理，并且可以从异常中恢复；</p>
-<pre><code>public void test() throw new Exception{ }
+<li>受检异常 ：需要用<code>try...catch...</code>语句捕获并进行处理，并且可以从异常中恢复；
+<pre><code>public void test() throws MyException{}
 </code></pre><p>Java编译器对检查性异常会要求我们进行<code>catch</code>，必须得进行捕获，否则编译不过去。Java认为检查性异常都可以被处理，所以必须显示的处理 <code>checked</code> 异常。
 常见的检查性异常有<code>IOException</code>，<code>SqlException</code>。
 当我们希望我们的⽅法调⽤者， 明确的处理⼀些特殊情况的时候， 就应该使⽤受检异常。</p>
 </li>
-<li>
-<p>非受检异常 ：是程序运行时错误。例如：除 0 会引发 <code>ArithmeticException</code> ，此时程序崩溃并且无法恢复。</p>
+<li>非受检异常 ：是程序运行时错误。例如：除 0 会引发 <code>ArithmeticException</code> ，此时程序崩溃并且无法恢复。
 <pre><code>public void test() {
     int a = 1;
     int b = a/0;
