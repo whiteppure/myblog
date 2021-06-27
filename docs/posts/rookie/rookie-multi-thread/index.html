@@ -2955,7 +2955,7 @@ CAS操作来加锁和解锁，而只需简单的测试一下对象头的 <code>M
 在这种方式下，只有一个线程能够访问被互斥锁保护的资源。</p>
 <p>在Java里最基本的互斥手段就是使用<code>synchronized</code>关键字、<code>ReentrantLock</code>。</p>
 <blockquote>
-<p>Linux中提供一把互斥锁<code>mutex</code>也称之为互斥量。每个线程在对资源操作前都尝试先加锁，成功加锁才能操作，操作结束解锁。
+<p>中提供一把互斥锁<code>mutex</code>也称之为互斥量。每个线程在对资源操作前都尝试先加锁，成功加锁才能操作，操作结束解锁。
 要注意，同一时刻，只能有一个线程持有该锁。
 所以，互斥锁实质上是操作系统提供的一把“建议锁”（又称“协同锁”），建议程序中有多线程访问共享资源的时候使用该机制。但，并没有强制限定。
 因此，即使有了<code>mutex</code>，如果有线程不按规则来访问数据，依然会造成数据混乱。</p>
@@ -3822,10 +3822,10 @@ AQS简单来说，包含一个<code>status</code>和一个队列；<code>status<
         }
         return false;
     }
-</code></pre><p>在重写的<code>tryAcquire</code>方法里，公平锁在获取同步状态时多了一个限制条件:<code>hasQueuedPredecessors()</code> ;
-该方法作用：保证等待队列中的线程按照从头到尾的顺序排队获取锁。</p>
-<p>举个例子，目前队列中有两个线程A、B，线程A，在线程B的前面；在当前线程释放锁的时候，线程B获取到了锁，该方法会判断当前头结点的下一个结点中存放的线程如果跟当前线程相不相同；
-在这里头结点的下一个结点存放的线程是傀儡结点线程为<code>null</code>，而当前线程是线程B，所以返回<code>true</code>，回到上一个方法<code>true</code>取反就是<code>false</code>，则获取锁失败。</p>
+</code></pre><p>在重写的<code>tryAcquire</code>方法里，公平锁在获取同步状态时多了一个限制条件:<code>hasQueuedPredecessors()</code> ;</p>
+<p>该方法作用：保证等待队列中的线程按照从头到尾的顺序排队获取锁。
+举个例子，目前队列中有两个线程A、B，线程A，在线程B的前面；在当前线程释放锁的时候，线程B获取到了锁，该方法会判断当前头结点的下一个结点中存放的线程跟当前线程相不相同；</p>
+<p>在这里头结点的下一个结点存放的线程是傀儡结点线程为<code>null</code>，而当前线程是线程B，所以返回<code>true</code>，回到上一个方法<code>true</code>取反就是<code>false</code>，则获取锁失败。</p>
 <pre><code>    public final boolean hasQueuedPredecessors() {
         // The correctness of this depends on head being initialized
         // before tail and on head.next being accurate if the current
