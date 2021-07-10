@@ -6,7 +6,16 @@
     <description>Recent content in Java on whitepure</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 21 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Object类方法</title>
+      <link>https://whiteppure.github.io/myblog/posts/rookie/rookie-objectclass-methods/</link>
+      <pubDate>Sat, 10 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://whiteppure.github.io/myblog/posts/rookie/rookie-objectclass-methods/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>微服务架构说明</title>
       <link>https://whiteppure.github.io/myblog/posts/spring/java-small-service/</link>

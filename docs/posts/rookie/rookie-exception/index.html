@@ -139,114 +139,6 @@
             
             
             <li class="nav-item">
-                <a class="nav-link text-left" href="#%e5%b8%b8%e8%a7%81%e7%9a%84%e5%bc%82%e5%b8%b8">
-                    常见的异常
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#%e7%a9%ba%e6%8c%87%e9%92%88%e5%bc%82%e5%b8%b8">
-                    空指针异常
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#%e4%b8%8b%e6%a0%87%e8%b6%8a%e7%95%8c%e5%bc%82%e5%b8%b8">
-                    下标越界异常
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
-                <a class="nav-link text-left" href="#%e6%a0%88%e6%ba%a2%e5%87%ba%e5%bc%82%e5%b8%b8">
-                    栈溢出异常
-                </a>
-            </li>
-            
-            
-        </ul>
-        
-        </ul>
-        
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <ul class="nav">
-            
-        <ul class="nav">
-            
-            
-            <li class="nav-item">
                 <a class="nav-link text-left" href="#%e5%a4%84%e7%90%86%e5%bc%82%e5%b8%b8">
                     处理异常
                 </a>
@@ -673,15 +565,21 @@
 }
 </code></pre><p>这种异常⼀般可以理解为是代码原因导致的。
 ⽐如发⽣空指针、 数组越界等。 所以， 只要代码写的没问题， 这些异常都是可以避免的。
-也就不需要我们显⽰的进⾏处理.</p>
+也就不需要我们显⽰的进⾏处理。</p>
 </li>
 </ul>
 <p><code>Exception</code> 表⽰程序需要捕捉、 需要处理的常，是由与程序设计的不完善⽽出现的问题，程序必须处理的问题。</p>
+<blockquote>
+<p>异常和错误的区别：异常(Exception)能被程序本身可以处理，错误(Error)是无法处理。</p>
+</blockquote>
 <h2 id="自定义异常">自定义异常</h2>
+<p>在 Java 中可以自定义异常。编写自己的异常类时需要注意：</p>
 <ul>
-<li>继承<code>Exception</code></li>
-<li>大多数情况下都会继承<code>RuntimeException</code></li>
+<li>所有异常都必须是 <code>Throwable</code> 的子类。</li>
+<li>如果希望写一个<strong>检查性异常</strong>类，则需要继承 <code>Exception</code> 类。</li>
+<li>如果你想写一个<strong>运行时异常</strong>类，那么需要继承 <code>RuntimeException</code> 类。</li>
 </ul>
+<p>大多数情况下都会继承<code>RuntimeException</code>,自定义运行时异常。</p>
 <pre><code>public class MainTest {
 
     void context() throws TestException {
@@ -700,7 +598,9 @@ class TestException extends Exception {
 class Test2Exception extends RuntimeException{
 }
 </code></pre><h2 id="异常链">异常链</h2>
-<p><strong>异常链 是Java中⾮常流⾏的异常处理概念， 是指在进⾏⼀个异常处理时抛出了另外⼀个异常， 由此产⽣了⼀个异常链条。</strong></p>
+<blockquote>
+<p>异常链是Java中⾮常流⾏的异常处理概念， 是指在进⾏⼀个异常处理时抛出了另外⼀个异常， 由此产⽣了⼀个异常链条。</p>
+</blockquote>
 <p>如果因为因为异常你决定抛出⼀个新的异常， 你⼀定要包含原有的异常， 这样， 处理程序才可以通过<code>getCause()</code>和<code>initCause()</code>⽅法来访问异常最终的根源。</p>
 <pre><code>public class MainTest {
     public static void main(String[] args) {
@@ -713,19 +613,6 @@ class Test2Exception extends RuntimeException{
     }
 }
 </code></pre><p>在此示例中，当捕获到<code>ArithmeticException</code>时，将创建一个新的<code>RuntimeException</code>异常，并附加原始的异常原因，并将异常链抛出到下一个更高级别的异常处理程序。</p>
-<h2 id="常见的异常">常见的异常</h2>
-<h3 id="空指针异常">空指针异常</h3>
-<pre><code>java.lang.NullPointerException
-</code></pre><p>这个异常经常遇到，异常的原因是程序中有空指针，即程序中调用了未经初始化的对象或者是不存在的对象。
-经常出现在创建对象，调用数组这些代码中，比如对象未经初始化，或者图片创建时的路径错误等等。对数组代码
-中出现空指针，是把数组的初始化和数组元素的初始化搞混淆了。数组的初始化是对数组分配空间，而数组元素的
-初始化，是给数组中的元素赋初始值。</p>
-<h3 id="下标越界异常">下标越界异常</h3>
-<pre><code>java.lang.IndexOutOfBoundsException
-</code></pre><p>查看程序中调用的数组或者字符串的下标值是不是超出了数组的范围，一般来说，显示调用数组不太容易出这
-样的错，但隐式调用就有可能出错了，还有一种情况，是程序中定义的数组的长度是通过某些特定方法决定的，不是
-事先声明的，这个时候可以先查看一下数组的<code>length</code>，以免出现这个异常。</p>
-<h3 id="栈溢出异常">栈溢出异常</h3>
 <h2 id="处理异常">处理异常</h2>
 <p>异常的处理⽅式有两种:</p>
 <ol>

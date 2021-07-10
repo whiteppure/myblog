@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="zh" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="whitepure" />
+	
+	
+	
+	<title>Object类方法 ｜ whitepure</title>
+	
+    
+    
+    <meta name="description" content="" />
+    
+
+    
+    
+    <meta name="keywords" content="whitepure博客, whiteppure, whitepure" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://whiteppure.github.io/myblog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/highlight.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://whiteppure.github.io/myblog/css/toc.css" />
+
+    
+    
+</head>
+
+<body>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+<div class="toc">
+
+    <div class="page-header"><strong>- CATALOG -</strong></div>
+
+    <div id="page-scrollspy" class="toc-nav">
+
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%a6%82%e8%a7%88">
+                    概览
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#equals">
+                    equals
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e7%ad%89%e4%bb%b7%e5%85%b3%e7%b3%bb">
+                    等价关系
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%b8%8e%e5%8f%8c%e7%ad%89%e5%8f%b7">
+                    与双等号
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e9%87%8d%e5%86%99equals%e6%96%b9%e6%b3%95">
+                    重写equals方法
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#hashcode">
+                    hashCode
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bd%bf%e7%94%a8%e5%9c%ba%e6%99%af">
+                    使用场景
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#hashcode%e4%b8%8eequals">
+                    hashCode与equals
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e9%87%8d%e5%86%99hashcode%e6%96%b9%e6%b3%95">
+                    重写hashCode方法
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#tostring">
+                    toString
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e9%87%8d%e5%86%99tostring%e6%96%b9%e6%b3%95">
+                    重写toString方法
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e4%bd%bf%e7%94%a8">
+                    使用
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#clone">
+                    clone
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#cloneable%e6%8e%a5%e5%8f%a3">
+                    Cloneable接口
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%b5%85%e6%8b%b7%e8%b4%9d">
+                    浅拷贝
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#%e6%b7%b1%e6%8b%b7%e8%b4%9d">
+                    深拷贝
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#clone%e7%9a%84%e6%9b%bf%e4%bb%a3">
+                    clone的替代
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#finalize">
+                    finalize
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#getclass">
+                    getClass
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+        <ul class="nav">
+            
+            
+            <li class="nav-item">
+                <a class="nav-link text-left" href="#getclass%e4%b8%8einstanceof">
+                    getClass与instanceof
+                </a>
+            </li>
+            
+            
+        </ul>
+        
+        </ul>
+        
+        </ul>
+        
+        
+        
+        
+
+    </div>
+
+</div>
+
+
+
+    
+    <div class="main animate__animated animate__fadeInDown" id="pdf_content">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul><li class="">
+                <a href="https://whiteppure.github.io/myblog/">首页</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/posts/">归档</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/tags/">标签</a>
+            </li><li class="">
+                <a href="https://whiteppure.github.io/myblog/about/">关于</a>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://whiteppure.github.io/myblog/" style="width: 100%">
+                    <span>whitepure</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">大道至简</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://github.com/whiteppure/" title="github" target="_blank">
+                    <i class="ri-github-fill"></i>
+                </a>
+                
+                
+                <a href="https://whiteppure.github.io/myblog/index.xml" type="application/rss+xml" title="rss" target="_blank">
+                    <i class="ri-rss-fill"></i>
+                </a>
+                <button id="export_pdf" style="border: none; background-color: #ffffff; cursor: pointer; margin-left: 4px">
+                    <svg t="1614337230032" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2940" width="10" height="10"><path d="M825.202759 488.292634L584.527448 244.926676v484.916965c0 40.197297-32.584386 72.774621-72.781682 72.774621-40.190234 0-72.767559-32.577324-72.767559-72.774621V245.654069L197.999228 490.404193c-27.68331 28.29771-73.071228 28.784993-101.368938 1.094621a74.526014 74.526014 0 0 1-1.094621-105.168331L454.182841 22.076028a70.182841 70.182841 0 0 1 63.8976-19.067587 70.8608 70.8608 0 0 1 52.111007 21.179145l356.973462 360.977655c28.156469 28.608441 28.156469 74.518952 0 103.127393-27.662124 28.156469-72.915862 28.559007-101.065269 0.896883a53.699972 53.699972 0 0 1-0.896882-0.896883m123.211917 532.663614H75.083917c-40.190234 0-72.774621-32.584386-72.77462-72.781682v-145.556304c0-40.197297 32.59851-72.767559 72.788744-72.760496 40.183172 0.007062 72.753434 32.577324 72.767559 72.760496v72.774621h727.774455v-72.774621c0-40.197297 32.584386-72.774621 72.774621-72.774621 40.197297 0 72.774621 32.577324 72.774621 72.774621v145.556304c0 40.197297-32.577324 72.781683-72.774621 72.781682" fill="#707070" p-id="2941"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/myblog/posts/rookie/rookie-objectclass-methods/'>Object类方法</a></h2>
+                        <span class="date">2021.07.10</span>
+                    </div>
+                    <div class="post_content markdown"><h2 id="概览">概览</h2>
+<p>Object 类位于 <code>java.lang</code> 包中，编译时会自动导入，我们创建一个类时，如果没有明确继承一个父类，那么它就会自动继承<code>Object</code>，成为<code>Object</code>的子类。</p>
+<p><code>Object</code>类可以显示继承，也可以隐式继承,效果都是一样的.</p>
+<pre><code>class A extends Object{
+    // to do
+}
+
+class A {
+    // to do
+}
+</code></pre><p>Java <code>Object</code>类是所有类的父类，也就是说 Java 的所有类都继承了<code>Object</code>，子类可以使用<code>Object</code>的所有方法。</p>
+<table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>方法作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#equals">equals</a></td>
+<td>比较两个对象是否相同</td>
+</tr>
+<tr>
+<td><a href="#hashCode">hashCode</a></td>
+<td>获取对象的<code>hash</code>值</td>
+</tr>
+<tr>
+<td><a href="#toString">toString</a></td>
+<td>返回对象的字符串表示形式</td>
+</tr>
+<tr>
+<td><a href="#clone">clone</a></td>
+<td>创建并返回一个对象的拷贝</td>
+</tr>
+<tr>
+<td><a href="#finalize">finalize</a></td>
+<td>当垃圾收集确定不再有对对象的引用时，由垃圾收集器在对象上调用</td>
+</tr>
+<tr>
+<td><a href="#getClass">getClass</a></td>
+<td>获取对象所在的类</td>
+</tr>
+<tr>
+<td><a href="#notify">notify</a></td>
+<td>唤醒在该对象上等待的某个线程</td>
+</tr>
+<tr>
+<td><a href="#notifyAll">notifyAll</a></td>
+<td>唤醒在该对象上等待的所有线程</td>
+</tr>
+<tr>
+<td><a href="#wait">wait</a></td>
+<td>让当前线程进入等待(阻塞)状态。直到其他线程调用此对象的<code>notify()</code>方法或<code>notifyAll()</code>方法。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="equals">equals</h2>
+<p><code>Object</code>类中的<code>equals()</code>方法作用是比较两个对象，是判断两个对象引用指向的是同一个对象，即比较两个对象的内存地址是否相等。</p>
+<p><code>Object</code>类中的<code>equals()</code>源码如下</p>
+<pre><code>    public boolean equals(Object obj) {
+        return (this == obj);
+    }
+</code></pre><h3 id="等价关系">等价关系</h3>
+<p>在Java规范中，<code>equals()</code>方法的使用存在如下特性：</p>
+<ul>
+<li>自反性：<code>x.equals(x); // true</code></li>
+<li>对称性：<code>x.equals(y) == y.equals(x); // true</code></li>
+<li>传递性： <code>if (x.equals(y) &amp;&amp; y.equals(z))  =&gt;  x.equals(z); // true;</code></li>
+<li>一致性：<code>x.equals(y) == x.equals(y); // true</code> 多次调用<code>equals()</code>方法结果不变</li>
+<li>与<code>null</code>的比较：<code>x.equals(null); // false;</code> 对任何不是<code>null</code>的对象x调用 <code>x.equals(null)</code> 结果都为<code>false</code></li>
+</ul>
+<h3 id="与双等号">与双等号</h3>
+<ul>
+<li>对于基本类型，<code>==</code> 判断两个值是否相等，基本类型没有 <code>equals() </code>方法。</li>
+<li>对于引用类型，<code>==</code> 判断两个变量是否引用同一个对象，而 <code>equals()</code>判断引用的对象是否等价。</li>
+</ul>
+<pre><code>Integer x = new Integer(1);
+Integer y = new Integer(1);
+System.out.println(x.equals(y)); // true
+System.out.println(x == y);      // false
+</code></pre><p><code>equals()</code>作用是判断两个对象是否相等,但一般有两种情况:</p>
+<ol>
+<li>类没有覆盖<code>equals</code>方法,则相当于通过 <code>==</code>来比较这两个对象的地址;</li>
+<li>类覆盖<code>equals</code>方法,一般我们通过<code>equals()</code>来比较两个对象的内容是否相等,相等则返回true；</li>
+</ol>
+<p><code>equals()</code>在不重写的情况下与 <code>==</code> 作用一样都是比较的内存中的地址.但是<code>equals()</code>可以重写。</p>
+<h3 id="重写equals方法">重写equals方法</h3>
+<p>重写<code>equals</code>方法一般思路：</p>
+<ul>
+<li>检查是否为同一个对象的引用，如果是直接返回 true；</li>
+<li>检查是否是同一个类型，如果不是，直接返回 false；</li>
+<li>将<code>Object</code>对象进行转型；</li>
+<li>判断每个关键域是否相等;</li>
+</ul>
+<pre><code>public class EqualExample {
+
+    private int x;
+    private int y;
+    private int z;
+
+    public EqualExample(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EqualExample that = (EqualExample) o;
+
+        if (x != that.x) return false;
+        if (y != that.y) return false;
+        return z == that.z;
+    }
+}
+</code></pre><h2 id="hashcode">hashCode</h2>
+<p>在Java中<code>hashcode</code>方法是<code>Object</code>类的<code>native</code>方法，返回值为int类型，根据一定的规则将与对象相关的信息（比如对象的存储地址，对象的字段等）映射成一个数值，这个数值称作为hash值(散列值)。</p>
+<blockquote>
+<p><code>hashCode</code>通用约定:</p>
+<ul>
+<li>若<code>x.equals(y)</code>返回true ，则<code>x.hashCode()==y.hashCode()</code>，其逆命题不一定成立。</li>
+<li>尽量使 hashCode 方法返回的散列码总体上呈均匀分布，可以提高哈希表的性能。</li>
+<li>程序运行时，若对象的<code>equals</code>方法中使用的字段没有改变，则在程序结束前，多次调用<code>hashCode</code>方法都应返回相同的散列码；程序结束后再执行时则没有此要求。</li>
+</ul>
+</blockquote>
+<p><code>hashCode</code>方法源码：</p>
+<pre><code>public native int hashCode();
+</code></pre><p>根据这个方法的声明可知，该方法返回一个<code>int</code>类型的数值，并且是本地方法，因此在<code>Object</code>类中并没有给出具体的实现。</p>
+<h3 id="使用场景">使用场景</h3>
+<p>对于包含容器类型的程序设计语言来说，基本上都会涉及到<code>hashCode</code>。在Java中也一样，<code>hashCode</code>方法的主要作用是为了配合基于散列的集合一起正常运行，这样的散列集合包括<code>HashSet、HashMap</code>以及<code>HashTable</code>。</p>
+<p>在集合中已经存在上万条数据或者更多的数据场景下向集合中插入对象时，如何判别在集合中是否已经存在该对象了？</p>
+<p>如果采用<code>equals</code>方法去逐一比较，效率必然是一个问题。此时<code>hashCode</code>方法的优点就体现出来了。因为两个不同的对象可能会有相同的<code>hashCode</code>值，所有不能通过<code>hashCode</code>值来判断两个对象是否相等，但是可以直接根据<code>hashcode</code>值判断两个对象不等，如果两个对象的<code>hashCode</code>值不等，则必定是两个不同的对象。
+当集合要添加新的对象时，先调用这个对象的<code>hashCode</code>方法，得到对应的<code>hashcode</code>值，如果存放的<code>hash</code>值中没有该<code>hashcode</code>值，它就可以直接存进去，不用再进行任何比较了；如果存在该<code>hashcode</code>值，就调用它的<code>equals</code>方法与新元素进行比较，相同的话就不存了，不相同就去存。</p>
+<blockquote>
+<p>需要额外注意的是:
+<code>设计hashCode()</code>时最重要的因素就是，无论何时，对同一个对象调用<code>hashCode()</code>都应该产生同样的值。</p>
+<p>如果在将一个对象用<code>put()</code>添加进<code>HashMap</code>时产生一个<code>hashCdoe</code>值，而用<code>get()</code>取出时却产生了另一个<code>hashCode</code>值，那么就无法获取该对象了。
+所以如果你的<code>hashCode</code>方法依赖于对象中易变的数据，就要当心了，因为此数据发生变化时，<code>hashCode()</code>方法就会生成一个不同的散列码，从而获取不到该对象。</p>
+<p><strong>所以在重写<code>hashCode</code>方法和<code>equals</code>方法的时候，如果对象中的数据易变，则最好在<code>equals</code>方法和<code>hashCode</code>方法中不要依赖于该字段。</strong></p>
+</blockquote>
+<p>如下代码</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        Person p1 = new Person(&quot;lucy&quot;, 22);
+        // 85134311
+        System.out.println(p1.hashCode());
+        HashMap&lt;Person, Integer&gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(p1, 1);
+        p1.setAge(13);
+        // null
+        System.out.println(hashMap.get(p1));
+    }
+}
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode() * 37 + age;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.name.equals(((Person) obj).name) &amp;&amp; this.age == ((Person) obj).age;
+    }
+}
+
+</code></pre><h3 id="hashcode与equals">hashCode与equals</h3>
+<p><code>hashCode()</code>返回散列值，而<code>equals()</code>是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价。</p>
+<p><code>equals()</code>地址比较是通过对象的哈希值来比较的。<code>hash</code>值是由<code>hashCode</code>方法产生的，<code>hashCode</code>属于<code>Object</code>类的本地方法,默认使用<code>==</code>比较两个对象,如果<code>equals()</code>相等<code>,hashcode</code>一定相等,如果<code>hashcode</code>相等,<code>equals</code>不一定相等。</p>
+<p>所以在覆盖 <code>equals()</code> 方法时应当总是覆盖<code>hashCode()</code>方法，保证等价的两个对象散列值也相等。</p>
+<p>下面的代码中，新建了两个等价的对象，并将它们添加到<code>HashSet</code>中。我们希望将这两个对象当成一样的，只在集合中添加一个对象，但是<strong>因为<code>EqualExample</code>没有实现<code>hashCode()</code>方法，因此这两个对象的散列值是不同的，最终导致集合添加了两个等价的对象。</strong></p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        EqualExample e1 = new EqualExample(1, 1, 1);
+        EqualExample e2 = new EqualExample(1, 1, 1);
+        // true
+        System.out.println(e1.equals(e2));
+        HashSet&lt;EqualExample&gt; set = new HashSet&lt;&gt;();
+        set.add(e1);
+        set.add(e2);
+        // 2
+        System.out.println(set.size());
+    }
+}
+
+</code></pre><p>所以<strong>在覆盖 <code>equals()</code>方法时应当总是覆盖<code>hashCode()</code>方法，保证等价的两个对象散列值也相等。</strong></p>
+<h3 id="重写hashcode方法">重写hashCode方法</h3>
+<p>重写<code>hashCode</code>方法规则：</p>
+<ul>
+<li>把某个非零的常数值，保存在一个名为<code>result</code>的int类型的常量中</li>
+<li>字段值哈希码的计算
+<ul>
+<li>如果是boolean类型，<code>true</code>为1，<code>false</code>则为0</li>
+<li>如果是<code>byte、char、short</code>和<code>int</code>类型，需要强制转为int的值</li>
+<li>如果是long类型，计算<code>(int)(f^(f&gt;&gt;32))</code></li>
+<li>如果是float类型，计算<code>Float.floatToIntBits(f)</code></li>
+<li>如果是double类型，计算<code>Double.doubleToLongBits(f)</code>，再按照long的方法进行计算</li>
+<li>如果是引用类型，则调用其<code>hashCode</code>方法（假设其<code>hashCode</code>满足你的需求）</li>
+</ul>
+</li>
+<li>代入公式<code>result = result * 31 + c</code>，返回<code>result</code></li>
+</ul>
+<p>《Effective Java》的作者推荐使用基于17和31的散列码的算法:</p>
+<pre><code>@Override
+public int hashCode() {
+    int result = 17;
+    result = 31 * result + x;
+    result = 31 * result + y;
+    result = 31 * result + z;
+    return result;
+}
+</code></pre><p>Java 7新增的<code>Objects</code>类提供了计算<code>hashCode</code>的通用方法，可以很简洁实现<code>hashCode</code>方法：</p>
+<pre><code>@Override
+public int hashCode() {
+    return Objects.hash(name,age);
+}
+</code></pre><h2 id="tostring">toString</h2>
+<p><code>toString</code>方法是<code>Object</code>类里定义的，返回只类型是<code>String</code>默认返回类名和它的引用地址:<code>ToStringExample@4554617c</code>这种形式，其中@后面的数值为散列码的无符号十六进制表示。</p>
+<p><code>Object</code>类<code>toString</code>源代码如下：</p>
+<pre><code>    public String toString() {
+        return getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode());
+    }
+</code></pre><h3 id="重写tostring方法">重写toString方法</h3>
+<p>当我们打印一个对象的引用时，实际是默认调用这个对象的<code>toString()</code>方法,当打印的对象所在类没有重写<code>Object</code>中的<code>toString()</code>方法时，默认调用的是<code>Object</code>类中<code>toString()</code>方法.返回此对象所在的类及对应的堆空间对象实体的首地址值。</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        // object.ToStringDemo@511d50c0
+        System.out.println(new ToStringDemo());
+    }
+}
+class ToStringDemo {
+    private String name;
+}
+</code></pre><p>当我们打印对象所在类重写了<code>toString()</code>，调用的就是已经重写了的<code>toString()</code>方法，一般重写是将类对象的属性信息返回。</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        ToStringDemo toStringDemo = new ToStringDemo();
+        toStringDemo.setName(&quot;lucy&quot;);
+        // ToStringDemo{name='lucy'}
+        System.out.println(toStringDemo);
+    }
+}
+class ToStringDemo {
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;ToStringDemo{&quot; +
+                &quot;name='&quot; + name + '\'' +
+                '}';
+    }
+}
+</code></pre><h3 id="使用">使用</h3>
+<p>在进行String类与其他类型的连接操作时，自动调用<code>toString()</code>方法：</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        Date time = new Date();
+        System.out.println(&quot;time = &quot; + time);//相当于下一行代码
+        System.out.println(&quot;time = &quot; + time.toString());
+    }
+}
+</code></pre><p>在实际应用中，可以根据需要在用户自定义类型中重写<code>toString()</code>方法:</p>
+<pre><code>public class MainTest {
+    public static void main(String[] args) {
+        // null 没有toString()方法 *会报错*
+        Object var0 = null;
+        System.out.println(var0.toString());
+
+        // 布尔型数据true和false返回对应的'true'和'false'
+        Boolean var1 = false;
+        Boolean var2 = true;
+        System.out.println(var1.toString());
+        System.out.println(var2.toString());
+
+        // 字符串类型原值返回
+        String var3 = &quot;string&quot;;
+        System.out.println(var3.toString());
+
+        // 正浮点数及NaN、Infinity加引号返回
+        Double var4 = 1.23d;
+        System.out.println(var4.toString());
+        Double nan = Double.NaN;
+        System.out.println(nan.toString());
+        Double negativeInfinity = Double.NEGATIVE_INFINITY;
+        Double positiveInfinity = Double.POSITIVE_INFINITY;
+        System.out.println(negativeInfinity.toString());
+        System.out.println(positiveInfinity.toString());
+
+        // 负浮点数或加'+'号的正浮点数直接跟上.toString()，相当于先运行toString()方法，再添加正负号，转换为数字
+        Double var5 = -1.23d;
+        Double var6 = +1.23d;
+        System.out.println(var5.toString());
+        System.out.println(var6.toString());
+    }
+}
+</code></pre><p>基本数据类型转换为<code>String</code>类型就是调用了对应包装类的<code>toString()</code>方法：</p>
+<pre><code>int i = 10;
+System.out.println(&quot;i=&quot; + i);
+</code></pre><h2 id="clone">clone</h2>
+<h3 id="cloneable接口">Cloneable接口</h3>
+<p><code>clone()</code>是 <code>Object</code> 的 <code>protected</code> 方法，它不是被 <code>public</code>修饰；一个类不显式的去重写<code>clone()</code>，其它类就不能直接去调用该类实例的 <code>clone()</code>方法：</p>
+<pre><code>public class CloneExample {
+    private int a;
+    private int b;
+}
+CloneExample e1 = new CloneExample();
+// CloneExample e2 = e1.clone(); // 'clone()' has protected access in 'java.lang.Object'
+</code></pre><p>重写<code>clone()</code>方法得到以下实现：</p>
+<pre><code>public class CloneExample {
+    private int a;
+    private int b;
+
+    @Override
+    public CloneExample clone() throws CloneNotSupportedException {
+        return (CloneExample)super.clone();
+    }
+}
+</code></pre><pre><code>CloneExample e1 = new CloneExample();
+try {
+    CloneExample e2 = e1.clone();
+} catch (CloneNotSupportedException e) {
+    e.printStackTrace();
+}
+</code></pre><p>以上抛出了 <code>java.lang.CloneNotSupportedException: CloneExample</code>，这是因为 <code>CloneExample </code>没有实现 <code>Cloneable</code> 接口。</p>
+<p>应该注意的是，<code>clone()</code> 方法并不是 <code>Cloneable</code> 接口的方法，而是 <code>Object</code> 的一个 <code>protected</code> 方法。<code>Cloneable</code> 接口只是规定，如果一个类没有实现 <code>Cloneable </code>接口又调用了 <code>clone()</code> 方法，就会抛出 <code>CloneNotSupportedException</code>。</p>
+<pre><code>public class CloneExample implements Cloneable {
+    private int a;
+    private int b;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+</code></pre><h3 id="浅拷贝">浅拷贝</h3>
+<p>拷贝的对象和原始对象的引用类型,为同一个对象。</p>
+<pre><code>public class ShallowCloneExample implements Cloneable {
+
+    private int[] arr;
+
+    public ShallowCloneExample() {
+        arr = new int[10];
+        for (int i = 0; i &lt; arr.length; i++) {
+            arr[i] = i;
+        }
+    }
+
+    public void set(int index, int value) {
+        arr[index] = value;
+    }
+
+    public int get(int index) {
+        return arr[index];
+    }
+
+    @Override
+    protected ShallowCloneExample clone() throws CloneNotSupportedException {
+        return (ShallowCloneExample) super.clone();
+    }
+}
+
+</code></pre><pre><code>ShallowCloneExample e1 = new ShallowCloneExample();
+ShallowCloneExample e2 = null;
+try {
+    e2 = e1.clone();
+} catch (CloneNotSupportedException e) {
+    e.printStackTrace();
+}
+e1.set(2, 222);
+System.out.println(e2.get(2)); // 222
+</code></pre><h3 id="深拷贝">深拷贝</h3>
+<p>拷贝的对象和原始对象的引用类型，为不同对象。</p>
+<pre><code>public class DeepCloneExample implements Cloneable {
+
+    private int[] arr;
+
+    public DeepCloneExample() {
+        arr = new int[10];
+        for (int i = 0; i &lt; arr.length; i++) {
+            arr[i] = i;
+        }
+    }
+
+    public void set(int index, int value) {
+        arr[index] = value;
+    }
+
+    public int get(int index) {
+        return arr[index];
+    }
+
+    @Override
+    protected DeepCloneExample clone() throws CloneNotSupportedException {
+        DeepCloneExample result = (DeepCloneExample) super.clone();
+        result.arr = new int[arr.length];
+        for (int i = 0; i &lt; arr.length; i++) {
+            result.arr[i] = arr[i];
+        }
+        return result;
+    }
+}
+
+</code></pre><pre><code>DeepCloneExample e1 = new DeepCloneExample();
+DeepCloneExample e2 = null;
+try {
+    e2 = e1.clone();
+} catch (CloneNotSupportedException e) {
+    e.printStackTrace();
+}
+e1.set(2, 222);
+System.out.println(e2.get(2)); // 2
+</code></pre><h3 id="clone的替代">clone的替代</h3>
+<p>使用 <code>clone()</code> 方法来拷贝一个对象即复杂又有风险，它会抛出异常，并且还需要类型转换。《Effective Java》 书上讲到，最好不要去使用 <code>clone()</code>，可以使用拷贝构造函数或者拷贝工厂来拷贝一个对象。</p>
+<pre><code>public class CloneConstructorExample {
+
+    private int[] arr;
+
+    public CloneConstructorExample() {
+        arr = new int[10];
+        for (int i = 0; i &lt; arr.length; i++) {
+            arr[i] = i;
+        }
+    }
+
+    public CloneConstructorExample(CloneConstructorExample original) {
+        arr = new int[original.arr.length];
+        for (int i = 0; i &lt; original.arr.length; i++) {
+            arr[i] = original.arr[i];
+        }
+    }
+
+    public void set(int index, int value) {
+        arr[index] = value;
+    }
+
+    public int get(int index) {
+        return arr[index];
+    }
+}
+
+</code></pre><pre><code>CloneConstructorExample e1 = new CloneConstructorExample();
+CloneConstructorExample e2 = new CloneConstructorExample(e1);
+e1.set(2, 222);
+System.out.println(e2.get(2)); // 2
+</code></pre><h2 id="finalize">finalize</h2>
+<p><code>finalize()</code>方法是Java提供的对象终止机制，允许开发人员提供对象被销毁之前的自定义处理逻辑。
+当垃圾回收器发现没有引用指向一个对象，即：垃圾回收此对象之前，总会先调用这个对象的<code>finalize()</code>方法。</p>
+<p><code>finalize()</code> 方法允许在子类中被重写，用于在对象被回收时进行资源释放。
+通常在这个方法中进行一些资源释放和清理的工作，比如关闭文件、套接字和数据库连接等。</p>
+<p>文档注释大意：当GC确定不再有对对象的引用时，由垃圾收集器在对象上调用。子类重写<code>finalize</code>方法来释放系统资源或执行其他清理。</p>
+<pre><code>   /**
+     * Called by the garbage collector on an object when garbage collection
+     * determines that there are no more references to the object.
+     * A subclass overrides the {@code finalize} method to dispose of
+     * system resources or to perform other cleanup.
+     */
+    protected void finalize() throws Throwable { }
+</code></pre><p>简而言之，<code>finalize</code>方法是与Java中的垃圾回收器有关系。即：当一个对象变成一个垃圾对象的时候，如果此对象的内存被回收，那么就会调用该类中定义的<code>finalize</code>方法。</p>
+<p>当一个对象可被回收时，就需要执行该对象的 <code>finalize()</code> 方法，那么就有可能在该方法中让对象重新被引用，从而实现自救。自救只能进行一次，如果回收的对象之前调用了 <code>finalize()</code> 方法自救，后面回收时不会再调用该方法。</p>
+<p><strong>永远不要主动调用某个对象的<code>finalize</code>方法应该交给垃圾回收机制调用的原因：</strong></p>
+<ul>
+<li>在调用<code>finalize</code>方法时时可能会导致对象复活；</li>
+<li><code>finalize</code>方法的执行时间是没有保障的，它完全由GC线程决定，极端情况下，若不发生GC，则<code>finalize</code>方法将没有执行机会;因为优先级比较低，即使主动调用该方法，也不会因此就直接进行回收；</li>
+<li>一个糟糕的<code>finalize</code>方法会严重影响GC的性能;</li>
+</ul>
+<p><strong>由于<code>finalize</code>方法的存在,虚拟机中的对象一般可能处于三种状态：</strong></p>
+<p>如果从所有的根节点都无法访问到某个对象，说明对象己经不再使用了。一般来说，此对象需要被回收。
+但事实上，也并非是“非死不可”的，这时候它们暂时处于“缓刑”阶段。一个无法触及的对象有可能在某一个条件下“复活”自己，如果这样，那么对它的回收就是不合理的，为此，虚拟机中定义了的对象可能的三种状态：</p>
+<ul>
+<li>可触及的：从根节点开始，可以到达这个对象；对象存活被使用；</li>
+<li>可复活的：对象的所有引用都被释放，但是对象有可能在<code>finalize</code>中复活；对象被复活，对象在<code>finalize</code>方法中被重新使用；</li>
+<li>不可触及的：对象的<code>finalize</code>方法被调用，并且没有复活，那么就会进入不可触及状态；对象死亡，对象没有被使用；</li>
+</ul>
+<p>只有在对象不可触及时才可以被回收。不可触及的对象不可能被复活，因为<code>finalize()</code>只会被调用一次。</p>
+<p><strong><code>finalize</code>对象终止机制判定一个对象能否被回收过程：</strong></p>
+<p>判定一个对象是否可回收，至少要经历两次标记过程：</p>
+<ul>
+<li>如果对象没有没有引用链，则进行第一次标记</li>
+<li>进行筛选，判断此对象是否有必要执行<code>finalize</code>方法
+<ol>
+<li>如果对象没有重写<code>finalize</code>方法，或者<code>finalize</code>方法已经被虚拟机调用过，则虚拟机视为“没有必要执行”，对象被判定为不可触及的。</li>
+<li>如果对象重写了<code>finalize</code>方法，且还未执行过，那么会被插入到<code>F-Queue</code>队列中，由一个虚拟机自动创建的、低优先级的<code>Finalizer</code>线程触发其<code>finalize</code>方法执行。</li>
+<li><code>finalize</code>方法是对象逃脱死亡的最后机会，稍后GC会对<code>F-Queue</code>队列中的对象进行第二次标记。如果对象在<code>finalize</code>方法中与引用链上的任何一个对象建立了联系，那么在第二次标记时，该对象会被移出“即将回收”集合。
+之后，对象会再次出现没有引用存在的情况。在这个情况下，<code>finalize</code>方法不会被再次调用，对象会直接变成不可触及的状态，也就是说，一个对象的<code>finalize</code>方法只会被调用一次。</li>
+</ol>
+</li>
+</ul>
+<p>代码演示对象能否被回收：</p>
+<pre><code>public class MainTest {
+
+    public static MainTest var;
+
+    /**
+     * 此方法只能被调用一次
+     * 可对该方法进行注释，来测试finalize方法是否能复活对象
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println(&quot;调用当前类重写的finalize()方法&quot;);
+        // 复活对象 让当前带回收对象重新与引用链中的对象建立联系
+        var = this;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        var = new MainTest();
+        var = null;
+        System.gc();
+        System.out.println(&quot;-----------------第一次gc操作------------&quot;);
+        // 因为Finalizer线程的优先级比较低，暂停2秒，以等待它
+        Thread.sleep(2000);
+        if (var == null) {
+            System.out.println(&quot;对象已经死了&quot;);
+            // 如果第一次对象就死亡了 就终止
+            return;
+        } else {
+            System.out.println(&quot;对象还活着&quot;);
+        }
+
+        System.out.println(&quot;-----------------第二次gc操作------------&quot;);
+        var = null;
+        System.gc();
+        // 下面代码和上面代码是一样的，但是 对象却自救失败了
+        Thread.sleep(2000);
+        if (var == null) {
+            System.out.println(&quot;对象已经死了&quot;);
+        } else {
+            System.out.println(&quot;对象还活着&quot;);
+        }
+    }
+
+}
+</code></pre><h2 id="getclass">getClass</h2>
+<h3 id="getclass与instanceof">getClass与instanceof</h3>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/java/">Java</a>
+                                    
+                                    <a href="https://whiteppure.github.io/myblog/tags/%E9%9D%A2%E5%90%91%E8%8F%9C%E9%B8%9F%E7%BC%96%E7%A8%8B/">面向菜鸟编程</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span>whitepure@2021</span>
+    </div>
+</footer>
+    <script src="https://whiteppure.github.io/myblog/js/jquery-3.5.1.min.js"></script>
+<link href="https://whiteppure.github.io/myblog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://whiteppure.github.io/myblog/js/fancybox.min.js"></script>
+<script src="https://whiteppure.github.io/myblog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jspdf/1.0.106/jspdf.debug.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+
+<script type="text/javascript">
+    var downPdf = document.getElementById("export_pdf");
+    var pdfContent = document.getElementById('pdf_content');
+    downPdf.onclick = () => {
+        html2canvas(pdfContent, {
+            onrendered:function(canvas) {
+
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+
+                
+                
+
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                
+                var leftHeight = contentHeight;
+                
+                var position = 0;
+                
+                
+                
+
+                var imgWidth = 595.28;
+                var imgHeight = 585.28/contentWidth * contentHeight;
+
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+                var pdf = new jsPDF('', 'pt', 'a4');
+
+                
+                
+
+                
+                
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        
+                        if(leftHeight > 0) {
+                            pdf.addPage();
+                        }
+                    }
+                }
+
+                pdf.save('whitepure_blog.pdf');
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

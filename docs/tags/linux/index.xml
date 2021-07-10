@@ -8,7 +8,7 @@
     <language>zh</language>
     <lastBuildDate>Mon, 21 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://whiteppure.github.io/myblog/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CPU过高定位分析</title>
+      <title>CPU使用过高定位分析</title>
       <link>https://whiteppure.github.io/myblog/posts/essays/cpu-usage-too-high/</link>
       <pubDate>Mon, 21 Jun 2021 00:00:00 +0000</pubDate>
       
