@@ -15,7 +15,7 @@ slug: "Interview-Junior-Javaer"
 
 
 ## 基础
-### SpringBoot自动配置原理
+### SpringBoot自动配置原理·
 ### Spring自动注入、AOP、IOC
 ### 如何保证线程安全及线程池原理
 ### 说一下NIO、BIO、AIO及区别

@@ -1,5 +1,5 @@
 ---
-title: "CPU过高定位分析"
+title: "CPU使用过高定位分析"
 date: 2021-06-21
 draft: false
 tags: ["linux"]
